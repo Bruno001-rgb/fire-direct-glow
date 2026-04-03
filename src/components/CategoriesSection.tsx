@@ -1,16 +1,46 @@
 import { useState } from "react";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import knifeKarambit from "@/assets/knife-karambit.jpg";
-import knifeButterfly from "@/assets/knife-butterfly.jpg";
+// Facas
+import knifeKarambitFade from "@/assets/knife-karambit-fade.jpg";
+import knifeKarambitLore from "@/assets/knife-karambit-lore.jpg";
+import knifeKarambitGamma from "@/assets/knife-karambit-gamma.jpg";
+import knifeKarambitDoppler from "@/assets/knife-karambit-doppler.jpg";
+import knifeButterflyFade from "@/assets/knife-butterfly-fade.jpg";
+import knifeButterflyGamma from "@/assets/knife-butterfly-gamma.jpg";
+import knifeButterflyDoppler from "@/assets/knife-butterfly-doppler.jpg";
+import knifeButterflyLore from "@/assets/knife-butterfly-lore.jpg";
+import knifeTalonDoppler from "@/assets/knife-talon-doppler.jpg";
+import knifeTalonFade from "@/assets/knife-talon-fade.jpg";
+import knifeTalonCaseHardened from "@/assets/knife-talon-casehardened.jpg";
 import knifeTalon from "@/assets/knife-talon.jpg";
-import knifeSkeleton from "@/assets/knife-skeleton.jpg";
+import knifeSkeletonDoppler from "@/assets/knife-skeleton-doppler.jpg";
+import knifeSkeletonTigerTooth from "@/assets/knife-skeleton-tigertooth.jpg";
+import knifeSkeletonFade from "@/assets/knife-skeleton-fade.jpg";
+import knifeSkeletonCaseHardened from "@/assets/knife-skeleton-casehardened.jpg";
+
+// Luvas
 import gloveSport from "@/assets/glove-sport.jpg";
+import gloveSportPandora from "@/assets/glove-sport-pandora.jpg";
+import gloveSportHedge from "@/assets/glove-sport-hedge.jpg";
+import gloveSportSuperconductor from "@/assets/glove-sport-superconductor.jpg";
 import gloveSpecialist from "@/assets/glove-specialist.jpg";
+import gloveSpecialistEmerald from "@/assets/glove-specialist-emerald.jpg";
+import gloveSpecialistFade from "@/assets/glove-specialist-fade.jpg";
+import gloveSpecialistFoundation from "@/assets/glove-specialist-foundation.jpg";
 import gloveDriver from "@/assets/glove-driver.jpg";
-import gloveMoto from "@/assets/glove-moto.jpg";
+import gloveDriverLunar from "@/assets/glove-driver-lunar.jpg";
+import gloveDriverCrimson from "@/assets/glove-driver-crimson.jpg";
+import gloveDriverImperial from "@/assets/glove-driver-imperial.jpg";
+import gloveDriverSnow from "@/assets/glove-driver-snow.jpg";
+import gloveHandwrapsCobalt from "@/assets/glove-handwraps-cobalt.jpg";
+import gloveHandwrapsOverprint from "@/assets/glove-handwraps-overprint.jpg";
+
+// Rifles & Snipers
 import skinAk47 from "@/assets/skin-ak47.jpg";
+import skinAk47Slaughter from "@/assets/skin-ak47-slaughter.jpg";
+import skinAk47Caution from "@/assets/skin-ak47-caution.jpg";
 import skinAwp from "@/assets/skin-awp.jpg";
 import skinM4a4 from "@/assets/skin-m4a4.jpg";
 
@@ -25,16 +55,54 @@ interface SkinItem {
 }
 
 const allSkins: SkinItem[] = [
-  { name: "Karambit", skin: "Fade", category: "facas", rarity: "Covert", image: knifeKarambit },
-  { name: "Butterfly", skin: "Doppler", category: "facas", rarity: "Covert", image: knifeButterfly },
-  { name: "Talon", skin: "Tiger Tooth", category: "facas", rarity: "Covert", image: knifeTalon },
-  { name: "Skeleton", skin: "Crimson Web", category: "facas", rarity: "Extraordinary", image: knifeSkeleton },
+  // Facas — Talon
+  { name: "Talon Knife", skin: "Doppler", category: "facas", rarity: "Covert", image: knifeTalonDoppler },
+  { name: "Talon Knife", skin: "Fade", category: "facas", rarity: "Covert", image: knifeTalonFade },
+  { name: "Talon Knife", skin: "Case Hardened", category: "facas", rarity: "Covert", image: knifeTalonCaseHardened },
+  { name: "Talon Knife", skin: "Tiger Tooth", category: "facas", rarity: "Covert", image: knifeTalon },
+  // Facas — Karambit
+  { name: "Karambit", skin: "Fade", category: "facas", rarity: "Covert", image: knifeKarambitFade },
+  { name: "Karambit", skin: "Lore", category: "facas", rarity: "Covert", image: knifeKarambitLore },
+  { name: "Karambit", skin: "Gamma Doppler", category: "facas", rarity: "Covert", image: knifeKarambitGamma },
+  { name: "Karambit", skin: "Doppler", category: "facas", rarity: "Covert", image: knifeKarambitDoppler },
+  // Facas — Skeleton
+  { name: "Skeleton Knife", skin: "Doppler", category: "facas", rarity: "Covert", image: knifeSkeletonDoppler },
+  { name: "Skeleton Knife", skin: "Tiger Tooth", category: "facas", rarity: "Covert", image: knifeSkeletonTigerTooth },
+  { name: "Skeleton Knife", skin: "Fade", category: "facas", rarity: "Covert", image: knifeSkeletonFade },
+  { name: "Skeleton Knife", skin: "Case Hardened", category: "facas", rarity: "Covert", image: knifeSkeletonCaseHardened },
+  // Facas — Butterfly
+  { name: "Butterfly Knife", skin: "Fade", category: "facas", rarity: "Covert", image: knifeButterflyFade },
+  { name: "Butterfly Knife", skin: "Gamma Doppler", category: "facas", rarity: "Covert", image: knifeButterflyGamma },
+  { name: "Butterfly Knife", skin: "Doppler", category: "facas", rarity: "Covert", image: knifeButterflyDoppler },
+  { name: "Butterfly Knife", skin: "Lore", category: "facas", rarity: "Covert", image: knifeButterflyLore },
+
+  // Luvas — Sport
   { name: "Sport Gloves", skin: "Vice", category: "luvas", rarity: "Extraordinary", image: gloveSport },
-  { name: "Specialist", skin: "Crimson Kimono", category: "luvas", rarity: "Extraordinary", image: gloveSpecialist },
+  { name: "Sport Gloves", skin: "Pandora's Box", category: "luvas", rarity: "Extraordinary", image: gloveSportPandora },
+  { name: "Sport Gloves", skin: "Hedge Maze", category: "luvas", rarity: "Extraordinary", image: gloveSportHedge },
+  { name: "Sport Gloves", skin: "Superconductor", category: "luvas", rarity: "Extraordinary", image: gloveSportSuperconductor },
+  // Luvas — Specialist
+  { name: "Specialist Gloves", skin: "Crimson Kimono", category: "luvas", rarity: "Extraordinary", image: gloveSpecialist },
+  { name: "Specialist Gloves", skin: "Emerald Web", category: "luvas", rarity: "Extraordinary", image: gloveSpecialistEmerald },
+  { name: "Specialist Gloves", skin: "Fade", category: "luvas", rarity: "Extraordinary", image: gloveSpecialistFade },
+  { name: "Specialist Gloves", skin: "Foundation", category: "luvas", rarity: "Remarkable", image: gloveSpecialistFoundation },
+  // Luvas — Driver
   { name: "Driver Gloves", skin: "King Snake", category: "luvas", rarity: "Remarkable", image: gloveDriver },
-  { name: "Moto Gloves", skin: "Cool Mint", category: "luvas", rarity: "Exotic", image: gloveMoto },
+  { name: "Driver Gloves", skin: "Lunar Weave", category: "luvas", rarity: "Remarkable", image: gloveDriverLunar },
+  { name: "Driver Gloves", skin: "Crimson Weave", category: "luvas", rarity: "Remarkable", image: gloveDriverCrimson },
+  { name: "Driver Gloves", skin: "Imperial Plaid", category: "luvas", rarity: "Remarkable", image: gloveDriverImperial },
+  { name: "Driver Gloves", skin: "Snow Leopard", category: "luvas", rarity: "Remarkable", image: gloveDriverSnow },
+  // Luvas — Hand Wraps
+  { name: "Hand Wraps", skin: "Cobalt Skulls", category: "luvas", rarity: "Extraordinary", image: gloveHandwrapsCobalt },
+  { name: "Hand Wraps", skin: "Overprint", category: "luvas", rarity: "Remarkable", image: gloveHandwrapsOverprint },
+
+  // Rifles
   { name: "AK-47", skin: "Asiimov", category: "rifles", rarity: "Covert", image: skinAk47 },
+  { name: "AK-47", skin: "Slaughter", category: "rifles", rarity: "Covert", image: skinAk47Slaughter },
+  { name: "AK-47", skin: "CAUTION!", category: "rifles", rarity: "Classified", image: skinAk47Caution },
   { name: "M4A4", skin: "Howl", category: "rifles", rarity: "Contraband", image: skinM4a4 },
+
+  // Snipers
   { name: "AWP", skin: "Dragon Lore", category: "snipers", rarity: "Contraband", image: skinAwp },
 ];
 
@@ -46,12 +114,22 @@ const tabs = [
   { key: "snipers", label: "Snipers" },
 ] as const;
 
-const rarityStyles: Record<string, string> = {
-  Covert: "text-red-400 border-red-500/30",
-  Contraband: "text-secondary border-secondary/30",
-  Extraordinary: "text-secondary border-secondary/30",
-  Remarkable: "text-purple-300 border-purple-400/30",
-  Exotic: "text-pink-300 border-pink-400/30",
+const rarityColor: Record<string, string> = {
+  Covert: "bg-red-500",
+  Contraband: "bg-amber-500",
+  Extraordinary: "bg-fuchsia-500",
+  Remarkable: "bg-purple-500",
+  Exotic: "bg-pink-500",
+  Classified: "bg-rose-500",
+};
+
+const rarityText: Record<string, string> = {
+  Covert: "text-red-400",
+  Contraband: "text-amber-400",
+  Extraordinary: "text-fuchsia-400",
+  Remarkable: "text-purple-400",
+  Exotic: "text-pink-400",
+  Classified: "text-rose-400",
 };
 
 const SkinCard = ({ item }: { item: SkinItem }) => (
@@ -59,30 +137,41 @@ const SkinCard = ({ item }: { item: SkinItem }) => (
     href={`${WHATSAPP_URL}${encodeURIComponent(item.name + " " + item.skin)}`}
     target="_blank"
     rel="noopener noreferrer"
-    className="group glass-card-glow overflow-hidden flex flex-col"
+    className="group relative flex flex-col overflow-hidden rounded-xl border border-primary/20 bg-card/80 hover:border-primary/60 transition-all duration-300 hover:shadow-[0_0_24px_-4px_hsl(var(--primary)/0.4)]"
   >
-    <div className="aspect-square overflow-hidden relative bg-card/50">
+    {/* Image */}
+    <div className="aspect-square overflow-hidden relative bg-background/50">
       <img
         src={item.image}
         alt={`${item.name} ${item.skin}`}
         loading="lazy"
-        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        width={512}
+        height={512}
+        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-50" />
-      <span className={`absolute top-2 right-2 text-[8px] sm:text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full bg-background/70 backdrop-blur-sm border ${rarityStyles[item.rarity] || "border-border text-muted-foreground"}`}>
-        {item.rarity}
-      </span>
+      <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-60" />
     </div>
-    <div className="p-3 sm:p-4 flex flex-col flex-1">
-      <p className="text-xs sm:text-sm font-bold tracking-wide">{item.name}</p>
-      <p className="text-[10px] sm:text-[11px] text-muted-foreground mt-0.5">{item.skin}</p>
-      <div className="mt-auto pt-3">
-        <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-whatsapp uppercase tracking-wider">
+
+    {/* Info */}
+    <div className="p-3 sm:p-4 flex flex-col gap-1 flex-1">
+      <div className="flex items-center gap-1.5">
+        <Star className="size-3 sm:size-3.5 text-primary fill-primary flex-shrink-0" />
+        <p className="text-xs sm:text-sm font-extrabold text-primary tracking-wide truncate">{item.name}</p>
+      </div>
+      <p className="text-[10px] sm:text-xs text-muted-foreground font-medium">{item.skin}</p>
+      <div className="flex items-center justify-between mt-auto pt-2">
+        <span className={`text-[8px] sm:text-[9px] font-bold uppercase tracking-widest ${rarityText[item.rarity] || "text-muted-foreground"}`}>
+          {item.rarity}
+        </span>
+        <span className="inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-bold text-whatsapp uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
           <MessageCircle className="size-3" />
           Negociar
         </span>
       </div>
     </div>
+
+    {/* Rarity bar */}
+    <div className={`h-[3px] w-full ${rarityColor[item.rarity] || "bg-muted"}`} />
   </a>
 );
 
@@ -131,8 +220,8 @@ const CategoriesSection = () => {
 
         {/* Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-          {filtered.map((item) => (
-            <SkinCard key={`${item.name}-${item.skin}`} item={item} />
+          {filtered.map((item, i) => (
+            <SkinCard key={`${item.name}-${item.skin}-${i}`} item={item} />
           ))}
         </div>
       </div>
