@@ -19,34 +19,67 @@ const VideoShowcase = () => {
       <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-primary/20 to-transparent blur-sm" />
 
       {/* Background atmosphere */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-card/60 to-background" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-primary/5 rounded-full blur-[120px]" />
-      <div className="absolute bottom-0 right-1/4 w-[400px] h-[200px] bg-accent/4 rounded-full blur-[100px]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-[hsl(254,30%,6%)] to-background" />
+      
+      {/* Large ambient glows */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] bg-accent/[0.06] rounded-full blur-[180px]" />
+      <div className="absolute top-0 left-1/4 w-[500px] h-[400px] bg-primary/[0.04] rounded-full blur-[140px]" />
+      <div className="absolute bottom-0 right-1/4 w-[500px] h-[400px] bg-primary/[0.05] rounded-full blur-[140px]" />
 
-      <div className="relative z-10 py-12 sm:py-16 lg:py-20">
+      {/* Subtle geometric lines in background */}
+      <div className="absolute inset-0 opacity-[0.03]" style={{
+        backgroundImage: `
+          linear-gradient(135deg, hsl(var(--primary)) 1px, transparent 1px),
+          linear-gradient(-135deg, hsl(var(--accent)) 1px, transparent 1px)
+        `,
+        backgroundSize: '80px 80px',
+      }} />
+
+      <div className="relative z-10 py-16 sm:py-20 lg:py-28">
         <div className="container max-w-5xl mx-auto px-4">
-          {/* Header */}
-          <div className="text-center mb-8 sm:mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-4">
+          {/* Badge */}
+          <div className="text-center mb-6 sm:mb-8">
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-sm bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 border border-primary/30 text-primary text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em]">
               <Play className="size-3" />
               Veja como funciona
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight uppercase font-heading leading-tight">
-              Conheça a{" "}
-              <span className="text-gradient-fire">FireSkins</span>
-            </h2>
-            <p className="text-sm sm:text-base text-muted-foreground mt-2 max-w-lg mx-auto">
-              Assista ao vídeo e descubra como negociar suas skins de forma rápida e segura.
-            </p>
           </div>
 
-          {/* Video container — cinematic frame */}
-          <div className="relative group cursor-pointer mx-auto" onClick={!isPlaying ? handlePlay : undefined}>
-            {/* Outer glow border */}
-            <div className="absolute -inset-[1px] rounded-xl bg-gradient-to-b from-primary/30 via-primary/10 to-primary/5 blur-[1px]" />
+          {/* Title */}
+          <div className="text-center mb-3">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight uppercase font-heading leading-tight">
+              <span className="text-foreground">Conheça a </span>
+              <span className="text-gradient-fire">FireSkins</span>
+            </h2>
+          </div>
 
-            {/* Video wrapper */}
-            <div className="relative rounded-xl overflow-hidden bg-card border border-primary/10">
+          {/* Subtitle */}
+          <p className="text-sm sm:text-base text-muted-foreground text-center max-w-lg mx-auto mb-10 sm:mb-14">
+            Assista ao vídeo e descubra como negociar suas skins de forma rápida e segura. ✅
+          </p>
+
+          {/* Video frame — cinematic hexagonal-inspired border */}
+          <div className="relative group cursor-pointer mx-auto max-w-4xl" onClick={!isPlaying ? handlePlay : undefined}>
+            
+            {/* Outer glow layer */}
+            <div className="absolute -inset-3 rounded-xl opacity-60">
+              <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-primary/20 via-accent/15 to-primary/10 blur-xl" />
+            </div>
+
+            {/* Decorative corner accents */}
+            <div className="absolute -top-1 -left-1 w-8 h-8 border-t-2 border-l-2 border-primary/50 rounded-tl-lg" />
+            <div className="absolute -top-1 -right-1 w-8 h-8 border-t-2 border-r-2 border-primary/50 rounded-tr-lg" />
+            <div className="absolute -bottom-1 -left-1 w-8 h-8 border-b-2 border-l-2 border-accent/40 rounded-bl-lg" />
+            <div className="absolute -bottom-1 -right-1 w-8 h-8 border-b-2 border-r-2 border-accent/40 rounded-br-lg" />
+
+            {/* Main border frame */}
+            <div className="relative rounded-xl overflow-hidden border-2 border-primary/20 bg-card shadow-[0_0_60px_-15px_hsl(var(--primary)/0.3)]">
+              
+              {/* Inner glow edges */}
+              <div className="absolute inset-0 rounded-xl shadow-[inset_0_0_30px_rgba(233,90,12,0.1)] pointer-events-none z-20" />
+              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent z-20" />
+              <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent z-20" />
+
               {/* Aspect ratio container */}
               <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
                 <video
@@ -62,24 +95,39 @@ const VideoShowcase = () => {
 
                 {/* Play overlay */}
                 {!isPlaying && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-background/40 backdrop-blur-[2px] transition-opacity duration-300 group-hover:bg-background/30">
-                    {/* Pulsing ring */}
-                    <div className="absolute w-24 h-24 sm:w-28 sm:h-28 rounded-full border-2 border-primary/30 animate-pulse-glow" />
+                  <div className="absolute inset-0 flex items-center justify-center bg-background/50 backdrop-blur-[2px] transition-all duration-500 group-hover:bg-background/30 z-10">
+                    
+                    {/* Outer pulsing rings */}
+                    <div className="absolute w-32 h-32 sm:w-36 sm:h-36 rounded-full border border-primary/20 animate-ping opacity-20" />
+                    <div className="absolute w-28 h-28 sm:w-32 sm:h-32 rounded-full border border-primary/30 animate-pulse" />
+                    
+                    {/* Glow behind button */}
+                    <div className="absolute w-24 h-24 rounded-full bg-primary/30 blur-xl" />
 
                     {/* Play button */}
-                    <div className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-primary/90 flex items-center justify-center shadow-lg shadow-primary/30 group-hover:bg-primary transition-colors duration-300 group-hover:scale-110 transform">
-                      <Play className="size-7 sm:size-8 text-primary-foreground ml-1" fill="currentColor" />
+                    <div className="relative w-18 h-18 sm:w-22 sm:h-22 rounded-full bg-gradient-to-br from-primary via-primary to-secondary/80 flex items-center justify-center shadow-[0_0_40px_hsl(var(--primary)/0.5)] group-hover:shadow-[0_0_60px_hsl(var(--primary)/0.6)] group-hover:scale-110 transition-all duration-300"
+                      style={{ width: '5rem', height: '5rem' }}>
+                      {/* Inner ring */}
+                      <div className="absolute inset-1 rounded-full border border-primary-foreground/20" />
+                      <Play className="size-8 text-primary-foreground ml-1" fill="currentColor" />
                     </div>
                   </div>
                 )}
               </div>
 
               {/* Bottom info bar */}
-              <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-background/90 to-transparent pointer-events-none flex items-end pb-2 px-4">
-                <span className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-widest font-heading font-bold">
-                  🔥 FireSkins — Sua loja de skins CS2
+              <div className="absolute bottom-0 left-0 right-0 h-14 bg-gradient-to-t from-background/95 via-background/60 to-transparent pointer-events-none flex items-end pb-3 px-5 z-20">
+                <span className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-[0.15em] font-heading font-bold flex items-center gap-2">
+                  <span className="text-primary">🔥</span> FireSkins — Sua loja de skins CS2
                 </span>
               </div>
+            </div>
+          </div>
+
+          {/* Step indicator */}
+          <div className="flex justify-center mt-6">
+            <div className="flex items-center gap-2 text-primary/60">
+              <span className="text-lg font-black font-heading">🔥 3.</span>
             </div>
           </div>
         </div>
