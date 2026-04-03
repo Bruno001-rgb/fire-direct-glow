@@ -40,10 +40,6 @@
     --whatsapp: 142 70% 45%;
     --whatsapp-foreground: 0 0% 100%;
 
-    --glow-primary: 22 100% 55%;
-    --glow-secondary: 38 100% 55%;
-    --glow-accent: 254 70% 60%;
-
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -67,33 +63,27 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Rajdhani', 'Inter', sans-serif;
-    letter-spacing: 0.02em;
   }
 }
 
 @layer utilities {
   .glass-card {
-    @apply bg-card/70 backdrop-blur-xl border border-primary/10 rounded-xl;
-    box-shadow: 0 0 0 1px hsl(22 91% 47% / 0.06), inset 0 1px 0 hsl(0 0% 100% / 0.03);
+    @apply bg-card/70 backdrop-blur-xl border border-primary/8 rounded-xl;
   }
 
   .glass-card-glow {
-    @apply bg-card/70 backdrop-blur-xl border border-primary/20 rounded-xl;
-    box-shadow: 0 0 20px hsl(22 91% 47% / 0.08), 0 0 0 1px hsl(22 91% 47% / 0.1), inset 0 1px 0 hsl(0 0% 100% / 0.04);
+    @apply bg-card/70 backdrop-blur-xl border border-primary/15 rounded-xl;
+    box-shadow: 0 0 20px hsl(22 91% 47% / 0.06);
     transition: box-shadow 0.4s ease, border-color 0.4s ease;
   }
 
   .glass-card-glow:hover {
-    border-color: hsl(22 91% 47% / 0.4);
-    box-shadow: 0 0 30px hsl(22 91% 47% / 0.15), 0 0 60px hsl(22 91% 47% / 0.05), 0 0 0 1px hsl(22 91% 47% / 0.2);
+    border-color: hsl(22 91% 47% / 0.35);
+    box-shadow: 0 0 30px hsl(22 91% 47% / 0.12), 0 0 60px hsl(22 91% 47% / 0.04);
   }
 
   .glow-orange {
-    box-shadow: 0 0 50px hsl(22 91% 47% / 0.2), 0 0 100px hsl(22 91% 47% / 0.08), 0 0 0 1px hsl(22 91% 47% / 0.15);
-  }
-
-  .glow-accent {
-    box-shadow: 0 0 30px hsl(254 55% 52% / 0.15), 0 0 60px hsl(254 55% 52% / 0.05);
+    box-shadow: 0 0 40px hsl(22 91% 47% / 0.15), 0 0 80px hsl(22 91% 47% / 0.06);
   }
 
   .text-gradient-fire {
@@ -101,64 +91,55 @@
     background-image: linear-gradient(135deg, hsl(22 91% 47%), hsl(38 92% 49%), hsl(22 91% 55%));
   }
 
-  .text-gradient-accent {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(254 55% 52%), hsl(22 91% 47%));
-  }
-
   .bg-cinematic {
-    background: radial-gradient(ellipse at 50% 0%, hsl(22 91% 47% / 0.04) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 50%, hsl(254 55% 52% / 0.03) 0%, transparent 50%),
+    background: radial-gradient(ellipse at 50% 0%, hsl(22 91% 47% / 0.03) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 50%, hsl(254 55% 52% / 0.02) 0%, transparent 50%),
                 hsl(var(--background));
   }
 
-  .bg-cinematic-purple {
-    background: radial-gradient(ellipse at 20% 50%, hsl(254 55% 52% / 0.06) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, hsl(22 91% 47% / 0.04) 0%, transparent 50%),
-                hsl(var(--muted) / 0.3);
+  .bg-cinematic-alt {
+    background: radial-gradient(ellipse at 20% 50%, hsl(254 55% 52% / 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, hsl(22 91% 47% / 0.03) 0%, transparent 50%),
+                hsl(var(--muted) / 0.15);
   }
 
   .watermark {
-    @apply absolute text-[12rem] sm:text-[16rem] font-black uppercase tracking-widest select-none pointer-events-none;
-    color: hsl(var(--foreground) / 0.02);
+    @apply absolute font-black uppercase select-none pointer-events-none;
+    font-size: clamp(8rem, 18vw, 14rem);
+    letter-spacing: 0.08em;
+    color: hsl(var(--foreground) / 0.015);
     font-family: 'Rajdhani', sans-serif;
   }
 
+  .section-heading {
+    @apply text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight uppercase;
+  }
+
   .animate-float {
-    animation: float 6s ease-in-out infinite;
+    animation: float 8s ease-in-out infinite;
   }
 
   .animate-pulse-glow {
-    animation: pulse-glow 2s ease-in-out infinite;
+    animation: pulse-glow 2.5s ease-in-out infinite;
   }
 
   .animate-smoke {
-    animation: smoke-drift 20s ease-in-out infinite;
-  }
-
-  .section-heading {
-    @apply text-3xl sm:text-4xl font-bold tracking-tight uppercase;
+    animation: smoke-drift 25s ease-in-out infinite;
   }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-14px) rotate(1deg); }
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px hsl(142 70% 45% / 0.3); }
-  50% { box-shadow: 0 0 30px hsl(142 70% 45% / 0.5), 0 0 60px hsl(142 70% 45% / 0.2); }
+  0%, 100% { box-shadow: 0 0 16px hsl(142 70% 45% / 0.25); }
+  50% { box-shadow: 0 0 24px hsl(142 70% 45% / 0.4), 0 0 48px hsl(142 70% 45% / 0.12); }
 }
 
 @keyframes smoke-drift {
-  0%, 100% { transform: translateX(0) translateY(0) scale(1); opacity: 0.3; }
-  25% { transform: translateX(30px) translateY(-20px) scale(1.1); opacity: 0.2; }
-  50% { transform: translateX(-20px) translateY(-40px) scale(1.05); opacity: 0.35; }
-  75% { transform: translateX(10px) translateY(-10px) scale(0.95); opacity: 0.25; }
-}
-
-@keyframes border-glow {
-  0%, 100% { border-color: hsl(22 91% 47% / 0.2); }
-  50% { border-color: hsl(22 91% 47% / 0.5); }
+  0%, 100% { transform: translateX(0) translateY(0) scale(1); opacity: 0.25; }
+  33% { transform: translateX(20px) translateY(-15px) scale(1.05); opacity: 0.18; }
+  66% { transform: translateX(-15px) translateY(-30px) scale(1.02); opacity: 0.28; }
 }
