@@ -137,10 +137,17 @@ const SkinCard = ({ item }: { item: SkinItem }) => (
     href={`${WHATSAPP_URL}${encodeURIComponent(item.name + " " + item.skin)}`}
     target="_blank"
     rel="noopener noreferrer"
-    className="group relative flex flex-col overflow-hidden rounded-xl border border-primary/20 bg-card/80 hover:border-primary/60 transition-all duration-300 hover:shadow-[0_0_24px_-4px_hsl(var(--primary)/0.4)]"
+    className="group relative flex flex-col overflow-hidden rounded-xl border border-primary/15 bg-card/60 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_30px_-4px_hsl(var(--primary)/0.35)]"
   >
+    {/* Badge */}
+    <div className="absolute top-2 right-2 z-10">
+      <span className="px-2 py-0.5 rounded text-[8px] sm:text-[9px] font-bold uppercase tracking-wider bg-primary/90 text-primary-foreground">
+        Disponível
+      </span>
+    </div>
+
     {/* Image */}
-    <div className="aspect-square overflow-hidden relative bg-background/50">
+    <div className="aspect-square overflow-hidden relative bg-gradient-to-br from-background/80 to-card">
       <img
         src={item.image}
         alt={`${item.name} ${item.skin}`}
@@ -149,7 +156,7 @@ const SkinCard = ({ item }: { item: SkinItem }) => (
         height={512}
         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-60" />
+      <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-70" />
     </div>
 
     {/* Info */}
@@ -163,11 +170,15 @@ const SkinCard = ({ item }: { item: SkinItem }) => (
         <span className={`text-[8px] sm:text-[9px] font-bold uppercase tracking-widest ${rarityText[item.rarity] || "text-muted-foreground"}`}>
           {item.rarity}
         </span>
-        <span className="inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-bold text-whatsapp uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity">
-          <MessageCircle className="size-3" />
-          Negociar
-        </span>
       </div>
+    </div>
+
+    {/* Negociar button — always visible */}
+    <div className="px-3 pb-3 sm:px-4 sm:pb-4">
+      <span className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-whatsapp/10 border border-whatsapp/30 text-whatsapp text-[10px] sm:text-[11px] font-bold uppercase tracking-wider group-hover:bg-whatsapp group-hover:text-whatsapp-foreground transition-all duration-300">
+        <MessageCircle className="size-3" />
+        Negociar
+      </span>
     </div>
 
     {/* Rarity bar */}
@@ -201,19 +212,22 @@ const CategoriesSection = () => {
           </Button>
         </div>
 
-        {/* Tabs */}
-        <div className="flex gap-1 mb-6 sm:mb-8 overflow-x-auto pb-1 scrollbar-hide">
+        {/* Tabs — underline style */}
+        <div className="flex gap-6 mb-6 sm:mb-8 overflow-x-auto pb-1 scrollbar-hide border-b border-primary/10">
           {tabs.map((tab) => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`px-4 sm:px-5 py-2 rounded-lg text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap ${
+              className={`relative pb-3 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-colors duration-300 whitespace-nowrap ${
                 activeTab === tab.key
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-card/50 text-muted-foreground border border-primary/10 hover:border-primary/25 hover:text-foreground"
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {tab.label}
+              {activeTab === tab.key && (
+                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary rounded-full" />
+              )}
             </button>
           ))}
         </div>
