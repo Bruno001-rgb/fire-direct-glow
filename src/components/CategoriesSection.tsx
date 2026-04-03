@@ -212,19 +212,22 @@ const CategoriesSection = () => {
           </Button>
         </div>
 
-        {/* Tabs */}
-        <div className="flex gap-1 mb-6 sm:mb-8 overflow-x-auto pb-1 scrollbar-hide">
+        {/* Tabs — underline style */}
+        <div className="flex gap-6 mb-6 sm:mb-8 overflow-x-auto pb-1 scrollbar-hide border-b border-primary/10">
           {tabs.map((tab) => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`px-4 sm:px-5 py-2 rounded-lg text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-all duration-300 whitespace-nowrap ${
+              className={`relative pb-3 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-colors duration-300 whitespace-nowrap ${
                 activeTab === tab.key
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-card/50 text-muted-foreground border border-primary/10 hover:border-primary/25 hover:text-foreground"
+                  ? "text-primary"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {tab.label}
+              {activeTab === tab.key && (
+                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary rounded-full" />
+              )}
             </button>
           ))}
         </div>
