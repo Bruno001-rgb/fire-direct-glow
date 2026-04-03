@@ -1,61 +1,38 @@
 
 
-# Aplicar elementos visuais do Skin.Club no FireSkins
+## Plano: Refinar VideoShowcase para Match com Referência
 
-## Elementos identificados no Skin.Club para adaptar
+A imagem de referência mostra um layout mais limpo e polido, com elementos-chave bem definidos. Vou ajustar o componente atual para se aproximar mais desse estilo.
 
-1. **Barra de stats no topo** — números de usuários online, trades, skins (prova social em tempo real)
-2. **Live Drop ticker horizontal** — faixa com skins rolando horizontalmente logo abaixo do header, mostrando "drops" recentes com imagens e nomes
-3. **Hero banner mais cinematográfico** — full-width com imagem de fundo grande e CTAs sobrepostos
-4. **Sub-tabs com estilo mais refinado** — tabs com underline ativo ao invés de background sólido, estilo mais clean
-5. **Layout contínuo e escuro** — sem separações bruscas entre seções
+### Mudanças Principais
 
-## O que será implementado
+**1. Frame do vídeo — mais polido e limpo**
+- Substituir as sidebars (rails laterais) por um border frame mais elegante com cantos decorativos estilo "armored" usando gradientes laranja/roxo
+- Manter a borda arredondada mas com um estilo mais facetado/angular nos cantos (tipo moldura de visor tático)
+- Reduzir a complexidade visual — menos noise, mais impacto
 
-### 1. Stats Bar (nova faixa acima do header)
-- Faixa fina no topo com dados como: "🔥 247 skins disponíveis • 1.2K+ negociações • Resposta em < 5 min"
-- Estilo: fundo escuro com texto pequeno, animação sutil de scroll horizontal no mobile
-- Arquivo: novo componente `StatsBar.tsx`
+**2. Play button — mais fiel à referência**
+- Manter o ícone Power com o gradiente laranja
+- Adicionar anel hexagonal/geométrico ao redor (como na imagem) em vez dos múltiplos rings genéricos
+- Glow mais concentrado e quente (laranja dominante)
 
-### 2. Live Drop Ticker (horizontal)
-- Faixa horizontal abaixo do hero com skins rolando automaticamente (como o "LIVE DROP" do Skin.Club)
-- Cards compactos horizontais: imagem quadrada pequena + nome + raridade
-- Scroll infinito com CSS animation (translateX)
-- Substitui visualmente parte do trust strip
-- Arquivo: novo componente `LiveDropTicker.tsx`
+**3. Background — mais profundo e coeso**
+- Manter o deep purple base (#1A0B2A)
+- Aumentar a opacidade dos wireframes de armas (Karambit à esquerda, AWP à direita) para ficarem mais visíveis como na referência
+- Adicionar rim lighting laranja nas bordas laterais da seção
 
-### 3. Cards do catálogo refinados
-- Adicionar preço indicativo ou badge "DISPONÍVEL" no card
-- Hover mais pronunciado com borda brilhante
-- Imagem com fundo gradiente sutil (não flat)
-- Botão "Negociar" visível sempre (não só no hover)
+**4. Layout e tipografia**
+- Título "CONHEÇA A FIRESKINS" — aumentar tamanho e peso do gradiente
+- Manter o badge "VEJA COMO FUNCIONA" com borda dourada mais visível
+- Manter o texto descritivo com ícones de escudo/relógio
+- Bottom bar do vídeo — simplificar com flame icon + "FIRESKINS — SUA LOJA DE SKINS CS2" + "3." mais limpo
 
-### 4. Header com navegação inline
-- Adicionar links âncora no header: "Catálogo", "Como funciona", "Contato"
-- Visíveis apenas no desktop
-- Estilo minimalista com hover laranja
+**5. Detalhes de polimento**
+- Remover as chrome bars (top/bottom) muito técnicas e substituir por um frame integral mais elegante
+- Cantos do frame com L-brackets mais visíveis (laranja/dourado)
+- HUD readouts mais sutis e integrados
+- Sparkle/estrela no canto inferior direito da seção (como na referência)
 
-### 5. Ajustes gerais de visual
-- Tabs do catálogo com estilo underline (não pill sólida)
-- Remover trust strip separado (dados migram para stats bar + live ticker)
-- Footer mais compacto
-
-## Arquivos editados
-
-| Arquivo | Mudança |
-|---------|---------|
-| `src/components/StatsBar.tsx` | **Novo** — barra de stats no topo |
-| `src/components/LiveDropTicker.tsx` | **Novo** — ticker horizontal de skins |
-| `src/components/Header.tsx` | Navegação inline desktop |
-| `src/components/CategoriesSection.tsx` | Cards e tabs refinados |
-| `src/components/TrustStrip.tsx` | Removido (dados migram) |
-| `src/pages/Index.tsx` | Layout atualizado com novos componentes |
-| `src/index.css` | Keyframes para ticker horizontal |
-
-## Detalhes técnicos
-
-- Live Drop Ticker usa CSS `@keyframes` com `translateX(-50%)` e conteúdo duplicado para loop infinito
-- Stats bar é estática com dados hardcoded (não há backend)
-- Header nav links usam `scroll-behavior: smooth` via âncoras
-- Cards mantêm WhatsApp deep-links
+### Arquivos Modificados
+- `src/components/VideoShowcase.tsx` — reescrita do layout e estilos
 
