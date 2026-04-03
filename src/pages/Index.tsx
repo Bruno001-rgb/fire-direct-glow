@@ -22,7 +22,7 @@ const Index = () => {
           <HeroSection />
           <LiveDropTicker />
           <CategoriesSection />
-          <HowItWorks />
+          <VideoShowcase />
           <FinalCTA />
 
           <footer id="contato" className="py-6 border-t border-primary/10 text-center text-[10px] text-muted-foreground uppercase tracking-widest">
