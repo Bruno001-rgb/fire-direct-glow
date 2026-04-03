@@ -1,38 +1,51 @@
 
 
-## Plano: Refinar VideoShowcase para Match com Referência
+## Plano: Replicar Frame Octagonal da Referência
 
-A imagem de referência mostra um layout mais limpo e polido, com elementos-chave bem definidos. Vou ajustar o componente atual para se aproximar mais desse estilo.
+A imagem mostra um frame de vídeo com **cantos chanfrados octagonais** (não arredondados), com bordas multi-camada em roxo/laranja e elementos específicos. Vou reescrever o componente para replicar esse estilo exato.
 
-### Mudanças Principais
+### Diferenças-chave vs. código atual
 
-**1. Frame do vídeo — mais polido e limpo**
-- Substituir as sidebars (rails laterais) por um border frame mais elegante com cantos decorativos estilo "armored" usando gradientes laranja/roxo
-- Manter a borda arredondada mas com um estilo mais facetado/angular nos cantos (tipo moldura de visor tático)
-- Reduzir a complexidade visual — menos noise, mais impacto
+1. **Frame octagonal** — A referência usa `clip-path: polygon()` para criar cantos chanfrados (cortados em 45°), não `border-radius`. O frame tem múltiplas camadas: borda externa roxa, borda interna laranja, e paneling recuado.
 
-**2. Play button — mais fiel à referência**
-- Manter o ícone Power com o gradiente laranja
-- Adicionar anel hexagonal/geométrico ao redor (como na imagem) em vez dos múltiplos rings genéricos
-- Glow mais concentrado e quente (laranja dominante)
+2. **Header bar interna** — Dentro do frame, no topo, há uma barra com ícone de fogo + "FIRESKINS" à esquerda e um ícone de escudo à direita, separada do vídeo.
 
-**3. Background — mais profundo e coeso**
-- Manter o deep purple base (#1A0B2A)
-- Aumentar a opacidade dos wireframes de armas (Karambit à esquerda, AWP à direita) para ficarem mais visíveis como na referência
-- Adicionar rim lighting laranja nas bordas laterais da seção
+3. **HUD laterais** — Painéis técnicos transparentes nas laterais do vídeo com texto de metadata (como na imagem).
 
-**4. Layout e tipografia**
-- Título "CONHEÇA A FIRESKINS" — aumentar tamanho e peso do gradiente
-- Manter o badge "VEJA COMO FUNCIONA" com borda dourada mais visível
-- Manter o texto descritivo com ícones de escudo/relógio
-- Bottom bar do vídeo — simplificar com flame icon + "FIRESKINS — SUA LOJA DE SKINS CS2" + "3." mais limpo
+4. **Play button com hexágono** — O botão Power está dentro de um anel hexagonal com glow laranja concentrado.
 
-**5. Detalhes de polimento**
-- Remover as chrome bars (top/bottom) muito técnicas e substituir por um frame integral mais elegante
-- Cantos do frame com L-brackets mais visíveis (laranja/dourado)
-- HUD readouts mais sutis e integrados
-- Sparkle/estrela no canto inferior direito da seção (como na referência)
+5. **Bottom bar com "🔥3."** — Flame icon + número "3." grande à esquerda, texto "FIRESKINS — SUA LOJA DE SKINS CS2" embaixo.
 
-### Arquivos Modificados
-- `src/components/VideoShowcase.tsx` — reescrita do layout e estilos
+6. **Wireframe de Karambit** — Visível sobrepondo o vídeo à direita (wireframe geométrico low-poly da faca).
+
+### Implementação
+
+**Arquivo: `src/components/VideoShowcase.tsx`**
+
+- Substituir o frame `rounded-lg` por um container com `clip-path` octagonal (chanfros de ~30px nos cantos)
+- Criar 3 camadas de clip-path aninhadas: borda externa roxa, borda média laranja, conteúdo interno
+- Adicionar header bar interna fixa no topo do frame com logo FIRESKINS
+- Manter canvas de wireframe com Karambit/AWP mais proeminentes
+- Manter play button hexagonal mas com anel mais definido
+- Ajustar bottom bar para match exato: flame + "3." grande + texto de branding
+- HUD readouts nas laterais dentro do frame
+
+### Estilo do clip-path octagonal
+```text
+┌──────────────────────────┐
+│╲                        ╱│  ← chanfros ~30px
+│  ┌────────────────────┐  │
+│  │  🔥 FIRESKINS    🛡 │  │  ← header bar
+│  ├────────────────────┤  │
+│  │                    │  │
+│  │     ▶ (Power)      │  │  ← vídeo
+│  │                    │  │
+│  │ 🔥3.              │  │  ← bottom overlay
+│  └────────────────────┘  │
+│╱                        ╲│
+└──────────────────────────┘
+```
+
+### Arquivos modificados
+- `src/components/VideoShowcase.tsx` — reescrita completa do frame e layout interno
 
