@@ -12,42 +12,26 @@ const skins = [
   { name: "M4A4 | Howl", category: "Rifle", rarity: "Contraband", image: skinM4a4 },
 ];
 
-const rarityColor: Record<string, string> = {
-  Covert: "text-primary",
-  Contraband: "text-secondary",
-};
+const rarityColor: Record<string, string> = { Covert: "text-primary", Contraband: "text-secondary" };
 
 const FeaturedSkins = () => {
   return (
     <section className="py-24 bg-cinematic-purple relative overflow-hidden">
-      {/* Smoke */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent/4 rounded-full blur-[120px] animate-smoke" />
-
       <div className="container relative z-10">
         <div className="text-center mb-14">
           <h2 className="section-heading font-heading">
-            Skins <span className="text-gradient-fire">premium</span>
+            Skins <span className="text-gradient-fire">em destaque</span>
           </h2>
           <p className="mt-3 text-muted-foreground">Itens selecionados para você</p>
         </div>
-
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-4xl mx-auto">
           {skins.map((skin) => (
             <div key={skin.name} className="glass-card-glow overflow-hidden group">
               <div className="aspect-square overflow-hidden bg-background/50 relative">
-                <img
-                  src={skin.image}
-                  alt={skin.name}
-                  loading="lazy"
-                  width={512}
-                  height={512}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                />
+                <img src={skin.image} alt={skin.name} loading="lazy" width={512} height={512} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-                {/* Rarity badge */}
-                <span className={`absolute top-3 right-3 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-background/80 border border-primary/20 ${rarityColor[skin.rarity] || "text-foreground"}`}>
-                  {skin.rarity}
-                </span>
+                <span className={`absolute top-3 right-3 text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full bg-background/80 border border-primary/20 ${rarityColor[skin.rarity] || "text-foreground"}`}>{skin.rarity}</span>
               </div>
               <div className="p-5 space-y-3">
                 <span className="text-[10px] font-bold text-accent uppercase tracking-[0.2em]">{skin.category}</span>
