@@ -19,9 +19,9 @@ const Index = () => {
       <BenefitsSection />
       <FinalCTA />
 
-      <footer className="py-8 border-t border-border/40 text-center text-sm text-muted-foreground">
+      <footer className="py-8 border-t border-primary/10 text-center text-xs text-muted-foreground uppercase tracking-widest">
         <div className="container">
-          © {new Date().getFullYear()} FireSkins. Todos os direitos reservados.
+          © {new Date().getFullYear()} <span className="text-gradient-fire font-bold">FireSkins</span> — Todos os direitos reservados.
         </div>
       </footer>
     </div>

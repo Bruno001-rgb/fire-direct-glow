@@ -6,20 +6,25 @@ const WHATSAPP_URL = "https://wa.me/5511999999999?text=Ol%C3%A1%2C%20quero%20sab
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px]" />
+    <section className="relative min-h-screen flex items-center pt-16 overflow-hidden bg-cinematic">
+      {/* Smoke particles */}
+      <div className="absolute top-20 left-10 w-[400px] h-[400px] bg-primary/6 rounded-full blur-[120px] animate-smoke" />
+      <div className="absolute bottom-20 right-10 w-[300px] h-[300px] bg-accent/5 rounded-full blur-[100px] animate-smoke" style={{ animationDelay: "-7s" }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-primary/8 rounded-full blur-[150px]" />
+
+      {/* Watermark */}
+      <div className="watermark top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">
+        FIRESKINS
+      </div>
 
       <div className="container relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Text */}
-          <div className="text-center lg:text-left space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium">
+          <div className="text-center lg:text-left space-y-7">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold uppercase tracking-widest">
               🔥 Skins CS2 Premium
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black leading-[0.95] tracking-tight uppercase font-heading">
               As melhores skins
               <br />
               <span className="text-gradient-fire">direto no seu inventário</span>
@@ -30,13 +35,13 @@ const HeroSection = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button variant="whatsapp" size="lg" className="text-base px-8 py-6" asChild>
+              <Button variant="whatsapp" size="lg" className="text-sm px-8 py-6 uppercase tracking-wider font-bold" asChild>
                 <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
                   <MessageCircle className="size-5" />
                   Quero negociar agora
                 </a>
               </Button>
-              <Button variant="outline" size="lg" className="text-base px-8 py-6 border-border/60" asChild>
+              <Button variant="outline" size="lg" className="text-sm px-8 py-6 border-primary/30 text-foreground hover:bg-primary/10 hover:text-primary uppercase tracking-wider" asChild>
                 <a href="#catalogo">
                   Ver catálogo
                   <ChevronDown className="size-4" />
@@ -47,13 +52,16 @@ const HeroSection = () => {
 
           {/* Hero Image */}
           <div className="relative flex justify-center">
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-80 h-80 bg-accent/10 rounded-full blur-[80px]" />
+            </div>
             <div className="relative animate-float">
               <img
                 src={heroKnife}
                 alt="Skin premium CS2"
                 width={1280}
                 height={720}
-                className="w-full max-w-lg rounded-2xl glow-orange"
+                className="w-full max-w-lg rounded-2xl glow-orange border border-primary/20"
               />
             </div>
           </div>
