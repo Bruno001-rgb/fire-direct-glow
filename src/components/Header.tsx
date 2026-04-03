@@ -1,5 +1,6 @@
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logoFireskins from "@/assets/logo-fireskins.webp";
 
 const WHATSAPP_URL = "https://wa.me/5511999999999?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20skins%20CS2!";
 
@@ -7,7 +8,8 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-xl border-b border-primary/8">
       <div className="container flex items-center justify-between h-14 sm:h-16">
-        <a href="/" className="flex items-center">
+        <a href="/" className="flex items-center gap-2">
+          <img src={logoFireskins} alt="FireSkins" className="h-8 sm:h-10 w-auto" />
           <span className="text-xl sm:text-2xl font-black tracking-wider uppercase font-heading">
             <span className="text-gradient-fire">Fire</span>
             <span className="text-foreground">Skins</span>
