@@ -1,61 +1,61 @@
 
 
-# Atualizar catálogo com produtos reais e visual estilo FireSkins
+# Aplicar elementos visuais do Skin.Club no FireSkins
 
-## O que muda
+## Elementos identificados no Skin.Club para adaptar
 
-Com base nas imagens do catálogo real da FireSkins, vou:
+1. **Barra de stats no topo** — números de usuários online, trades, skins (prova social em tempo real)
+2. **Live Drop ticker horizontal** — faixa com skins rolando horizontalmente logo abaixo do header, mostrando "drops" recentes com imagens e nomes
+3. **Hero banner mais cinematográfico** — full-width com imagem de fundo grande e CTAs sobrepostos
+4. **Sub-tabs com estilo mais refinado** — tabs com underline ativo ao invés de background sólido, estilo mais clean
+5. **Layout contínuo e escuro** — sem separações bruscas entre seções
 
-1. **Expandir o array de skins** para incluir todos os produtos mostrados nos catálogos
-2. **Gerar imagens** para cada skin nova usando AI image generation
-3. **Aplicar visual mais próximo do catálogo** — cards com barra vermelha/laranja, estrela de raridade, tipografia bold
+## O que será implementado
 
-## Produtos a adicionar
+### 1. Stats Bar (nova faixa acima do header)
+- Faixa fina no topo com dados como: "🔥 247 skins disponíveis • 1.2K+ negociações • Resposta em < 5 min"
+- Estilo: fundo escuro com texto pequeno, animação sutil de scroll horizontal no mobile
+- Arquivo: novo componente `StatsBar.tsx`
 
-### Facas (16 itens)
-| Modelo | Skins |
-|--------|-------|
-| Talon Knife | Doppler, Fade, Case Hardened, Tiger Tooth |
-| Karambit | Fade, Lore, Gamma Doppler, Doppler |
-| Skeleton Knife | Doppler, Tiger Tooth, Fade, Case Hardened |
-| Butterfly Knife | Fade, Gamma Doppler, Doppler, Lore |
+### 2. Live Drop Ticker (horizontal)
+- Faixa horizontal abaixo do hero com skins rolando automaticamente (como o "LIVE DROP" do Skin.Club)
+- Cards compactos horizontais: imagem quadrada pequena + nome + raridade
+- Scroll infinito com CSS animation (translateX)
+- Substitui visualmente parte do trust strip
+- Arquivo: novo componente `LiveDropTicker.tsx`
 
-### Luvas (14 itens)
-| Modelo | Skins |
-|--------|-------|
-| Sport Gloves | Vice, Pandora's Box, Hedge Maze, Superconductor |
-| Specialist Gloves | Emerald Web, Crimson Kimono, Fade, Foundation |
-| Driver Gloves | Lunar Weave, Crimson Weave, Imperial Plaid, Snow Leopard |
-| Hand Wraps | Cobalt Skulls, Overprint |
+### 3. Cards do catálogo refinados
+- Adicionar preço indicativo ou badge "DISPONÍVEL" no card
+- Hover mais pronunciado com borda brilhante
+- Imagem com fundo gradiente sutil (não flat)
+- Botão "Negociar" visível sempre (não só no hover)
 
-### Rifles (2 itens extras)
-| Modelo | Skins |
-|--------|-------|
-| AK-47 | Slaughter, CAUTION! |
+### 4. Header com navegação inline
+- Adicionar links âncora no header: "Catálogo", "Como funciona", "Contato"
+- Visíveis apenas no desktop
+- Estilo minimalista com hover laranja
 
-## Visual do card (inspirado no catálogo)
-
-- Fundo escuro com bordas laranja/vermelhas
-- Estrela (★) antes do nome do modelo
-- Nome do modelo em bold laranja
-- Nome da skin abaixo em texto menor
-- Imagem da skin dominante no card
-- Barra de destaque inferior com cor de raridade
-- Hover com glow laranja
+### 5. Ajustes gerais de visual
+- Tabs do catálogo com estilo underline (não pill sólida)
+- Remover trust strip separado (dados migram para stats bar + live ticker)
+- Footer mais compacto
 
 ## Arquivos editados
 
 | Arquivo | Mudança |
 |---------|---------|
-| `src/components/CategoriesSection.tsx` | Novo array com ~32 skins, cards redesenhados com visual do catálogo |
-| `src/components/SkinsSidebar.tsx` | Atualizado com novos itens |
-| `src/assets/` | ~20 novas imagens geradas via AI |
+| `src/components/StatsBar.tsx` | **Novo** — barra de stats no topo |
+| `src/components/LiveDropTicker.tsx` | **Novo** — ticker horizontal de skins |
+| `src/components/Header.tsx` | Navegação inline desktop |
+| `src/components/CategoriesSection.tsx` | Cards e tabs refinados |
+| `src/components/TrustStrip.tsx` | Removido (dados migram) |
+| `src/pages/Index.tsx` | Layout atualizado com novos componentes |
+| `src/index.css` | Keyframes para ticker horizontal |
 
 ## Detalhes técnicos
 
-- Imagens geradas com Nano banana (gemini flash) — renders 3D de cada skin em fundo escuro
-- Cards mantêm link direto para WhatsApp com nome da skin
-- Grid permanece 4 colunas desktop, 2 mobile
-- Tabs permanecem funcionais filtrando por categoria
-- Categoria "rifles" inclui os AK-47 extras; AWP permanece em "snipers"
+- Live Drop Ticker usa CSS `@keyframes` com `translateX(-50%)` e conteúdo duplicado para loop infinito
+- Stats bar é estática com dados hardcoded (não há backend)
+- Header nav links usam `scroll-behavior: smooth` via âncoras
+- Cards mantêm WhatsApp deep-links
 
