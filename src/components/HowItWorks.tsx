@@ -8,24 +8,30 @@ const steps = [
 
 const HowItWorks = () => {
   return (
-    <section className="py-24 relative overflow-hidden bg-cinematic">
-      <div className="watermark top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap">FIRE</div>
+    <section className="py-16 sm:py-20 relative overflow-hidden bg-cinematic">
+      <div className="watermark top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap opacity-50">
+        FIRE
+      </div>
+
       <div className="container relative z-10">
-        <div className="text-center mb-14">
+        <div className="text-center mb-10 sm:mb-12">
           <h2 className="section-heading font-heading">
             Como <span className="text-gradient-fire">funciona</span>
           </h2>
-          <p className="mt-3 text-muted-foreground">Simples, rápido e seguro</p>
+          <p className="mt-2 text-sm text-muted-foreground">Simples, rápido e seguro</p>
         </div>
-        <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+
+        <div className="grid sm:grid-cols-3 gap-4 sm:gap-6 max-w-3xl mx-auto">
           {steps.map((s) => (
-            <div key={s.step} className="text-center space-y-5 glass-card-glow p-8">
-              <div className="mx-auto w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center relative">
-                <s.icon className="size-7 text-primary" />
-                <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center">{s.step}</span>
+            <div key={s.step} className="text-center space-y-4 glass-card-glow p-6">
+              <div className="mx-auto w-12 h-12 rounded-xl bg-primary/8 border border-primary/15 flex items-center justify-center relative">
+                <s.icon className="size-5 text-primary" />
+                <span className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold flex items-center justify-center">
+                  {s.step}
+                </span>
               </div>
-              <h3 className="text-lg font-bold font-heading tracking-wider">{s.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{s.description}</p>
+              <h3 className="text-sm font-bold font-heading tracking-wider">{s.title}</h3>
+              <p className="text-xs text-muted-foreground leading-relaxed">{s.description}</p>
             </div>
           ))}
         </div>
