@@ -7,7 +7,7 @@ import VideoShowcase from "@/components/VideoShowcase";
 import FinalCTA from "@/components/FinalCTA";
 import SkinsSidebar from "@/components/SkinsSidebar";
 
-const Index = () => {
+const Index = () => { 
   return (
     <div className="min-h-screen bg-background">
       <StatsBar />
