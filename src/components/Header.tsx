@@ -1,6 +1,6 @@
 import { MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import NavLink from "@/components/NavLink";
+import logoFireskins from "@/assets/logo-fireskins.webp";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 
 const WHATSAPP_URL = "https://wa.me/5511999999999?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20skins%20CS2!";
