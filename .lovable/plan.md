@@ -1,71 +1,61 @@
 
 
-# Reestruturação da LP FireSkins inspirada na HellCS2
-
-## Referência analisada
-
-A HellCS2 usa uma estrutura imersiva de plataforma gamer:
-- **Sidebar esquerda** com skins rolando verticalmente (live feed visual)
-- **Banner hero full-width** com imagem cinematográfica grande
-- **Navegação por abas horizontais** para categorias (Cases, Facas, Collections, etc.)
-- **Grid denso de cards** com imagens grandes e botões de ação
-- **Layout escuro contínuo** sem separações óbvias entre seções
-- **Sensação de catálogo vivo**, não de landing page tradicional
+# Atualizar catálogo com produtos reais e visual estilo FireSkins
 
 ## O que muda
 
-A FireSkins continua sendo uma LP de conversão via WhatsApp (sem login, sem marketplace real), mas a estrutura visual e o ritmo da página vão se aproximar da HellCS2.
+Com base nas imagens do catálogo real da FireSkins, vou:
 
-### 1. Sidebar de skins (desktop only)
-- Coluna fixa à esquerda (~120px) com cards de skins pequenos rolando automaticamente
-- Cada card: imagem da arma, nome curto, rarity badge
-- Clicáveis para WhatsApp
-- Escondida no mobile (não há espaço)
-- Efeito de scroll infinito com CSS animation
+1. **Expandir o array de skins** para incluir todos os produtos mostrados nos catálogos
+2. **Gerar imagens** para cada skin nova usando AI image generation
+3. **Aplicar visual mais próximo do catálogo** — cards com barra vermelha/laranja, estrela de raridade, tipografia bold
 
-### 2. Hero reestruturado como banner
-- Full-width, mais largo e cinematográfico (estilo banner de evento)
-- Imagem de fundo grande com overlay gradiente
-- Headline e CTA centralizados sobre o banner
-- Countdown ou badge de destaque ("NOVAS SKINS DISPONÍVEIS")
-- Botões de WhatsApp + Ver Catálogo sobre a imagem
+## Produtos a adicionar
 
-### 3. Navegação por abas horizontais
-- Substituir seções empilhadas (Facas, Luvas, Skins em destaque) por uma barra de abas
-- Abas: "Todas", "Facas", "Luvas", "Rifles", "Snipers"
-- Conteúdo muda ao clicar na aba, mostrando grid de skins filtrado
-- Layout em grid 3-4 colunas (desktop), 2 colunas (mobile)
+### Facas (16 itens)
+| Modelo | Skins |
+|--------|-------|
+| Talon Knife | Doppler, Fade, Case Hardened, Tiger Tooth |
+| Karambit | Fade, Lore, Gamma Doppler, Doppler |
+| Skeleton Knife | Doppler, Tiger Tooth, Fade, Case Hardened |
+| Butterfly Knife | Fade, Gamma Doppler, Doppler, Lore |
 
-### 4. Grid de skins unificado
-- Cards maiores com imagem dominante
-- Badge de raridade no canto
-- Nome da skin + tipo
-- Botão "Negociar" (WhatsApp) em cada card
-- Hover glow com borda laranja
+### Luvas (14 itens)
+| Modelo | Skins |
+|--------|-------|
+| Sport Gloves | Vice, Pandora's Box, Hedge Maze, Superconductor |
+| Specialist Gloves | Emerald Web, Crimson Kimono, Fade, Foundation |
+| Driver Gloves | Lunar Weave, Crimson Weave, Imperial Plaid, Snow Leopard |
+| Hand Wraps | Cobalt Skulls, Overprint |
 
-### 5. Seções inferiores compactadas
-- Trust strip permanece como está
-- "Como funciona" e "Benefícios" podem ser mergeados em uma seção compacta
-- Final CTA permanece
+### Rifles (2 itens extras)
+| Modelo | Skins |
+|--------|-------|
+| AK-47 | Slaughter, CAUTION! |
 
-## Arquivos que serão editados
+## Visual do card (inspirado no catálogo)
+
+- Fundo escuro com bordas laranja/vermelhas
+- Estrela (★) antes do nome do modelo
+- Nome do modelo em bold laranja
+- Nome da skin abaixo em texto menor
+- Imagem da skin dominante no card
+- Barra de destaque inferior com cor de raridade
+- Hover com glow laranja
+
+## Arquivos editados
 
 | Arquivo | Mudança |
 |---------|---------|
-| `src/pages/Index.tsx` | Nova estrutura com sidebar + main content layout |
-| `src/components/HeroSection.tsx` | Reescrito como banner full-width |
-| `src/components/CategoriesSection.tsx` | Substituído por sistema de abas + grid unificado |
-| `src/components/FeaturedSkins.tsx` | Mergeado no grid unificado de abas |
-| `src/components/SkinsSidebar.tsx` | **Novo** — sidebar com skins rolando |
-| `src/index.css` | Novas utilities para sidebar scroll e tab styles |
-| `src/components/HowItWorks.tsx` | Compactado |
-| `src/components/BenefitsSection.tsx` | Compactado |
+| `src/components/CategoriesSection.tsx` | Novo array com ~32 skins, cards redesenhados com visual do catálogo |
+| `src/components/SkinsSidebar.tsx` | Atualizado com novos itens |
+| `src/assets/` | ~20 novas imagens geradas via AI |
 
 ## Detalhes técnicos
 
-- Sidebar usa `position: sticky` no desktop com `overflow-y: auto` e auto-scroll CSS animation
-- Abas implementadas com estado React local (`useState`) sem biblioteca extra
-- Grid responsivo com `grid-cols-2 sm:grid-cols-3 lg:grid-cols-4`
-- Hero usa `background-image` com overlay gradiente ao invés de `<img>` ao lado do texto
-- Todas as skins existentes (facas, luvas, rifles) unificadas em um array único com campo `category` para filtrar
+- Imagens geradas com Nano banana (gemini flash) — renders 3D de cada skin em fundo escuro
+- Cards mantêm link direto para WhatsApp com nome da skin
+- Grid permanece 4 colunas desktop, 2 mobile
+- Tabs permanecem funcionais filtrando por categoria
+- Categoria "rifles" inclui os AK-47 extras; AWP permanece em "snipers"
 
