@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Play, Flame, ArrowRight, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 
 interface VideoShowcaseProps {
