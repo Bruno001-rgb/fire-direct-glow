@@ -69,6 +69,8 @@ const Footer = () => {
                 {[
                   { src: visaSvg, alt: "Visa", h: "h-4" },
                   { src: visaSecureSvg, alt: "Visa Secure", h: "h-7" },
+                  { src: mastercardSvg, alt: "Mastercard", h: "h-6" },
+                  { src: maestroSvg, alt: "Maestro", h: "h-6" },
                   { src: mastercardIdCheckSvg, alt: "Mastercard ID Check", h: "h-7" },
                   { src: sofortPng, alt: "Sofort", h: "h-4" },
                   { src: interacPng, alt: "Interac", h: "h-7" },
