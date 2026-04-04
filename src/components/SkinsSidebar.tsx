@@ -1,6 +1,6 @@
 import { useShowcaseSkins } from "@/hooks/useShowcaseSkins";
 
-const WHATSAPP_URL = "https://wa.me/5511999999999?text=Ol%C3%A1%2C%20tenho%20interesse%20na%20skin%20";
+const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
 
 const rarityColor: Record<string, string> = {
   Covert: "text-red-400",
