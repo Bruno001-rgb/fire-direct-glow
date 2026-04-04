@@ -196,7 +196,7 @@ const CategoriesSection = () => {
   return (
     <section id="catalogo" className="py-10 sm:py-14 relative overflow-hidden">
       {/* Cinematic background layers */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-card/30 to-background" />
+      <div className="absolute inset-0 bg-black" />
       <div className="absolute top-0 right-0 w-[600px] h-[400px] rounded-full blur-[160px]"
         style={{ background: "radial-gradient(ellipse, hsla(22, 91%, 47%, 0.04) 0%, transparent 70%)" }} />
       <div className="absolute bottom-0 left-0 w-[500px] h-[350px] rounded-full blur-[140px]"
