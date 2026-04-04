@@ -1,6 +1,6 @@
 import { MessageCircle, ArrowRight, Shield, Zap, Gem } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import AmbientParticles from "@/components/AmbientParticles";
+
 import heroKnife from "@/assets/hero-knife-premium.png";
 
 const WHATSAPP_URL = "https://wa.me/5511999999999?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20skins%20CS2!";
