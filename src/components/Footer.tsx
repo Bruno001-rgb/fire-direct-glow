@@ -78,10 +78,10 @@ const Footer = () => {
             {/* ── Center: navigation links ── */}
             <div className="flex flex-col items-center gap-4 py-4">
               {[
-                { label: "Início", href: "#hero" },
-                { label: "Categorias", href: "#categorias" },
-                { label: "Skins", href: "#skins" },
-                { label: "Vídeos", href: "#videos" },
+                { label: "Início", href: "#topo" },
+                { label: "Categorias", href: "#catalogo" },
+                { label: "Skins", href: "#catalogo" },
+                { label: "Vídeos", href: "#como-funciona" },
                 { label: "Contato", href: "#contato" },
               ].map((link) => (
                 <a
