@@ -65,34 +65,18 @@ const Footer = () => {
               {/* Payment methods */}
               <div className="flex items-center gap-2 mt-4 justify-center sm:justify-start flex-wrap">
                 {[
-                  { label: "VISA", bold: true },
-                  { label: "VISA", sub: "SECURE" },
-                  { label: "mastercard" },
-                  { label: "maestro" },
-                  { label: "mastercard", sub: "ID Check" },
-                  { label: "SOFORT", bold: true },
-                  { label: "interac", italic: true },
-                ].map((method, i) => (
+                  { src: visaSvg, alt: "Visa", h: "h-4" },
+                  { src: visaSecureSvg, alt: "Visa Secure", h: "h-7" },
+                  { src: mastercardIdCheckSvg, alt: "Mastercard ID Check", h: "h-7" },
+                  { src: sofortPng, alt: "Sofort", h: "h-4" },
+                  { src: interacPng, alt: "Interac", h: "h-7" },
+                ].map((pm) => (
                   <div
-                    key={i}
-                    className="flex flex-col items-center justify-center px-2.5 py-1.5 rounded"
-                    style={{
-                      background: "rgba(20, 15, 40, 0.8)",
-                      minWidth: "48px",
-                      height: "32px",
-                    }}
+                    key={pm.alt}
+                    className="flex items-center justify-center px-3 py-2 rounded"
+                    style={{ background: "rgba(20, 15, 40, 0.8)" }}
                   >
-                    <span
-                      className={`text-[10px] leading-tight ${method.bold ? "font-black" : "font-medium"} ${method.italic ? "italic" : ""}`}
-                      style={{ color: "rgba(255,255,255,0.7)" }}
-                    >
-                      {method.label}
-                    </span>
-                    {method.sub && (
-                      <span className="text-[7px] leading-tight" style={{ color: "rgba(255,255,255,0.4)" }}>
-                        {method.sub}
-                      </span>
-                    )}
+                    <img src={pm.src} alt={pm.alt} className={`${pm.h} w-auto object-contain`} />
                   </div>
                 ))}
               </div>
