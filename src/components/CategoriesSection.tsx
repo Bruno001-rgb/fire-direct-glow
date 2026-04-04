@@ -216,7 +216,7 @@ const CategoriesSection = () => {
           </div>
           <Button variant="whatsapp" size="sm" className="uppercase tracking-wider text-[11px] h-9 shrink-0" asChild>
             <a href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20quero%20ver%20o%20cat%C3%A1logo%20completo!" target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="size-3.5" />
+              <WhatsAppIcon className="size-3.5" />
               Ver catálogo completo
             </a>
           </Button>
