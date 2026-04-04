@@ -34,7 +34,7 @@ const InteractiveKnife = ({ src }: InteractiveKnifeProps) => {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative w-[320px] h-[320px] sm:w-[440px] sm:h-[440px] lg:w-[550px] lg:h-[550px] cursor-grab"
+      className="relative w-[380px] h-[380px] sm:w-[520px] sm:h-[520px] lg:w-[650px] lg:h-[650px] cursor-grab"
       style={{ perspective: "800px" }}
     >
       <div
