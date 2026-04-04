@@ -145,14 +145,14 @@ const Footer = () => {
                 className="flex items-center gap-2 mt-2 group"
               >
                 <div
-                  className="flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-300 group-hover:scale-110"
+                  className="flex items-center justify-center w-11 h-11 rounded-xl transition-all duration-300 group-hover:scale-110"
                   style={{
                     background: "linear-gradient(135deg, #E95A0C, #F5A006)",
                   }}
                 >
-                  <Instagram className="size-4 text-white" />
+                  <Instagram className="size-5 text-white" />
                 </div>
-                <span className="text-sm font-semibold text-white/70 group-hover:text-white transition-colors">
+                <span className="text-base font-semibold text-white/70 group-hover:text-white transition-colors">
                   fireskinscs2
                 </span>
               </a>
