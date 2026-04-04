@@ -39,14 +39,11 @@ const Footer = () => {
       </div>
 
       {/* ── Spacer for fire visual ── */}
-      <div className="relative h-[180px] sm:h-[220px] lg:h-[260px]" />
-
-      {/* ── Orange divider line ── */}
-      <div className="relative h-[2px]" style={{ background: "linear-gradient(90deg, transparent 5%, #E95A0C 30%, #F5A006 50%, #E95A0C 70%, transparent 95%)" }} />
+      <div className="relative h-[140px] sm:h-[170px] lg:h-[200px]" />
 
       {/* ── Footer content grid ── */}
       <div className="relative">
-        <div className="container relative z-10 py-10 sm:py-14">
+        <div className="container relative z-10 py-8 sm:py-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
 
             {/* ── Brand area ── */}
