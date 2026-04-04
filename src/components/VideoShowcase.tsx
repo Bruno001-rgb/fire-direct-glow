@@ -1,4 +1,5 @@
 import { Play, Flame, ArrowRight } from "lucide-react";
+import logoFireskins from "@/assets/logo-fireskins.webp";
 
 interface VideoShowcaseProps {
   videoSrc?: string;
