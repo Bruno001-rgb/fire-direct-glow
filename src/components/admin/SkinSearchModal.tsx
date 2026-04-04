@@ -43,11 +43,11 @@ export default function SkinSearchModal({ open, onClose, onSelect }: SkinSearchM
             </p>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {skins.map((skin) => (
+              {skins.map((skin: any) => (
                 <button
-                  key={skin.id}
+                  key={skin.source_skin_id || skin.id}
                   onClick={() => {
-                    onSelect(skin.id, {
+                    onSelect(skin.source_skin_id || skin.id, {
                       name: skin.name,
                       weapon_name: skin.weapon_name || null,
                       pattern_name: skin.pattern_name || null,

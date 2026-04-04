@@ -6,9 +6,9 @@ export function useImportedSkins(search: string) {
     queryKey: ["imported-skins", search],
     queryFn: async () => {
       let query = supabase
-        .from("imported_skins")
-        .select("id, name, weapon_name, pattern_name, rarity_name, rarity_color, image")
-        .order("name");
+        .from("admin_skin_index" as any)
+        .select("source_skin_id, name, weapon_name, pattern_name, rarity_name, rarity_color, image")
+        .order("weapon_name");
 
       if (search.trim()) {
         query = query.or(
@@ -16,7 +16,7 @@ export function useImportedSkins(search: string) {
         );
       }
 
-      const { data, error } = await query.limit(50);
+      const { data, error } = await query.limit(100);
       if (error) throw error;
       return data || [];
     },

@@ -111,6 +111,13 @@ export type Database = {
             foreignKeyName: "showcase_slots_skin_id_fkey"
             columns: ["skin_id"]
             isOneToOne: false
+            referencedRelation: "admin_skin_index"
+            referencedColumns: ["source_skin_id"]
+          },
+          {
+            foreignKeyName: "showcase_slots_skin_id_fkey"
+            columns: ["skin_id"]
+            isOneToOne: false
             referencedRelation: "imported_skins"
             referencedColumns: ["id"]
           },
@@ -148,7 +155,18 @@ export type Database = {
       }
     }
     Views: {
-      [_ in never]: never
+      admin_skin_index: {
+        Row: {
+          image: string | null
+          name: string | null
+          pattern_name: string | null
+          rarity_color: string | null
+          rarity_name: string | null
+          source_skin_id: string | null
+          weapon_name: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
       [_ in never]: never
