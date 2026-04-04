@@ -121,9 +121,9 @@ const HeroSection = () => {
                 rel="noopener noreferrer"
                 className="group relative flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-sm font-bold text-sm uppercase tracking-wider font-heading transition-all duration-300 w-full sm:w-auto overflow-hidden"
                 style={{
-                  background: "linear-gradient(135deg, hsl(142 70% 42%), hsl(142 70% 48%))",
+                  background: "linear-gradient(135deg, #E95A0C, #F5A006)",
                   color: "#fff",
-                  boxShadow: "0 4px 24px hsla(142, 70%, 45%, 0.3), 0 0 60px hsla(142, 70%, 45%, 0.1)",
+                  boxShadow: "0 4px 24px rgba(233, 90, 12, 0.3), 0 0 60px rgba(233, 90, 12, 0.1)",
                 }}
               >
                 {/* Shine effect */}
