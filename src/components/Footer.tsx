@@ -58,38 +58,36 @@ const Footer = () => {
               </h3>
 
               {/* Payment methods */}
-              <div className="flex items-center gap-2 mt-4 justify-center sm:justify-start flex-wrap">
-                {[
-                  { label: "VISA", bold: true },
-                  { label: "VISA", sub: "SECURE" },
-                  { label: "mastercard" },
-                  { label: "maestro" },
-                  { label: "mastercard", sub: "ID Check" },
-                  { label: "SOFORT", bold: true },
-                  { label: "interac", italic: true },
-                ].map((method, i) => (
-                  <div
-                    key={i}
-                    className="flex flex-col items-center justify-center px-2.5 py-1.5 rounded"
-                    style={{
-                      background: "rgba(20, 15, 40, 0.8)",
-                      minWidth: "48px",
-                      height: "32px",
-                    }}
-                  >
-                    <span
-                      className={`text-[10px] leading-tight ${method.bold ? "font-black" : "font-medium"} ${method.italic ? "italic" : ""}`}
-                      style={{ color: "rgba(255,255,255,0.7)" }}
-                    >
-                      {method.label}
-                    </span>
-                    {method.sub && (
-                      <span className="text-[7px] leading-tight" style={{ color: "rgba(255,255,255,0.4)" }}>
-                        {method.sub}
-                      </span>
-                    )}
-                  </div>
-                ))}
+              <div
+                className="flex items-center gap-0 mt-4 justify-center sm:justify-start rounded-lg overflow-hidden"
+                style={{
+                  border: "2px solid #E95A0C",
+                  background: "rgba(20, 12, 5, 0.9)",
+                }}
+              >
+                <div className="flex items-center gap-2 px-4 py-2">
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="#E95A0C" strokeWidth="2">
+                    <rect x="1" y="4" width="22" height="16" rx="2" />
+                    <path d="M12 4v16M1 12h22" />
+                  </svg>
+                  <span className="text-sm font-black uppercase tracking-wider text-white">PIX</span>
+                </div>
+                <div className="w-px h-6" style={{ background: "#E95A0C" }} />
+                <div className="flex items-center gap-2 px-4 py-2">
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="#E95A0C">
+                    <circle cx="12" cy="12" r="10" fill="none" stroke="#E95A0C" strokeWidth="1.5" />
+                    <text x="12" y="16" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#E95A0C">₿</text>
+                  </svg>
+                  <span className="text-sm font-black uppercase tracking-wider text-white">CRYPTO</span>
+                </div>
+                <div className="w-px h-6" style={{ background: "#E95A0C" }} />
+                <div className="flex items-center gap-2 px-4 py-2">
+                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="#E95A0C" strokeWidth="1.5">
+                    <rect x="1" y="5" width="22" height="14" rx="2" />
+                    <rect x="4" y="8" width="16" height="8" rx="1" />
+                  </svg>
+                  <span className="text-sm font-black uppercase tracking-wider text-white">CARTÃO</span>
+                </div>
               </div>
             </div>
 
