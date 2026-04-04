@@ -24,7 +24,7 @@ const FinalCTA = () => {
           style={{ background: "radial-gradient(ellipse, hsla(254, 55%, 52%, 0.06) 0%, transparent 70%)" }} />
 
         {/* Vignette */}
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 30%, hsl(225 30% 4% / 0.5) 100%)" }} />
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 30%, hsl(0 0% 0% / 0.5) 100%)" }} />
 
         {/* Particles */}
         <AmbientParticles />
