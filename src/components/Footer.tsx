@@ -25,15 +25,23 @@ const Footer = () => {
           }}
         />
 
-        {/* Subtle circles decoration */}
-        <div
-          className="absolute right-[15%] top-1/2 -translate-y-1/2 w-[200px] h-[200px] sm:w-[280px] sm:h-[280px] rounded-full opacity-[0.06]"
+        {/* Circles + Logo centered */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] rounded-full opacity-[0.08]"
           style={{ border: "1px solid #E95A0C" }}
         />
-        <div
-          className="absolute right-[12%] top-1/2 -translate-y-1/2 w-[160px] h-[160px] sm:w-[220px] sm:h-[220px] rounded-full opacity-[0.04]"
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[240px] h-[240px] sm:w-[320px] sm:h-[320px] rounded-full opacity-[0.05]"
           style={{ border: "1px solid #E95A0C" }}
         />
+
+        {/* Logo in center of circles */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-[5]">
+          <img
+            src={logoFireskins}
+            alt="FireSkins"
+            className="h-48 sm:h-64 lg:h-80 w-auto object-contain"
+            loading="lazy"
+          />
+        </div>
 
         <div className="container relative z-10 py-8 sm:py-10">
           <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between gap-8">
@@ -76,16 +84,6 @@ const Footer = () => {
                   ))}
                 </div>
               </div>
-            </div>
-
-            {/* ── Right side: large FS logo ── */}
-            <div className="flex-shrink-0">
-              <img
-                src={logoFireskins}
-                alt="FireSkins"
-                className="h-40 sm:h-52 lg:h-64 w-auto object-contain"
-                loading="lazy"
-              />
             </div>
           </div>
         </div>
