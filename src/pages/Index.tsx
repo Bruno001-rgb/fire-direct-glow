@@ -23,7 +23,7 @@ const Index = () => {
           
           <CategoriesSection />
           <VideoShowcase />
-          <FinalCTA />
+          
 
           <Footer />
         </main>
