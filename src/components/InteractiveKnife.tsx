@@ -25,6 +25,7 @@ const InteractiveKnife = ({ src }: InteractiveKnifeProps) => {
   }, []);
 
   const handleMouseLeave = useCallback(() => {
+    setIsHovering(false);
     setTransform({ rotateX: 0, rotateY: 0, glowX: 50, glowY: 50 });
   }, []);
 
