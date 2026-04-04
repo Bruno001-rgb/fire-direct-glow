@@ -202,7 +202,7 @@ const CategoriesSection = () => {
       <div className="absolute bottom-0 left-0 w-[500px] h-[350px] rounded-full blur-[140px]"
         style={{ background: "radial-gradient(ellipse, hsla(254, 55%, 52%, 0.04) 0%, transparent 70%)" }} />
       {/* Vignette */}
-      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 50%, hsl(225 30% 4% / 0.4) 100%)" }} />
+      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 50%, hsl(0 0% 0% / 0.4) 100%)" }} />
 
       <div className="container relative z-10">
         {/* Header */}

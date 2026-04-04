@@ -100,7 +100,7 @@
   .bg-cinematic-alt {
     background: radial-gradient(ellipse at 20% 50%, hsl(254 55% 52% / 0.04) 0%, transparent 50%),
                 radial-gradient(ellipse at 80% 20%, hsl(22 91% 47% / 0.03) 0%, transparent 50%),
-                hsl(var(--muted) / 0.15);
+                hsl(0 0% 0%);
   }
 
   .watermark {
