@@ -197,27 +197,6 @@ const HeroSection = () => {
               />
             </div>
 
-            {/* Floating stat badges */}
-            <div
-              className="absolute top-[10%] right-[5%] lg:top-[8%] lg:right-[2%] px-3 py-1.5 rounded-sm backdrop-blur-sm animate-fade-in hidden sm:block"
-              style={{
-                background: "rgba(233, 90, 12, 0.08)",
-                border: "1px solid rgba(233, 90, 12, 0.15)",
-              }}
-            >
-              <span className="text-[9px] font-bold uppercase tracking-wider" style={{ color: "#F5A006" }}>★ Covert</span>
-            </div>
-
-            <div
-              className="absolute bottom-[15%] left-[5%] lg:bottom-[12%] lg:left-[0%] px-3 py-1.5 rounded-sm backdrop-blur-sm animate-fade-in hidden sm:block"
-              style={{
-                background: "rgba(90, 61, 204, 0.08)",
-                border: "1px solid rgba(90, 61, 204, 0.15)",
-                animationDelay: "0.3s",
-              }}
-            >
-              <span className="text-[9px] font-bold uppercase tracking-wider" style={{ color: "#5A3DCC" }}>Factory New</span>
-            </div>
           </div>
         </div>
       </div>
