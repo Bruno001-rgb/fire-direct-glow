@@ -38,7 +38,7 @@ const InteractiveKnife = ({ src }: InteractiveKnifeProps) => {
       style={{ perspective: "800px" }}
     >
       <div
-        className="w-full h-full transition-transform duration-150 ease-out will-change-transform"
+        className={`w-full h-full will-change-transform ${isHovering ? "transition-transform duration-150 ease-out" : "transition-transform duration-700 ease-in-out animate-float"}`}
         style={{
           transform: `rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg) scale3d(1.02, 1.02, 1.02)`,
           transformStyle: "preserve-3d",
