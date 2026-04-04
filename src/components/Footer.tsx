@@ -39,105 +39,102 @@ const Footer = () => {
           <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between gap-8">
 
             {/* ── Left side: text info ── */}
-            <div className="flex flex-col gap-8 text-center sm:text-left">
-              {/* Brand + heading */}
-              <div>
-                <h3 className="text-2xl sm:text-3xl font-black uppercase font-heading leading-tight">
-                  <span className="text-foreground">Venda & </span>
-                  <br />
-                  <span
-                    className="bg-clip-text text-transparent"
-                    style={{ backgroundImage: "linear-gradient(135deg, #E95A0C, #F5A006)" }}
-                  >
-                    Upgrade
-                  </span>
-                  <br />
-                  <span className="text-foreground">das suas skins!</span>
-                </h3>
+            <div className="text-center sm:text-left">
+              <h3 className="text-2xl sm:text-3xl font-black uppercase font-heading leading-tight">
+                <span className="text-foreground">Venda & </span>
+                <br />
+                <span
+                  className="bg-clip-text text-transparent"
+                  style={{ backgroundImage: "linear-gradient(135deg, #E95A0C, #F5A006)" }}
+                >
+                  Upgrade
+                </span>
+                <br />
+                <span className="text-foreground">das suas skins!</span>
+              </h3>
 
-                {/* Payment methods */}
-                <div className="flex items-center gap-2 mt-3 justify-center sm:justify-start">
-                  {["Pix", "Crypto", "Cartão"].map((method) => (
-                    <span
-                      key={method}
-                      className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-sm"
-                      style={{
-                        background: "rgba(233, 90, 12, 0.15)",
-                        border: "1px solid rgba(233, 90, 12, 0.3)",
-                        color: "#F5A006",
-                      }}
-                    >
-                      {method}
-                    </span>
+              {/* Payment methods */}
+              <div className="flex items-center gap-2 mt-3 justify-center sm:justify-start">
+                {["Pix", "Crypto", "Cartão"].map((method) => (
+                  <span
+                    key={method}
+                    className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-sm"
+                    style={{
+                      background: "rgba(233, 90, 12, 0.15)",
+                      border: "1px solid rgba(233, 90, 12, 0.3)",
+                      color: "#F5A006",
+                    }}
+                  >
+                    {method}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Middle: Links ── */}
+            <div className="flex gap-12 text-center sm:text-left">
+              {/* Páginas */}
+              <div>
+                <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#E95A0C" }}>
+                  Páginas
+                </h4>
+                <ul className="space-y-2">
+                  {[
+                    { label: "Início", href: "#hero" },
+                    { label: "Categorias", href: "#categorias" },
+                    { label: "Showcase", href: "#showcase" },
+                    { label: "Contato", href: "#contato" },
+                  ].map((link) => (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        className="text-sm text-muted-foreground hover:text-[#F5A006] transition-colors"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
 
-              {/* Links */}
-              <div className="flex flex-col sm:flex-row gap-6 sm:gap-12">
-                {/* Páginas */}
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#E95A0C" }}>
-                    Páginas
-                  </h4>
-                  <ul className="space-y-2">
-                    {[
-                      { label: "Início", href: "#hero" },
-                      { label: "Categorias", href: "#categorias" },
-                      { label: "Showcase", href: "#showcase" },
-                      { label: "Contato", href: "#contato" },
-                    ].map((link) => (
-                      <li key={link.label}>
-                        <a
-                          href={link.href}
-                          className="text-sm text-muted-foreground hover:text-[#F5A006] transition-colors"
-                        >
-                          {link.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Redes & Contato */}
-                <div>
-                  <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#E95A0C" }}>
-                    Contato
-                  </h4>
-                  <ul className="space-y-2">
-                    <li>
-                      <a
-                        href="https://instagram.com/fireskinscs2"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-[#F5A006] transition-colors justify-center sm:justify-start"
-                      >
-                        <Instagram className="size-4" style={{ color: "#E95A0C" }} />
-                        @fireskinscs2
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href={WHATSAPP_URL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-[#F5A006] transition-colors justify-center sm:justify-start"
-                      >
-                        <WhatsAppIcon className="size-4 text-[#E95A0C]" />
-                        WhatsApp
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+              {/* Redes & Contato */}
+              <div>
+                <h4 className="text-xs font-bold uppercase tracking-widest mb-3" style={{ color: "#E95A0C" }}>
+                  Contato
+                </h4>
+                <ul className="space-y-2">
+                  <li>
+                    <a
+                      href="https://instagram.com/fireskinscs2"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm text-muted-foreground hover:text-[#F5A006] transition-colors"
+                    >
+                      <Instagram className="size-4" style={{ color: "#E95A0C" }} />
+                      @fireskinscs2
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href={WHATSAPP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-2 text-sm text-muted-foreground hover:text-[#F5A006] transition-colors"
+                    >
+                      <WhatsAppIcon className="size-4 text-[#E95A0C]" />
+                      WhatsApp
+                    </a>
+                  </li>
+                </ul>
               </div>
             </div>
 
             {/* ── Right side: large FS logo ── */}
-            <div className="flex-shrink-0 relative">
+            <div className="flex-shrink-0">
               <img
                 src={logoFireskins}
                 alt="FireSkins"
-                className="h-80 sm:h-[26rem] lg:h-[36rem] w-auto object-contain -my-20 sm:-my-28 lg:-my-40"
+                className="h-40 sm:h-52 lg:h-64 w-auto object-contain"
                 loading="lazy"
               />
             </div>
