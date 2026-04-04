@@ -42,7 +42,7 @@ const rarityText: Record<string, string> = {
 
 const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
   <a
-    href={`${WHATSAPP_URL}${encodeURIComponent(item.name + " " + item.skin)}`}
+    href={WHATSAPP_URL}
     target="_blank"
     rel="noopener noreferrer"
     className="group relative flex flex-col overflow-hidden rounded-xl border border-primary/15 bg-card/60 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_30px_-4px_hsl(var(--primary)/0.35)]"

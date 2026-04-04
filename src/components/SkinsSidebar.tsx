@@ -25,7 +25,7 @@ const SkinsSidebar = () => {
           {items.map((skin, i) => (
             <a
               key={`${skin.name}-${skin.skin}-${i}`}
-              href={`${WHATSAPP_URL}${encodeURIComponent(skin.name + " " + skin.skin)}`}
+              href={WHATSAPP_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="block p-1.5 xl:p-2 group"
