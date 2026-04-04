@@ -1,54 +1,68 @@
 
 
-## Diagnóstico Completo
+## Diagnóstico
 
-### Stack e estrutura
+### Stack
 React 18 + Vite + TypeScript + Tailwind + shadcn/ui + TanStack Query + Supabase (Lovable Cloud)
 
-### Respostas às 10 validações
+### CTAs atuais e inconsistencias encontradas
 
-1. **Estado local de edição no admin?** SIM — `pendingChanges` Map no SlotManager
-2. **Estado persistido?** SIM — 4 skins estão salvas no banco (facas slots 1-4)
-3. **Distinção prévia vs publicado?** SIM — borda amber + badge "Não salvo" para pendentes
-4. **Slot recebe a skin?** SIM — UPDATE funciona (RLS anon foi aberto na última correção)
-5. **Ação de salvar existe?** SIM — botão "Salvar e publicar" com batch update
-6. **Frontend lê a fonte certa?** SIM — `useShowcaseSkins` faz join correto nos slots
-7. **Dados mockados ou persistidos?** Persistidos — mas só 4 slots preenchidos de 32
-8. **Dados sobrevivem ao refresh?** SIM — confirmado via query direta no banco
-9. **Esteira esquerda sincronizada?** NAO — `SkinsSidebar.tsx` usa array hardcoded de imagens locais (assets .jpg)
-10. **Problema visual da imagem?** SIM — `object-cover` em container `aspect-square` corta imagens da API que têm fundo transparente e são renderizadas em formato paisagem
+| Local | Estilo | Problema |
+|---|---|---|
+| **Header** | `<Button variant="whatsapp">` via shadcn | Usa `animate-pulse-glow`, tamanho `h-8/h-9` |
+| **Hero (primario)** | `<a>` com inline `style={{ background: linear-gradient }}` | Estilo manual, nao usa componente Button |
+| **Hero (secundario)** | `<a>` com inline `style={{ border, color }}` | Estilo manual, nao usa componente Button |
+| **CategoriesSection** | `<Button variant="whatsapp">` | Usa shadcn, OK |
+| **SkinCard "Negociar"** | `<span>` estilizado inline | Nao e botao real, visual custom |
+| **VideoShowcase (primario)** | `<button>` com inline gradient style | Estilo manual |
+| **VideoShowcase (secundario)** | `<button>` com inline border/color style | Estilo manual |
+| **FinalCTA** | `<Button variant="whatsapp" size="lg">` | Usa shadcn, mas `bg-whatsapp` que e `--whatsapp: 22 91% 47%` (laranja, nao verde) |
+| **Footer** | Nenhum CTA real, so links de nav | OK |
 
-### Onde o fluxo quebra
+**Inconsistencias:** Os CTAs primarios do Hero e VideoShowcase sao `<a>`/`<button>` com estilos inline, sem usar o componente `Button`. Os secundarios tambem sao inline. A variante `whatsapp` do Button usa `animate-pulse-glow` (pode ser excessivo). Ha 3 padroes visuais diferentes para o mesmo tipo de CTA.
 
-| Problema | Causa raiz |
-|---|---|
-| Imagem cortada/zoom nos cards | `object-cover` força preenchimento do container quadrado. Imagens da API são paisagem com fundo transparente → deveria usar `object-contain` |
-| Esteira esquerda com skins erradas | `SkinsSidebar.tsx` tem array hardcoded de assets locais, sem conexão com banco |
-| Admin "não funciona" | Na verdade funciona — 4 skins estão salvas. O usuário pode não ter percebido o fluxo completo |
+### Plano de correcao
 
-### Plano de correção
+**1. Padronizar CTAs**
+- Criar duas variantes novas no `button.tsx`: `fire` (primario — gradient laranja) e `fire-outline` (secundario — borda laranja)
+- Substituir todos os CTAs inline do Hero e VideoShowcase por `<Button variant="fire">` e `<Button variant="fire-outline">`
+- Remover `animate-pulse-glow` da variante `whatsapp` (ou renomear para `fire`)
+- Manter consistencia de `size`, `tracking`, `font` em todos os CTAs
 
-#### 1. Corrigir imagem nos cards da landing page
-Em `CategoriesSection.tsx`, trocar `object-cover` por `object-contain` no `<img>` do SkinCard. Adicionar padding interno para enquadramento premium. Ajustar o aspect ratio do container de `aspect-square` para algo mais favorável (ex: `aspect-[4/3]`).
+**2. Seção de Depoimentos**
+- Nova tabela `testimonials` no Supabase: `id`, `image_url`, `title`, `is_active`, `sort_order`, `created_at`, `updated_at`
+- RLS: leitura publica (anon+authenticated), escrita anon (temporario, igual showcase_slots)
+- Storage bucket `testimonials` (publico) para upload de imagens
+- Componente `TestimonialsSection.tsx` com carrossel horizontal auto-scroll (CSS animation, sem lib externa)
+- Visual: cards com borda sutil, sombra, padding, `rounded-xl`, fundo escuro, imagens com `object-contain` em aspect `9/16` ou `3/4`
+- Posicionar entre `VideoShowcase` e `Footer` no Index
 
-#### 2. Conectar esteira esquerda ao banco
-Refatorar `SkinsSidebar.tsx`:
-- Remover o array hardcoded e imports de assets locais
-- Usar o hook `useShowcaseSkins()` para ler as skins configuradas no admin
-- Mapear os dados para o formato que o componente espera
-- Manter a animação de scroll e a duplicação de itens para loop infinito
-- Se não houver skins configuradas, não renderizar a sidebar
+**3. Admin de Depoimentos**
+- Adicionar tabs no `/admin`: "Skins" e "Depoimentos"
+- Nova tab com:
+  - Upload de imagem (via Supabase Storage)
+  - Grid de depoimentos com preview, toggle ativo/inativo, botao remover
+  - Drag-free ordering via botoes seta (up/down) ou input de `sort_order`
+  - Botao "Salvar" com feedback (mesmo padrao do SlotManager)
+- Hook `useTestimonials.ts` para LP e admin
 
-#### 3. Arquivos alterados
+### Arquivos a criar
+- `src/components/TestimonialsSection.tsx`
+- `src/components/admin/TestimonialsManager.tsx`
+- `src/hooks/useTestimonials.ts`
+- Migration SQL (tabela + storage bucket + RLS)
 
-| Arquivo | Alteração |
-|---|---|
-| `src/components/CategoriesSection.tsx` | `object-cover` → `object-contain`, ajuste de aspect ratio e padding |
-| `src/components/SkinsSidebar.tsx` | Remover hardcoded, usar `useShowcaseSkins()` |
+### Arquivos a alterar
+- `src/components/ui/button.tsx` — adicionar variantes `fire` e `fire-outline`
+- `src/components/HeroSection.tsx` — substituir CTAs inline por `<Button>`
+- `src/components/VideoShowcase.tsx` — substituir CTAs inline por `<Button>`
+- `src/components/FinalCTA.tsx` — ajustar variante do botao
+- `src/pages/Index.tsx` — adicionar `TestimonialsSection`
+- `src/pages/Admin.tsx` — adicionar sistema de tabs com "Skins" e "Depoimentos"
 
-#### Fora de escopo
-- Autenticação do admin
-- Permissões e roles
-- Refazer layout geral da landing page
-- Problemas no fluxo de save do admin (já está funcionando)
+### Fora de escopo
+- Autenticacao do admin
+- Permissoes e roles
+- Refazer layout geral da LP
+- Alterar SkinCard ou sidebar
 
