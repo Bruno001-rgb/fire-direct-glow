@@ -157,8 +157,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 16px hsl(142 70% 45% / 0.25); }
-  50% { box-shadow: 0 0 24px hsl(142 70% 45% / 0.4), 0 0 48px hsl(142 70% 45% / 0.12); }
+  0%, 100% { box-shadow: 0 0 16px hsl(22 91% 47% / 0.25); }
+  50% { box-shadow: 0 0 24px hsl(22 91% 47% / 0.4), 0 0 48px hsl(22 91% 47% / 0.12); }
 }
 
 @keyframes smoke-drift {
