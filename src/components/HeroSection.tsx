@@ -1,4 +1,5 @@
-import { MessageCircle, ArrowRight, Shield, Zap, Gem } from "lucide-react";
+import { ArrowRight, Shield, Zap, Gem } from "lucide-react";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import InteractiveKnife from "@/components/InteractiveKnife";
 import heroKnife from "@/assets/hero-knife-premium.png";
@@ -130,7 +131,7 @@ const HeroSection = () => {
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{ background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.15) 45%, rgba(255,255,255,0.05) 55%, transparent 60%)" }}
                 />
-                <MessageCircle className="size-4 relative z-10" />
+                <WhatsAppIcon className="size-4 relative z-10" />
                 <span className="relative z-10">Chamar no WhatsApp</span>
               </a>
 

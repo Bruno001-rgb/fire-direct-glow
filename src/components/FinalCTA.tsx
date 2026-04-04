@@ -1,4 +1,4 @@
-import { MessageCircle } from "lucide-react";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import AmbientParticles from "@/components/AmbientParticles";
 
@@ -43,7 +43,7 @@ const FinalCTA = () => {
           </p>
           <Button variant="whatsapp" size="lg" className="text-sm px-8 h-12 uppercase tracking-wider font-bold shadow-[0_0_30px_hsla(142,70%,45%,0.25)]" asChild>
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="size-5" />
+              <WhatsAppIcon className="size-5" />
               Chamar no WhatsApp
             </a>
           </Button>

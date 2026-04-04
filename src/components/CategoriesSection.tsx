@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { MessageCircle, Star } from "lucide-react";
+import { Star } from "lucide-react";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 
 // Facas
@@ -176,7 +177,7 @@ const SkinCard = ({ item }: { item: SkinItem }) => (
     {/* Negociar button — always visible */}
     <div className="px-3 pb-3 sm:px-4 sm:pb-4">
       <span className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-whatsapp/10 border border-whatsapp/30 text-whatsapp text-[10px] sm:text-[11px] font-bold uppercase tracking-wider group-hover:bg-whatsapp group-hover:text-whatsapp-foreground transition-all duration-300">
-        <MessageCircle className="size-3" />
+        <WhatsAppIcon className="size-3" />
         Negociar
       </span>
     </div>
@@ -215,7 +216,7 @@ const CategoriesSection = () => {
           </div>
           <Button variant="whatsapp" size="sm" className="uppercase tracking-wider text-[11px] h-9 shrink-0" asChild>
             <a href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20quero%20ver%20o%20cat%C3%A1logo%20completo!" target="_blank" rel="noopener noreferrer">
-              <MessageCircle className="size-3.5" />
+              <WhatsAppIcon className="size-3.5" />
               Ver catálogo completo
             </a>
           </Button>
