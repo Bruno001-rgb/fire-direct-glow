@@ -9,6 +9,28 @@ interface VideoShowcaseProps {
 const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const modalVideoRef = useRef<HTMLVideoElement>(null);
+
+  const openFullscreen = () => {
+    setIsPlaying(true);
+    setTimeout(() => {
+      modalVideoRef.current?.play();
+    }, 100);
+  };
+
+  const closeFullscreen = () => {
+    setIsPlaying(false);
+    modalVideoRef.current?.pause();
+    if (modalVideoRef.current) modalVideoRef.current.currentTime = 0;
+  };
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isPlaying) closeFullscreen();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [isPlaying]);
   return (
     <section
       id="como-funciona"
