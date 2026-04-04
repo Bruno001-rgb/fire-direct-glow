@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RefreshCw, Loader2, ArrowLeft } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import SlotManager from "@/components/admin/SlotManager";
+import TestimonialsManager from "@/components/admin/TestimonialsManager";
 import { toast } from "sonner";
 
 export default function Admin() {
@@ -33,7 +35,7 @@ export default function Admin() {
                 Voltar
               </Button>
             </Link>
-            <h1 className="text-lg font-bold">Admin — Vitrine de Skins</h1>
+            <h1 className="text-lg font-bold">Admin — Vitrine</h1>
           </div>
           <Button
             onClick={handleSync}
@@ -46,17 +48,32 @@ export default function Admin() {
             ) : (
               <RefreshCw className="size-4 mr-1" />
             )}
-            Sincronizar Skins da API
+            Sincronizar Skins
           </Button>
         </div>
       </header>
 
       <main className="container py-6">
-        <p className="text-sm text-muted-foreground mb-6">
-          Selecione as skins que aparecem em cada categoria da landing page.
-          Clique em "Sincronizar" primeiro para importar as skins da API.
-        </p>
-        <SlotManager />
+        <Tabs defaultValue="skins">
+          <TabsList className="mb-6">
+            <TabsTrigger value="skins">Skins</TabsTrigger>
+            <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="skins">
+            <p className="text-sm text-muted-foreground mb-6">
+              Selecione as skins que aparecem em cada categoria da landing page.
+            </p>
+            <SlotManager />
+          </TabsContent>
+
+          <TabsContent value="depoimentos">
+            <p className="text-sm text-muted-foreground mb-6">
+              Gerencie os prints/depoimentos exibidos na landing page.
+            </p>
+            <TestimonialsManager />
+          </TabsContent>
+        </Tabs>
       </main>
     </div>
   );
