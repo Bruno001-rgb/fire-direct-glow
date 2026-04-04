@@ -79,11 +79,11 @@ const Footer = () => {
             </div>
 
             {/* ── Right side: large FS logo ── */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 relative">
               <img
                 src={logoFireskins}
                 alt="FireSkins"
-                className="h-52 sm:h-72 lg:h-96 w-auto object-contain"
+                className="h-64 sm:h-80 lg:h-[28rem] w-auto object-contain -my-12 sm:-my-16 lg:-my-24"
                 loading="lazy"
               />
             </div>
