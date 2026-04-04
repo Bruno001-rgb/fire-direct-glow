@@ -269,6 +269,38 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
 
       {/* Bottom separator */}
       <div className="h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, #5A3DCC, #E95A0C, transparent)' }} />
+
+      {/* ── Fullscreen Video Modal ── */}
+      {isPlaying && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 backdrop-blur-sm"
+          onClick={closeFullscreen}
+        >
+          {/* Close button */}
+          <button
+            onClick={closeFullscreen}
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110"
+            style={{
+              background: 'rgba(233, 90, 12, 0.2)',
+              border: '1px solid rgba(233, 90, 12, 0.4)',
+            }}
+          >
+            <X className="size-5 sm:size-6" style={{ color: '#F5A006' }} />
+          </button>
+
+          {/* Video */}
+          <video
+            ref={modalVideoRef}
+            src="/videos/fireskins-showcase.mp4"
+            className="w-full max-w-6xl max-h-[90vh] rounded-lg"
+            controls
+            autoPlay
+            playsInline
+            onClick={(e) => e.stopPropagation()}
+            onEnded={closeFullscreen}
+          />
+        </div>
+      )}
     </section>
   );
 };
