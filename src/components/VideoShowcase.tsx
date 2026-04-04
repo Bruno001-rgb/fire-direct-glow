@@ -184,7 +184,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
 
                 {/* Center logo */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
-                  <img src={logoFireskins} alt="FireSkins" className="w-[30rem] h-[30rem] sm:w-[44rem] sm:h-[44rem] object-contain opacity-30" />
+                  <img src={logoFireskins} alt="FireSkins" className="w-[44rem] h-[44rem] sm:w-[60rem] sm:h-[60rem] object-contain opacity-30" />
                 </div>
 
                 {/* Inner vignette */}
