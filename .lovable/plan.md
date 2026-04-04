@@ -2,80 +2,53 @@
 
 ## Diagnóstico Completo
 
-### Stack detectada
+### Stack e estrutura
 React 18 + Vite + TypeScript + Tailwind + shadcn/ui + TanStack Query + Supabase (Lovable Cloud)
 
-### Fluxo atual (ponta a ponta)
+### Respostas às 10 validações
 
-1. Admin abre `/admin` → `SlotManager` carrega categorias e slots via Supabase (SELECT — funciona, anon pode ler)
-2. Admin clica num slot → abre `SkinSearchModal` → busca em `imported_skins` (funciona)
-3. Admin seleciona uma skin → `updateSlot.mutate()` faz UPDATE imediato no banco
-4. Landing page usa `useShowcaseSkins()` que faz SELECT com join nos slots preenchidos
+1. **Estado local de edição no admin?** SIM — `pendingChanges` Map no SlotManager
+2. **Estado persistido?** SIM — 4 skins estão salvas no banco (facas slots 1-4)
+3. **Distinção prévia vs publicado?** SIM — borda amber + badge "Não salvo" para pendentes
+4. **Slot recebe a skin?** SIM — UPDATE funciona (RLS anon foi aberto na última correção)
+5. **Ação de salvar existe?** SIM — botão "Salvar e publicar" com batch update
+6. **Frontend lê a fonte certa?** SIM — `useShowcaseSkins` faz join correto nos slots
+7. **Dados mockados ou persistidos?** Persistidos — mas só 4 slots preenchidos de 32
+8. **Dados sobrevivem ao refresh?** SIM — confirmado via query direta no banco
+9. **Esteira esquerda sincronizada?** NAO — `SkinsSidebar.tsx` usa array hardcoded de imagens locais (assets .jpg)
+10. **Problema visual da imagem?** SIM — `object-cover` em container `aspect-square` corta imagens da API que têm fundo transparente e são renderizadas em formato paisagem
 
-### Onde o fluxo quebra — duas causas raiz
+### Onde o fluxo quebra
 
-**Causa 1: RLS bloqueia escrita anônima.**
-O admin não está autenticado. O Supabase client usa a `anon` key. A tabela `showcase_slots` só permite escrita para `authenticated`. Resultado: o UPDATE falha silenciosamente (ou com erro ignorado) — a skin nunca é salva no banco.
-
-Confirmação: as políticas RLS são `"Authenticated users can manage showcase_slots" FOR ALL TO authenticated`. Anon só tem SELECT.
-
-**Causa 2: Não existe padrão de prévia + salvar.**
-O código atual tenta salvar imediatamente ao clicar na skin (sem botão "Salvar"). Mesmo que o RLS fosse aberto, não existe distinção entre "prévia local" e "publicado". O usuário não tem feedback de alterações pendentes.
-
-### Respostas explícitas aos 8 pontos
-
-1. **Estado local de edição?** Não. Salva direto (ou tenta).
-2. **Estado persistido?** Não funciona — RLS bloqueia anon.
-3. **Distinção prévia vs publicado?** Não existe.
-4. **Slot recebe a skin?** Não — UPDATE falha por RLS.
-5. **Ação de salvar?** Ausente — tenta salvar por slot individualmente.
-6. **Frontend lê fonte certa?** Sim — `useShowcaseSkins` lê `showcase_slots` com join.
-7. **Dados fixos, mock ou persistidos?** Persistidos, mas todos os 32 slots estão vazios (skin_id = null).
-8. **Dados sobrevivem refresh?** Nada foi salvo, então não há o que sobreviver.
+| Problema | Causa raiz |
+|---|---|
+| Imagem cortada/zoom nos cards | `object-cover` força preenchimento do container quadrado. Imagens da API são paisagem com fundo transparente → deveria usar `object-contain` |
+| Esteira esquerda com skins erradas | `SkinsSidebar.tsx` tem array hardcoded de assets locais, sem conexão com banco |
+| Admin "não funciona" | Na verdade funciona — 4 skins estão salvas. O usuário pode não ter percebido o fluxo completo |
 
 ### Plano de correção
 
-#### 1. Abrir RLS para escrita anônima (temporário)
-Adicionar políticas permitindo anon fazer UPDATE na `showcase_slots`. Sem auth implementada, é a única forma de funcionar. Será substituída por auth no futuro.
+#### 1. Corrigir imagem nos cards da landing page
+Em `CategoriesSection.tsx`, trocar `object-cover` por `object-contain` no `<img>` do SkinCard. Adicionar padding interno para enquadramento premium. Ajustar o aspect ratio do container de `aspect-square` para algo mais favorável (ex: `aspect-[4/3]`).
 
-Migration SQL:
-```sql
-CREATE POLICY "Anon can update showcase_slots"
-  ON public.showcase_slots FOR UPDATE TO anon
-  USING (true);
-```
+#### 2. Conectar esteira esquerda ao banco
+Refatorar `SkinsSidebar.tsx`:
+- Remover o array hardcoded e imports de assets locais
+- Usar o hook `useShowcaseSkins()` para ler as skins configuradas no admin
+- Mapear os dados para o formato que o componente espera
+- Manter a animação de scroll e a duplicação de itens para loop infinito
+- Se não houver skins configuradas, não renderizar a sidebar
 
-#### 2. Refatorar SlotManager para padrão prévia + salvar
+#### 3. Arquivos alterados
 
-O componente passará a ter:
-- **Estado local `pendingChanges`**: um `Map<slotId, skinId | null>` com as alterações não salvas
-- Ao selecionar uma skin, ela entra no `pendingChanges` (prévia local), sem tocar o banco
-- Os slots com alterações pendentes mostram a skin selecionada com uma borda visual diferente (indicador de "não salvo")
-- **Botão "Salvar alterações"** visível quando há mudanças pendentes
-- Ao clicar salvar: faz UPDATE em batch para todos os slots alterados → feedback de loading → toast de sucesso/erro
-- Ao remover uma skin, também entra como pendente
-- Counter de "X alterações pendentes"
-
-#### 3. Feedback visual
-
-- Slot com alteração pendente: borda amarela/amber
-- Barra fixa no topo com "X alterações não salvas" + botão "Salvar" + botão "Descartar"
-- Loading spinner durante o salvamento
-- Toast de sucesso/erro
-- Invalidação do cache `showcase-skins` após salvar (para a landing page atualizar)
-
-#### 4. Arquivos alterados
-
-| Arquivo | Ação |
+| Arquivo | Alteração |
 |---|---|
-| Migration SQL (nova) | Adicionar política anon UPDATE em showcase_slots |
-| `src/components/admin/SlotManager.tsx` | Refatorar para draft state + batch save |
-| `src/components/admin/SkinSearchModal.tsx` | Adicionar `aria-describedby` (fix console warning) |
-
-Nenhum outro arquivo precisa ser alterado. A landing page (`CategoriesSection.tsx`) e o hook `useShowcaseSkins` já estão corretos — o problema é que nada era salvo.
+| `src/components/CategoriesSection.tsx` | `object-cover` → `object-contain`, ajuste de aspect ratio e padding |
+| `src/components/SkinsSidebar.tsx` | Remover hardcoded, usar `useShowcaseSkins()` |
 
 #### Fora de escopo
-- Autenticação/login do admin
+- Autenticação do admin
 - Permissões e roles
-- Refazer visual da landing page
+- Refazer layout geral da landing page
+- Problemas no fluxo de save do admin (já está funcionando)
 
