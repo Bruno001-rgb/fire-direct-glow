@@ -195,7 +195,7 @@ const CategoriesSection = () => {
     : allSkins.filter((s) => s.category === activeTab);
 
   return (
-    <section id="catalogo" className="py-10 sm:py-14 relative overflow-hidden">
+    <section id="catalogo" className="py-6 sm:py-8 relative overflow-hidden">
       {/* Cinematic background layers */}
       <div className="absolute inset-0 bg-black" />
       <div className="absolute top-0 right-0 w-[600px] h-[400px] rounded-full blur-[160px]"
