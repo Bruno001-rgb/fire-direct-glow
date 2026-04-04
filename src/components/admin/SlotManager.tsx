@@ -43,7 +43,7 @@ export default function SlotManager() {
       const { data: slots, error: slotsErr } = await supabase
         .from("showcase_slots")
         .select(`
-          id, slot_position, skin_id,
+          id, slot_position, skin_id, category_id,
           imported_skins (name, weapon_name, pattern_name, image, rarity_name)
         `)
         .order("slot_position");
