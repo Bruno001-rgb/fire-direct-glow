@@ -7,7 +7,7 @@ import { Search, Loader2 } from "lucide-react";
 interface SkinSearchModalProps {
   open: boolean;
   onClose: () => void;
-  onSelect: (skinId: string) => void;
+  onSelect: (skinId: string, preview: { name: string; weapon_name: string | null; pattern_name: string | null; image: string | null; rarity_name: string | null }) => void;
 }
 
 export default function SkinSearchModal({ open, onClose, onSelect }: SkinSearchModalProps) {
@@ -47,7 +47,13 @@ export default function SkinSearchModal({ open, onClose, onSelect }: SkinSearchM
                 <button
                   key={skin.id}
                   onClick={() => {
-                    onSelect(skin.id);
+                    onSelect(skin.id, {
+                      name: skin.name,
+                      weapon_name: skin.weapon_name || null,
+                      pattern_name: skin.pattern_name || null,
+                      image: skin.image || null,
+                      rarity_name: skin.rarity_name || null,
+                    });
                     onClose();
                   }}
                   className="flex flex-col items-center gap-1 p-2 rounded-lg border border-border hover:border-primary/50 hover:bg-accent/50 transition-colors text-left"

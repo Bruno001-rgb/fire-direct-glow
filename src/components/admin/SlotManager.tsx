@@ -1,22 +1,24 @@
-import { useState } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useState, useCallback, useMemo } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, Trash2, ImagePlus, Loader2 } from "lucide-react";
+import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2 } from "lucide-react";
 import SkinSearchModal from "./SkinSearchModal";
 import { toast } from "sonner";
+
+interface SkinPreview {
+  name: string;
+  weapon_name: string | null;
+  pattern_name: string | null;
+  image: string | null;
+  rarity_name: string | null;
+}
 
 interface SlotWithSkin {
   id: string;
   slot_position: number;
   skin_id: string | null;
-  imported_skins: {
-    name: string;
-    weapon_name: string | null;
-    pattern_name: string | null;
-    image: string | null;
-    rarity_name: string | null;
-  } | null;
+  imported_skins: SkinPreview | null;
 }
 
 interface CategoryWithSlots {
@@ -27,9 +29,17 @@ interface CategoryWithSlots {
   slots: SlotWithSkin[];
 }
 
+// Pending change stores both the skinId and a preview for immediate display
+interface PendingChange {
+  skinId: string | null;
+  preview: SkinPreview | null;
+}
+
 export default function SlotManager() {
   const queryClient = useQueryClient();
   const [modalSlotId, setModalSlotId] = useState<string | null>(null);
+  const [pendingChanges, setPendingChanges] = useState<Map<string, PendingChange>>(new Map());
+  const [isSaving, setIsSaving] = useState(false);
 
   const { data: categories, isLoading } = useQuery({
     queryKey: ["admin-categories-slots"],
@@ -63,21 +73,81 @@ export default function SlotManager() {
     },
   });
 
-  const updateSlot = useMutation({
-    mutationFn: async ({ slotId, skinId }: { slotId: string; skinId: string | null }) => {
-      const { error } = await supabase
-        .from("showcase_slots")
-        .update({ skin_id: skinId })
-        .eq("id", slotId);
-      if (error) throw error;
+  const hasPendingChanges = pendingChanges.size > 0;
+
+  const getEffectiveSlot = useCallback(
+    (slot: SlotWithSkin) => {
+      const pending = pendingChanges.get(slot.id);
+      if (pending !== undefined) {
+        return {
+          ...slot,
+          skin_id: pending.skinId,
+          imported_skins: pending.preview,
+        };
+      }
+      return slot;
     },
-    onSuccess: () => {
+    [pendingChanges]
+  );
+
+  const handleSelect = useCallback(
+    (skinId: string, preview: SkinPreview) => {
+      if (!modalSlotId) return;
+      setPendingChanges((prev) => {
+        const next = new Map(prev);
+        next.set(modalSlotId, { skinId, preview });
+        return next;
+      });
+      setModalSlotId(null);
+    },
+    [modalSlotId]
+  );
+
+  const handleRemove = useCallback((slotId: string) => {
+    setPendingChanges((prev) => {
+      const next = new Map(prev);
+      next.set(slotId, { skinId: null, preview: null });
+      return next;
+    });
+  }, []);
+
+  const handleDiscard = useCallback(() => {
+    setPendingChanges(new Map());
+  }, []);
+
+  const handleSave = useCallback(async () => {
+    if (pendingChanges.size === 0) return;
+    setIsSaving(true);
+
+    try {
+      const updates = Array.from(pendingChanges.entries()).map(
+        ([slotId, change]) =>
+          supabase
+            .from("showcase_slots")
+            .update({ skin_id: change.skinId })
+            .eq("id", slotId)
+      );
+
+      const results = await Promise.all(updates);
+      const errors = results.filter((r) => r.error);
+
+      if (errors.length > 0) {
+        console.error("Save errors:", errors.map((e) => e.error));
+        toast.error(`Erro ao salvar ${errors.length} slot(s). Tente novamente.`);
+        return;
+      }
+
+      setPendingChanges(new Map());
       queryClient.invalidateQueries({ queryKey: ["admin-categories-slots"] });
       queryClient.invalidateQueries({ queryKey: ["showcase-skins"] });
-      toast.success("Slot atualizado!");
-    },
-    onError: (e) => toast.error(`Erro: ${e.message}`),
-  });
+      toast.success("Configuração salva e publicada!");
+    } catch (err: any) {
+      console.error("Save failed:", err);
+      toast.error(`Erro inesperado: ${err.message}`);
+    } finally {
+      setIsSaving(false);
+    }
+  }, [pendingChanges, queryClient]);
 
   if (isLoading) {
     return (
@@ -89,88 +159,135 @@ export default function SlotManager() {
 
   return (
     <div className="space-y-8">
-      {categories?.map((cat) => (
-        <div key={cat.id} className="space-y-3">
-          <h3 className="text-lg font-bold text-foreground">
-            {cat.label}{" "}
-            <span className="text-sm font-normal text-muted-foreground">
-              ({cat.slots.filter((s) => s.skin_id).length}/{cat.slot_count} preenchidos)
-            </span>
-          </h3>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {cat.slots.map((slot) => (
-              <div
-                key={slot.id}
-                className="border border-border rounded-lg overflow-hidden bg-card/60"
-              >
-                {slot.imported_skins ? (
-                  <>
-                    <div className="aspect-square bg-muted/20 relative">
-                      {slot.imported_skins.image && (
-                        <img
-                          src={slot.imported_skins.image}
-                          alt={slot.imported_skins.name}
-                          className="w-full h-full object-contain"
-                        />
-                      )}
-                      <span className="absolute top-1 left-1 text-[9px] font-bold bg-background/80 px-1.5 py-0.5 rounded">
-                        #{slot.slot_position}
-                      </span>
-                    </div>
-                    <div className="p-2 space-y-1">
-                      <p className="text-xs font-semibold truncate">
-                        {slot.imported_skins.weapon_name}
-                      </p>
-                      <p className="text-[10px] text-muted-foreground truncate">
-                        {slot.imported_skins.pattern_name}
-                      </p>
-                      <div className="flex gap-1">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="flex-1 h-7 text-[10px]"
-                          onClick={() => setModalSlotId(slot.id)}
-                        >
-                          <RefreshCw className="size-3 mr-1" />
-                          Trocar
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          className="h-7 px-2 text-destructive"
-                          onClick={() => updateSlot.mutate({ slotId: slot.id, skinId: null })}
-                        >
-                          <Trash2 className="size-3" />
-                        </Button>
-                      </div>
-                    </div>
-                  </>
-                ) : (
-                  <button
-                    onClick={() => setModalSlotId(slot.id)}
-                    className="w-full aspect-[3/4] flex flex-col items-center justify-center gap-2 text-muted-foreground hover:text-foreground hover:bg-accent/30 transition-colors"
-                  >
-                    <ImagePlus className="size-6" />
-                    <span className="text-xs">Slot #{slot.slot_position}</span>
-                    <span className="text-[10px]">Clique para adicionar</span>
-                  </button>
-                )}
-              </div>
-            ))}
+      {/* Sticky save bar */}
+      {hasPendingChanges && (
+        <div className="sticky top-0 z-50 bg-amber-950/90 border border-amber-500/40 backdrop-blur-sm rounded-lg p-3 flex items-center justify-between gap-3">
+          <span className="text-sm text-amber-200 font-medium">
+            ⚠️ {pendingChanges.size} alteração(ões) não salva(s)
+          </span>
+          <div className="flex gap-2">
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={handleDiscard}
+              disabled={isSaving}
+              className="border-amber-500/40 text-amber-200 hover:bg-amber-900/50"
+            >
+              <Undo2 className="size-3 mr-1" />
+              Descartar
+            </Button>
+            <Button
+              size="sm"
+              onClick={handleSave}
+              disabled={isSaving}
+              className="bg-amber-500 text-black hover:bg-amber-400"
+            >
+              {isSaving ? (
+                <Loader2 className="size-3 mr-1 animate-spin" />
+              ) : (
+                <Save className="size-3 mr-1" />
+              )}
+              {isSaving ? "Salvando..." : "Salvar e publicar"}
+            </Button>
           </div>
         </div>
-      ))}
+      )}
+
+      {categories?.map((cat) => {
+        const effectiveSlots = cat.slots.map(getEffectiveSlot);
+        const filledCount = effectiveSlots.filter((s) => s.skin_id).length;
+
+        return (
+          <div key={cat.id} className="space-y-3">
+            <h3 className="text-lg font-bold text-foreground">
+              {cat.label}{" "}
+              <span className="text-sm font-normal text-muted-foreground">
+                ({filledCount}/{cat.slot_count} preenchidos)
+              </span>
+            </h3>
+
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {effectiveSlots.map((slot) => {
+                const isPending = pendingChanges.has(slot.id);
+
+                return (
+                  <div
+                    key={slot.id}
+                    className={`border rounded-lg overflow-hidden bg-card/60 transition-colors ${
+                      isPending
+                        ? "border-amber-500 ring-1 ring-amber-500/30"
+                        : "border-border"
+                    }`}
+                  >
+                    {slot.imported_skins ? (
+                      <>
+                        <div className="aspect-square bg-muted/20 relative">
+                          {slot.imported_skins.image && (
+                            <img
+                              src={slot.imported_skins.image}
+                              alt={slot.imported_skins.name}
+                              className="w-full h-full object-contain"
+                            />
+                          )}
+                          <span className="absolute top-1 left-1 text-[9px] font-bold bg-background/80 px-1.5 py-0.5 rounded">
+                            #{slot.slot_position}
+                          </span>
+                          {isPending && (
+                            <span className="absolute top-1 right-1 text-[9px] font-bold bg-amber-500 text-black px-1.5 py-0.5 rounded">
+                              Não salvo
+                            </span>
+                          )}
+                        </div>
+                        <div className="p-2 space-y-1">
+                          <p className="text-xs font-semibold truncate">
+                            {slot.imported_skins.weapon_name}
+                          </p>
+                          <p className="text-[10px] text-muted-foreground truncate">
+                            {slot.imported_skins.pattern_name}
+                          </p>
+                          <div className="flex gap-1">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="flex-1 h-7 text-[10px]"
+                              onClick={() => setModalSlotId(slot.id)}
+                            >
+                              <RefreshCw className="size-3 mr-1" />
+                              Trocar
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-7 px-2 text-destructive"
+                              onClick={() => handleRemove(slot.id)}
+                            >
+                              <Trash2 className="size-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      </>
+                    ) : (
+                      <button
+                        onClick={() => setModalSlotId(slot.id)}
+                        className="w-full aspect-[3/4] flex flex-col items-center justify-center gap-2 text-muted-foreground hover:text-foreground hover:bg-accent/30 transition-colors"
+                      >
+                        <ImagePlus className="size-6" />
+                        <span className="text-xs">Slot #{slot.slot_position}</span>
+                        <span className="text-[10px]">Clique para adicionar</span>
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
 
       <SkinSearchModal
         open={!!modalSlotId}
         onClose={() => setModalSlotId(null)}
-        onSelect={(skinId) => {
-          if (modalSlotId) {
-            updateSlot.mutate({ slotId: modalSlotId, skinId });
-            setModalSlotId(null);
-          }
-        }}
+        onSelect={handleSelect}
       />
     </div>
   );
