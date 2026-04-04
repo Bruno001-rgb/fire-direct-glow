@@ -59,32 +59,36 @@ const Footer = () => {
 
               {/* Payment methods */}
               <div
-                className="flex items-center gap-0 mt-4 justify-center sm:justify-start rounded-lg overflow-hidden"
+                className="flex items-center gap-0 mt-4 justify-center sm:justify-start rounded-md overflow-hidden"
                 style={{
-                  border: "2px solid #E95A0C",
+                  border: "1.5px solid #E95A0C",
                   background: "rgba(20, 12, 5, 0.9)",
                 }}
               >
-                <div className="flex items-center gap-2 px-4 py-2">
-                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="#E95A0C" strokeWidth="2">
-                    <rect x="1" y="4" width="22" height="16" rx="2" />
-                    <path d="M12 4v16M1 12h22" />
+                {/* PIX - diamond/rhombus icon */}
+                <div className="flex items-center gap-2 px-4 py-1.5">
+                  <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+                    <path d="M13.4 4.6l5.9 5.9a2 2 0 010 2.8l-5.9 5.9a2 2 0 01-2.8 0l-5.9-5.9a2 2 0 010-2.8l5.9-5.9a2 2 0 012.8 0z" stroke="#E95A0C" strokeWidth="1.8" />
+                    <path d="M9 12h6M12 9v6" stroke="#E95A0C" strokeWidth="1.5" />
                   </svg>
                   <span className="text-sm font-black uppercase tracking-wider text-white">PIX</span>
                 </div>
-                <div className="w-px h-6" style={{ background: "#E95A0C" }} />
-                <div className="flex items-center gap-2 px-4 py-2">
-                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="#E95A0C">
-                    <circle cx="12" cy="12" r="10" fill="none" stroke="#E95A0C" strokeWidth="1.5" />
-                    <text x="12" y="16" textAnchor="middle" fontSize="12" fontWeight="bold" fill="#E95A0C">₿</text>
+                <div className="w-px h-5" style={{ background: "rgba(233,90,12,0.5)" }} />
+                {/* CRYPTO - Bitcoin circle */}
+                <div className="flex items-center gap-2 px-4 py-1.5">
+                  <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="#E95A0C" strokeWidth="1.8" />
+                    <path d="M9.5 8h3.5c1.4 0 2.5.9 2.5 2s-1.1 2-2.5 2H9.5V8zM9.5 12h4c1.4 0 2.5.9 2.5 2s-1.1 2-2.5 2H9.5v-4zM11 6.5V8M13 6.5V8M11 16v1.5M13 16v1.5" stroke="#E95A0C" strokeWidth="1.5" strokeLinecap="round" />
                   </svg>
                   <span className="text-sm font-black uppercase tracking-wider text-white">CRYPTO</span>
                 </div>
-                <div className="w-px h-6" style={{ background: "#E95A0C" }} />
-                <div className="flex items-center gap-2 px-4 py-2">
-                  <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="#E95A0C" strokeWidth="1.5">
-                    <rect x="1" y="5" width="22" height="14" rx="2" />
-                    <rect x="4" y="8" width="16" height="8" rx="1" />
+                <div className="w-px h-5" style={{ background: "rgba(233,90,12,0.5)" }} />
+                {/* CARTÃO - credit card icon */}
+                <div className="flex items-center gap-2 px-4 py-1.5">
+                  <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none">
+                    <rect x="2" y="5" width="20" height="14" rx="2" stroke="#E95A0C" strokeWidth="1.8" />
+                    <path d="M2 10h20" stroke="#E95A0C" strokeWidth="1.8" />
+                    <rect x="5" y="14" width="4" height="2" rx="0.5" fill="#E95A0C" opacity="0.6" />
                   </svg>
                   <span className="text-sm font-black uppercase tracking-wider text-white">CARTÃO</span>
                 </div>
