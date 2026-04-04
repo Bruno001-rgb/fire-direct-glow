@@ -48,17 +48,6 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
         }}
       />
 
-      {/* Subtle grid */}
-      <div className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)
-          `,
-          backgroundSize: '60px 60px',
-        }}
-      />
-
       {/* Floating particles */}
       <div className="absolute top-1/4 left-1/4 w-1 h-1 rounded-full animate-pulse" style={{ background: '#E95A0C', boxShadow: '0 0 8px #E95A0C' }} />
       <div className="absolute top-1/3 right-1/3 w-0.5 h-0.5 rounded-full animate-pulse" style={{ background: '#F5A006', boxShadow: '0 0 6px #F5A006', animationDelay: '1s' }} />
@@ -181,18 +170,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
               {/* Video area */}
               <div className="relative" style={{ aspectRatio: '16/9' }}>
                 {/* Inner background */}
-                <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #0A0815, #12092A, #0D0A1A)' }} />
-
-                {/* Inner grid */}
-                <div className="absolute inset-0 opacity-[0.03]"
-                  style={{
-                    backgroundImage: `
-                      linear-gradient(rgba(233, 90, 12, 0.3) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(233, 90, 12, 0.3) 1px, transparent 1px)
-                    `,
-                    backgroundSize: '30px 30px',
-                  }}
-                />
+                <div className="absolute inset-0 bg-black" />
 
                 {/* Low-poly triangles pattern */}
                 <svg className="absolute inset-0 w-full h-full opacity-[0.04]" viewBox="0 0 400 225" preserveAspectRatio="none">
@@ -210,7 +188,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
 
                 {/* Center logo */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
-                  <img src={logoFireskins} alt="FireSkins" className="w-32 h-32 sm:w-44 sm:h-44 object-contain opacity-30" />
+                  <img src={logoFireskins} alt="FireSkins" className="w-48 h-48 sm:w-64 sm:h-64 object-contain opacity-30" />
                 </div>
 
                 {/* Inner vignette */}
