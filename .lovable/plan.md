@@ -1,93 +1,81 @@
 
 
-## Análise da Stack Atual
+## Diagnóstico Completo
 
-- **Frontend**: React 18 + Vite + TypeScript + Tailwind CSS + shadcn/ui
-- **Roteamento**: React Router DOM
-- **Backend/DB**: Nenhum Supabase configurado ainda
-- **Landing page**: `CategoriesSection.tsx` exibe skins hardcoded em um array `allSkins[]` com 4 categorias: Facas (16), Luvas (11), Rifles (4), Snipers (1)
-- **Card visual**: Componente `SkinCard` já pronto — recebe `{ name, skin, category, rarity, image }`
-- **Tabs**: "Todas", "Facas", "Luvas", "Rifles", "Snipers"
+### Stack detectada
+React 18 + Vite + TypeScript + Tailwind + shadcn/ui + TanStack Query + Supabase (Lovable Cloud)
 
-## Plano de Implementação
+### Fluxo atual (ponta a ponta)
 
-### Pré-requisito: Configurar Supabase
+1. Admin abre `/admin` → `SlotManager` carrega categorias e slots via Supabase (SELECT — funciona, anon pode ler)
+2. Admin clica num slot → abre `SkinSearchModal` → busca em `imported_skins` (funciona)
+3. Admin seleciona uma skin → `updateSlot.mutate()` faz UPDATE imediato no banco
+4. Landing page usa `useShowcaseSkins()` que faz SELECT com join nos slots preenchidos
 
-Será necessário conectar o Lovable Cloud (Supabase integrado) para persistir dados.
+### Onde o fluxo quebra — duas causas raiz
 
-### 1. Criar tabelas no Supabase
+**Causa 1: RLS bloqueia escrita anônima.**
+O admin não está autenticado. O Supabase client usa a `anon` key. A tabela `showcase_slots` só permite escrita para `authenticated`. Resultado: o UPDATE falha silenciosamente (ou com erro ignorado) — a skin nunca é salva no banco.
 
-Três tabelas:
+Confirmação: as políticas RLS são `"Authenticated users can manage showcase_slots" FOR ALL TO authenticated`. Anon só tem SELECT.
 
-- **`showcase_categories`** — categorias fixas da LP
-  - `id` (uuid, PK), `key` (text, unique — "facas", "luvas", "rifles", "snipers"), `label` (text), `slot_count` (int), `sort_order` (int)
+**Causa 2: Não existe padrão de prévia + salvar.**
+O código atual tenta salvar imediatamente ao clicar na skin (sem botão "Salvar"). Mesmo que o RLS fosse aberto, não existe distinção entre "prévia local" e "publicado". O usuário não tem feedback de alterações pendentes.
 
-- **`imported_skins`** — cache local das skins da API ByMykel
-  - `id` (text, PK — o ID da API), `name` (text), `description` (text), `weapon_name` (text), `pattern_name` (text), `rarity_name` (text), `rarity_color` (text), `image` (text — URL da imagem)
+### Respostas explícitas aos 8 pontos
 
-- **`showcase_slots`** — vínculo admin: qual skin vai em qual slot
-  - `id` (uuid, PK), `category_id` (uuid, FK → showcase_categories), `slot_position` (int), `skin_id` (text, FK → imported_skins, nullable), unique(category_id, slot_position)
+1. **Estado local de edição?** Não. Salva direto (ou tenta).
+2. **Estado persistido?** Não funciona — RLS bloqueia anon.
+3. **Distinção prévia vs publicado?** Não existe.
+4. **Slot recebe a skin?** Não — UPDATE falha por RLS.
+5. **Ação de salvar?** Ausente — tenta salvar por slot individualmente.
+6. **Frontend lê fonte certa?** Sim — `useShowcaseSkins` lê `showcase_slots` com join.
+7. **Dados fixos, mock ou persistidos?** Persistidos, mas todos os 32 slots estão vazios (skin_id = null).
+8. **Dados sobrevivem refresh?** Nada foi salvo, então não há o que sobreviver.
 
-RLS: leitura pública em todas as tabelas. Escrita restrita a admin (via `has_role` ou por enquanto sem RLS de escrita, dado que é um projeto pessoal).
+### Plano de correção
 
-### 2. Edge Function: Importar skins da API
+#### 1. Abrir RLS para escrita anônima (temporário)
+Adicionar políticas permitindo anon fazer UPDATE na `showcase_slots`. Sem auth implementada, é a única forma de funcionar. Será substituída por auth no futuro.
 
-- Edge function `sync-skins` que faz fetch de `https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins_not_grouped.json`
-- Faz upsert na tabela `imported_skins`
-- Pode ser chamada manualmente pelo admin
-
-### 3. Seed de dados iniciais
-
-- Inserir as 4 categorias com `slot_count: 8` cada
-- Criar 8 slots vazios (skin_id = null) para cada categoria
-
-### 4. Página Admin (`/admin`)
-
-Uma página simples com:
-- Lista de categorias, cada uma mostrando seus 8 slots
-- Cada slot: mostra imagem + nome da skin selecionada, ou "Vazio"
-- Botão "Trocar" em cada slot → abre um modal/drawer de busca
-- No modal: campo de busca que filtra `imported_skins` por nome/weapon_name
-- Grid de resultados com imagem e nome — clicar seleciona e salva no slot
-- Botão "Remover" para limpar um slot
-- Botão "Sincronizar Skins" no topo para chamar a edge function
-
-### 5. Integrar Landing Page
-
-- Modificar `CategoriesSection.tsx`:
-  - Remover o array hardcoded `allSkins[]` e todos os imports de imagens locais
-  - Criar hook `useShowcaseSkins()` que faz query no Supabase: join `showcase_slots` + `imported_skins` + `showcase_categories`
-  - Mapear os dados retornados para o formato `SkinItem` esperado pelo `SkinCard`
-  - Slots vazios são filtrados (não renderizados)
-  - As tabs continuam funcionando por categoria
-
-### 6. Arquivos a criar/alterar
-
-**Criar:**
-- `src/integrations/supabase/` — client e types (gerado pelo Lovable Cloud)
-- `supabase/functions/sync-skins/index.ts` — edge function de importação
-- `src/hooks/useShowcaseSkins.ts` — hook para landing page
-- `src/hooks/useImportedSkins.ts` — hook de busca para admin
-- `src/pages/Admin.tsx` — página do painel admin
-- `src/components/admin/SlotManager.tsx` — componente de gerenciamento de slots
-- `src/components/admin/SkinSearchModal.tsx` — modal de busca/seleção
-- Migration SQL para criar as 3 tabelas + seed
-
-**Alterar:**
-- `src/App.tsx` — adicionar rota `/admin`
-- `src/components/CategoriesSection.tsx` — trocar dados hardcoded pelo hook
-
-### Segurança
-
-Nesta fase inicial (projeto pessoal), a rota `/admin` ficará aberta. Futuramente pode-se adicionar autenticação + role admin.
-
-### Fluxo resumido
-
-```text
-API ByMykel ──sync──▶ imported_skins (Supabase)
-                              │
-Admin ──seleciona──▶ showcase_slots ──lê──▶ Landing Page cards
-                              │
-                     showcase_categories
+Migration SQL:
+```sql
+CREATE POLICY "Anon can update showcase_slots"
+  ON public.showcase_slots FOR UPDATE TO anon
+  USING (true);
 ```
+
+#### 2. Refatorar SlotManager para padrão prévia + salvar
+
+O componente passará a ter:
+- **Estado local `pendingChanges`**: um `Map<slotId, skinId | null>` com as alterações não salvas
+- Ao selecionar uma skin, ela entra no `pendingChanges` (prévia local), sem tocar o banco
+- Os slots com alterações pendentes mostram a skin selecionada com uma borda visual diferente (indicador de "não salvo")
+- **Botão "Salvar alterações"** visível quando há mudanças pendentes
+- Ao clicar salvar: faz UPDATE em batch para todos os slots alterados → feedback de loading → toast de sucesso/erro
+- Ao remover uma skin, também entra como pendente
+- Counter de "X alterações pendentes"
+
+#### 3. Feedback visual
+
+- Slot com alteração pendente: borda amarela/amber
+- Barra fixa no topo com "X alterações não salvas" + botão "Salvar" + botão "Descartar"
+- Loading spinner durante o salvamento
+- Toast de sucesso/erro
+- Invalidação do cache `showcase-skins` após salvar (para a landing page atualizar)
+
+#### 4. Arquivos alterados
+
+| Arquivo | Ação |
+|---|---|
+| Migration SQL (nova) | Adicionar política anon UPDATE em showcase_slots |
+| `src/components/admin/SlotManager.tsx` | Refatorar para draft state + batch save |
+| `src/components/admin/SkinSearchModal.tsx` | Adicionar `aria-describedby` (fix console warning) |
+
+Nenhum outro arquivo precisa ser alterado. A landing page (`CategoriesSection.tsx`) e o hook `useShowcaseSkins` já estão corretos — o problema é que nada era salvo.
+
+#### Fora de escopo
+- Autenticação/login do admin
+- Permissões e roles
+- Refazer visual da landing page
 
