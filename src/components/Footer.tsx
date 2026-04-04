@@ -32,18 +32,15 @@ const Footer = () => {
           width={1920}
           height={800}
         />
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent" />
-        <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-black to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
+        <div className="absolute inset-0 bg-black/75" />
+        <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/95 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-black/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40" />
       </div>
-
-      {/* ── Spacer for fire visual ── */}
-      <div className="relative h-[140px] sm:h-[170px] lg:h-[200px]" />
 
       {/* ── Footer content grid ── */}
       <div className="relative">
-        <div className="container relative z-10 py-8 sm:py-10">
+        <div className="container relative z-10 pt-10 sm:pt-14 pb-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
 
             {/* ── Brand area ── */}
