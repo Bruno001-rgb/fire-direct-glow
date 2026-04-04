@@ -1,72 +1,96 @@
 
 
-## Diagnóstico
+## Auditoria de Responsividade — Diagnóstico e Plano
 
-### Estrutura atual
-- **Não existe `skin_id`** no banco — as colunas são: `id`, `name`, `weapon_name`, `pattern_name`, `rarity_name`, `rarity_color`, `image`, `description`, `created_at`
-- **Chave de deduplicação**: `weapon_name + pattern_name` (confirmado que funciona — 1,919 combinações únicas)
-- **Busca atual**: `useImportedSkins` consulta `imported_skins` direto, sem filtro de wear/StatTrak, com `LIMIT 50` — retorna todas as variações misturadas
-- **Não existe view `canonical_skins`** — o plano anterior não foi implementado
+### Problemas encontrados
 
-### Padrão de IDs
-- `skin-{hash}_0` = Factory New (sem StatTrak)
-- `skin-{hash}_0_st` = Factory New StatTrak
-- Sufixo `_0` = FN, `_1` = MW, `_2` = FT, `_3` = WW, `_4` = BS
+#### 1. Hero — InteractiveKnife overflow no mobile
+- `InteractiveKnife` usa `w-[380px]` fixo no mobile. Em tela de 320px, a faca estoura 60px para fora, gerando scroll horizontal.
+- Os glow rings (280–500px fixos) também excedem a viewport em mobile.
 
-### Números
-- **15,897** skins brutas
-- **2,071** skins com ID terminando em `_0`, sem StatTrak, sem Souvenir
-- **1,919** skin bases únicas (weapon_name + pattern_name) nesse filtro
-- Diferença de 152 = skins sem weapon_name/pattern_name preenchido
+#### 2. Footer — layout quebra no mobile
+- Logo do footer tem `h-80` (~320px) com margin negativo (`-my-20`), criando sobreposição e espaço vazio em mobile.
+- Bloco de métodos de pagamento (PIX/CRYPTO/CARTÃO) usa flex horizontal sem wrap — estoura em telas < 375px.
+- `text-4xl sm:text-5xl lg:text-6xl` no heading do footer é grande demais para 320px.
 
-### Onde quebra
-1. Busca sem filtro → 10 variações por skin polui os 50 resultados
-2. `LIMIT 50` com `ORDER BY name` → maioria das skins inalcançável sem busca exata
+#### 3. VideoShowcase — logo gigante no preview
+- Logo center: `w-[66rem]` (1056px!) no mobile e `sm:w-[90rem]` (1440px!). Extremamente oversized, provavelmente gera overflow no container (contido por `overflow-hidden` mas carrega imagem enorme desnecessariamente).
 
-## Plano
+#### 4. StatsBar — itens cortados no mobile
+- 4 stats em flex horizontal sem wrap. Em 320px, os últimos itens ficam fora da tela (scrollbar-hide esconde mas perde conteúdo).
 
-### 1. Criar view `admin_skin_index` (Migration SQL)
+#### 5. SkinsSidebar — fixed width comprime conteúdo
+- `w-[110px] xl:w-[130px]` + sticky. Funciona em lg+ mas em telas 1024–1280px pode comprimir o main content desnecessariamente.
 
-```sql
-CREATE VIEW admin_skin_index AS
-SELECT DISTINCT ON (weapon_name, pattern_name)
-  id AS source_skin_id,
-  name,
-  weapon_name,
-  pattern_name,
-  rarity_name,
-  rarity_color,
-  image
-FROM imported_skins
-WHERE id LIKE '%\_0'
-  AND name NOT LIKE 'StatTrak%'
-  AND name NOT LIKE 'Souvenir%'
-  AND weapon_name IS NOT NULL
-  AND pattern_name IS NOT NULL
-ORDER BY weapon_name, pattern_name, name;
-```
+#### 6. Admin — SlotManager grid no mobile
+- `grid-cols-2 sm:grid-cols-4` — funciona, mas botões dentro dos slots (`text-[10px]`, `h-7`) são muito pequenos para touch (< 44px).
+- SkinSearchModal: `max-w-2xl` — OK para desktop, mas em mobile o grid `grid-cols-2 sm:grid-cols-3` pode ter cards apertados.
 
-Resultado: ~1,919 linhas. Somente Factory New, sem StatTrak, sem Souvenir, 1 por skin base.
+#### 7. Admin — TestimonialsManager
+- Lista de depoimentos usa `flex items-center gap-4` horizontal. Em mobile (< 640px), os action buttons se espremem. A row inteira pode não caber.
 
-### 2. Atualizar `useImportedSkins.ts`
-- Trocar `.from("imported_skins")` por `.from("admin_skin_index")`
-- Trocar campo `id` por `source_skin_id`
-- Aumentar limit para 100
-- Manter busca por `name`, `weapon_name`, `pattern_name`
+#### 8. CategoriesSection — `grid-cols-2` no mobile
+- Cards em 320px com 2 colunas e `gap-3` ficam com ~145px cada. Funciona mas fica apertado. Texto `truncate` salva, mas touch targets são borderline.
 
-### 3. Atualizar `SkinSearchModal.tsx`
-- Ajustar para usar `source_skin_id` como ID ao selecionar (mantém compatibilidade com `showcase_slots.skin_id` que referencia `imported_skins.id`)
+#### 9. Carrossel de depoimentos
+- Cards com `w-[260px] sm:w-[300px]` — OK, mas sem interação touch (swipe). Auto-scroll sem pause no touch pode ser frustrante no mobile.
 
-### Arquivos
+#### 10. Performance
+- `AmbientParticles` roda canvas animation loop contínuo com requestAnimationFrame — gasta CPU mesmo quando seção não está visível.
+- `LiveDropTicker` importa ~13 imagens estáticas hardcoded que são sempre carregadas.
+- VideoShowcase logo image é absurdamente grande (66rem / 90rem).
 
-| Arquivo | Ação |
+---
+
+### Plano de correção
+
+#### A. Hero + InteractiveKnife (overflow fix)
+- Trocar tamanhos fixos da faca para valores responsivos: `w-[min(80vw,380px)] sm:w-[420px] lg:w-[550px]`
+- Ajustar glow rings proporcionalmente
+- Reduzir min-h no mobile: `min-h-[75vh] sm:min-h-[85vh]`
+
+#### B. Footer (mobile layout)
+- Wrap métodos de pagamento: adicionar `flex-wrap` e reduzir padding
+- Reduzir logo no mobile: `h-48 sm:h-80 lg:h-[26rem]` com margin negativo proporcional
+- Stack layout vertical no mobile para a 3-column footer
+
+#### C. VideoShowcase — logo sizing
+- Reduzir logo de `w-[66rem]` para `w-40 sm:w-56` (valores sãos)
+
+#### D. StatsBar — mobile adaptation
+- Mostrar apenas 2 stats no mobile (hidden nos outros) ou reduzir gap/font
+
+#### E. Admin — touch targets
+- Aumentar botões mínimos para 44px em mobile
+- TestimonialsManager: stack actions verticalmente em mobile
+- SkinSearchModal: usar `grid-cols-2` fixo em mobile, com scroll
+
+#### F. Testimonials carousel — touch
+- Adicionar `touch-action: pan-x` e pausar auto-scroll durante touch
+
+#### G. Performance
+- AmbientParticles: usar IntersectionObserver para pausar quando fora da viewport
+- VideoShowcase: reduzir dimensão da logo image
+- Adicionar `loading="lazy"` em imagens do LiveDropTicker
+
+### Arquivos a alterar
+
+| Arquivo | Mudanças |
 |---|---|
-| Migration SQL | Criar view `admin_skin_index` |
-| `src/hooks/useImportedSkins.ts` | Apontar para view, ajustar campos |
-| `src/components/admin/SkinSearchModal.tsx` | Usar `source_skin_id` |
+| `src/components/InteractiveKnife.tsx` | Tamanhos responsivos com min/max |
+| `src/components/HeroSection.tsx` | Ajustar min-h, glow ring sizes |
+| `src/components/Footer.tsx` | Wrap pagamento, logo sizing, stack mobile |
+| `src/components/VideoShowcase.tsx` | Fix logo size absurda |
+| `src/components/StatsBar.tsx` | Adaptar para mobile |
+| `src/components/TestimonialsSection.tsx` | Touch-friendly carousel |
+| `src/components/AmbientParticles.tsx` | IntersectionObserver pause |
+| `src/components/LiveDropTicker.tsx` | lazy load images |
+| `src/components/admin/TestimonialsManager.tsx` | Mobile layout para actions |
+| `src/components/admin/SkinSearchModal.tsx` | Touch targets maiores |
+| `src/components/admin/SlotManager.tsx` | Touch target mínimo 44px |
 
 ### Fora de escopo
 - Autenticação do admin
-- Fallback para outras wears (rejeitado explicitamente)
-- Alterar landing page ou SlotManager
+- Refazer identidade visual
+- Trocar componentes por libs externas
 
