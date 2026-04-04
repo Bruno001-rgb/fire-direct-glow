@@ -8,7 +8,7 @@ const InteractiveKnife = ({ src }: InteractiveKnifeProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const [transform, setTransform] = useState({ rotateX: 0, rotateY: 0, glowX: 50, glowY: 50 });
-  const [idle, setIdle] = useState({ y: 0, rotate: 0, scale: 1 });
+  const [idle, setIdle] = useState({ y: 0, rotate: 0, scale: 1, glow: 0 });
   const rafRef = useRef<number>(0);
 
   // Physics-based idle animation with gravity bounce
