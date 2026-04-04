@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import StatsBar from "@/components/StatsBar";
 import HeroSection from "@/components/HeroSection";
-import LiveDropTicker from "@/components/LiveDropTicker";
+
 import CategoriesSection from "@/components/CategoriesSection";
 import VideoShowcase from "@/components/VideoShowcase";
 import FinalCTA from "@/components/FinalCTA";
@@ -20,7 +20,7 @@ const Index = () => {
         {/* Main content */}
         <main className="flex-1 min-w-0">
           <HeroSection />
-          <LiveDropTicker />
+          
           <CategoriesSection />
           <VideoShowcase />
           <FinalCTA />
