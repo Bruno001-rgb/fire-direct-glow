@@ -4,6 +4,8 @@ import logoFireskins from "@/assets/logo-fireskins.webp";
 import visaSvg from "@/assets/payment/visa.svg";
 import visaSecureSvg from "@/assets/payment/visa-secure.svg";
 import mastercardIdCheckSvg from "@/assets/payment/mastercard-id-check.svg";
+import mastercardSvg from "@/assets/payment/mastercard.svg";
+import maestroSvg from "@/assets/payment/maestro.svg";
 import interacPng from "@/assets/payment/interac.png";
 import sofortPng from "@/assets/payment/sofort.png";
 
@@ -67,6 +69,8 @@ const Footer = () => {
                 {[
                   { src: visaSvg, alt: "Visa", h: "h-4" },
                   { src: visaSecureSvg, alt: "Visa Secure", h: "h-7" },
+                  { src: mastercardSvg, alt: "Mastercard", h: "h-6" },
+                  { src: maestroSvg, alt: "Maestro", h: "h-6" },
                   { src: mastercardIdCheckSvg, alt: "Mastercard ID Check", h: "h-7" },
                   { src: sofortPng, alt: "Sofort", h: "h-4" },
                   { src: interacPng, alt: "Interac", h: "h-7" },
