@@ -14,7 +14,7 @@ const trustItems = [
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center overflow-hidden bg-black">
+    <section id="topo" className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center overflow-hidden bg-black">
       {/* ── Background layers ── */}
       {/* Large orange glow — bottom left */}
       <div
