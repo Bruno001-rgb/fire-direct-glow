@@ -190,17 +190,8 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
 
               {/* Video area */}
               <div className="relative" style={{ aspectRatio: '16/9' }}>
-                {/* Video element */}
-                <video
-                  ref={videoRef}
-                  src="/videos/fireskins-showcase.mp4"
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isPlaying ? 'opacity-100' : 'opacity-0'}`}
-                  playsInline
-                  onEnded={() => setIsPlaying(false)}
-                />
-
-                {/* Cover (shown when not playing) */}
-                <div className={`absolute inset-0 transition-opacity duration-500 ${isPlaying ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+                {/* Cover */}
+                <div className="absolute inset-0">
                   {/* Inner background */}
                   <div className="absolute inset-0 bg-black" />
 
