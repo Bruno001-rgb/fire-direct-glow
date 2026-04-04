@@ -1,19 +1,19 @@
-import videoBg from "@/assets/video-section-bg.png";
+import videoBg from "@/assets/video-section-bg.jpg";
 
 const VideoShowcase = () => {
   return (
     <section
       id="como-funciona"
-      className="relative overflow-hidden min-h-[700px] flex items-center justify-center"
-      style={{ background: "#1A0B2A" }}
+      className="relative overflow-hidden py-32 min-h-[600px]"
+      style={{
+        background: `url(${videoBg}) center center / cover no-repeat`,
+      }}
     >
-      <div className="container max-w-5xl mx-auto px-4 relative z-10 flex items-center justify-center">
-        <img
-          src={videoBg}
-          alt="FireSkins Video Showcase"
-          className="w-full max-w-4xl object-contain"
-          style={{ filter: "drop-shadow(0 0 40px rgba(0,0,0,0.6))" }}
-        />
+      {/* Dark overlay for readability */}
+      <div className="absolute inset-0 bg-[#1A0B2A]/40" />
+
+      <div className="container max-w-5xl mx-auto px-4 text-center relative z-10">
+        <p className="text-muted-foreground text-sm">Seção de vídeo — aguardando modelagem</p>
       </div>
     </section>
   );
