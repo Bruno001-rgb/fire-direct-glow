@@ -162,7 +162,6 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
                   </span>
                 </div>
               </div>
-              </div>
 
               {/* Video area */}
               <div className="relative" style={{ aspectRatio: '16/9' }}>
