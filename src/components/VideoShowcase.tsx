@@ -81,7 +81,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
       <div className="absolute bottom-1/4 right-1/2 w-0.5 h-0.5 rounded-full animate-pulse" style={{ background: '#F5A006', boxShadow: '0 0 4px #F5A006', animationDelay: '1.5s' }} />
 
       {/* ── Content ── */}
-      <div className="container relative z-10 py-20 sm:py-28 lg:py-32">
+      <div className="container relative z-10 py-10 sm:py-14 lg:py-16">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-6xl mx-auto">
 
           {/* ── Left: Text block ── */}
