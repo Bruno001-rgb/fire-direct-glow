@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { MessageCircle, Star } from "lucide-react";
+import { Star } from "lucide-react";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 
 // Facas
