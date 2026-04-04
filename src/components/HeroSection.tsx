@@ -186,16 +186,8 @@ const HeroSection = () => {
               }}
             />
 
-            {/* Knife image */}
-            <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[460px] lg:h-[460px] animate-float">
-              <img
-                src={heroKnife}
-                alt="Premium CS2 Knife"
-                className="w-full h-full object-contain drop-shadow-[0_0_40px_rgba(233,90,12,0.25)]"
-                width={1024}
-                height={1024}
-              />
-            </div>
+            {/* Interactive 3D Knife */}
+            <InteractiveKnife src={heroKnife} />
 
           </div>
         </div>
