@@ -59,7 +59,6 @@ const Footer = () => {
                   fireskinscs2
                 </span>
               </a>
-              </div>
               <h3 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase font-heading leading-[1.1]">
                 <span className="text-foreground">Venda & </span>
                 <br />
