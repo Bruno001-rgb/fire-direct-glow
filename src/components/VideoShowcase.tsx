@@ -1,4 +1,4 @@
-import { Play, Flame } from "lucide-react";
+import { Play, Flame, ArrowRight } from "lucide-react";
 
 interface VideoShowcaseProps {
   videoSrc?: string;
@@ -8,155 +8,265 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
   return (
     <section
       id="como-funciona"
-      className="relative bg-background"
+      className="relative overflow-hidden bg-background"
     >
-      {/* Top separator — orange gradient */}
+      {/* Top separator */}
       <div className="h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, #E95A0C, #F5A006, transparent)' }} />
 
-      <div className="container py-16 sm:py-24">
-        {/* Video container — CS2-style cinematic block */}
-        <div className="relative w-full max-w-5xl mx-auto group cursor-pointer">
-          {/* Aspect ratio container */}
-          <div className="relative w-full overflow-hidden rounded-sm" style={{ aspectRatio: '16/9' }}>
-            {/* Dark placeholder background with purple tint */}
-            <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #0D0A1A, #1A0B2A, #15102A)' }} />
+      {/* ── Background layers ── */}
+      {/* Base dark */}
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #08060E 0%, #0D0A1A 40%, #120E22 100%)' }} />
 
-            {/* Geometric grid pattern (subtle) */}
-            <div className="absolute inset-0 opacity-[0.04]"
-              style={{
-                backgroundImage: `
-                  linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
-                `,
-                backgroundSize: '40px 40px',
-              }}
-            />
+      {/* Orange glow — bottom center */}
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px]"
+        style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(233, 90, 12, 0.12) 0%, rgba(233, 90, 12, 0.04) 40%, transparent 70%)' }}
+      />
 
-            {/* Diagonal accent lines — orange */}
-            <div className="absolute top-0 right-0 w-1/3 h-full opacity-[0.05]"
-              style={{
-                backgroundImage: `repeating-linear-gradient(
-                  -45deg,
-                  transparent,
-                  transparent 20px,
-                  #E95A0C 20px,
-                  #E95A0C 21px
-                )`,
-              }}
-            />
+      {/* Purple haze — upper right */}
+      <div className="absolute -top-20 -right-20 w-[600px] h-[600px]"
+        style={{ background: 'radial-gradient(ellipse at 70% 30%, rgba(90, 61, 204, 0.08) 0%, transparent 60%)' }}
+      />
 
-            {/* Purple glow — bottom left */}
-            <div className="absolute bottom-0 left-0 w-2/3 h-1/2 opacity-[0.08]"
-              style={{ background: 'radial-gradient(ellipse at 20% 100%, #5A3DCC, transparent 70%)' }}
-            />
+      {/* Vignette */}
+      <div className="absolute inset-0"
+        style={{ boxShadow: 'inset 0 0 200px 60px rgba(0,0,0,0.6)' }}
+      />
 
-            {/* Orange glow — top right */}
-            <div className="absolute top-0 right-0 w-1/2 h-1/2 opacity-[0.06]"
-              style={{ background: 'radial-gradient(ellipse at 80% 0%, #E95A0C, transparent 70%)' }}
-            />
+      {/* Diagonal pattern — right side */}
+      <div className="absolute top-0 right-0 w-1/2 h-full opacity-[0.04]"
+        style={{
+          backgroundImage: `repeating-linear-gradient(
+            -55deg,
+            transparent,
+            transparent 30px,
+            rgba(233, 90, 12, 0.5) 30px,
+            rgba(233, 90, 12, 0.5) 31px
+          )`,
+          maskImage: 'linear-gradient(to left, rgba(0,0,0,0.6) 0%, transparent 80%)',
+          WebkitMaskImage: 'linear-gradient(to left, rgba(0,0,0,0.6) 0%, transparent 80%)',
+        }}
+      />
 
-            {/* Bottom gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-background/30" />
+      {/* Subtle grid */}
+      <div className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage: `
+            linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)
+          `,
+          backgroundSize: '60px 60px',
+        }}
+      />
 
-            {/* Left side content overlay */}
-            <div className="absolute inset-0 flex flex-col justify-between p-6 sm:p-10 z-10">
-              {/* Top label */}
-              <div>
-                <span
-                  className="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] px-3 py-1.5 backdrop-blur-sm"
-                  style={{
-                    background: 'rgba(10, 8, 20, 0.6)',
-                    border: '1px solid rgba(233, 90, 12, 0.2)',
-                    color: '#F5A006',
-                  }}
-                >
-                  FireSkins Apresenta
-                </span>
-              </div>
+      {/* Floating particles */}
+      <div className="absolute top-1/4 left-1/4 w-1 h-1 rounded-full animate-pulse" style={{ background: '#E95A0C', boxShadow: '0 0 8px #E95A0C' }} />
+      <div className="absolute top-1/3 right-1/3 w-0.5 h-0.5 rounded-full animate-pulse" style={{ background: '#F5A006', boxShadow: '0 0 6px #F5A006', animationDelay: '1s' }} />
+      <div className="absolute bottom-1/3 left-1/3 w-0.5 h-0.5 rounded-full animate-pulse" style={{ background: '#5A3DCC', boxShadow: '0 0 6px #5A3DCC', animationDelay: '2s' }} />
+      <div className="absolute top-2/3 right-1/4 w-1 h-1 rounded-full animate-pulse" style={{ background: '#E95A0C', boxShadow: '0 0 10px #E95A0C', animationDelay: '0.5s' }} />
+      <div className="absolute bottom-1/4 right-1/2 w-0.5 h-0.5 rounded-full animate-pulse" style={{ background: '#F5A006', boxShadow: '0 0 4px #F5A006', animationDelay: '1.5s' }} />
 
-              {/* Center play button */}
-              <div className="flex items-center justify-center absolute inset-0">
-                <div className="flex items-center gap-4 sm:gap-5 group/play">
-                  <div
-                    className="w-14 h-14 sm:w-18 sm:h-18 rounded-full flex items-center justify-center backdrop-blur-sm transition-all duration-300"
-                    style={{
-                      border: '2px solid rgba(233, 90, 12, 0.6)',
-                      background: 'rgba(233, 90, 12, 0.1)',
-                      boxShadow: '0 0 30px rgba(233, 90, 12, 0.15)',
-                    }}
-                  >
-                    <Play className="size-6 sm:size-7 ml-0.5" style={{ color: '#E95A0C', fill: '#E95A0C' }} />
-                  </div>
-                  <span
-                    className="text-xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight font-heading transition-colors duration-300"
-                    style={{ color: '#F5A006' }}
-                  >
-                    Play Video
-                  </span>
-                </div>
-              </div>
+      {/* ── Content ── */}
+      <div className="container relative z-10 py-20 sm:py-28 lg:py-32">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-6xl mx-auto">
 
-              {/* Bottom content */}
-              <div className="flex items-end justify-between gap-4">
-                {/* Title block */}
-                <div>
-                  <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight font-heading leading-[0.9] mb-2">
-                    <span
-                      className="bg-clip-text text-transparent"
-                      style={{ backgroundImage: 'linear-gradient(135deg, #E95A0C, #F5A006)' }}
-                    >
-                      Conheça
-                    </span>
-                    <br />
-                    <span className="text-foreground">a FireSkins</span>
-                  </h2>
-                  <p className="text-[11px] sm:text-sm text-muted-foreground max-w-md leading-relaxed">
-                    Assista ao vídeo e descubra como negociar suas skins de forma rápida e segura.
-                  </p>
-                </div>
-
-                {/* Carousel dots */}
-                <div className="hidden sm:flex items-center gap-2 pb-1">
-                  <div className="w-2.5 h-2.5 rounded-full" style={{ background: '#E95A0C' }} />
-                  <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(90, 61, 204, 0.4)' }} />
-                  <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(90, 61, 204, 0.3)' }} />
-                  <div className="w-2 h-2 rounded-full" style={{ background: 'rgba(90, 61, 204, 0.2)' }} />
-                </div>
-              </div>
+          {/* ── Left: Text block ── */}
+          <div className="text-center lg:text-left">
+            {/* Premium label */}
+            <div className="inline-flex items-center gap-2 mb-6">
+              <div className="h-px w-6" style={{ background: '#E95A0C' }} />
+              <span
+                className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.35em] px-3 py-1.5 rounded-sm backdrop-blur-sm"
+                style={{
+                  background: 'rgba(233, 90, 12, 0.08)',
+                  border: '1px solid rgba(233, 90, 12, 0.2)',
+                  color: '#F5A006',
+                }}
+              >
+                FireSkins Apresenta
+              </span>
+              <div className="h-px w-6 hidden lg:block" style={{ background: '#E95A0C' }} />
             </div>
 
-            {/* FireSkins logo watermark */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.03]">
-              <Flame className="size-48 sm:size-72" style={{ color: '#E95A0C' }} />
+            {/* Headline */}
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tight font-heading leading-[0.88] mb-5">
+              <span
+                className="bg-clip-text text-transparent block"
+                style={{ backgroundImage: 'linear-gradient(135deg, #E95A0C 0%, #F5A006 60%, #E95A0C 100%)' }}
+              >
+                Conheça
+              </span>
+              <span className="text-foreground block mt-1">
+                a FireSkins
+              </span>
+            </h2>
+
+            {/* Subtitle */}
+            <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-8">
+              Assista ao vídeo e descubra como comprar, vender e negociar suas skins com rapidez e segurança.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4">
+              {/* Primary */}
+              <button
+                className="group flex items-center gap-2.5 px-6 py-3 rounded-sm font-bold text-sm uppercase tracking-wider font-heading transition-all duration-300"
+                style={{
+                  background: 'linear-gradient(135deg, #E95A0C, #F5A006)',
+                  color: '#fff',
+                  boxShadow: '0 4px 20px rgba(233, 90, 12, 0.3), 0 0 40px rgba(233, 90, 12, 0.1)',
+                }}
+              >
+                <Play className="size-4 fill-white" />
+                Assistir vídeo
+              </button>
+
+              {/* Secondary */}
+              <button
+                className="group flex items-center gap-2 px-6 py-3 rounded-sm font-bold text-sm uppercase tracking-wider font-heading transition-all duration-300 hover:bg-white/5"
+                style={{
+                  border: '1px solid rgba(233, 90, 12, 0.3)',
+                  color: '#F5A006',
+                }}
+              >
+                Ver catálogo
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+              </button>
             </div>
 
-            {/* Top-right corner accent — orange */}
-            <div className="absolute top-0 right-0 w-16 h-16 sm:w-24 sm:h-24 overflow-hidden">
-              <div className="absolute top-0 right-0 w-full h-full" style={{ borderTop: '2px solid rgba(233, 90, 12, 0.25)', borderRight: '2px solid rgba(233, 90, 12, 0.25)' }} />
-            </div>
-
-            {/* Bottom-left corner accent — purple */}
-            <div className="absolute bottom-0 left-0 w-16 h-16 sm:w-24 sm:h-24 overflow-hidden">
-              <div className="absolute bottom-0 left-0 w-full h-full" style={{ borderBottom: '2px solid rgba(90, 61, 204, 0.25)', borderLeft: '2px solid rgba(90, 61, 204, 0.25)' }} />
+            {/* Trust line */}
+            <div className="mt-8 flex items-center gap-2 justify-center lg:justify-start">
+              <div className="flex -space-x-1">
+                <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#E95A0C' }} />
+                <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#F5A006' }} />
+                <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#5A3DCC' }} />
+              </div>
+              <span className="text-[10px] sm:text-[11px] text-muted-foreground uppercase tracking-widest">
+                +2.000 negociações realizadas
+              </span>
             </div>
           </div>
 
-          {/* Bottom bar */}
-          <div className="flex items-center justify-between mt-3 px-1">
-            <div className="flex items-center gap-2">
-              <Flame className="size-3.5" style={{ color: '#E95A0C' }} />
-              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground font-heading">
-                FireSkins — Sua loja de skins CS2
-              </span>
+          {/* ── Right: Video Preview Card ── */}
+          <div className="relative">
+            {/* Outer glow */}
+            <div className="absolute -inset-4 rounded-lg opacity-60 blur-2xl"
+              style={{ background: 'linear-gradient(135deg, rgba(233, 90, 12, 0.08), rgba(90, 61, 204, 0.06))' }}
+            />
+
+            {/* Glass card */}
+            <div
+              className="relative rounded-lg overflow-hidden"
+              style={{
+                background: 'linear-gradient(145deg, rgba(20, 15, 35, 0.8), rgba(10, 8, 20, 0.95))',
+                border: '1px solid rgba(233, 90, 12, 0.15)',
+                boxShadow: '0 0 1px rgba(233, 90, 12, 0.4), 0 0 40px rgba(233, 90, 12, 0.06), 0 20px 60px rgba(0,0,0,0.5)',
+                backdropFilter: 'blur(20px)',
+              }}
+            >
+              {/* Card header */}
+              <div className="flex items-center justify-between px-4 sm:px-5 py-3" style={{ borderBottom: '1px solid rgba(233, 90, 12, 0.1)' }}>
+                <div className="flex items-center gap-2">
+                  <Flame className="size-4" style={{ color: '#E95A0C' }} />
+                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] font-heading" style={{ color: '#F5A006' }}>
+                    FireSkins
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-2 h-2 rounded-full" style={{ background: '#E95A0C', boxShadow: '0 0 6px rgba(233, 90, 12, 0.5)' }} />
+                  <span className="text-[9px] font-mono tracking-wider" style={{ color: 'rgba(245, 160, 6, 0.5)' }}>LIVE</span>
+                </div>
+              </div>
+
+              {/* Video area */}
+              <div className="relative" style={{ aspectRatio: '16/9' }}>
+                {/* Inner background */}
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #0A0815, #12092A, #0D0A1A)' }} />
+
+                {/* Inner grid */}
+                <div className="absolute inset-0 opacity-[0.03]"
+                  style={{
+                    backgroundImage: `
+                      linear-gradient(rgba(233, 90, 12, 0.3) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(233, 90, 12, 0.3) 1px, transparent 1px)
+                    `,
+                    backgroundSize: '30px 30px',
+                  }}
+                />
+
+                {/* Low-poly triangles pattern */}
+                <svg className="absolute inset-0 w-full h-full opacity-[0.04]" viewBox="0 0 400 225" preserveAspectRatio="none">
+                  <polygon points="0,225 100,180 50,120" fill="#E95A0C" />
+                  <polygon points="100,180 200,225 150,140" fill="#5A3DCC" />
+                  <polygon points="200,225 300,190 250,130" fill="#E95A0C" />
+                  <polygon points="300,190 400,225 350,150" fill="#5A3DCC" />
+                  <polygon points="50,120 150,80 100,40" fill="#5A3DCC" />
+                  <polygon points="150,80 250,130 200,60" fill="#E95A0C" />
+                  <polygon points="250,130 350,90 300,30" fill="#5A3DCC" />
+                  <polygon points="350,90 400,0 400,150" fill="#E95A0C" />
+                  <polygon points="0,120 50,60 100,100" fill="#E95A0C" />
+                  <polygon points="0,0 100,40 50,80" fill="#5A3DCC" />
+                </svg>
+
+                {/* Center flame watermark */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
+                  <Flame className="size-28 sm:size-36 opacity-[0.06]" style={{ color: '#E95A0C', filter: 'blur(1px)' }} />
+                </div>
+
+                {/* Inner vignette */}
+                <div className="absolute inset-0" style={{ boxShadow: 'inset 0 0 80px 20px rgba(0,0,0,0.5)' }} />
+
+                {/* Orange ambient glow center */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 sm:w-56 sm:h-56 rounded-full"
+                  style={{ background: 'radial-gradient(circle, rgba(233, 90, 12, 0.08) 0%, transparent 70%)' }}
+                />
+
+                {/* ── Play button ── */}
+                <div className="absolute inset-0 flex items-center justify-center z-10">
+                  <div className="relative group/btn cursor-pointer">
+                    {/* Pulse ring */}
+                    <div className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ background: 'rgba(233, 90, 12, 0.3)' }} />
+                    {/* Outer ring */}
+                    <div
+                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center transition-all duration-300"
+                      style={{
+                        background: 'linear-gradient(135deg, rgba(233, 90, 12, 0.15), rgba(245, 160, 6, 0.1))',
+                        border: '2px solid rgba(233, 90, 12, 0.5)',
+                        boxShadow: '0 0 30px rgba(233, 90, 12, 0.2), 0 0 60px rgba(233, 90, 12, 0.08), inset 0 0 20px rgba(233, 90, 12, 0.05)',
+                      }}
+                    >
+                      <Play className="size-6 sm:size-8 ml-1" style={{ color: '#F5A006', fill: '#F5A006' }} />
+                    </div>
+                  </div>
+                </div>
+
+                {/* HUD corners */}
+                <div className="absolute top-3 left-3 w-4 h-4" style={{ borderTop: '1px solid rgba(233, 90, 12, 0.3)', borderLeft: '1px solid rgba(233, 90, 12, 0.3)' }} />
+                <div className="absolute top-3 right-3 w-4 h-4" style={{ borderTop: '1px solid rgba(233, 90, 12, 0.3)', borderRight: '1px solid rgba(233, 90, 12, 0.3)' }} />
+                <div className="absolute bottom-3 left-3 w-4 h-4" style={{ borderBottom: '1px solid rgba(90, 61, 204, 0.3)', borderLeft: '1px solid rgba(90, 61, 204, 0.3)' }} />
+                <div className="absolute bottom-3 right-3 w-4 h-4" style={{ borderBottom: '1px solid rgba(90, 61, 204, 0.3)', borderRight: '1px solid rgba(90, 61, 204, 0.3)' }} />
+
+                {/* HUD data labels */}
+                <span className="absolute top-3 right-8 text-[8px] font-mono tracking-widest" style={{ color: 'rgba(245, 160, 6, 0.2)' }}>REC</span>
+                <span className="absolute bottom-3 left-8 text-[8px] font-mono tracking-widest" style={{ color: 'rgba(90, 61, 204, 0.25)' }}>00:00</span>
+              </div>
+
+              {/* Card footer */}
+              <div className="flex items-center justify-between px-4 sm:px-5 py-3" style={{ borderTop: '1px solid rgba(233, 90, 12, 0.08)' }}>
+                <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground font-heading">
+                  Sua loja de skins CS2
+                </span>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#E95A0C' }} />
+                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(90, 61, 204, 0.5)' }} />
+                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(90, 61, 204, 0.3)' }} />
+                </div>
+              </div>
             </div>
-            <span className="text-[10px] font-mono tracking-wider hidden sm:block" style={{ color: 'rgba(90, 61, 204, 0.4)' }}>
-              v3.0
-            </span>
           </div>
         </div>
       </div>
 
-      {/* Bottom separator — purple to orange */}
+      {/* Bottom separator */}
       <div className="h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, #5A3DCC, #E95A0C, transparent)' }} />
     </section>
   );
