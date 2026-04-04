@@ -1,13 +1,6 @@
 import { Instagram } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import logoFireskins from "@/assets/logo-fireskins.webp";
-import visaSvg from "@/assets/payment/visa.svg";
-import visaSecureSvg from "@/assets/payment/visa-secure.svg";
-import mastercardIdCheckSvg from "@/assets/payment/mastercard-id-check.svg";
-import mastercardSvg from "@/assets/payment/mastercard.svg";
-import maestroSvg from "@/assets/payment/maestro.svg";
-import interacPng from "@/assets/payment/interac.png";
-import sofortPng from "@/assets/payment/sofort.png";
 
 const WHATSAPP_URL = "https://wa.me/5511999999999?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20skins%20CS2!";
 
@@ -67,20 +60,34 @@ const Footer = () => {
               {/* Payment methods */}
               <div className="flex items-center gap-2 mt-4 justify-center sm:justify-start flex-wrap">
                 {[
-                  { src: visaSvg, alt: "Visa", h: "h-4" },
-                  { src: visaSecureSvg, alt: "Visa Secure", h: "h-7" },
-                  { src: mastercardSvg, alt: "Mastercard", h: "h-6" },
-                  { src: maestroSvg, alt: "Maestro", h: "h-6" },
-                  { src: mastercardIdCheckSvg, alt: "Mastercard ID Check", h: "h-7" },
-                  { src: sofortPng, alt: "Sofort", h: "h-4" },
-                  { src: interacPng, alt: "Interac", h: "h-7" },
-                ].map((pm) => (
+                  { label: "VISA", bold: true },
+                  { label: "VISA", sub: "SECURE" },
+                  { label: "mastercard" },
+                  { label: "maestro" },
+                  { label: "mastercard", sub: "ID Check" },
+                  { label: "SOFORT", bold: true },
+                  { label: "interac", italic: true },
+                ].map((method, i) => (
                   <div
-                    key={pm.alt}
-                    className="flex items-center justify-center px-3 py-2 rounded"
-                    style={{ background: "rgba(20, 15, 40, 0.8)" }}
+                    key={i}
+                    className="flex flex-col items-center justify-center px-2.5 py-1.5 rounded"
+                    style={{
+                      background: "rgba(20, 15, 40, 0.8)",
+                      minWidth: "48px",
+                      height: "32px",
+                    }}
                   >
-                    <img src={pm.src} alt={pm.alt} className={`${pm.h} w-auto object-contain`} />
+                    <span
+                      className={`text-[10px] leading-tight ${method.bold ? "font-black" : "font-medium"} ${method.italic ? "italic" : ""}`}
+                      style={{ color: "rgba(255,255,255,0.7)" }}
+                    >
+                      {method.label}
+                    </span>
+                    {method.sub && (
+                      <span className="text-[7px] leading-tight" style={{ color: "rgba(255,255,255,0.4)" }}>
+                        {method.sub}
+                      </span>
+                    )}
                   </div>
                 ))}
               </div>
