@@ -32,43 +32,26 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, [isPlaying]);
+
   return (
-    <section
-      id="como-funciona"
-      className="relative overflow-hidden bg-background"
-    >
+    <section id="como-funciona" className="relative overflow-hidden bg-background">
       {/* Top separator */}
       <div className="h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, #E95A0C, #F5A006, transparent)' }} />
 
       {/* ── Background layers ── */}
-      {/* Base dark */}
       <div className="absolute inset-0 bg-black" />
-
-      {/* Orange glow — bottom center */}
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px]"
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] sm:w-[800px] h-[300px] sm:h-[500px]"
         style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(233, 90, 12, 0.12) 0%, rgba(233, 90, 12, 0.04) 40%, transparent 70%)' }}
       />
-
-      {/* Purple haze — upper right */}
-      <div className="absolute -top-20 -right-20 w-[600px] h-[600px]"
+      <div className="absolute -top-20 -right-20 w-[400px] sm:w-[600px] h-[400px] sm:h-[600px]"
         style={{ background: 'radial-gradient(ellipse at 70% 30%, rgba(90, 61, 204, 0.08) 0%, transparent 60%)' }}
       />
+      <div className="absolute inset-0" style={{ boxShadow: 'inset 0 0 200px 60px rgba(0,0,0,0.6)' }} />
 
-      {/* Vignette */}
-      <div className="absolute inset-0"
-        style={{ boxShadow: 'inset 0 0 200px 60px rgba(0,0,0,0.6)' }}
-      />
-
-      {/* Diagonal pattern — right side */}
+      {/* Diagonal pattern */}
       <div className="absolute top-0 right-0 w-1/2 h-full opacity-[0.04]"
         style={{
-          backgroundImage: `repeating-linear-gradient(
-            -55deg,
-            transparent,
-            transparent 30px,
-            rgba(233, 90, 12, 0.5) 30px,
-            rgba(233, 90, 12, 0.5) 31px
-          )`,
+          backgroundImage: `repeating-linear-gradient(-55deg, transparent, transparent 30px, rgba(233, 90, 12, 0.5) 30px, rgba(233, 90, 12, 0.5) 31px)`,
           maskImage: 'linear-gradient(to left, rgba(0,0,0,0.6) 0%, transparent 80%)',
           WebkitMaskImage: 'linear-gradient(to left, rgba(0,0,0,0.6) 0%, transparent 80%)',
         }}
@@ -83,7 +66,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
 
       {/* ── Content ── */}
       <div className="container relative z-10 py-10 sm:py-14 lg:py-16">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center max-w-6xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center max-w-6xl mx-auto">
 
           {/* ── Left: Text block ── */}
           <div className="text-center lg:text-left">
@@ -104,7 +87,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
             </div>
 
             {/* Headline */}
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tight font-heading leading-[0.88] mb-5">
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tight font-heading leading-[0.88] mb-5">
               <span
                 className="bg-clip-text text-transparent block"
                 style={{ backgroundImage: 'linear-gradient(135deg, #E95A0C 0%, #F5A006 60%, #E95A0C 100%)' }}
@@ -123,12 +106,12 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4">
-              <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm rounded-sm" onClick={openFullscreen}>
+              <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm rounded-sm w-full sm:w-auto" onClick={openFullscreen}>
                 <Play className="size-4 fill-current" />
                 Assistir vídeo
               </Button>
 
-              <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm rounded-sm" asChild>
+              <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm rounded-sm w-full sm:w-auto" asChild>
                 <a href="#catalogo">
                   Ver catálogo
                   <ArrowRight className="size-4 ml-1" />
@@ -178,12 +161,10 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
 
               {/* Video area */}
               <div className="relative" style={{ aspectRatio: '16/9' }}>
-                {/* Cover */}
                 <div className="absolute inset-0">
-                  {/* Inner background */}
                   <div className="absolute inset-0 bg-black" />
 
-                  {/* Low-poly triangles pattern */}
+                  {/* Low-poly triangles */}
                   <svg className="absolute inset-0 w-full h-full opacity-[0.04]" viewBox="0 0 400 225" preserveAspectRatio="none">
                     <polygon points="0,225 100,180 50,120" fill="#E95A0C" />
                     <polygon points="100,180 200,225 150,140" fill="#5A3DCC" />
@@ -197,37 +178,32 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
                     <polygon points="0,0 100,40 50,80" fill="#5A3DCC" />
                   </svg>
 
-                  {/* Center logo */}
+                  {/* Center logo — FIXED: sane size instead of 66rem */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
-                    <img src={logoFireskins} alt="FireSkins" className="w-[66rem] h-[66rem] sm:w-[90rem] sm:h-[90rem] object-contain opacity-30" />
+                    <img src={logoFireskins} alt="FireSkins" className="w-40 h-40 sm:w-56 sm:h-56 object-contain opacity-30" />
                   </div>
 
                   {/* Inner vignette */}
                   <div className="absolute inset-0" style={{ boxShadow: 'inset 0 0 80px 20px rgba(0,0,0,0.5)' }} />
 
-                  {/* Orange ambient glow center */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 sm:w-56 sm:h-56 rounded-full"
+                  {/* Orange ambient glow */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-48 sm:h-48 rounded-full"
                     style={{ background: 'radial-gradient(circle, rgba(233, 90, 12, 0.08) 0%, transparent 70%)' }}
                   />
 
-                  {/* ── Play button ── */}
+                  {/* Play button */}
                   <div className="absolute inset-0 flex items-center justify-center z-10">
-                    <div
-                      className="relative group/btn cursor-pointer"
-                      onClick={openFullscreen}
-                    >
-                      {/* Pulse ring */}
+                    <div className="relative group/btn cursor-pointer" onClick={openFullscreen}>
                       <div className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ background: 'rgba(233, 90, 12, 0.3)' }} />
-                      {/* Outer ring */}
                       <div
-                        className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center transition-all duration-300"
+                        className="w-14 h-14 sm:w-20 sm:h-20 rounded-full flex items-center justify-center transition-all duration-300"
                         style={{
                           background: 'linear-gradient(135deg, rgba(233, 90, 12, 0.15), rgba(245, 160, 6, 0.1))',
                           border: '2px solid rgba(233, 90, 12, 0.5)',
                           boxShadow: '0 0 30px rgba(233, 90, 12, 0.2), 0 0 60px rgba(233, 90, 12, 0.08), inset 0 0 20px rgba(233, 90, 12, 0.05)',
                         }}
                       >
-                        <Play className="size-6 sm:size-8 ml-1" style={{ color: '#F5A006', fill: '#F5A006' }} />
+                        <Play className="size-5 sm:size-8 ml-0.5 sm:ml-1" style={{ color: '#F5A006', fill: '#F5A006' }} />
                       </div>
                     </div>
                   </div>
@@ -238,7 +214,6 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
                   <div className="absolute bottom-3 left-3 w-4 h-4" style={{ borderBottom: '1px solid rgba(90, 61, 204, 0.3)', borderLeft: '1px solid rgba(90, 61, 204, 0.3)' }} />
                   <div className="absolute bottom-3 right-3 w-4 h-4" style={{ borderBottom: '1px solid rgba(90, 61, 204, 0.3)', borderRight: '1px solid rgba(90, 61, 204, 0.3)' }} />
 
-                  {/* HUD data labels */}
                   <span className="absolute top-3 right-8 text-[8px] font-mono tracking-widest" style={{ color: 'rgba(245, 160, 6, 0.2)' }}>REC</span>
                   <span className="absolute bottom-3 left-8 text-[8px] font-mono tracking-widest" style={{ color: 'rgba(90, 61, 204, 0.25)' }}>00:00</span>
                 </div>
@@ -264,7 +239,6 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 backdrop-blur-sm"
           onClick={closeFullscreen}
         >
-          {/* Close button */}
           <button
             onClick={closeFullscreen}
             className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110"
@@ -276,7 +250,6 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
             <X className="size-5 sm:size-6" style={{ color: '#F5A006' }} />
           </button>
 
-          {/* Video */}
           <video
             ref={modalVideoRef}
             src="/videos/fireskins-showcase.mp4"

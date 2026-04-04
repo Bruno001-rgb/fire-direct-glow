@@ -14,11 +14,11 @@ const InteractiveKnife = ({ src }: InteractiveKnifeProps) => {
     const el = containerRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;   // 0–1
-    const y = (e.clientY - rect.top) / rect.height;    // 0–1
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
     setTransform({
-      rotateX: (0.5 - y) * 20,   // ±10°
-      rotateY: (x - 0.5) * 20,   // ±10°
+      rotateX: (0.5 - y) * 20,
+      rotateY: (x - 0.5) * 20,
       glowX: x * 100,
       glowY: y * 100,
     });
@@ -34,7 +34,7 @@ const InteractiveKnife = ({ src }: InteractiveKnifeProps) => {
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative w-[380px] h-[380px] sm:w-[520px] sm:h-[520px] lg:w-[650px] lg:h-[650px] cursor-grab"
+      className="relative w-[min(80vw,340px)] h-[min(80vw,340px)] sm:w-[420px] sm:h-[420px] lg:w-[550px] lg:h-[550px] cursor-grab"
       style={{ perspective: "800px" }}
     >
       <div
