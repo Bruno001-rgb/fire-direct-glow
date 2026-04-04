@@ -83,7 +83,7 @@ const Footer = () => {
               <img
                 src={logoFireskins}
                 alt="FireSkins"
-                className="h-40 sm:h-52 lg:h-64 w-auto object-contain"
+                className="h-52 sm:h-72 lg:h-96 w-auto object-contain"
                 loading="lazy"
               />
             </div>
