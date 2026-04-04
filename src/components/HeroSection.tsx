@@ -14,29 +14,23 @@ const trustItems = [
 
 const HeroSection = () => {
   return (
-    <section id="topo" className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center overflow-hidden bg-black">
+    <section id="topo" className="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-[90vh] flex items-center overflow-hidden bg-black">
       {/* ── Background layers ── */}
-      {/* Large orange glow — bottom left */}
       <div
-        className="absolute -bottom-40 -left-40 w-[900px] h-[700px] rounded-full blur-[200px]"
+        className="absolute -bottom-40 -left-40 w-[500px] sm:w-[700px] lg:w-[900px] h-[400px] sm:h-[500px] lg:h-[700px] rounded-full blur-[200px]"
         style={{ background: "radial-gradient(ellipse, hsla(22, 91%, 47%, 0.12) 0%, transparent 70%)" }}
       />
-      {/* Purple haze — top right */}
       <div
-        className="absolute -top-32 -right-32 w-[700px] h-[600px] rounded-full blur-[180px]"
+        className="absolute -top-32 -right-32 w-[400px] sm:w-[500px] lg:w-[700px] h-[300px] sm:h-[400px] lg:h-[600px] rounded-full blur-[180px]"
         style={{ background: "radial-gradient(ellipse, hsla(254, 55%, 52%, 0.08) 0%, transparent 70%)" }}
       />
-      {/* Orange accent — center right for knife glow */}
       <div
         className="absolute top-1/2 right-[15%] -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[160px] hidden lg:block"
         style={{ background: "radial-gradient(circle, hsla(22, 91%, 47%, 0.1) 0%, transparent 60%)" }}
       />
 
       {/* Vignette */}
-      <div
-        className="absolute inset-0"
-        style={{ boxShadow: "inset 0 0 200px 80px rgba(0,0,0,0.7)" }}
-      />
+      <div className="absolute inset-0" style={{ boxShadow: "inset 0 0 200px 80px rgba(0,0,0,0.7)" }} />
 
       {/* Subtle grid */}
       <div
@@ -47,7 +41,7 @@ const HeroSection = () => {
         }}
       />
 
-      {/* Diagonal stripes — right */}
+      {/* Diagonal stripes */}
       <div
         className="absolute top-0 right-0 w-1/2 h-full opacity-[0.03]"
         style={{
@@ -62,22 +56,20 @@ const HeroSection = () => {
         FIRESKINS
       </div>
 
-      
-
       {/* Top glow line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
 
       {/* ── Content grid ── */}
-      <div className="container relative z-10 py-16 sm:py-20 lg:py-0">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-6 items-center">
+      <div className="container relative z-10 py-12 sm:py-16 lg:py-0">
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-6 items-center">
 
           {/* ── Left: Text block ── */}
           <div className="text-center lg:text-left max-w-xl mx-auto lg:mx-0">
             {/* Premium label */}
-            <div className="inline-flex items-center gap-2.5 mb-6 sm:mb-8">
-              <div className="h-px w-8" style={{ background: "#E95A0C" }} />
+            <div className="inline-flex items-center gap-2.5 mb-5 sm:mb-8">
+              <div className="h-px w-6 sm:w-8" style={{ background: "#E95A0C" }} />
               <span
-                className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.35em] px-3 py-1.5 rounded-sm"
+                className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.35em] px-2.5 sm:px-3 py-1.5 rounded-sm"
                 style={{
                   background: "rgba(233, 90, 12, 0.08)",
                   border: "1px solid rgba(233, 90, 12, 0.2)",
@@ -90,7 +82,7 @@ const HeroSection = () => {
             </div>
 
             {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tight font-heading leading-[0.9] mb-5 sm:mb-6">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tight font-heading leading-[0.9] mb-4 sm:mb-6">
               <span className="text-foreground block">Compre, Venda</span>
               <span className="text-foreground block">e Faça </span>
               <span
@@ -108,12 +100,12 @@ const HeroSection = () => {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-8">
+            <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-6 sm:mb-8">
               Facas, luvas e skins premium de CS2 com atendimento rápido, negociação segura e suporte direto no WhatsApp.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4 mb-8">
+            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4 mb-6 sm:mb-8">
               <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm rounded-sm w-full sm:w-auto" asChild>
                 <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
                   <WhatsAppIcon className="size-4" />
@@ -130,7 +122,7 @@ const HeroSection = () => {
             </div>
 
             {/* Trust items */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-5 gap-y-2">
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-4 sm:gap-x-5 gap-y-2">
               {trustItems.map((item) => (
                 <div key={item.label} className="flex items-center gap-1.5">
                   <item.icon className="size-3.5" style={{ color: "#E95A0C" }} />
@@ -146,14 +138,14 @@ const HeroSection = () => {
           <div className="relative flex items-center justify-center lg:justify-end">
             {/* Outer glow ring */}
             <div
-              className="absolute w-[320px] h-[320px] sm:w-[420px] sm:h-[420px] lg:w-[500px] lg:h-[500px] rounded-full"
+              className="absolute w-[min(70vw,280px)] h-[min(70vw,280px)] sm:w-[380px] sm:h-[380px] lg:w-[460px] lg:h-[460px] rounded-full"
               style={{
                 background: "radial-gradient(circle, hsla(22, 91%, 47%, 0.06) 0%, transparent 70%)",
               }}
             />
             {/* Inner glow ring */}
             <div
-              className="absolute w-[200px] h-[200px] sm:w-[280px] sm:h-[280px] lg:w-[340px] lg:h-[340px] rounded-full"
+              className="absolute w-[min(50vw,180px)] h-[min(50vw,180px)] sm:w-[260px] sm:h-[260px] lg:w-[320px] lg:h-[320px] rounded-full"
               style={{
                 background: "radial-gradient(circle, hsla(22, 91%, 47%, 0.1) 0%, hsla(38, 92%, 49%, 0.04) 50%, transparent 70%)",
               }}
@@ -161,7 +153,7 @@ const HeroSection = () => {
 
             {/* HUD circle border */}
             <div
-              className="absolute w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[440px] lg:h-[440px] rounded-full"
+              className="absolute w-[min(65vw,250px)] h-[min(65vw,250px)] sm:w-[350px] sm:h-[350px] lg:w-[420px] lg:h-[420px] rounded-full"
               style={{
                 border: "1px solid rgba(233, 90, 12, 0.08)",
               }}
@@ -169,7 +161,6 @@ const HeroSection = () => {
 
             {/* Interactive 3D Knife */}
             <InteractiveKnife src={heroKnife} />
-
           </div>
         </div>
       </div>

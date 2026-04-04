@@ -6,11 +6,10 @@ const TestimonialsSection = () => {
 
   if (!testimonials || testimonials.length === 0) return null;
 
-  // Duplicate for infinite scroll
   const items = [...testimonials, ...testimonials];
 
   return (
-    <section className="relative overflow-hidden bg-black py-12 sm:py-16">
+    <section className="relative overflow-hidden bg-black py-10 sm:py-14 lg:py-16">
       {/* Top separator */}
       <div
         className="absolute top-0 left-0 right-0 h-px"
@@ -37,7 +36,7 @@ const TestimonialsSection = () => {
       />
 
       {/* Header */}
-      <div className="container relative z-10 mb-8 sm:mb-10">
+      <div className="container relative z-10 mb-6 sm:mb-8 lg:mb-10">
         <div className="flex items-center gap-2.5 mb-3">
           <MessageCircle className="size-5 text-primary" />
           <h2 className="section-heading font-heading">
@@ -51,12 +50,12 @@ const TestimonialsSection = () => {
       </div>
 
       {/* Carousel */}
-      <div className="relative z-10 overflow-hidden">
-        <div className="testimonials-track flex gap-4 sm:gap-6 px-4">
+      <div className="relative z-10 overflow-hidden" style={{ touchAction: "pan-x" }}>
+        <div className="testimonials-track flex gap-3 sm:gap-5 px-4">
           {items.map((t, i) => (
             <div
               key={`${t.id}-${i}`}
-              className="flex-shrink-0 w-[260px] sm:w-[300px] rounded-xl overflow-hidden border border-primary/10 bg-card/40 backdrop-blur-sm shadow-lg hover:border-primary/30 transition-all duration-300"
+              className="flex-shrink-0 w-[220px] sm:w-[280px] lg:w-[300px] rounded-xl overflow-hidden border border-primary/10 bg-card/40 backdrop-blur-sm shadow-lg hover:border-primary/30 transition-all duration-300"
             >
               <img
                 src={t.image_url}
@@ -76,8 +75,8 @@ const TestimonialsSection = () => {
         </div>
 
         {/* Edge fades */}
-        <div className="absolute inset-y-0 left-0 w-16 sm:w-24 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-16 sm:w-24 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 left-0 w-12 sm:w-20 lg:w-24 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-12 sm:w-20 lg:w-24 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
       </div>
 
       {/* Bottom separator */}

@@ -10,22 +10,34 @@ const AmbientParticles = () => {
     if (!ctx) return;
 
     let animId: number;
+    let isVisible = true;
     const particles: { x: number; y: number; vx: number; vy: number; size: number; opacity: number; color: string; life: number; maxLife: number }[] = [];
 
     const colors = [
-      "hsla(22, 91%, 47%, ",   // primary orange
-      "hsla(38, 92%, 49%, ",   // secondary gold
-      "hsla(254, 55%, 52%, ",  // purple accent
-      "hsla(30, 80%, 60%, ",   // warm spark
+      "hsla(22, 91%, 47%, ",
+      "hsla(38, 92%, 49%, ",
+      "hsla(254, 55%, 52%, ",
+      "hsla(30, 80%, 60%, ",
     ];
 
     const resize = () => {
-      canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-      canvas.height = canvas.offsetHeight * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      const dpr = window.devicePixelRatio;
+      canvas.width = canvas.offsetWidth * dpr;
+      canvas.height = canvas.offsetHeight * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
     window.addEventListener("resize", resize);
+
+    // IntersectionObserver to pause when off-screen
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) draw();
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
 
     const spawn = () => {
       if (particles.length > 35) return;
@@ -44,6 +56,7 @@ const AmbientParticles = () => {
     };
 
     const draw = () => {
+      if (!isVisible) return;
       ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
 
       for (let i = particles.length - 1; i >= 0; i--) {
@@ -61,7 +74,6 @@ const AmbientParticles = () => {
           continue;
         }
 
-        // Glow
         ctx.beginPath();
         const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4);
         grad.addColorStop(0, p.color + (alpha * 0.3) + ")");
@@ -70,7 +82,6 @@ const AmbientParticles = () => {
         ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2);
         ctx.fill();
 
-        // Core
         ctx.beginPath();
         ctx.fillStyle = p.color + alpha + ")";
         ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
@@ -81,13 +92,13 @@ const AmbientParticles = () => {
       animId = requestAnimationFrame(draw);
     };
 
-    // Seed initial particles
     for (let i = 0; i < 12; i++) spawn();
     draw();
 
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener("resize", resize);
+      observer.disconnect();
     };
   }, []);
 

@@ -16,7 +16,7 @@ export default function SkinSearchModal({ open, onClose, onSelect }: SkinSearchM
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-w-2xl max-h-[80vh] flex flex-col bg-background border-border">
+      <DialogContent className="max-w-2xl max-h-[85vh] sm:max-h-[80vh] flex flex-col bg-background border-border mx-2 sm:mx-auto">
         <DialogHeader>
           <DialogTitle>Selecionar Skin</DialogTitle>
         </DialogHeader>
@@ -27,12 +27,12 @@ export default function SkinSearchModal({ open, onClose, onSelect }: SkinSearchM
             placeholder="Buscar por nome, arma ou pattern..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-10"
+            className="pl-10 h-10 sm:h-9"
             autoFocus
           />
         </div>
 
-        <div className="flex-1 overflow-y-auto min-h-0 mt-2">
+        <div className="flex-1 overflow-y-auto min-h-0 mt-2 -mx-2 px-2">
           {isLoading ? (
             <div className="flex items-center justify-center py-12">
               <Loader2 className="size-6 animate-spin text-muted-foreground" />
@@ -56,7 +56,7 @@ export default function SkinSearchModal({ open, onClose, onSelect }: SkinSearchM
                     });
                     onClose();
                   }}
-                  className="flex flex-col items-center gap-1 p-2 rounded-lg border border-border hover:border-primary/50 hover:bg-accent/50 transition-colors text-left"
+                  className="flex flex-col items-center gap-1 p-2 rounded-lg border border-border hover:border-primary/50 hover:bg-accent/50 transition-colors text-left min-h-[44px]"
                 >
                   {skin.image && (
                     <img
@@ -66,7 +66,7 @@ export default function SkinSearchModal({ open, onClose, onSelect }: SkinSearchM
                       loading="lazy"
                     />
                   )}
-                  <span className="text-xs font-medium truncate w-full text-center">
+                  <span className="text-[11px] sm:text-xs font-medium truncate w-full text-center">
                     {skin.weapon_name || ""}
                   </span>
                   <span className="text-[10px] text-muted-foreground truncate w-full text-center">

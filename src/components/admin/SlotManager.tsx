@@ -29,7 +29,6 @@ interface CategoryWithSlots {
   slots: SlotWithSkin[];
 }
 
-// Pending change stores both the skinId and a preview for immediate display
 interface PendingChange {
   skinId: string | null;
   preview: SkinPreview | null;
@@ -79,11 +78,7 @@ export default function SlotManager() {
     (slot: SlotWithSkin) => {
       const pending = pendingChanges.get(slot.id);
       if (pending !== undefined) {
-        return {
-          ...slot,
-          skin_id: pending.skinId,
-          imported_skins: pending.preview,
-        };
+        return { ...slot, skin_id: pending.skinId, imported_skins: pending.preview };
       }
       return slot;
     },
@@ -158,20 +153,20 @@ export default function SlotManager() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Sticky save bar */}
       {hasPendingChanges && (
-        <div className="sticky top-0 z-50 bg-amber-950/90 border border-amber-500/40 backdrop-blur-sm rounded-lg p-3 flex items-center justify-between gap-3">
+        <div className="sticky top-0 z-50 bg-amber-950/90 border border-amber-500/40 backdrop-blur-sm rounded-lg p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3">
           <span className="text-sm text-amber-200 font-medium">
             ⚠️ {pendingChanges.size} alteração(ões) não salva(s)
           </span>
-          <div className="flex gap-2">
+          <div className="flex gap-2 w-full sm:w-auto">
             <Button
               size="sm"
               variant="outline"
               onClick={handleDiscard}
               disabled={isSaving}
-              className="border-amber-500/40 text-amber-200 hover:bg-amber-900/50"
+              className="border-amber-500/40 text-amber-200 hover:bg-amber-900/50 flex-1 sm:flex-none"
             >
               <Undo2 className="size-3 mr-1" />
               Descartar
@@ -180,7 +175,7 @@ export default function SlotManager() {
               size="sm"
               onClick={handleSave}
               disabled={isSaving}
-              className="bg-amber-500 text-black hover:bg-amber-400"
+              className="bg-amber-500 text-black hover:bg-amber-400 flex-1 sm:flex-none"
             >
               {isSaving ? (
                 <Loader2 className="size-3 mr-1 animate-spin" />
@@ -199,14 +194,14 @@ export default function SlotManager() {
 
         return (
           <div key={cat.id} className="space-y-3">
-            <h3 className="text-lg font-bold text-foreground">
+            <h3 className="text-base sm:text-lg font-bold text-foreground">
               {cat.label}{" "}
               <span className="text-sm font-normal text-muted-foreground">
                 ({filledCount}/{cat.slot_count} preenchidos)
               </span>
             </h3>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
               {effectiveSlots.map((slot) => {
                 const isPending = pendingChanges.has(slot.id);
 
@@ -227,6 +222,7 @@ export default function SlotManager() {
                               src={slot.imported_skins.image}
                               alt={slot.imported_skins.name}
                               className="w-full h-full object-contain"
+                              loading="lazy"
                             />
                           )}
                           <span className="absolute top-1 left-1 text-[9px] font-bold bg-background/80 px-1.5 py-0.5 rounded">
@@ -249,7 +245,7 @@ export default function SlotManager() {
                             <Button
                               size="sm"
                               variant="outline"
-                              className="flex-1 h-7 text-[10px]"
+                              className="flex-1 h-9 sm:h-8 text-[11px] sm:text-[10px] min-w-[44px]"
                               onClick={() => setModalSlotId(slot.id)}
                             >
                               <RefreshCw className="size-3 mr-1" />
@@ -258,10 +254,10 @@ export default function SlotManager() {
                             <Button
                               size="sm"
                               variant="ghost"
-                              className="h-7 px-2 text-destructive"
+                              className="h-9 sm:h-8 w-9 sm:w-8 px-0 text-destructive min-w-[44px]"
                               onClick={() => handleRemove(slot.id)}
                             >
-                              <Trash2 className="size-3" />
+                              <Trash2 className="size-3.5 sm:size-3" />
                             </Button>
                           </div>
                         </div>
@@ -269,7 +265,7 @@ export default function SlotManager() {
                     ) : (
                       <button
                         onClick={() => setModalSlotId(slot.id)}
-                        className="w-full aspect-[3/4] flex flex-col items-center justify-center gap-2 text-muted-foreground hover:text-foreground hover:bg-accent/30 transition-colors"
+                        className="w-full aspect-[3/4] flex flex-col items-center justify-center gap-2 text-muted-foreground hover:text-foreground hover:bg-accent/30 transition-colors min-h-[120px]"
                       >
                         <ImagePlus className="size-6" />
                         <span className="text-xs">Slot #{slot.slot_position}</span>

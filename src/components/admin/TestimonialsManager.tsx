@@ -82,7 +82,6 @@ export default function TestimonialsManager() {
 
   const remove = async (t: Testimonial) => {
     if (!confirm("Remover este depoimento?")) return;
-    // Delete from storage
     const urlParts = t.image_url.split("/testimonials/");
     if (urlParts[1]) {
       await supabase.storage.from("testimonials").remove([urlParts[1]]);
@@ -144,7 +143,7 @@ export default function TestimonialsManager() {
             placeholder="Título (opcional)"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="max-w-xs"
+            className="max-w-xs h-10 sm:h-9"
           />
           <label className="relative">
             <input
@@ -159,6 +158,7 @@ export default function TestimonialsManager() {
               size="sm"
               disabled={uploading}
               onClick={() => fileRef.current?.click()}
+              className="h-10 sm:h-9 min-w-[44px]"
             >
               {uploading ? (
                 <Loader2 className="size-4 animate-spin mr-1" />
@@ -181,7 +181,7 @@ export default function TestimonialsManager() {
           {sorted.map((t, i) => (
             <div
               key={t.id}
-              className={`flex items-center gap-4 border rounded-lg p-3 ${
+              className={`flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 border rounded-lg p-3 ${
                 t.is_active
                   ? "border-primary/20 bg-card/60"
                   : "border-border bg-muted/30 opacity-60"
@@ -191,7 +191,8 @@ export default function TestimonialsManager() {
               <img
                 src={t.image_url}
                 alt={t.title || "Depoimento"}
-                className="w-20 h-20 object-cover rounded-md flex-shrink-0"
+                className="w-full sm:w-20 h-auto sm:h-20 object-cover rounded-md flex-shrink-0"
+                loading="lazy"
               />
 
               {/* Info */}
@@ -210,7 +211,7 @@ export default function TestimonialsManager() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-8"
+                  className="size-10 sm:size-8"
                   onClick={() => move(t, "up")}
                   disabled={i === 0}
                 >
@@ -219,7 +220,7 @@ export default function TestimonialsManager() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-8"
+                  className="size-10 sm:size-8"
                   onClick={() => move(t, "down")}
                   disabled={i === sorted.length - 1}
                 >
@@ -228,7 +229,7 @@ export default function TestimonialsManager() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-8"
+                  className="size-10 sm:size-8"
                   onClick={() => toggleActive(t)}
                 >
                   {t.is_active ? (
@@ -240,7 +241,7 @@ export default function TestimonialsManager() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="size-8 text-destructive hover:text-destructive"
+                  className="size-10 sm:size-8 text-destructive hover:text-destructive"
                   onClick={() => remove(t)}
                 >
                   <Trash2 className="size-4" />
