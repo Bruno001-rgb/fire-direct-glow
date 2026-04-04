@@ -2,67 +2,71 @@
 
 ## Diagnóstico
 
-### Stack
-React 18 + Vite + TypeScript + Tailwind + shadcn/ui + TanStack Query + Supabase (Lovable Cloud)
+### Estrutura atual
+- **Não existe `skin_id`** no banco — as colunas são: `id`, `name`, `weapon_name`, `pattern_name`, `rarity_name`, `rarity_color`, `image`, `description`, `created_at`
+- **Chave de deduplicação**: `weapon_name + pattern_name` (confirmado que funciona — 1,919 combinações únicas)
+- **Busca atual**: `useImportedSkins` consulta `imported_skins` direto, sem filtro de wear/StatTrak, com `LIMIT 50` — retorna todas as variações misturadas
+- **Não existe view `canonical_skins`** — o plano anterior não foi implementado
 
-### CTAs atuais e inconsistencias encontradas
+### Padrão de IDs
+- `skin-{hash}_0` = Factory New (sem StatTrak)
+- `skin-{hash}_0_st` = Factory New StatTrak
+- Sufixo `_0` = FN, `_1` = MW, `_2` = FT, `_3` = WW, `_4` = BS
 
-| Local | Estilo | Problema |
-|---|---|---|
-| **Header** | `<Button variant="whatsapp">` via shadcn | Usa `animate-pulse-glow`, tamanho `h-8/h-9` |
-| **Hero (primario)** | `<a>` com inline `style={{ background: linear-gradient }}` | Estilo manual, nao usa componente Button |
-| **Hero (secundario)** | `<a>` com inline `style={{ border, color }}` | Estilo manual, nao usa componente Button |
-| **CategoriesSection** | `<Button variant="whatsapp">` | Usa shadcn, OK |
-| **SkinCard "Negociar"** | `<span>` estilizado inline | Nao e botao real, visual custom |
-| **VideoShowcase (primario)** | `<button>` com inline gradient style | Estilo manual |
-| **VideoShowcase (secundario)** | `<button>` com inline border/color style | Estilo manual |
-| **FinalCTA** | `<Button variant="whatsapp" size="lg">` | Usa shadcn, mas `bg-whatsapp` que e `--whatsapp: 22 91% 47%` (laranja, nao verde) |
-| **Footer** | Nenhum CTA real, so links de nav | OK |
+### Números
+- **15,897** skins brutas
+- **2,071** skins com ID terminando em `_0`, sem StatTrak, sem Souvenir
+- **1,919** skin bases únicas (weapon_name + pattern_name) nesse filtro
+- Diferença de 152 = skins sem weapon_name/pattern_name preenchido
 
-**Inconsistencias:** Os CTAs primarios do Hero e VideoShowcase sao `<a>`/`<button>` com estilos inline, sem usar o componente `Button`. Os secundarios tambem sao inline. A variante `whatsapp` do Button usa `animate-pulse-glow` (pode ser excessivo). Ha 3 padroes visuais diferentes para o mesmo tipo de CTA.
+### Onde quebra
+1. Busca sem filtro → 10 variações por skin polui os 50 resultados
+2. `LIMIT 50` com `ORDER BY name` → maioria das skins inalcançável sem busca exata
 
-### Plano de correcao
+## Plano
 
-**1. Padronizar CTAs**
-- Criar duas variantes novas no `button.tsx`: `fire` (primario — gradient laranja) e `fire-outline` (secundario — borda laranja)
-- Substituir todos os CTAs inline do Hero e VideoShowcase por `<Button variant="fire">` e `<Button variant="fire-outline">`
-- Remover `animate-pulse-glow` da variante `whatsapp` (ou renomear para `fire`)
-- Manter consistencia de `size`, `tracking`, `font` em todos os CTAs
+### 1. Criar view `admin_skin_index` (Migration SQL)
 
-**2. Seção de Depoimentos**
-- Nova tabela `testimonials` no Supabase: `id`, `image_url`, `title`, `is_active`, `sort_order`, `created_at`, `updated_at`
-- RLS: leitura publica (anon+authenticated), escrita anon (temporario, igual showcase_slots)
-- Storage bucket `testimonials` (publico) para upload de imagens
-- Componente `TestimonialsSection.tsx` com carrossel horizontal auto-scroll (CSS animation, sem lib externa)
-- Visual: cards com borda sutil, sombra, padding, `rounded-xl`, fundo escuro, imagens com `object-contain` em aspect `9/16` ou `3/4`
-- Posicionar entre `VideoShowcase` e `Footer` no Index
+```sql
+CREATE VIEW admin_skin_index AS
+SELECT DISTINCT ON (weapon_name, pattern_name)
+  id AS source_skin_id,
+  name,
+  weapon_name,
+  pattern_name,
+  rarity_name,
+  rarity_color,
+  image
+FROM imported_skins
+WHERE id LIKE '%\_0'
+  AND name NOT LIKE 'StatTrak%'
+  AND name NOT LIKE 'Souvenir%'
+  AND weapon_name IS NOT NULL
+  AND pattern_name IS NOT NULL
+ORDER BY weapon_name, pattern_name, name;
+```
 
-**3. Admin de Depoimentos**
-- Adicionar tabs no `/admin`: "Skins" e "Depoimentos"
-- Nova tab com:
-  - Upload de imagem (via Supabase Storage)
-  - Grid de depoimentos com preview, toggle ativo/inativo, botao remover
-  - Drag-free ordering via botoes seta (up/down) ou input de `sort_order`
-  - Botao "Salvar" com feedback (mesmo padrao do SlotManager)
-- Hook `useTestimonials.ts` para LP e admin
+Resultado: ~1,919 linhas. Somente Factory New, sem StatTrak, sem Souvenir, 1 por skin base.
 
-### Arquivos a criar
-- `src/components/TestimonialsSection.tsx`
-- `src/components/admin/TestimonialsManager.tsx`
-- `src/hooks/useTestimonials.ts`
-- Migration SQL (tabela + storage bucket + RLS)
+### 2. Atualizar `useImportedSkins.ts`
+- Trocar `.from("imported_skins")` por `.from("admin_skin_index")`
+- Trocar campo `id` por `source_skin_id`
+- Aumentar limit para 100
+- Manter busca por `name`, `weapon_name`, `pattern_name`
 
-### Arquivos a alterar
-- `src/components/ui/button.tsx` — adicionar variantes `fire` e `fire-outline`
-- `src/components/HeroSection.tsx` — substituir CTAs inline por `<Button>`
-- `src/components/VideoShowcase.tsx` — substituir CTAs inline por `<Button>`
-- `src/components/FinalCTA.tsx` — ajustar variante do botao
-- `src/pages/Index.tsx` — adicionar `TestimonialsSection`
-- `src/pages/Admin.tsx` — adicionar sistema de tabs com "Skins" e "Depoimentos"
+### 3. Atualizar `SkinSearchModal.tsx`
+- Ajustar para usar `source_skin_id` como ID ao selecionar (mantém compatibilidade com `showcase_slots.skin_id` que referencia `imported_skins.id`)
+
+### Arquivos
+
+| Arquivo | Ação |
+|---|---|
+| Migration SQL | Criar view `admin_skin_index` |
+| `src/hooks/useImportedSkins.ts` | Apontar para view, ajustar campos |
+| `src/components/admin/SkinSearchModal.tsx` | Usar `source_skin_id` |
 
 ### Fora de escopo
-- Autenticacao do admin
-- Permissoes e roles
-- Refazer layout geral da LP
-- Alterar SkinCard ou sidebar
+- Autenticação do admin
+- Fallback para outras wears (rejeitado explicitamente)
+- Alterar landing page ou SlotManager
 
