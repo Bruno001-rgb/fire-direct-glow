@@ -1,6 +1,6 @@
 import { MessageCircle, ArrowRight, Shield, Zap, Gem } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import InteractiveKnife from "@/components/InteractiveKnife";
 import heroKnife from "@/assets/hero-knife-premium.png";
 
 const WHATSAPP_URL = "https://wa.me/5511999999999?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20skins%20CS2!";
@@ -186,16 +186,8 @@ const HeroSection = () => {
               }}
             />
 
-            {/* Knife image */}
-            <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[460px] lg:h-[460px] animate-float">
-              <img
-                src={heroKnife}
-                alt="Premium CS2 Knife"
-                className="w-full h-full object-contain drop-shadow-[0_0_40px_rgba(233,90,12,0.25)]"
-                width={1024}
-                height={1024}
-              />
-            </div>
+            {/* Interactive 3D Knife */}
+            <InteractiveKnife src={heroKnife} />
 
           </div>
         </div>
