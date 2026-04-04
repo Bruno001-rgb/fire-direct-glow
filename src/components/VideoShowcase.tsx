@@ -161,10 +161,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
                     FireSkins
                   </span>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2 h-2 rounded-full" style={{ background: '#E95A0C', boxShadow: '0 0 6px rgba(233, 90, 12, 0.5)' }} />
-                  <span className="text-[9px] font-mono tracking-wider" style={{ color: 'rgba(245, 160, 6, 0.5)' }}>LIVE</span>
-                </div>
+              </div>
               </div>
 
               {/* Video area */}
