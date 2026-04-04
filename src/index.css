@@ -194,8 +194,10 @@
 .testimonials-track {
   animation: testimonials-scroll 35s linear infinite;
   width: max-content;
+  touch-action: pan-x;
 }
 
-.testimonials-track:hover {
+.testimonials-track:hover,
+.testimonials-track:active {
   animation-play-state: paused;
 }
