@@ -45,7 +45,7 @@ const Footer = () => {
                 className="mb-3 text-sm sm:text-base font-bold uppercase tracking-widest bg-clip-text text-transparent"
                 style={{ backgroundImage: "linear-gradient(135deg, #E95A0C, #F5A006)" }}
               >
-                A #1 em skins CS2 do Brasil
+                Sua loja de confiança em skins CS2
               </p>
               <h3 className="text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-black uppercase font-heading leading-[1.1]">
                 <span className="text-foreground">Venda & </span>
