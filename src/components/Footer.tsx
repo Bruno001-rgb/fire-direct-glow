@@ -114,9 +114,8 @@ const Footer = () => {
             <div className="flex flex-col items-center gap-4 py-4">
               {[
                 { label: "Início", href: "#topo" },
-                { label: "Categorias", href: "#catalogo" },
                 { label: "Skins", href: "#catalogo" },
-                { label: "Vídeos", href: "#como-funciona" },
+                { label: "Vídeo", href: "#como-funciona" },
                 { label: "Contato", href: "#contato" },
               ].map((link) => (
                 <a
