@@ -1,4 +1,4 @@
-import { Flame, Shield, Zap, Gem, HeadphonesIcon, Instagram, ChevronRight, MessageSquare } from "lucide-react";
+import { Shield, Zap, Gem, HeadphonesIcon, Instagram, ChevronRight, MessageSquare } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import footerFireBg from "@/assets/footer-fire-bg.jpg";
 import logoFireskins from "@/assets/logo-fireskins.webp";
@@ -21,51 +21,31 @@ const trustItems = [
 
 const Footer = () => {
   return (
-    <footer id="contato" className="relative overflow-hidden bg-black">
-      {/* ── Fire background area with watermark ── */}
-      <div className="relative h-[300px] sm:h-[360px] lg:h-[400px] overflow-hidden">
-        {/* Fire image */}
-        <div className="absolute inset-0">
-          <img
-            src={footerFireBg}
-            alt=""
-            className="w-full h-full object-cover"
-            loading="lazy"
-            width={1920}
-            height={800}
-          />
-          {/* Dark overlay for readability */}
-          <div className="absolute inset-0 bg-black/50" />
-          {/* Bottom fade into footer content */}
-          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black to-transparent" />
-          {/* Top fade */}
-          <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-black to-transparent" />
-          {/* Side fades */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40" />
-        </div>
-
-        {/* Large FIRESKINS watermark */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-          <span
-            className="text-[4rem] sm:text-[6rem] lg:text-[8rem] xl:text-[10rem] font-black uppercase tracking-[0.15em] font-heading"
-            style={{ color: "rgba(255, 255, 255, 0.06)" }}
-          >
-            FIRESKINS
-          </span>
-        </div>
+    <footer id="contato" className="relative overflow-hidden">
+      {/* ── Fire background covering entire footer ── */}
+      <div className="absolute inset-0">
+        <img
+          src={footerFireBg}
+          alt=""
+          className="w-full h-full object-cover"
+          loading="lazy"
+          width={1920}
+          height={800}
+        />
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-black/90 to-transparent" />
+        <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-black to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-black/30" />
       </div>
 
+      {/* ── Spacer for fire visual ── */}
+      <div className="relative h-[180px] sm:h-[220px] lg:h-[260px]" />
+
       {/* ── Orange divider line ── */}
-      <div className="h-[2px]" style={{ background: "linear-gradient(90deg, transparent 5%, #E95A0C 30%, #F5A006 50%, #E95A0C 70%, transparent 95%)" }} />
+      <div className="relative h-[2px]" style={{ background: "linear-gradient(90deg, transparent 5%, #E95A0C 30%, #F5A006 50%, #E95A0C 70%, transparent 95%)" }} />
 
       {/* ── Footer content grid ── */}
-      <div className="relative bg-black">
-        {/* Subtle glow behind content */}
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] rounded-full blur-[120px]"
-          style={{ background: "radial-gradient(ellipse, rgba(233, 90, 12, 0.06) 0%, transparent 70%)" }}
-        />
-
+      <div className="relative">
         <div className="container relative z-10 py-10 sm:py-14">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
 
@@ -156,7 +136,7 @@ const Footer = () => {
         </div>
 
         {/* ── Bottom bar ── */}
-        <div className="h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(233, 90, 12, 0.15), transparent)" }} />
+        <div className="relative h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(233, 90, 12, 0.15), transparent)" }} />
 
         <div className="container relative z-10 py-5">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
