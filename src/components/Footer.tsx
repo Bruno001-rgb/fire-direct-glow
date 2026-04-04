@@ -109,10 +109,11 @@ const Footer = () => {
                 <a
                   key={link.label}
                   href={link.href}
-                  className="text-base sm:text-lg lg:text-xl font-bold uppercase tracking-widest transition-colors hover:text-[#F5A006]"
+                  className="relative text-base sm:text-lg lg:text-xl font-bold uppercase tracking-widest transition-all duration-300 hover:text-[#F5A006] hover:tracking-[0.25em] hover:drop-shadow-[0_0_8px_rgba(245,160,6,0.5)] group"
                   style={{ color: "#E95A0C" }}
                 >
                   {link.label}
+                  <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-gradient-to-r from-[#E95A0C] to-[#F5A006] transition-all duration-300 group-hover:w-full" />
                 </a>
               ))}
             </div>
