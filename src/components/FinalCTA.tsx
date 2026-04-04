@@ -23,14 +23,11 @@ const FinalCTA = () => {
       />
 
       {/* CTA below image */}
-      <div className="bg-black text-center py-8 sm:py-10 space-y-4">
-        <p className="text-lg sm:text-xl lg:text-2xl font-bold text-foreground">
-          Sua vaga está reservada, entre agora!
-        </p>
+      <div className="bg-black text-center pb-10 sm:pb-14 pt-6 sm:pt-8">
         <Button
           variant="fire"
           size="lg"
-          className="text-sm sm:text-base px-10 sm:px-14 h-13 sm:h-14 uppercase tracking-wider rounded-sm shadow-[0_0_40px_rgba(233,90,12,0.3)] hover:shadow-[0_0_60px_rgba(233,90,12,0.5)] transition-shadow duration-500"
+          className="text-sm sm:text-base px-12 sm:px-16 h-14 uppercase tracking-wider rounded-sm shadow-[0_0_40px_rgba(233,90,12,0.3)] hover:shadow-[0_0_60px_rgba(233,90,12,0.5)] transition-shadow duration-500"
           asChild
         >
           <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
