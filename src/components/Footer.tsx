@@ -130,14 +130,32 @@ const Footer = () => {
               ))}
             </div>
 
-            {/* ── Right side: large FS logo ── */}
-            <div className="flex-shrink-0 relative hidden sm:block">
+            {/* ── Right side: large FS logo + Instagram ── */}
+            <div className="flex-shrink-0 relative hidden sm:flex flex-col items-center">
               <img
                 src={logoFireskins}
                 alt="FireSkins"
                 className="h-48 sm:h-72 lg:h-[26rem] xl:h-[36rem] w-auto object-contain -my-8 sm:-my-16 lg:-my-28 xl:-my-40"
                 loading="lazy"
               />
+              <a
+                href="https://instagram.com/fireskinscs2"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 mt-2 group"
+              >
+                <div
+                  className="flex items-center justify-center w-8 h-8 rounded-lg transition-all duration-300 group-hover:scale-110"
+                  style={{
+                    background: "linear-gradient(135deg, #E95A0C, #F5A006)",
+                  }}
+                >
+                  <Instagram className="size-4 text-white" />
+                </div>
+                <span className="text-sm font-semibold text-white/70 group-hover:text-white transition-colors">
+                  fireskinscs2
+                </span>
+              </a>
             </div>
           </div>
         </div>
