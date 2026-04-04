@@ -26,11 +26,7 @@ const Index = () => {
           <VideoShowcase />
           <FinalCTA />
 
-          <footer id="contato" className="py-6 border-t border-primary/10 text-center text-[10px] text-muted-foreground uppercase tracking-widest">
-            <div className="container">
-              © {new Date().getFullYear()} <span className="text-gradient-fire font-bold">FireSkins</span> — Todos os direitos reservados.
-            </div>
-          </footer>
+          <Footer />
         </main>
       </div>
     </div>
