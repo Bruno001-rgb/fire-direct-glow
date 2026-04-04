@@ -1,4 +1,5 @@
-import { MessageCircle, ArrowRight, Shield, Zap, Gem } from "lucide-react";
+import { ArrowRight, Shield, Zap, Gem } from "lucide-react";
+import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import InteractiveKnife from "@/components/InteractiveKnife";
 import heroKnife from "@/assets/hero-knife-premium.png";
