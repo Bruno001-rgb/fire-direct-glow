@@ -49,30 +49,30 @@ const Footer = () => {
             {/* ── Brand area ── */}
             <div>
               <div className="flex items-center gap-2.5 mb-4">
-                <img src={logoFireskins} alt="FireSkins" className="h-7 w-auto" />
-                <span className="text-lg font-black uppercase tracking-wider font-heading">
+                <img src={logoFireskins} alt="FireSkins" className="h-8 w-auto" />
+                <span className="text-xl font-black uppercase tracking-wider font-heading">
                   <span className="text-gradient-fire">Fire</span>
                   <span className="text-foreground">Skins</span>
                 </span>
               </div>
-              <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
+              <p className="text-base text-muted-foreground leading-relaxed max-w-xs">
                 Compra, venda e upgrade de skins CS2 com atendimento rápido e seguro.
               </p>
             </div>
 
             {/* ── Links ── */}
             <div>
-              <h4 className="text-sm font-bold uppercase tracking-wider mb-5 text-foreground font-heading">
+              <h4 className="text-base font-bold uppercase tracking-wider mb-5 text-foreground font-heading">
                 Links
               </h4>
-              <ul className="space-y-2.5">
+              <ul className="space-y-3">
                 {quickLinks.map((link) => (
                   <li key={link.label}>
                     <a
                       href={link.href}
-                      className="text-sm text-muted-foreground transition-colors duration-200 hover:text-[#F5A006] flex items-center gap-1.5"
+                      className="text-base text-muted-foreground transition-colors duration-200 hover:text-[#F5A006] flex items-center gap-2"
                     >
-                      <ChevronRight className="size-3" style={{ color: "#E95A0C" }} />
+                      <ChevronRight className="size-3.5" style={{ color: "#E95A0C" }} />
                       {link.label}
                     </a>
                   </li>
@@ -82,7 +82,7 @@ const Footer = () => {
 
             {/* ── Contato ── */}
             <div>
-              <h4 className="text-sm font-bold uppercase tracking-wider mb-5 text-foreground font-heading">
+              <h4 className="text-base font-bold uppercase tracking-wider mb-5 text-foreground font-heading">
                 Contato
               </h4>
               <ul className="space-y-3">
@@ -91,9 +91,9 @@ const Footer = () => {
                     href={WHATSAPP_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-muted-foreground transition-colors duration-200 hover:text-[#F5A006] flex items-center gap-2"
+                    className="text-base text-muted-foreground transition-colors duration-200 hover:text-[#F5A006] flex items-center gap-2.5"
                   >
-                    <WhatsAppIcon className="size-4" />
+                    <WhatsAppIcon className="size-5" />
                     WhatsApp
                   </a>
                 </li>
@@ -102,14 +102,14 @@ const Footer = () => {
                     href="https://instagram.com/fireskins"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-sm text-muted-foreground transition-colors duration-200 hover:text-[#F5A006] flex items-center gap-2"
+                    className="text-base text-muted-foreground transition-colors duration-200 hover:text-[#F5A006] flex items-center gap-2.5"
                   >
-                    <Instagram className="size-4" style={{ color: "#E95A0C" }} />
+                    <Instagram className="size-5" style={{ color: "#E95A0C" }} />
                     Instagram
                   </a>
                 </li>
-                <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <MessageSquare className="size-4 shrink-0" style={{ color: "#E95A0C" }} />
+                <li className="flex items-center gap-2.5 text-base text-muted-foreground">
+                  <MessageSquare className="size-5 shrink-0" style={{ color: "#E95A0C" }} />
                   <span>Horário de 10h as 22h</span>
                 </li>
               </ul>
@@ -117,13 +117,13 @@ const Footer = () => {
 
             {/* ── Suporte ── */}
             <div>
-              <h4 className="text-sm font-bold uppercase tracking-wider mb-5 text-foreground font-heading">
+              <h4 className="text-base font-bold uppercase tracking-wider mb-5 text-foreground font-heading">
                 Suporte
               </h4>
-              <ul className="space-y-2.5">
+              <ul className="space-y-3">
                 {trustItems.map((item) => (
-                  <li key={item.label} className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <item.icon className="size-4 shrink-0" style={{ color: "#22C55E" }} />
+                  <li key={item.label} className="flex items-center gap-2.5 text-base text-muted-foreground">
+                    <item.icon className="size-5 shrink-0" style={{ color: "#22C55E" }} />
                     {item.label}
                   </li>
                 ))}
