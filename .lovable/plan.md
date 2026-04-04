@@ -1,51 +1,93 @@
 
 
-## Plano: Replicar Frame Octagonal da Referência
+## Análise da Stack Atual
 
-A imagem mostra um frame de vídeo com **cantos chanfrados octagonais** (não arredondados), com bordas multi-camada em roxo/laranja e elementos específicos. Vou reescrever o componente para replicar esse estilo exato.
+- **Frontend**: React 18 + Vite + TypeScript + Tailwind CSS + shadcn/ui
+- **Roteamento**: React Router DOM
+- **Backend/DB**: Nenhum Supabase configurado ainda
+- **Landing page**: `CategoriesSection.tsx` exibe skins hardcoded em um array `allSkins[]` com 4 categorias: Facas (16), Luvas (11), Rifles (4), Snipers (1)
+- **Card visual**: Componente `SkinCard` já pronto — recebe `{ name, skin, category, rarity, image }`
+- **Tabs**: "Todas", "Facas", "Luvas", "Rifles", "Snipers"
 
-### Diferenças-chave vs. código atual
+## Plano de Implementação
 
-1. **Frame octagonal** — A referência usa `clip-path: polygon()` para criar cantos chanfrados (cortados em 45°), não `border-radius`. O frame tem múltiplas camadas: borda externa roxa, borda interna laranja, e paneling recuado.
+### Pré-requisito: Configurar Supabase
 
-2. **Header bar interna** — Dentro do frame, no topo, há uma barra com ícone de fogo + "FIRESKINS" à esquerda e um ícone de escudo à direita, separada do vídeo.
+Será necessário conectar o Lovable Cloud (Supabase integrado) para persistir dados.
 
-3. **HUD laterais** — Painéis técnicos transparentes nas laterais do vídeo com texto de metadata (como na imagem).
+### 1. Criar tabelas no Supabase
 
-4. **Play button com hexágono** — O botão Power está dentro de um anel hexagonal com glow laranja concentrado.
+Três tabelas:
 
-5. **Bottom bar com "🔥3."** — Flame icon + número "3." grande à esquerda, texto "FIRESKINS — SUA LOJA DE SKINS CS2" embaixo.
+- **`showcase_categories`** — categorias fixas da LP
+  - `id` (uuid, PK), `key` (text, unique — "facas", "luvas", "rifles", "snipers"), `label` (text), `slot_count` (int), `sort_order` (int)
 
-6. **Wireframe de Karambit** — Visível sobrepondo o vídeo à direita (wireframe geométrico low-poly da faca).
+- **`imported_skins`** — cache local das skins da API ByMykel
+  - `id` (text, PK — o ID da API), `name` (text), `description` (text), `weapon_name` (text), `pattern_name` (text), `rarity_name` (text), `rarity_color` (text), `image` (text — URL da imagem)
 
-### Implementação
+- **`showcase_slots`** — vínculo admin: qual skin vai em qual slot
+  - `id` (uuid, PK), `category_id` (uuid, FK → showcase_categories), `slot_position` (int), `skin_id` (text, FK → imported_skins, nullable), unique(category_id, slot_position)
 
-**Arquivo: `src/components/VideoShowcase.tsx`**
+RLS: leitura pública em todas as tabelas. Escrita restrita a admin (via `has_role` ou por enquanto sem RLS de escrita, dado que é um projeto pessoal).
 
-- Substituir o frame `rounded-lg` por um container com `clip-path` octagonal (chanfros de ~30px nos cantos)
-- Criar 3 camadas de clip-path aninhadas: borda externa roxa, borda média laranja, conteúdo interno
-- Adicionar header bar interna fixa no topo do frame com logo FIRESKINS
-- Manter canvas de wireframe com Karambit/AWP mais proeminentes
-- Manter play button hexagonal mas com anel mais definido
-- Ajustar bottom bar para match exato: flame + "3." grande + texto de branding
-- HUD readouts nas laterais dentro do frame
+### 2. Edge Function: Importar skins da API
 
-### Estilo do clip-path octagonal
+- Edge function `sync-skins` que faz fetch de `https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins_not_grouped.json`
+- Faz upsert na tabela `imported_skins`
+- Pode ser chamada manualmente pelo admin
+
+### 3. Seed de dados iniciais
+
+- Inserir as 4 categorias com `slot_count: 8` cada
+- Criar 8 slots vazios (skin_id = null) para cada categoria
+
+### 4. Página Admin (`/admin`)
+
+Uma página simples com:
+- Lista de categorias, cada uma mostrando seus 8 slots
+- Cada slot: mostra imagem + nome da skin selecionada, ou "Vazio"
+- Botão "Trocar" em cada slot → abre um modal/drawer de busca
+- No modal: campo de busca que filtra `imported_skins` por nome/weapon_name
+- Grid de resultados com imagem e nome — clicar seleciona e salva no slot
+- Botão "Remover" para limpar um slot
+- Botão "Sincronizar Skins" no topo para chamar a edge function
+
+### 5. Integrar Landing Page
+
+- Modificar `CategoriesSection.tsx`:
+  - Remover o array hardcoded `allSkins[]` e todos os imports de imagens locais
+  - Criar hook `useShowcaseSkins()` que faz query no Supabase: join `showcase_slots` + `imported_skins` + `showcase_categories`
+  - Mapear os dados retornados para o formato `SkinItem` esperado pelo `SkinCard`
+  - Slots vazios são filtrados (não renderizados)
+  - As tabs continuam funcionando por categoria
+
+### 6. Arquivos a criar/alterar
+
+**Criar:**
+- `src/integrations/supabase/` — client e types (gerado pelo Lovable Cloud)
+- `supabase/functions/sync-skins/index.ts` — edge function de importação
+- `src/hooks/useShowcaseSkins.ts` — hook para landing page
+- `src/hooks/useImportedSkins.ts` — hook de busca para admin
+- `src/pages/Admin.tsx` — página do painel admin
+- `src/components/admin/SlotManager.tsx` — componente de gerenciamento de slots
+- `src/components/admin/SkinSearchModal.tsx` — modal de busca/seleção
+- Migration SQL para criar as 3 tabelas + seed
+
+**Alterar:**
+- `src/App.tsx` — adicionar rota `/admin`
+- `src/components/CategoriesSection.tsx` — trocar dados hardcoded pelo hook
+
+### Segurança
+
+Nesta fase inicial (projeto pessoal), a rota `/admin` ficará aberta. Futuramente pode-se adicionar autenticação + role admin.
+
+### Fluxo resumido
+
 ```text
-┌──────────────────────────┐
-│╲                        ╱│  ← chanfros ~30px
-│  ┌────────────────────┐  │
-│  │  🔥 FIRESKINS    🛡 │  │  ← header bar
-│  ├────────────────────┤  │
-│  │                    │  │
-│  │     ▶ (Power)      │  │  ← vídeo
-│  │                    │  │
-│  │ 🔥3.              │  │  ← bottom overlay
-│  └────────────────────┘  │
-│╱                        ╲│
-└──────────────────────────┘
+API ByMykel ──sync──▶ imported_skins (Supabase)
+                              │
+Admin ──seleciona──▶ showcase_slots ──lê──▶ Landing Page cards
+                              │
+                     showcase_categories
 ```
-
-### Arquivos modificados
-- `src/components/VideoShowcase.tsx` — reescrita completa do frame e layout interno
 
