@@ -1,12 +1,131 @@
-const VideoShowcase = () => {
+import { Play, Flame } from "lucide-react";
+
+interface VideoShowcaseProps {
+  videoSrc?: string;
+}
+
+const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
   return (
     <section
       id="como-funciona"
-      className="relative overflow-hidden py-32 min-h-[600px] bg-[#1A0B2A]"
+      className="relative bg-background"
     >
-      <div className="container max-w-5xl mx-auto px-4 text-center relative z-10">
-        <p className="text-muted-foreground text-sm">Seção de vídeo — aguardando modelagem</p>
+      {/* Top separator */}
+      <div className="h-px bg-border/50" />
+
+      <div className="container py-16 sm:py-24">
+        {/* Video container — CS2-style cinematic block */}
+        <div className="relative w-full max-w-5xl mx-auto group cursor-pointer">
+          {/* Aspect ratio container */}
+          <div className="relative w-full overflow-hidden rounded-sm" style={{ aspectRatio: '16/9' }}>
+            {/* Dark placeholder background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-card via-[#1A0B2A] to-card" />
+
+            {/* Geometric grid pattern (subtle) */}
+            <div className="absolute inset-0 opacity-[0.04]"
+              style={{
+                backgroundImage: `
+                  linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)
+                `,
+                backgroundSize: '40px 40px',
+              }}
+            />
+
+            {/* Diagonal accent lines */}
+            <div className="absolute top-0 right-0 w-1/3 h-full opacity-[0.03]"
+              style={{
+                backgroundImage: `repeating-linear-gradient(
+                  -45deg,
+                  transparent,
+                  transparent 20px,
+                  hsl(22 91% 47%) 20px,
+                  hsl(22 91% 47%) 21px
+                )`,
+              }}
+            />
+
+            {/* Bottom gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-background/30" />
+
+            {/* Left side content overlay — CS2 style */}
+            <div className="absolute inset-0 flex flex-col justify-between p-6 sm:p-10 z-10">
+              {/* Top label */}
+              <div>
+                <span className="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-muted-foreground bg-background/60 backdrop-blur-sm px-3 py-1.5">
+                  FireSkins Apresenta
+                </span>
+              </div>
+
+              {/* Center play button */}
+              <div className="flex items-center justify-center absolute inset-0">
+                <div className="flex items-center gap-4 sm:gap-5 group/play">
+                  <div className="w-14 h-14 sm:w-18 sm:h-18 rounded-full border-2 border-foreground/80 flex items-center justify-center bg-background/20 backdrop-blur-sm group-hover:border-primary group-hover:bg-primary/20 transition-all duration-300">
+                    <Play className="size-6 sm:size-7 text-foreground fill-foreground ml-0.5 group-hover:text-primary group-hover:fill-primary transition-colors duration-300" />
+                  </div>
+                  <span className="text-xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight font-heading text-foreground group-hover:text-primary transition-colors duration-300">
+                    Play Video
+                  </span>
+                </div>
+              </div>
+
+              {/* Bottom content */}
+              <div className="flex items-end justify-between gap-4">
+                {/* Title block */}
+                <div>
+                  <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight font-heading leading-[0.9] mb-2">
+                    <span className="text-gradient-fire">Conheça</span>
+                    <br />
+                    <span className="text-foreground">a FireSkins</span>
+                  </h2>
+                  <p className="text-[11px] sm:text-sm text-muted-foreground max-w-md leading-relaxed">
+                    Assista ao vídeo e descubra como negociar suas skins de forma rápida e segura.
+                  </p>
+                </div>
+
+                {/* Carousel dots (decorative) */}
+                <div className="hidden sm:flex items-center gap-2 pb-1">
+                  <div className="w-2.5 h-2.5 rounded-full bg-primary" />
+                  <div className="w-2 h-2 rounded-full bg-foreground/20" />
+                  <div className="w-2 h-2 rounded-full bg-foreground/20" />
+                  <div className="w-2 h-2 rounded-full bg-foreground/20" />
+                </div>
+              </div>
+            </div>
+
+            {/* FireSkins logo watermark */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none opacity-[0.03]">
+              <Flame className="size-48 sm:size-72" />
+            </div>
+
+            {/* Top-right corner accent */}
+            <div className="absolute top-0 right-0 w-16 h-16 sm:w-24 sm:h-24 overflow-hidden">
+              <div className="absolute top-0 right-0 w-full h-full border-t-2 border-r-2 border-primary/20" />
+            </div>
+
+            {/* Bottom-left corner accent */}
+            <div className="absolute bottom-0 left-0 w-16 h-16 sm:w-24 sm:h-24 overflow-hidden">
+              <div className="absolute bottom-0 left-0 w-full h-full border-b-2 border-l-2 border-primary/20" />
+            </div>
+          </div>
+
+          {/* Bottom bar — tech style */}
+          <div className="flex items-center justify-between mt-3 px-1">
+            <div className="flex items-center gap-2">
+              <Flame className="size-3.5 text-primary" />
+              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground font-heading">
+                FireSkins — Sua loja de skins CS2
+              </span>
+            </div>
+            <span className="text-[10px] text-muted-foreground/50 font-mono tracking-wider hidden sm:block">
+              v3.0
+            </span>
+          </div>
+        </div>
       </div>
+
+      {/* Bottom separator */}
+      <div className="h-px bg-border/50" />
     </section>
   );
 };
