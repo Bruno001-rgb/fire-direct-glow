@@ -55,16 +55,16 @@ const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
     </div>
 
     {/* Image */}
-    <div className="aspect-square overflow-hidden relative bg-gradient-to-br from-background/80 to-card">
+    <div className="aspect-[4/3] overflow-hidden relative bg-gradient-to-br from-background/80 to-card">
       <img
         src={item.image}
         alt={`${item.name} ${item.skin}`}
         loading="lazy"
         width={512}
         height={512}
-        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+        className="w-full h-full object-contain p-3 group-hover:scale-110 transition-transform duration-500"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-70" />
+      <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-70 pointer-events-none" />
     </div>
 
     {/* Info */}
