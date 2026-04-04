@@ -39,43 +39,60 @@ const Footer = () => {
           <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between gap-8">
 
             {/* ── Left side: text info ── */}
-            <div className="flex flex-col sm:flex-row gap-8 sm:gap-14 lg:gap-20 text-center sm:text-left">
-              {/* Brand + Instagram */}
-              <div>
-                <div className="flex items-center gap-2 mb-2 justify-center sm:justify-start">
-                  <Instagram className="size-4" style={{ color: "#E95A0C" }} />
-                  <span className="text-sm text-muted-foreground">fireskinscs2</span>
-                </div>
-                <h3 className="text-2xl sm:text-3xl font-black uppercase font-heading leading-tight">
-                  <span className="text-foreground">Venda & </span>
-                  <br />
-                  <span
-                    className="bg-clip-text text-transparent"
-                    style={{ backgroundImage: "linear-gradient(135deg, #E95A0C, #F5A006)" }}
-                  >
-                    Upgrade
-                  </span>
-                  <br />
-                  <span className="text-foreground">das suas skins!</span>
-                </h3>
-
-                {/* Payment methods */}
-                <div className="flex items-center gap-2 mt-3 justify-center sm:justify-start">
-                  {["Pix", "Crypto", "Cartão"].map((method) => (
-                    <span
-                      key={method}
-                      className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-sm"
-                      style={{
-                        background: "rgba(233, 90, 12, 0.15)",
-                        border: "1px solid rgba(233, 90, 12, 0.3)",
-                        color: "#F5A006",
-                      }}
-                    >
-                      {method}
-                    </span>
-                  ))}
-                </div>
+            <div className="flex flex-col text-center sm:text-left">
+              <div className="flex items-center gap-2 mb-3 justify-center sm:justify-start">
+                <Instagram className="size-5" style={{ color: "#E95A0C" }} />
+                <span className="text-sm text-muted-foreground">fireskinscs2</span>
               </div>
+              <h3 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase font-heading leading-[1.1]">
+                <span className="text-foreground">Venda & </span>
+                <br />
+                <span
+                  className="bg-clip-text text-transparent"
+                  style={{ backgroundImage: "linear-gradient(135deg, #E95A0C, #F5A006)" }}
+                >
+                  Upgrade
+                </span>
+                <br />
+                <span className="text-foreground">das suas skins!</span>
+              </h3>
+
+              {/* Payment methods */}
+              <div className="flex items-center gap-3 mt-4 justify-center sm:justify-start">
+                {["Pix", "Crypto", "Cartão"].map((method) => (
+                  <span
+                    key={method}
+                    className="text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-sm"
+                    style={{
+                      background: "rgba(233, 90, 12, 0.15)",
+                      border: "1px solid rgba(233, 90, 12, 0.3)",
+                      color: "#F5A006",
+                    }}
+                  >
+                    {method}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* ── Center: navigation links ── */}
+            <div className="flex flex-col items-center gap-4 py-4">
+              {[
+                { label: "Início", href: "#hero" },
+                { label: "Categorias", href: "#categorias" },
+                { label: "Skins", href: "#skins" },
+                { label: "Vídeos", href: "#videos" },
+                { label: "Contato", href: "#contato" },
+              ].map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  className="text-lg sm:text-xl font-bold uppercase tracking-widest transition-colors hover:text-[#F5A006]"
+                  style={{ color: "#E95A0C" }}
+                >
+                  {link.label}
+                </a>
+              ))}
             </div>
 
             {/* ── Right side: large FS logo ── */}
