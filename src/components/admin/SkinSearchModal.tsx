@@ -7,7 +7,7 @@ import { Search, Loader2 } from "lucide-react";
 interface SkinSearchModalProps {
   open: boolean;
   onClose: () => void;
-  onSelect: (skinId: string) => void;
+  onSelect: (skinId: string, preview: { name: string; weapon_name: string | null; pattern_name: string | null; image: string | null; rarity_name: string | null }) => void;
 }
 
 export default function SkinSearchModal({ open, onClose, onSelect }: SkinSearchModalProps) {
