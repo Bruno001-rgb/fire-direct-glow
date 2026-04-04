@@ -20,7 +20,7 @@ const Index = () => {
         {/* Main content */}
         <main className="flex-1 min-w-0">
           <HeroSection />
-          <LiveDropTicker />
+          
           <CategoriesSection />
           <VideoShowcase />
           <FinalCTA />
