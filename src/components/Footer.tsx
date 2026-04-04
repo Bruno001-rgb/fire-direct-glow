@@ -123,7 +123,7 @@ const Footer = () => {
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 text-sm text-muted-foreground hover:text-[#F5A006] transition-colors justify-center sm:justify-start"
                       >
-                        <WhatsAppIcon className="size-4" style={{ color: "#E95A0C" }} />
+                        <WhatsAppIcon className="size-4 text-[#E95A0C]" />
                         WhatsApp
                       </a>
                     </li>
