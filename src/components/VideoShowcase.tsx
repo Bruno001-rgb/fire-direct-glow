@@ -1,3 +1,4 @@
+import { useState, useRef } from "react";
 import { Play, Flame, ArrowRight } from "lucide-react";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 
@@ -6,6 +7,8 @@ interface VideoShowcaseProps {
 }
 
 const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   return (
     <section
       id="como-funciona"
