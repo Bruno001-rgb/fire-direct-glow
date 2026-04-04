@@ -15,7 +15,7 @@ const Header = () => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-xl border-b border-primary/8">
       <div className="container flex items-center justify-between h-14 sm:h-16">
         <a href="/" className="flex items-center">
-          <img src={logoFireskins} alt="FireSkins" className="h-28 sm:h-32 w-auto -my-10" />
+          <img src={logoFireskins} alt="FireSkins" className="h-40 sm:h-44 w-auto -my-16" />
         </a>
 
         {/* Desktop nav */}
