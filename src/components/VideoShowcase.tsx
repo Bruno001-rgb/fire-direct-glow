@@ -15,7 +15,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
 
       {/* ── Background layers ── */}
       {/* Base dark */}
-      <div className="absolute inset-0" style={{ background: 'linear-gradient(160deg, #08060E 0%, #0D0A1A 40%, #120E22 100%)' }} />
+      <div className="absolute inset-0 bg-black" />
 
       {/* Orange glow — bottom center */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px]"
