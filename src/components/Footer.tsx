@@ -40,10 +40,25 @@ const Footer = () => {
 
             {/* ── Left side: text info ── */}
             <div className="flex flex-col text-center sm:text-left">
-              <div className="flex items-center gap-2 mb-3 justify-center sm:justify-start">
-                <Instagram className="size-5" style={{ color: "#E95A0C" }} />
-                <span className="text-sm text-muted-foreground">fireskinscs2</span>
-              </div>
+              <a
+                href="https://instagram.com/fireskinscs2"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 mb-3 justify-center sm:justify-start group cursor-pointer"
+              >
+                <div
+                  className="flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-300 group-hover:scale-110 group-hover:shadow-lg"
+                  style={{
+                    background: "linear-gradient(135deg, #E95A0C, #F5A006)",
+                    boxShadow: "0 0 12px rgba(233,90,12,0.4)",
+                  }}
+                >
+                  <Instagram className="size-5 text-white" />
+                </div>
+                <span className="text-base font-semibold text-white/80 group-hover:text-white transition-colors">
+                  fireskinscs2
+                </span>
+              </a>
               <h3 className="text-4xl sm:text-5xl lg:text-6xl font-black uppercase font-heading leading-[1.1]">
                 <span className="text-foreground">Venda & </span>
                 <br />
