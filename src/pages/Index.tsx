@@ -5,7 +5,6 @@ import HeroSection from "@/components/HeroSection";
 import CategoriesSection from "@/components/CategoriesSection";
 import VideoShowcase from "@/components/VideoShowcase";
 import FinalCTA from "@/components/FinalCTA";
-import Footer from "@/components/Footer";
 import SkinsSidebar from "@/components/SkinsSidebar";
 
 const Index = () => { 
