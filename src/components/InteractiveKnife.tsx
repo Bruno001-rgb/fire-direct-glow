@@ -10,6 +10,7 @@ const InteractiveKnife = ({ src }: InteractiveKnifeProps) => {
   const [transform, setTransform] = useState({ rotateX: 0, rotateY: 0, glowX: 50, glowY: 50 });
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    setIsHovering(true);
     const el = containerRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
