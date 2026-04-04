@@ -123,30 +123,17 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4">
-              {/* Primary */}
-              <button
-                className="group flex items-center gap-2.5 px-6 py-3 rounded-sm font-bold text-sm uppercase tracking-wider font-heading transition-all duration-300"
-                style={{
-                  background: 'linear-gradient(135deg, #E95A0C, #F5A006)',
-                  color: '#fff',
-                  boxShadow: '0 4px 20px rgba(233, 90, 12, 0.3), 0 0 40px rgba(233, 90, 12, 0.1)',
-                }}
-              >
-                <Play className="size-4 fill-white" />
+              <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm rounded-sm" onClick={openFullscreen}>
+                <Play className="size-4 fill-current" />
                 Assistir vídeo
-              </button>
+              </Button>
 
-              {/* Secondary */}
-              <button
-                className="group flex items-center gap-2 px-6 py-3 rounded-sm font-bold text-sm uppercase tracking-wider font-heading transition-all duration-300 hover:bg-white/5"
-                style={{
-                  border: '1px solid rgba(233, 90, 12, 0.3)',
-                  color: '#F5A006',
-                }}
-              >
-                Ver catálogo
-                <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-              </button>
+              <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm rounded-sm" asChild>
+                <a href="#catalogo">
+                  Ver catálogo
+                  <ArrowRight className="size-4 ml-1" />
+                </a>
+              </Button>
             </div>
 
             {/* Trust line */}

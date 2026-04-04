@@ -31,7 +31,7 @@ const Header = () => {
           ))}
         </nav>
 
-        <Button variant="whatsapp" size="sm" className="h-8 sm:h-9 text-[11px] uppercase tracking-wider font-bold" asChild>
+        <Button variant="fire" size="sm" className="h-8 sm:h-9 text-[11px] uppercase tracking-wider rounded-sm" asChild>
           <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
             <WhatsAppIcon className="size-3.5" />
             <span className="hidden sm:inline">Falar no WhatsApp</span>

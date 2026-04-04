@@ -114,39 +114,19 @@ const HeroSection = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4 mb-8">
-              {/* WhatsApp — Primary */}
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-sm font-bold text-sm uppercase tracking-wider font-heading transition-all duration-300 w-full sm:w-auto overflow-hidden"
-                style={{
-                  background: "linear-gradient(135deg, #E95A0C, #F5A006)",
-                  color: "#fff",
-                  boxShadow: "0 4px 24px rgba(233, 90, 12, 0.3), 0 0 60px rgba(233, 90, 12, 0.1)",
-                }}
-              >
-                {/* Shine effect */}
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{ background: "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.15) 45%, rgba(255,255,255,0.05) 55%, transparent 60%)" }}
-                />
-                <WhatsAppIcon className="size-4 relative z-10" />
-                <span className="relative z-10">Chamar no WhatsApp</span>
-              </a>
+              <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm rounded-sm w-full sm:w-auto" asChild>
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                  <WhatsAppIcon className="size-4" />
+                  Chamar no WhatsApp
+                </a>
+              </Button>
 
-              {/* Ver Catálogo — Secondary */}
-              <a
-                href="#catalogo"
-                className="group flex items-center justify-center gap-2 px-8 py-3.5 rounded-sm font-bold text-sm uppercase tracking-wider font-heading transition-all duration-300 hover:bg-white/5 w-full sm:w-auto"
-                style={{
-                  border: "1px solid rgba(233, 90, 12, 0.3)",
-                  color: "#F5A006",
-                }}
-              >
-                Ver Catálogo
-                <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-              </a>
+              <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm rounded-sm w-full sm:w-auto" asChild>
+                <a href="#catalogo">
+                  Ver Catálogo
+                  <ArrowRight className="size-4 ml-1" />
+                </a>
+              </Button>
             </div>
 
             {/* Trust items */}

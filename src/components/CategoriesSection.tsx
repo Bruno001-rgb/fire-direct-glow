@@ -83,7 +83,7 @@ const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
 
     {/* Negociar button */}
     <div className="px-3 pb-3 sm:px-4 sm:pb-4">
-      <span className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-whatsapp/10 border border-whatsapp/30 text-whatsapp text-[10px] sm:text-[11px] font-bold uppercase tracking-wider group-hover:bg-whatsapp group-hover:text-whatsapp-foreground transition-all duration-300">
+      <span className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-primary/10 border border-primary/30 text-secondary text-[10px] sm:text-[11px] font-bold uppercase tracking-wider group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
         <WhatsAppIcon className="size-3" />
         Negociar
       </span>
