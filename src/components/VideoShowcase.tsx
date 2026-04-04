@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { Play, Flame, ArrowRight } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Play, Flame, ArrowRight, X } from "lucide-react";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 
 interface VideoShowcaseProps {
@@ -9,6 +9,28 @@ interface VideoShowcaseProps {
 const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const modalVideoRef = useRef<HTMLVideoElement>(null);
+
+  const openFullscreen = () => {
+    setIsPlaying(true);
+    setTimeout(() => {
+      modalVideoRef.current?.play();
+    }, 100);
+  };
+
+  const closeFullscreen = () => {
+    setIsPlaying(false);
+    modalVideoRef.current?.pause();
+    if (modalVideoRef.current) modalVideoRef.current.currentTime = 0;
+  };
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isPlaying) closeFullscreen();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [isPlaying]);
   return (
     <section
       id="como-funciona"
@@ -168,17 +190,8 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
 
               {/* Video area */}
               <div className="relative" style={{ aspectRatio: '16/9' }}>
-                {/* Video element */}
-                <video
-                  ref={videoRef}
-                  src="/videos/fireskins-showcase.mp4"
-                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isPlaying ? 'opacity-100' : 'opacity-0'}`}
-                  playsInline
-                  onEnded={() => setIsPlaying(false)}
-                />
-
-                {/* Cover (shown when not playing) */}
-                <div className={`absolute inset-0 transition-opacity duration-500 ${isPlaying ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+                {/* Cover */}
+                <div className="absolute inset-0">
                   {/* Inner background */}
                   <div className="absolute inset-0 bg-black" />
 
@@ -213,10 +226,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
                   <div className="absolute inset-0 flex items-center justify-center z-10">
                     <div
                       className="relative group/btn cursor-pointer"
-                      onClick={() => {
-                        setIsPlaying(true);
-                        videoRef.current?.play();
-                      }}
+                      onClick={openFullscreen}
                     >
                       {/* Pulse ring */}
                       <div className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ background: 'rgba(233, 90, 12, 0.3)' }} />
@@ -259,6 +269,38 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
 
       {/* Bottom separator */}
       <div className="h-[2px]" style={{ background: 'linear-gradient(90deg, transparent, #5A3DCC, #E95A0C, transparent)' }} />
+
+      {/* ── Fullscreen Video Modal ── */}
+      {isPlaying && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 backdrop-blur-sm"
+          onClick={closeFullscreen}
+        >
+          {/* Close button */}
+          <button
+            onClick={closeFullscreen}
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center transition-all hover:scale-110"
+            style={{
+              background: 'rgba(233, 90, 12, 0.2)',
+              border: '1px solid rgba(233, 90, 12, 0.4)',
+            }}
+          >
+            <X className="size-5 sm:size-6" style={{ color: '#F5A006' }} />
+          </button>
+
+          {/* Video */}
+          <video
+            ref={modalVideoRef}
+            src="/videos/fireskins-showcase.mp4"
+            className="w-full max-w-6xl max-h-[90vh] rounded-lg"
+            controls
+            autoPlay
+            playsInline
+            onClick={(e) => e.stopPropagation()}
+            onEnded={closeFullscreen}
+          />
+        </div>
+      )}
     </section>
   );
 };
