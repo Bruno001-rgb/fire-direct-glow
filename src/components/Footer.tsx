@@ -3,7 +3,7 @@ import WhatsAppIcon from "@/components/WhatsAppIcon";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 import logoBlackbot from "@/assets/logo-blackbot.webp";
 
-const WHATSAPP_URL = "https://wa.me/5511999999999?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20skins%20CS2!";
+const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
 
 const Footer = () => {
   return (
