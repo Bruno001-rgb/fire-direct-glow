@@ -231,11 +231,6 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
                 <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground font-heading">
                   Sua loja de skins CS2
                 </span>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#E95A0C' }} />
-                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(90, 61, 204, 0.5)' }} />
-                  <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'rgba(90, 61, 204, 0.3)' }} />
-                </div>
               </div>
             </div>
           </div>
