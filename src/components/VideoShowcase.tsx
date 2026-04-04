@@ -208,9 +208,9 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
                   <polygon points="0,0 100,40 50,80" fill="#5A3DCC" />
                 </svg>
 
-                {/* Center flame watermark */}
+                {/* Center logo */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
-                  <Flame className="size-28 sm:size-36 opacity-[0.06]" style={{ color: '#E95A0C', filter: 'blur(1px)' }} />
+                  <img src={logoFireskins} alt="FireSkins" className="w-32 h-32 sm:w-44 sm:h-44 object-contain opacity-30" />
                 </div>
 
                 {/* Inner vignette */}
