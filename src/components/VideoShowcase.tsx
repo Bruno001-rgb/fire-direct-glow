@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { Play, Flame, ArrowRight } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Play, Flame, ArrowRight, X } from "lucide-react";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 
 interface VideoShowcaseProps {
