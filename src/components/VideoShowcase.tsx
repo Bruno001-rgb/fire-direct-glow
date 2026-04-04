@@ -181,18 +181,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
               {/* Video area */}
               <div className="relative" style={{ aspectRatio: '16/9' }}>
                 {/* Inner background */}
-                <div className="absolute inset-0" style={{ background: 'linear-gradient(135deg, #0A0815, #12092A, #0D0A1A)' }} />
-
-                {/* Inner grid */}
-                <div className="absolute inset-0 opacity-[0.03]"
-                  style={{
-                    backgroundImage: `
-                      linear-gradient(rgba(233, 90, 12, 0.3) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(233, 90, 12, 0.3) 1px, transparent 1px)
-                    `,
-                    backgroundSize: '30px 30px',
-                  }}
-                />
+                <div className="absolute inset-0 bg-black" />
 
                 {/* Low-poly triangles pattern */}
                 <svg className="absolute inset-0 w-full h-full opacity-[0.04]" viewBox="0 0 400 225" preserveAspectRatio="none">
