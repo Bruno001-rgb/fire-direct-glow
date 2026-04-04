@@ -20,21 +20,24 @@ const InteractiveKnife = ({ src }: InteractiveKnifeProps) => {
 
     let t = 0;
     const animate = () => {
-      t += 0.012;
+      t += 0.014;
 
-      // Primary slow bob (gravity pull + float back up)
-      const gravityBob = Math.sin(t * 1.2) * 12;
-      // Secondary micro-oscillation for realism
-      const microBob = Math.sin(t * 3.1) * 3;
-      // Gentle rotation sway
-      const sway = Math.sin(t * 0.8) * 2.5;
-      // Subtle scale pulse (breathing)
-      const breathe = 1 + Math.sin(t * 1.5) * 0.015;
+      // Stronger gravity bob
+      const gravityBob = Math.sin(t * 1.2) * 22;
+      // Secondary oscillation
+      const microBob = Math.sin(t * 3.1) * 6;
+      // Rotation sway
+      const sway = Math.sin(t * 0.8) * 4;
+      // Scale breathing
+      const breathe = 1 + Math.sin(t * 1.5) * 0.02;
+      // Pulsating glow intensity (0 to 1)
+      const glow = (Math.sin(t * 2.0) + 1) * 0.5;
 
       setIdle({
         y: gravityBob + microBob,
         rotate: sway,
         scale: breathe,
+        glow,
       });
 
       rafRef.current = requestAnimationFrame(animate);
