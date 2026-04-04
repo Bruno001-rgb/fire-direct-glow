@@ -58,19 +58,37 @@ const Footer = () => {
               </h3>
 
               {/* Payment methods */}
-              <div className="flex items-center gap-3 mt-4 justify-center sm:justify-start">
-                {["Pix", "Crypto", "Cartão"].map((method) => (
-                  <span
-                    key={method}
-                    className="text-xs font-bold uppercase tracking-wider px-3 py-1.5 rounded-sm"
+              <div className="flex items-center gap-2 mt-4 justify-center sm:justify-start flex-wrap">
+                {[
+                  { label: "VISA", bold: true },
+                  { label: "VISA", sub: "SECURE" },
+                  { label: "mastercard" },
+                  { label: "maestro" },
+                  { label: "mastercard", sub: "ID Check" },
+                  { label: "SOFORT", bold: true },
+                  { label: "interac", italic: true },
+                ].map((method, i) => (
+                  <div
+                    key={i}
+                    className="flex flex-col items-center justify-center px-2.5 py-1.5 rounded"
                     style={{
-                      background: "rgba(233, 90, 12, 0.15)",
-                      border: "1px solid rgba(233, 90, 12, 0.3)",
-                      color: "#F5A006",
+                      background: "rgba(20, 15, 40, 0.8)",
+                      minWidth: "48px",
+                      height: "32px",
                     }}
                   >
-                    {method}
-                  </span>
+                    <span
+                      className={`text-[10px] leading-tight ${method.bold ? "font-black" : "font-medium"} ${method.italic ? "italic" : ""}`}
+                      style={{ color: "rgba(255,255,255,0.7)" }}
+                    >
+                      {method.label}
+                    </span>
+                    {method.sub && (
+                      <span className="text-[7px] leading-tight" style={{ color: "rgba(255,255,255,0.4)" }}>
+                        {method.sub}
+                      </span>
+                    )}
+                  </div>
                 ))}
               </div>
             </div>
