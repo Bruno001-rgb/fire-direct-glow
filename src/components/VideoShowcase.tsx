@@ -4,7 +4,7 @@ const VideoShowcase = () => {
   return (
     <section
       id="como-funciona"
-      className="relative overflow-hidden py-20"
+      className="relative overflow-hidden py-32 min-h-[600px]"
       style={{
         background: `url(${videoBg}) center center / cover no-repeat`,
       }}
