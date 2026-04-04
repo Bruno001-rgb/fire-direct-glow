@@ -1,3 +1,4 @@
+import { useState, useRef } from "react";
 import { Play, Flame, ArrowRight } from "lucide-react";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 
@@ -6,6 +7,8 @@ interface VideoShowcaseProps {
 }
 
 const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   return (
     <section
       id="como-funciona"
@@ -165,64 +168,82 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
 
               {/* Video area */}
               <div className="relative" style={{ aspectRatio: '16/9' }}>
-                {/* Inner background */}
-                <div className="absolute inset-0 bg-black" />
-
-                {/* Low-poly triangles pattern */}
-                <svg className="absolute inset-0 w-full h-full opacity-[0.04]" viewBox="0 0 400 225" preserveAspectRatio="none">
-                  <polygon points="0,225 100,180 50,120" fill="#E95A0C" />
-                  <polygon points="100,180 200,225 150,140" fill="#5A3DCC" />
-                  <polygon points="200,225 300,190 250,130" fill="#E95A0C" />
-                  <polygon points="300,190 400,225 350,150" fill="#5A3DCC" />
-                  <polygon points="50,120 150,80 100,40" fill="#5A3DCC" />
-                  <polygon points="150,80 250,130 200,60" fill="#E95A0C" />
-                  <polygon points="250,130 350,90 300,30" fill="#5A3DCC" />
-                  <polygon points="350,90 400,0 400,150" fill="#E95A0C" />
-                  <polygon points="0,120 50,60 100,100" fill="#E95A0C" />
-                  <polygon points="0,0 100,40 50,80" fill="#5A3DCC" />
-                </svg>
-
-                {/* Center logo */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
-                  <img src={logoFireskins} alt="FireSkins" className="w-[66rem] h-[66rem] sm:w-[90rem] sm:h-[90rem] object-contain opacity-30" />
-                </div>
-
-                {/* Inner vignette */}
-                <div className="absolute inset-0" style={{ boxShadow: 'inset 0 0 80px 20px rgba(0,0,0,0.5)' }} />
-
-                {/* Orange ambient glow center */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 sm:w-56 sm:h-56 rounded-full"
-                  style={{ background: 'radial-gradient(circle, rgba(233, 90, 12, 0.08) 0%, transparent 70%)' }}
+                {/* Video element */}
+                <video
+                  ref={videoRef}
+                  src="/videos/fireskins-showcase.mp4"
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isPlaying ? 'opacity-100' : 'opacity-0'}`}
+                  playsInline
+                  onEnded={() => setIsPlaying(false)}
                 />
 
-                {/* ── Play button ── */}
-                <div className="absolute inset-0 flex items-center justify-center z-10">
-                  <div className="relative group/btn cursor-pointer">
-                    {/* Pulse ring */}
-                    <div className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ background: 'rgba(233, 90, 12, 0.3)' }} />
-                    {/* Outer ring */}
+                {/* Cover (shown when not playing) */}
+                <div className={`absolute inset-0 transition-opacity duration-500 ${isPlaying ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+                  {/* Inner background */}
+                  <div className="absolute inset-0 bg-black" />
+
+                  {/* Low-poly triangles pattern */}
+                  <svg className="absolute inset-0 w-full h-full opacity-[0.04]" viewBox="0 0 400 225" preserveAspectRatio="none">
+                    <polygon points="0,225 100,180 50,120" fill="#E95A0C" />
+                    <polygon points="100,180 200,225 150,140" fill="#5A3DCC" />
+                    <polygon points="200,225 300,190 250,130" fill="#E95A0C" />
+                    <polygon points="300,190 400,225 350,150" fill="#5A3DCC" />
+                    <polygon points="50,120 150,80 100,40" fill="#5A3DCC" />
+                    <polygon points="150,80 250,130 200,60" fill="#E95A0C" />
+                    <polygon points="250,130 350,90 300,30" fill="#5A3DCC" />
+                    <polygon points="350,90 400,0 400,150" fill="#E95A0C" />
+                    <polygon points="0,120 50,60 100,100" fill="#E95A0C" />
+                    <polygon points="0,0 100,40 50,80" fill="#5A3DCC" />
+                  </svg>
+
+                  {/* Center logo */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
+                    <img src={logoFireskins} alt="FireSkins" className="w-[66rem] h-[66rem] sm:w-[90rem] sm:h-[90rem] object-contain opacity-30" />
+                  </div>
+
+                  {/* Inner vignette */}
+                  <div className="absolute inset-0" style={{ boxShadow: 'inset 0 0 80px 20px rgba(0,0,0,0.5)' }} />
+
+                  {/* Orange ambient glow center */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 sm:w-56 sm:h-56 rounded-full"
+                    style={{ background: 'radial-gradient(circle, rgba(233, 90, 12, 0.08) 0%, transparent 70%)' }}
+                  />
+
+                  {/* ── Play button ── */}
+                  <div className="absolute inset-0 flex items-center justify-center z-10">
                     <div
-                      className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center transition-all duration-300"
-                      style={{
-                        background: 'linear-gradient(135deg, rgba(233, 90, 12, 0.15), rgba(245, 160, 6, 0.1))',
-                        border: '2px solid rgba(233, 90, 12, 0.5)',
-                        boxShadow: '0 0 30px rgba(233, 90, 12, 0.2), 0 0 60px rgba(233, 90, 12, 0.08), inset 0 0 20px rgba(233, 90, 12, 0.05)',
+                      className="relative group/btn cursor-pointer"
+                      onClick={() => {
+                        setIsPlaying(true);
+                        videoRef.current?.play();
                       }}
                     >
-                      <Play className="size-6 sm:size-8 ml-1" style={{ color: '#F5A006', fill: '#F5A006' }} />
+                      {/* Pulse ring */}
+                      <div className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ background: 'rgba(233, 90, 12, 0.3)' }} />
+                      {/* Outer ring */}
+                      <div
+                        className="w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center transition-all duration-300"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(233, 90, 12, 0.15), rgba(245, 160, 6, 0.1))',
+                          border: '2px solid rgba(233, 90, 12, 0.5)',
+                          boxShadow: '0 0 30px rgba(233, 90, 12, 0.2), 0 0 60px rgba(233, 90, 12, 0.08), inset 0 0 20px rgba(233, 90, 12, 0.05)',
+                        }}
+                      >
+                        <Play className="size-6 sm:size-8 ml-1" style={{ color: '#F5A006', fill: '#F5A006' }} />
+                      </div>
                     </div>
                   </div>
+
+                  {/* HUD corners */}
+                  <div className="absolute top-3 left-3 w-4 h-4" style={{ borderTop: '1px solid rgba(233, 90, 12, 0.3)', borderLeft: '1px solid rgba(233, 90, 12, 0.3)' }} />
+                  <div className="absolute top-3 right-3 w-4 h-4" style={{ borderTop: '1px solid rgba(233, 90, 12, 0.3)', borderRight: '1px solid rgba(233, 90, 12, 0.3)' }} />
+                  <div className="absolute bottom-3 left-3 w-4 h-4" style={{ borderBottom: '1px solid rgba(90, 61, 204, 0.3)', borderLeft: '1px solid rgba(90, 61, 204, 0.3)' }} />
+                  <div className="absolute bottom-3 right-3 w-4 h-4" style={{ borderBottom: '1px solid rgba(90, 61, 204, 0.3)', borderRight: '1px solid rgba(90, 61, 204, 0.3)' }} />
+
+                  {/* HUD data labels */}
+                  <span className="absolute top-3 right-8 text-[8px] font-mono tracking-widest" style={{ color: 'rgba(245, 160, 6, 0.2)' }}>REC</span>
+                  <span className="absolute bottom-3 left-8 text-[8px] font-mono tracking-widest" style={{ color: 'rgba(90, 61, 204, 0.25)' }}>00:00</span>
                 </div>
-
-                {/* HUD corners */}
-                <div className="absolute top-3 left-3 w-4 h-4" style={{ borderTop: '1px solid rgba(233, 90, 12, 0.3)', borderLeft: '1px solid rgba(233, 90, 12, 0.3)' }} />
-                <div className="absolute top-3 right-3 w-4 h-4" style={{ borderTop: '1px solid rgba(233, 90, 12, 0.3)', borderRight: '1px solid rgba(233, 90, 12, 0.3)' }} />
-                <div className="absolute bottom-3 left-3 w-4 h-4" style={{ borderBottom: '1px solid rgba(90, 61, 204, 0.3)', borderLeft: '1px solid rgba(90, 61, 204, 0.3)' }} />
-                <div className="absolute bottom-3 right-3 w-4 h-4" style={{ borderBottom: '1px solid rgba(90, 61, 204, 0.3)', borderRight: '1px solid rgba(90, 61, 204, 0.3)' }} />
-
-                {/* HUD data labels */}
-                <span className="absolute top-3 right-8 text-[8px] font-mono tracking-widest" style={{ color: 'rgba(245, 160, 6, 0.2)' }}>REC</span>
-                <span className="absolute bottom-3 left-8 text-[8px] font-mono tracking-widest" style={{ color: 'rgba(90, 61, 204, 0.25)' }}>00:00</span>
               </div>
 
               {/* Card footer */}
