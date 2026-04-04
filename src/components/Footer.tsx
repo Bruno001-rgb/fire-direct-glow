@@ -59,7 +59,7 @@ const Footer = () => {
 
               {/* Payment methods */}
               <div
-                className="flex items-center gap-0 mt-4 justify-center sm:justify-start rounded-md overflow-hidden"
+                className="flex items-center gap-0 mt-4 rounded-md overflow-hidden w-fit mx-auto sm:mx-0"
                 style={{
                   border: "1.5px solid #E95A0C",
                   background: "rgba(20, 12, 5, 0.9)",
