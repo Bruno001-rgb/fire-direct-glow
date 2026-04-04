@@ -14,7 +14,108 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      imported_skins: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          image: string | null
+          name: string
+          pattern_name: string | null
+          rarity_color: string | null
+          rarity_name: string | null
+          weapon_name: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id: string
+          image?: string | null
+          name: string
+          pattern_name?: string | null
+          rarity_color?: string | null
+          rarity_name?: string | null
+          weapon_name?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          image?: string | null
+          name?: string
+          pattern_name?: string | null
+          rarity_color?: string | null
+          rarity_name?: string | null
+          weapon_name?: string | null
+        }
+        Relationships: []
+      }
+      showcase_categories: {
+        Row: {
+          id: string
+          key: string
+          label: string
+          slot_count: number
+          sort_order: number
+        }
+        Insert: {
+          id?: string
+          key: string
+          label: string
+          slot_count?: number
+          sort_order?: number
+        }
+        Update: {
+          id?: string
+          key?: string
+          label?: string
+          slot_count?: number
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      showcase_slots: {
+        Row: {
+          category_id: string
+          created_at: string
+          id: string
+          skin_id: string | null
+          slot_position: number
+          updated_at: string
+        }
+        Insert: {
+          category_id: string
+          created_at?: string
+          id?: string
+          skin_id?: string | null
+          slot_position: number
+          updated_at?: string
+        }
+        Update: {
+          category_id?: string
+          created_at?: string
+          id?: string
+          skin_id?: string | null
+          slot_position?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "showcase_slots_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "showcase_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "showcase_slots_skin_id_fkey"
+            columns: ["skin_id"]
+            isOneToOne: false
+            referencedRelation: "imported_skins"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
