@@ -2,7 +2,7 @@ import { ArrowRight, Shield, Zap, Gem } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import InteractiveKnife from "@/components/InteractiveKnife";
-import heroKnife from "@/assets/knife-massacre.webp";
+import heroKnife from "@/assets/knife-karambit-casehardened.jpg";
 
 const WHATSAPP_URL = "https://wa.me/5511999999999?text=Ol%C3%A1%2C%20quero%20saber%20mais%20sobre%20skins%20CS2!";
 
