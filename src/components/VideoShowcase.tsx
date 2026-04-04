@@ -226,10 +226,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
                   <div className="absolute inset-0 flex items-center justify-center z-10">
                     <div
                       className="relative group/btn cursor-pointer"
-                      onClick={() => {
-                        setIsPlaying(true);
-                        videoRef.current?.play();
-                      }}
+                      onClick={openFullscreen}
                     >
                       {/* Pulse ring */}
                       <div className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ background: 'rgba(233, 90, 12, 0.3)' }} />
