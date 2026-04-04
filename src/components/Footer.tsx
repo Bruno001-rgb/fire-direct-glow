@@ -4,6 +4,8 @@ import logoFireskins from "@/assets/logo-fireskins.webp";
 import visaSvg from "@/assets/payment/visa.svg";
 import visaSecureSvg from "@/assets/payment/visa-secure.svg";
 import mastercardIdCheckSvg from "@/assets/payment/mastercard-id-check.svg";
+import mastercardSvg from "@/assets/payment/mastercard.svg";
+import maestroSvg from "@/assets/payment/maestro.svg";
 import interacPng from "@/assets/payment/interac.png";
 import sofortPng from "@/assets/payment/sofort.png";
 
