@@ -6,9 +6,11 @@ interface InteractiveKnifeProps {
 
 const InteractiveKnife = ({ src }: InteractiveKnifeProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isHovering, setIsHovering] = useState(false);
   const [transform, setTransform] = useState({ rotateX: 0, rotateY: 0, glowX: 50, glowY: 50 });
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    setIsHovering(true);
     const el = containerRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
@@ -23,6 +25,7 @@ const InteractiveKnife = ({ src }: InteractiveKnifeProps) => {
   }, []);
 
   const handleMouseLeave = useCallback(() => {
+    setIsHovering(false);
     setTransform({ rotateX: 0, rotateY: 0, glowX: 50, glowY: 50 });
   }, []);
 
@@ -35,7 +38,7 @@ const InteractiveKnife = ({ src }: InteractiveKnifeProps) => {
       style={{ perspective: "800px" }}
     >
       <div
-        className="w-full h-full transition-transform duration-150 ease-out will-change-transform"
+        className={`w-full h-full will-change-transform ${isHovering ? "transition-transform duration-150 ease-out" : "transition-transform duration-700 ease-in-out animate-float"}`}
         style={{
           transform: `rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg) scale3d(1.02, 1.02, 1.02)`,
           transformStyle: "preserve-3d",
