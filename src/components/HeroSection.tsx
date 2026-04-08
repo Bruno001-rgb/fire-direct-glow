@@ -4,9 +4,7 @@ import { Button } from "@/components/ui/button";
 import InteractiveKnife from "@/components/InteractiveKnife";
 import heroKnife from "@/assets/knife-massacre.webp";
 
-const WHATSAPP_GROUP = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
-const WA_MONTAR = `https://wa.me/?text=${encodeURIComponent("Olá! Quero montar meu inventário na FireSkins.")}`;
-const WA_VER = `https://wa.me/?text=${encodeURIComponent("Olá! Quero ver opções disponíveis na FireSkins.")}`;
+const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
 
 const trustItems = [
   { icon: Zap, label: "Atendimento rápido" },
@@ -103,21 +101,21 @@ const HeroSection = () => {
 
             {/* Subtitle */}
             <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-6 sm:mb-8">
-              De skins acessíveis a upgrades premium, a FireSkins encontra opções para diferentes estilos e budgets.
+              Facas, luvas e skins premium de CS2 com atendimento rápido, negociação segura e suporte direto no WhatsApp.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4 mb-6 sm:mb-8">
               <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm rounded-sm w-full sm:w-auto" asChild>
-                <a href={WHATSAPP_GROUP} target="_blank" rel="noopener noreferrer">
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
                   <WhatsAppIcon className="size-4" />
-                  Montar meu inventário
+                  Chamar no WhatsApp
                 </a>
               </Button>
 
               <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm rounded-sm w-full sm:w-auto" asChild>
-                <a href={WHATSAPP_GROUP} target="_blank" rel="noopener noreferrer">
-                  Ver opções no WhatsApp
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                  Ver Catálogo
                   <ArrowRight className="size-4 ml-1" />
                 </a>
               </Button>
