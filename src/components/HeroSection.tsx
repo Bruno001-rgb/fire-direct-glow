@@ -103,21 +103,21 @@ const HeroSection = () => {
 
             {/* Subtitle */}
             <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-6 sm:mb-8">
-              Facas, luvas e skins premium de CS2 com atendimento rápido, negociação segura e suporte direto no WhatsApp.
+              De skins acessíveis a upgrades premium, a FireSkins encontra opções para diferentes estilos e budgets.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4 mb-6 sm:mb-8">
               <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm rounded-sm w-full sm:w-auto" asChild>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                <a href={WHATSAPP_GROUP} target="_blank" rel="noopener noreferrer">
                   <WhatsAppIcon className="size-4" />
-                  Chamar no WhatsApp
+                  Montar meu inventário
                 </a>
               </Button>
 
               <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm rounded-sm w-full sm:w-auto" asChild>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                  Ver Catálogo
+                <a href={WHATSAPP_GROUP} target="_blank" rel="noopener noreferrer">
+                  Ver opções no WhatsApp
                   <ArrowRight className="size-4 ml-1" />
                 </a>
               </Button>
