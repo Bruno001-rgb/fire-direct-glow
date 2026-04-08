@@ -4,7 +4,9 @@ import { Button } from "@/components/ui/button";
 import InteractiveKnife from "@/components/InteractiveKnife";
 import heroKnife from "@/assets/knife-massacre.webp";
 
-const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
+const WHATSAPP_GROUP = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
+const WA_MONTAR = `https://wa.me/?text=${encodeURIComponent("Olá! Quero montar meu inventário na FireSkins.")}`;
+const WA_VER = `https://wa.me/?text=${encodeURIComponent("Olá! Quero ver opções disponíveis na FireSkins.")}`;
 
 const trustItems = [
   { icon: Zap, label: "Atendimento rápido" },
