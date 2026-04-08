@@ -1,6 +1,9 @@
 import Header from "@/components/Header";
 import StatsBar from "@/components/StatsBar";
 import HeroSection from "@/components/HeroSection";
+import BudgetSection from "@/components/BudgetSection";
+import InventoryBuilderSection from "@/components/InventoryBuilderSection";
+import TrustLevelsSection from "@/components/TrustLevelsSection";
 import CategoriesSection from "@/components/CategoriesSection";
 import VideoShowcase from "@/components/VideoShowcase";
 import TestimonialsSection from "@/components/TestimonialsSection";
@@ -19,6 +22,9 @@ const Index = () => {
 
         <main className="flex-1 min-w-0">
           <HeroSection />
+          <BudgetSection />
+          <InventoryBuilderSection />
+          <TrustLevelsSection />
           <CategoriesSection />
           <VideoShowcase />
           <TestimonialsSection />
