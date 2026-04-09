@@ -104,13 +104,13 @@ function RelatedSkins({
     let pool = allSkins.filter(
       (s) => s.id !== skin.id && collectionName && s.collections?.[0]?.name === collectionName
     );
-    if (pool.length < 6) {
+    if (pool.length < 12) {
       const weaponPool = allSkins.filter(
         (s) => s.id !== skin.id && s.weapon?.name === skin.weapon?.name && !pool.find((p) => p.id === s.id)
       );
       pool = [...pool, ...weaponPool];
     }
-    return pool.slice(0, 6);
+    return pool.slice(0, 12);
   }, [skin, allSkins]);
 
   if (related.length === 0) return null;
@@ -120,7 +120,7 @@ function RelatedSkins({
       <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
         Skins relacionadas
       </p>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
         {related.map((s) => (
           <button
             key={s.id}
