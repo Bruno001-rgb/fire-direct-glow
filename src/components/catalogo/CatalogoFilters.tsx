@@ -371,17 +371,8 @@ export function CatalogoDesktopLayout(
 ) {
   return (
     <div className="container flex flex-col h-[calc(100vh-4rem)]">
-      {/* Weapon categories bar — fixed */}
-      <div className="shrink-0 pt-4 pb-2">
-        <WeaponCategoryBar
-          weapon={props.weapon}
-          onWeaponChange={props.onWeaponChange}
-          allSkins={props.allSkins}
-        />
-      </div>
-
       {/* Sidebar + main content */}
-      <div className="flex gap-6 flex-1 min-h-0">
+      <div className="flex gap-6 flex-1 min-h-0 pt-4">
         {/* Sidebar — fixed, scrolls independently */}
         <aside className="w-64 shrink-0 space-y-1 overflow-y-auto pr-2 scrollbar-hide py-2">
           <div className="flex items-center justify-between mb-2">
@@ -397,6 +388,14 @@ export function CatalogoDesktopLayout(
 
         {/* Main content area */}
         <div className="flex-1 min-w-0 flex flex-col min-h-0 py-2">
+          {/* Weapon categories bar — above search */}
+          <div className="shrink-0 pb-3">
+            <WeaponCategoryBar
+              weapon={props.weapon}
+              onWeaponChange={props.onWeaponChange}
+              allSkins={props.allSkins}
+            />
+          </div>
           {/* Search bar — fixed */}
           <div className="relative shrink-0 mb-4">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
