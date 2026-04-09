@@ -183,13 +183,14 @@ export default function CatalogoFilters(props: Props) {
   const [sheetOpen, setSheetOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(false);
 
-  const hasActiveFilters =
+  const hasActiveFilters = !!(
     props.search ||
     props.weapon !== "all" ||
     props.rarity !== "Todos" ||
     props.wear !== "all" ||
     props.sort !== "az" ||
-    props.priceRange !== "all";
+    props.priceRange !== "all"
+  );
 
   const clearAll = () => {
     props.onSearchChange("");
