@@ -114,7 +114,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-stretch bg-background/98 animate-in fade-in duration-250"
+      className="fixed inset-0 z-[100] flex items-stretch bg-background animate-in fade-in duration-250"
       onClick={onClose}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
