@@ -279,9 +279,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30" />
                   <div className="relative z-10 flex items-center gap-4 p-4 md:p-5">
-                    <div className="flex-shrink-0 flex items-center justify-center size-10 rounded-full bg-primary/20 border border-primary/30">
-                      <Gamepad2 className="size-5 text-primary" />
-                    </div>
+                    <img src="/images/cs2-icon.png" alt="CS2" className="flex-shrink-0 size-10 rounded-full object-cover" />
                     <div className="flex-1 text-left">
                       <p className="text-sm md:text-base font-bold text-white">Jogue com a skin antes de comprá-la!</p>
                       <p className="text-[11px] md:text-xs text-white/60">Inicie o servidor e faça um test drive no jogo</p>
