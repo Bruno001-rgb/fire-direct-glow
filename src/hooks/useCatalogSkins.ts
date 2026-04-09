@@ -15,7 +15,7 @@ export function useCatalogSkins() {
         .select(`
           skin_id,
           imported_skins (
-            id, name, weapon_name, pattern_name, rarity_name, rarity_color, image
+            id, name, weapon_name, pattern_name, rarity_name, rarity_color, image, price
           )
         `)
         .not("skin_id", "is", null);
@@ -67,6 +67,7 @@ export function useCatalogSkins() {
           max_float: null,
           stattrak: false,
           collections: [],
+          price: s.price ?? null,
         });
       }
 
