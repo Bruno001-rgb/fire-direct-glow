@@ -38,6 +38,8 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
   const [origin, setOrigin] = useState({ x: "50%", y: "50%" });
   const [floatValue, setFloatValue] = useState(0);
   const touchStartY = useRef(0);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const originalRect = useRef<DOMRect | null>(null);
 
   const minFloat = skin?.min_float ?? 0;
   const maxFloat = skin?.max_float ?? 1;
