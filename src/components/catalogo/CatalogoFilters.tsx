@@ -370,7 +370,7 @@ export function CatalogoDesktopLayout(
   }
 ) {
   return (
-    <div className="container flex flex-col h-[calc(100vh-4rem)]">
+    <div className="px-4 xl:px-8 2xl:px-12 flex flex-col h-[calc(100vh-4rem)]">
       {/* Sidebar + main content */}
       <div className="flex gap-6 flex-1 min-h-0 pt-4">
         {/* Sidebar — fixed, scrolls independently */}
