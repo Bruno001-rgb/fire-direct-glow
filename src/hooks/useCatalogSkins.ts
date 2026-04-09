@@ -2,31 +2,50 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
 
+const BYMYKEL_API =
+  "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins.json";
+
 /**
  * Fetches only skins that are assigned to showcase slots (admin-curated).
- * Returns ByMykelSkin-compatible objects for use in the public catalog.
+ * Cross-references with byMykel API for real float ranges.
  */
 export function useCatalogSkins() {
   return useQuery({
     queryKey: ["catalog-skins"],
     queryFn: async (): Promise<ByMykelSkin[]> => {
-      const { data: slots, error } = await supabase
-        .from("showcase_slots")
-        .select(`
-          skin_id,
-          imported_skins (
-            id, name, weapon_name, pattern_name, rarity_name, rarity_color, image, price
-          )
-        `)
-        .not("skin_id", "is", null);
+      // Fetch DB skins and byMykel API in parallel
+      const [dbResult, apiRes] = await Promise.all([
+        supabase
+          .from("showcase_slots")
+          .select(`
+            skin_id,
+            imported_skins (
+              id, name, weapon_name, pattern_name, rarity_name, rarity_color, image, price
+            )
+          `)
+          .not("skin_id", "is", null),
+        fetch(BYMYKEL_API).then((r) => (r.ok ? r.json() : [])).catch(() => []),
+      ]);
 
-      if (error) throw error;
+      if (dbResult.error) throw dbResult.error;
 
-      // Deduplicate by skin_id (same skin can be in multiple slots)
+      // Build a lookup from byMykel skins by normalized name for float matching
+      const apiSkins = apiRes as any[];
+      const floatLookup = new Map<string, { min: number; max: number }>();
+      for (const s of apiSkins) {
+        if (s.name && s.min_float != null && s.max_float != null) {
+          floatLookup.set(s.name.toLowerCase(), {
+            min: s.min_float,
+            max: s.max_float,
+          });
+        }
+      }
+
+      // Deduplicate by skin_id
       const seen = new Set<string>();
       const skins: ByMykelSkin[] = [];
 
-      for (const slot of slots || []) {
+      for (const slot of dbResult.data || []) {
         const s = slot.imported_skins as any;
         if (!s || seen.has(s.id)) continue;
         seen.add(s.id);
@@ -56,6 +75,14 @@ export function useCatalogSkins() {
 
         const categoryName = isKnife ? "Knives" : isGloves ? "Gloves" : s.weapon_name || "";
 
+        // Try to match float range from byMykel API
+        // The imported name format is "Weapon | Pattern (Wear)" — strip the wear suffix for matching
+        const baseName = s.name?.replace(/\s*\([^)]*\)\s*$/, "").replace(/^★\s*/, "").trim();
+        const fullName = s.name?.replace(/\s*\([^)]*\)\s*$/, "").trim();
+        const floatData = floatLookup.get(fullName?.toLowerCase() || "") ||
+          floatLookup.get(baseName?.toLowerCase() || "") ||
+          floatLookup.get(s.name?.toLowerCase() || "");
+
         skins.push({
           id: s.id,
           name: s.name,
@@ -63,8 +90,8 @@ export function useCatalogSkins() {
           rarity: { name: s.rarity_name || "Unknown", color: s.rarity_color || "#888" },
           weapon: { name: s.weapon_name || "" },
           category: { name: categoryName },
-          min_float: 0,
-          max_float: 0.07,
+          min_float: floatData?.min ?? 0,
+          max_float: floatData?.max ?? 0.07,
           stattrak: false,
           collections: [],
           price: s.price ?? null,
