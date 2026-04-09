@@ -195,45 +195,51 @@ export default function SlotManager() {
     }
   }, [pendingChanges, queryClient]);
 
-  const handleCreateCategory = useCallback(async () => {
-    if (!newCatLabel.trim() || !newCatKey.trim() || newCatSlots < 1) {
-      toast.error("Preencha todos os campos.");
-      return;
-    }
-    // Check if category key already exists
-    if (categories?.some((c) => c.key === newCatKey.trim().toLowerCase())) {
-      toast.error("Essa categoria já existe!");
-      return;
-    }
-    setIsCreating(true);
+  const handleAddSlot = useCallback(async () => {
+    if (!addSlotCatId || !addSlotSkinName.trim() || !addSlotPrice.trim()) return;
+    const price = parseFloat(addSlotPrice.replace(",", "."));
+    if (isNaN(price)) { toast.error("Preço inválido."); return; }
+
+    setIsAddingSlot(true);
     try {
-      const { data: newCat, error: catErr } = await supabase
-        .from("showcase_categories")
-        .insert({ key: newCatKey.trim().toLowerCase(), label: newCatLabel.trim(), slot_count: newCatSlots, sort_order: (categories?.length ?? 0) + 1 })
-        .select()
-        .single();
-      if (catErr) throw catErr;
+      const cat = categories?.find((c) => c.id === addSlotCatId);
+      if (!cat) throw new Error("Categoria não encontrada");
+      const newPos = cat.slot_count + 1;
 
-      const slotsToInsert = Array.from({ length: newCatSlots }, (_, i) => ({
-        category_id: newCat.id,
-        slot_position: i + 1,
-      }));
-      const { error: slotsErr } = await supabase.from("showcase_slots").insert(slotsToInsert);
-      if (slotsErr) throw slotsErr;
+      // Create the imported_skin entry
+      const skinId = crypto.randomUUID();
+      const { error: skinErr } = await supabase.from("imported_skins").insert({
+        id: skinId,
+        name: addSlotSkinName.trim(),
+        price,
+      });
+      if (skinErr) throw skinErr;
 
-      setScrollToCatId(newCat.id);
+      // Update category slot count
+      await supabase.from("showcase_categories").update({ slot_count: newPos }).eq("id", cat.id);
+
+      // Create the slot
+      const { error: slotErr } = await supabase.from("showcase_slots").insert({
+        category_id: cat.id,
+        slot_position: newPos,
+        skin_id: skinId,
+      });
+      if (slotErr) throw slotErr;
+
+      setScrollToCatId(cat.id);
       queryClient.invalidateQueries({ queryKey: ["admin-categories-slots"] });
-      toast.success(`Categoria "${newCatLabel.trim()}" criada com ${newCatSlots} slots!`);
-      setShowNewCatForm(false);
-      setNewCatLabel("");
-      setNewCatKey("");
-      setNewCatSlots(8);
+      queryClient.invalidateQueries({ queryKey: ["showcase-skins"] });
+      toast.success(`Slot adicionado em "${cat.label}"!`);
+      setAddSlotSkinName("");
+      setAddSlotPrice("");
+      setAddSlotCatId("");
+      setShowAddSlotForm(false);
     } catch (err: any) {
       toast.error(`Erro: ${err.message}`);
     } finally {
-      setIsCreating(false);
+      setIsAddingSlot(false);
     }
-  }, [newCatLabel, newCatKey, newCatSlots, categories, queryClient]);
+  }, [addSlotCatId, addSlotSkinName, addSlotPrice, categories, queryClient]);
 
   const handleDeleteCategory = useCallback(async (catId: string, catLabel: string) => {
     if (!confirm(`Tem certeza que deseja remover a categoria "${catLabel}" e todos os seus slots?`)) return;
