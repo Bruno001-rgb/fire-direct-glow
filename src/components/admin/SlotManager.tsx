@@ -7,17 +7,6 @@ import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X, DollarSign
 import SkinSearchModal from "./SkinSearchModal";
 import { toast } from "sonner";
 
-const CATEGORY_OPTIONS = [
-  { label: "Facas", key: "facas" },
-  { label: "Luvas", key: "luvas" },
-  { label: "Rifles", key: "rifles" },
-  { label: "Snipers", key: "snipers" },
-  { label: "Pistolas", key: "pistolas" },
-  { label: "SMGs", key: "smgs" },
-  { label: "Shotguns", key: "shotguns" },
-  { label: "Metralhadoras", key: "metralhadoras" },
-];
-
 interface SkinPreview {
   name: string;
   weapon_name: string | null;
