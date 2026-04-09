@@ -39,9 +39,6 @@ export function useByMykelSkins() {
 // Weapon filter helpers
 export const WEAPON_FILTERS = [
   { label: "Todos", value: "all" },
-  { label: "AK-47", value: "AK-47" },
-  { label: "M4A4", value: "M4A4" },
-  { label: "AWP", value: "AWP" },
   { label: "Rifles", value: "rifles" },
   { label: "Pistolas", value: "pistols" },
   { label: "SMGs", value: "smgs" },
