@@ -1,44 +1,52 @@
 
 
-## Plano: Adicionar categorias faltantes + UI de gerenciamento
+## Plano: Redesign "acessível" — manter dark, simplificar visual
 
-### Estado atual
-4 categorias (Facas, Luvas, Rifles, Snipers) com 8 slots cada. Faltam Pistolas, SMGs, Shotguns e Metralhadoras. Todas as skins dessas armas já existem na API ByMykel e são acessíveis no modal de busca.
+### Problema
+O site transmite uma imagem muito premium/cara, afastando leads que buscam preços acessíveis. Precisamos comunicar que aqui tem skins **para todos os bolsos**.
 
 ### Alterações
 
-**1. Inserir novas categorias + slots no banco (migration)**
+**1. Paleta de cores — suavizar o "luxo" (index.css)**
+- Trocar gradiente dourado (#F5A006) por um tom laranja mais quente e menos "gold"
+- Reduzir intensidade dos glows e shadows em 50%
+- Remover `text-gradient-fire` dourado dos headings — usar laranja sólido
+- Simplificar `.glass-card-glow` — menos brilho, mais clean
 
-```sql
-INSERT INTO showcase_categories (key, label, sort_order) VALUES
-  ('pistolas', 'Pistolas', 5),
-  ('smgs', 'SMGs', 6),
-  ('shotguns', 'Shotguns', 7),
-  ('metralhadoras', 'Metralhadoras', 8);
+**2. Hero (HeroSection.tsx)**
+- Trocar headline de "Compre, Venda e Faça Upgrade das Suas Skins" para algo mais acessível: **"Skins de CS2 para Todos os Bolsos"** ou **"Sua Skin dos Sonhos pelo Melhor Preço"**
+- Remover texto "premium" da label superior — trocar "FireSkins • Skins Premium CS2" por **"FireSkins • Skins CS2"**
+- Reduzir efeitos de glow/blur dos backgrounds (diminuir tamanho e opacidade dos blurs decorativos)
+- Subtitle mais direto: "Encontre a skin perfeita com preço justo, pagamento facilitado e atendimento humano no WhatsApp."
 
--- 8 slots vazios para cada nova categoria
-INSERT INTO showcase_slots (category_id, slot_position)
-SELECT id, generate_series(1, 8)
-FROM showcase_categories
-WHERE key IN ('pistolas', 'smgs', 'shotguns', 'metralhadoras');
-```
+**3. Seção Catálogo (CategoriesSection.tsx)**
+- Trocar título "Catálogo premium" por **"Nossas Skins"** ou **"Confira Nossas Skins"**
+- Trocar subtítulo para "Skins para todos os estilos e bolsos"
+- Remover badge "Disponível" dos cards — substituir por preço ou simplesmente remover
+- Reduzir glow no hover dos cards
 
-**2. UI para criar/remover categorias no admin**
+**4. Stats Bar (StatsBar.tsx)**
+- Adicionar stat "Preços a partir de R$5" ou "Skins a partir de R$5" para reforçar acessibilidade
 
-Arquivo: `src/components/admin/SlotManager.tsx`
+**5. FinalCTA (FinalCTA.tsx)**
+- Reduzir intensidade das fire lines e glows
+- Manter estrutura mas com menos "premium feel"
 
-Adicionar no topo da aba Skins:
-- Botão **"+ Nova Categoria"** → mini-form inline com nome, key e quantidade de slots
-- Ao criar, insere categoria + N slots vazios via Supabase
-- Botão de lixeira em cada categoria (com confirmação) → deleta categoria + seus slots
-- Refetch automático após criar/remover
+**6. CSS global (index.css)**
+- `--secondary`: diminuir saturação do dourado, tornando mais laranja
+- Reduzir opacidade dos `glow-orange`, `pulse-glow` em ~40%
+- `glass-card-glow` hover: reduzir box-shadow
 
 ### O que NÃO muda
-- SkinSearchModal continua buscando da API ByMykel completa (~2,600 skins)
-- Catálogo público e Loadout continuam usando `useCatalogSkins` (só mostra skins dos slots preenchidos)
-- Nenhuma nova aba ou página
+- Estrutura de páginas e componentes
+- Funcionalidade do admin, catálogo, loadout
+- Cores base (dark theme, laranja primário)
+- CTAs e links do WhatsApp
 
 ### Arquivos alterados
-- Migration SQL (novas categorias + slots)
-- `src/components/admin/SlotManager.tsx` — UI de gerenciamento de categorias
+- `src/index.css` — paleta e efeitos
+- `src/components/HeroSection.tsx` — textos e efeitos
+- `src/components/CategoriesSection.tsx` — textos
+- `src/components/StatsBar.tsx` — novo stat
+- `src/components/FinalCTA.tsx` — reduzir glows
 
