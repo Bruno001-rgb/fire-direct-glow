@@ -157,7 +157,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
               transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isHovering ? 2.5 : 1})`,
               transformOrigin: `${origin.x} ${origin.y}`,
               filter: hasFloat ? getWearFilter(floatValue) : undefined,
-              transition: isHovering ? 'transform 0.1s ease-out' : 'transform 0.4s ease-out',
+              transition: isHovering ? 'transform 0.15s ease-out' : 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
             }}
           />
         </div>
