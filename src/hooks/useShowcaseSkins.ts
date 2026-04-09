@@ -7,6 +7,7 @@ export interface ShowcaseSkin {
   category: string;
   rarity: string;
   image: string;
+  price: number | null;
 }
 
 export function useShowcaseSkins() {
@@ -24,7 +25,8 @@ export function useShowcaseSkins() {
             weapon_name,
             pattern_name,
             rarity_name,
-            image
+            image,
+            price
           ),
           showcase_categories (
             key,
@@ -49,6 +51,7 @@ export function useShowcaseSkins() {
           category: s.showcase_categories.key,
           rarity: s.imported_skins.rarity_name || "Covert",
           image: s.imported_skins.image || "",
+          price: s.imported_skins.price ?? null,
         }));
     },
     staleTime: 1000 * 60 * 5, // 5 min cache
