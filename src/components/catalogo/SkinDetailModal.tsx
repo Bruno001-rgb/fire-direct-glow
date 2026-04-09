@@ -34,6 +34,8 @@ interface Props {
 export default function SkinDetailModal({ skin, onClose }: Props) {
   const { addToSlot } = useLoadout();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+  const [origin, setOrigin] = useState({ x: "50%", y: "50%" });
   const [floatValue, setFloatValue] = useState(0);
   const touchStartY = useRef(0);
 
@@ -66,12 +68,19 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 30;
-    const y = ((e.clientY - rect.top) / rect.height - 0.5) * -30;
+    const pctX = ((e.clientX - rect.left) / rect.width) * 100;
+    const pctY = ((e.clientY - rect.top) / rect.height) * 100;
+    const x = (pctX / 100 - 0.5) * 30;
+    const y = (pctY / 100 - 0.5) * -30;
     setTilt({ x: y, y: x });
+    setOrigin({ x: `${pctX}%`, y: `${pctY}%` });
+    setIsHovering(true);
   }, []);
 
-  const handleMouseLeave = useCallback(() => setTilt({ x: 0, y: 0 }), []);
+  const handleMouseLeave = useCallback(() => {
+    setTilt({ x: 0, y: 0 });
+    setIsHovering(false);
+  }, []);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     touchStartY.current = e.touches[0].clientY;
@@ -133,7 +142,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
       >
         {/* Image column */}
         <div
-          className="relative flex items-center justify-center min-h-[40vh] md:min-h-0 md:h-full p-8 md:p-16"
+          className="relative flex items-center justify-center min-h-[40vh] md:min-h-0 md:h-full p-8 md:p-16 overflow-hidden cursor-zoom-in"
           style={{
             background: `radial-gradient(circle at center, ${rarityColor}20 0%, transparent 70%)`,
           }}
@@ -143,10 +152,12 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
           <img
             src={skin.image}
             alt={skin.name}
-            className="max-h-[30vh] md:max-h-[70vh] w-auto object-contain transition-all duration-300 drop-shadow-2xl"
+            className="max-h-[30vh] md:max-h-[70vh] w-auto object-contain drop-shadow-2xl"
             style={{
-              transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+              transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isHovering ? 1.5 : 1})`,
+              transformOrigin: `${origin.x} ${origin.y}`,
               filter: hasFloat ? getWearFilter(floatValue) : undefined,
+              transition: isHovering ? 'transform 0.1s ease-out' : 'transform 0.4s ease-out',
             }}
           />
         </div>
