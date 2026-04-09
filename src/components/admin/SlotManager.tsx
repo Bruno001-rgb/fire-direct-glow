@@ -7,17 +7,6 @@ import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X, DollarSign
 import SkinSearchModal from "./SkinSearchModal";
 import { toast } from "sonner";
 
-const CATEGORY_OPTIONS = [
-  { label: "Facas", key: "facas" },
-  { label: "Luvas", key: "luvas" },
-  { label: "Rifles", key: "rifles" },
-  { label: "Snipers", key: "snipers" },
-  { label: "Pistolas", key: "pistolas" },
-  { label: "SMGs", key: "smgs" },
-  { label: "Shotguns", key: "shotguns" },
-  { label: "Metralhadoras", key: "metralhadoras" },
-];
-
 interface SkinPreview {
   name: string;
   weapon_name: string | null;
@@ -53,16 +42,15 @@ export default function SlotManager() {
   const [modalCategoryKey, setModalCategoryKey] = useState<string | undefined>(undefined);
   const [pendingChanges, setPendingChanges] = useState<Map<string, PendingChange>>(new Map());
   const [isSaving, setIsSaving] = useState(false);
-  const [showNewCatForm, setShowNewCatForm] = useState(false);
-  const [newCatLabel, setNewCatLabel] = useState("");
-  const [newCatKey, setNewCatKey] = useState("");
-  const [newCatSlots, setNewCatSlots] = useState(8);
-  const [isCreating, setIsCreating] = useState(false);
+  const [showAddSlotForm, setShowAddSlotForm] = useState(false);
+  const [addSlotCatId, setAddSlotCatId] = useState("");
+  const [addSlotSkinName, setAddSlotSkinName] = useState("");
+  const [addSlotPrice, setAddSlotPrice] = useState("");
+  const [isAddingSlot, setIsAddingSlot] = useState(false);
   const [deletingCatId, setDeletingCatId] = useState<string | null>(null);
   const [priceEdits, setPriceEdits] = useState<Map<string, string>>(new Map());
   const [savingPrices, setSavingPrices] = useState<Set<string>>(new Set());
   const [scrollToCatId, setScrollToCatId] = useState<string | null>(null);
-  const [isCustomCat, setIsCustomCat] = useState(false);
   const catRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   const { data: categories, isLoading } = useQuery({
@@ -196,45 +184,51 @@ export default function SlotManager() {
     }
   }, [pendingChanges, queryClient]);
 
-  const handleCreateCategory = useCallback(async () => {
-    if (!newCatLabel.trim() || !newCatKey.trim() || newCatSlots < 1) {
-      toast.error("Preencha todos os campos.");
-      return;
-    }
-    // Check if category key already exists
-    if (categories?.some((c) => c.key === newCatKey.trim().toLowerCase())) {
-      toast.error("Essa categoria já existe!");
-      return;
-    }
-    setIsCreating(true);
+  const handleAddSlot = useCallback(async () => {
+    if (!addSlotCatId || !addSlotSkinName.trim() || !addSlotPrice.trim()) return;
+    const price = parseFloat(addSlotPrice.replace(",", "."));
+    if (isNaN(price)) { toast.error("Preço inválido."); return; }
+
+    setIsAddingSlot(true);
     try {
-      const { data: newCat, error: catErr } = await supabase
-        .from("showcase_categories")
-        .insert({ key: newCatKey.trim().toLowerCase(), label: newCatLabel.trim(), slot_count: newCatSlots, sort_order: (categories?.length ?? 0) + 1 })
-        .select()
-        .single();
-      if (catErr) throw catErr;
+      const cat = categories?.find((c) => c.id === addSlotCatId);
+      if (!cat) throw new Error("Categoria não encontrada");
+      const newPos = cat.slot_count + 1;
 
-      const slotsToInsert = Array.from({ length: newCatSlots }, (_, i) => ({
-        category_id: newCat.id,
-        slot_position: i + 1,
-      }));
-      const { error: slotsErr } = await supabase.from("showcase_slots").insert(slotsToInsert);
-      if (slotsErr) throw slotsErr;
+      // Create the imported_skin entry
+      const skinId = crypto.randomUUID();
+      const { error: skinErr } = await supabase.from("imported_skins").insert({
+        id: skinId,
+        name: addSlotSkinName.trim(),
+        price,
+      });
+      if (skinErr) throw skinErr;
 
-      setScrollToCatId(newCat.id);
+      // Update category slot count
+      await supabase.from("showcase_categories").update({ slot_count: newPos }).eq("id", cat.id);
+
+      // Create the slot
+      const { error: slotErr } = await supabase.from("showcase_slots").insert({
+        category_id: cat.id,
+        slot_position: newPos,
+        skin_id: skinId,
+      });
+      if (slotErr) throw slotErr;
+
+      setScrollToCatId(cat.id);
       queryClient.invalidateQueries({ queryKey: ["admin-categories-slots"] });
-      toast.success(`Categoria "${newCatLabel.trim()}" criada com ${newCatSlots} slots!`);
-      setShowNewCatForm(false);
-      setNewCatLabel("");
-      setNewCatKey("");
-      setNewCatSlots(8);
+      queryClient.invalidateQueries({ queryKey: ["showcase-skins"] });
+      toast.success(`Slot adicionado em "${cat.label}"!`);
+      setAddSlotSkinName("");
+      setAddSlotPrice("");
+      setAddSlotCatId("");
+      setShowAddSlotForm(false);
     } catch (err: any) {
       toast.error(`Erro: ${err.message}`);
     } finally {
-      setIsCreating(false);
+      setIsAddingSlot(false);
     }
-  }, [newCatLabel, newCatKey, newCatSlots, categories, queryClient]);
+  }, [addSlotCatId, addSlotSkinName, addSlotPrice, categories, queryClient]);
 
   const handleDeleteCategory = useCallback(async (catId: string, catLabel: string) => {
     if (!confirm(`Tem certeza que deseja remover a categoria "${catLabel}" e todos os seus slots?`)) return;
@@ -322,91 +316,67 @@ export default function SlotManager() {
     <div className="space-y-6 sm:space-y-8">
       {/* Category management header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <h2 className="text-lg font-bold text-foreground">Categorias & Slots</h2>
-        {!showNewCatForm && (
-          <Button size="sm" variant="outline" onClick={() => setShowNewCatForm(true)}>
+        <div>
+          <h2 className="text-lg font-bold text-foreground">Categorias & Slots</h2>
+        </div>
+        {!showAddSlotForm && (
+          <Button size="sm" variant="outline" onClick={() => setShowAddSlotForm(true)}>
             <Plus className="size-3 mr-1" />
-            Nova Categoria
+            Adicionar Slot
           </Button>
         )}
       </div>
 
-      {showNewCatForm && (
+      {showAddSlotForm && (
         <div className="border border-border rounded-lg p-4 bg-card/60 space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold">Criar nova categoria</span>
-            <Button size="sm" variant="ghost" onClick={() => setShowNewCatForm(false)}>
+            <div>
+              <span className="text-sm font-semibold">Adicionar slot</span>
+              <p className="text-xs text-muted-foreground mt-0.5">Escolha a categoria, informe o nome da skin e defina o preço.</p>
+            </div>
+            <Button size="sm" variant="ghost" onClick={() => setShowAddSlotForm(false)}>
               <X className="size-4" />
             </Button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Categoria</label>
               <select
-                value={newCatKey}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  if (val === "__custom__") {
-                    setNewCatLabel("");
-                    setNewCatKey("");
-                    setIsCustomCat(true);
-                    return;
-                  }
-                  setIsCustomCat(false);
-                  const opt = CATEGORY_OPTIONS.find((o) => o.key === val);
-                  if (opt) {
-                    setNewCatLabel(opt.label);
-                    setNewCatKey(opt.key);
-                  } else {
-                    setNewCatLabel("");
-                    setNewCatKey("");
-                  }
-                }}
+                value={addSlotCatId}
+                onChange={(e) => setAddSlotCatId(e.target.value)}
                 className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
-                <option value="">Selecione a categoria</option>
-                {CATEGORY_OPTIONS.map((opt) => (
-                  <option key={opt.key} value={opt.key}>{opt.label}</option>
+                <option value="">Selecione...</option>
+                {categories?.map((cat) => (
+                  <option key={cat.id} value={cat.id}>{cat.label}</option>
                 ))}
-                <option value="__custom__">+ Personalizada</option>
               </select>
             </div>
-            {isCustomCat ? (
-              <>
-                <Input
-                  placeholder="Nome (ex: Adesivos)"
-                  value={newCatLabel}
-                  onChange={(e) => {
-                    setNewCatLabel(e.target.value);
-                    setNewCatKey(e.target.value.trim().toLowerCase().replace(/\s+/g, "-"));
-                  }}
-                />
-                <Input
-                  type="number"
-                  min={1}
-                  max={20}
-                  placeholder="Slots"
-                  value={newCatSlots}
-                  onChange={(e) => setNewCatSlots(Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))}
-                />
-              </>
-            ) : (
-              <>
-                <Input placeholder="Key" value={newCatKey} disabled />
-                <Input
-                  type="number"
-                  min={1}
-                  max={20}
-                  placeholder="Slots"
-                  value={newCatSlots}
-                  onChange={(e) => setNewCatSlots(Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))}
-                />
-              </>
-            )}
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Nome da skin</label>
+              <Input
+                placeholder="AWP Dragon Lore"
+                value={addSlotSkinName}
+                onChange={(e) => setAddSlotSkinName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Preço</label>
+              <Input
+                placeholder="R$ 1.250,00"
+                value={addSlotPrice}
+                onChange={(e) => setAddSlotPrice(e.target.value)}
+              />
+            </div>
           </div>
           <div className="flex justify-end">
-            <Button size="sm" onClick={handleCreateCategory} disabled={isCreating}>
-              {isCreating ? <Loader2 className="size-3 mr-1 animate-spin" /> : <Plus className="size-3 mr-1" />}
-              {isCreating ? "Criando..." : "Criar categoria"}
+            <Button
+              size="sm"
+              onClick={handleAddSlot}
+              disabled={isAddingSlot || !addSlotCatId || !addSlotSkinName.trim() || !addSlotPrice.trim()}
+            >
+              {isAddingSlot ? <Loader2 className="size-3 mr-1 animate-spin" /> : <Plus className="size-3 mr-1" />}
+              {isAddingSlot ? "Adicionando..." : "Adicionar slot"}
             </Button>
           </div>
         </div>
