@@ -6,6 +6,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { Slider } from "@/components/ui/slider";
 import { WEAPON_FILTERS, RARITY_FILTERS, WEAR_FILTERS, PRICE_FILTERS, type SortMode } from "@/hooks/useByMykelSkins";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
+import logoFireskins from "@/assets/logo-fireskins.webp";
 
 interface Props {
   search: string;
@@ -183,7 +184,13 @@ function WeaponCategoryBar({
           >
             {/* Weapon image */}
             <div className="w-16 h-12 flex items-center justify-center">
-              {imgSrc ? (
+              {w.value === "all" ? (
+                <img
+                  src={logoFireskins}
+                  alt="Todos"
+                  className="max-w-full max-h-full object-contain"
+                />
+              ) : imgSrc ? (
                 <img
                   src={imgSrc}
                   alt={w.label}
