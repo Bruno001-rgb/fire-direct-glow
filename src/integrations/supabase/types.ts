@@ -22,6 +22,7 @@ export type Database = {
           image: string | null
           name: string
           pattern_name: string | null
+          price: number | null
           rarity_color: string | null
           rarity_name: string | null
           weapon_name: string | null
@@ -33,6 +34,7 @@ export type Database = {
           image?: string | null
           name: string
           pattern_name?: string | null
+          price?: number | null
           rarity_color?: string | null
           rarity_name?: string | null
           weapon_name?: string | null
@@ -44,6 +46,7 @@ export type Database = {
           image?: string | null
           name?: string
           pattern_name?: string | null
+          price?: number | null
           rarity_color?: string | null
           rarity_name?: string | null
           weapon_name?: string | null
