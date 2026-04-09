@@ -53,6 +53,11 @@ export default function CatalogoSkinCard({ skin, onClick }: Props) {
               </span>
             )}
           </div>
+          {skin.price != null && (
+            <p className="text-sm font-extrabold text-primary mt-1">
+              R$ {skin.price.toFixed(2).replace(".", ",")}
+            </p>
+          )}
         </div>
       </div>
     </button>

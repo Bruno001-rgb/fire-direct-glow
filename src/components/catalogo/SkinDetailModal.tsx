@@ -119,6 +119,12 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
           <div className="p-6 md:p-8 flex flex-col gap-4">
             <h2 className="text-2xl font-bold text-foreground">{skin.name}</h2>
 
+            {skin.price != null && (
+              <p className="text-2xl font-extrabold text-primary">
+                R$ {skin.price.toFixed(2).replace(".", ",")}
+              </p>
+            )}
+
             <div className="flex items-center gap-2 flex-wrap">
               <span
                 className="text-xs font-bold px-2 py-1 rounded"

@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X } from "lucide-react";
+import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X, DollarSign } from "lucide-react";
 import SkinSearchModal from "./SkinSearchModal";
 import { toast } from "sonner";
 
@@ -13,6 +13,7 @@ interface SkinPreview {
   pattern_name: string | null;
   image: string | null;
   rarity_name: string | null;
+  price: number | null;
 }
 
 interface SlotWithSkin {
@@ -46,6 +47,8 @@ export default function SlotManager() {
   const [newCatSlots, setNewCatSlots] = useState(8);
   const [isCreating, setIsCreating] = useState(false);
   const [deletingCatId, setDeletingCatId] = useState<string | null>(null);
+  const [priceEdits, setPriceEdits] = useState<Map<string, string>>(new Map()); // skinId -> price string
+  const [savingPrices, setSavingPrices] = useState<Set<string>>(new Set());
 
   const { data: categories, isLoading } = useQuery({
     queryKey: ["admin-categories-slots"],
@@ -60,7 +63,7 @@ export default function SlotManager() {
         .from("showcase_slots")
         .select(`
           id, slot_position, skin_id, category_id,
-          imported_skins (name, weapon_name, pattern_name, image, rarity_name)
+          imported_skins (name, weapon_name, pattern_name, image, rarity_name, price)
         `)
         .order("slot_position");
       if (slotsErr) throw slotsErr;
@@ -208,6 +211,33 @@ export default function SlotManager() {
     }
   }, [categories, queryClient]);
 
+  const handleSavePrice = useCallback(async (skinId: string) => {
+    const priceStr = priceEdits.get(skinId);
+    if (priceStr === undefined) return;
+    const price = priceStr.trim() === "" ? null : parseFloat(priceStr.replace(",", "."));
+    if (price !== null && isNaN(price)) {
+      toast.error("Preço inválido.");
+      return;
+    }
+    setSavingPrices((prev) => new Set(prev).add(skinId));
+    try {
+      const { error } = await supabase
+        .from("imported_skins")
+        .update({ price })
+        .eq("id", skinId);
+      if (error) throw error;
+      setPriceEdits((prev) => { const next = new Map(prev); next.delete(skinId); return next; });
+      queryClient.invalidateQueries({ queryKey: ["admin-categories-slots"] });
+      queryClient.invalidateQueries({ queryKey: ["showcase-skins"] });
+      queryClient.invalidateQueries({ queryKey: ["catalog-skins"] });
+      toast.success("Preço salvo!");
+    } catch (err: any) {
+      toast.error(`Erro: ${err.message}`);
+    } finally {
+      setSavingPrices((prev) => { const next = new Set(prev); next.delete(skinId); return next; });
+    }
+  }, [priceEdits, queryClient]);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -337,6 +367,31 @@ export default function SlotManager() {
                         <div className="p-2 space-y-1">
                           <p className="text-xs font-semibold truncate">{slot.imported_skins.weapon_name}</p>
                           <p className="text-[10px] text-muted-foreground truncate">{slot.imported_skins.pattern_name}</p>
+                          {/* Price editor */}
+                          {slot.skin_id && (
+                            <div className="flex items-center gap-1 mt-1">
+                              <span className="text-[10px] text-muted-foreground">R$</span>
+                              <Input
+                                className="h-7 text-xs px-1.5 flex-1"
+                                placeholder="Preço"
+                                value={priceEdits.has(slot.skin_id) ? priceEdits.get(slot.skin_id) : (slot.imported_skins.price?.toFixed(2) ?? "")}
+                                onChange={(e) => {
+                                  const skinId = slot.skin_id!;
+                                  setPriceEdits((prev) => new Map(prev).set(skinId, e.target.value));
+                                }}
+                              />
+                              {priceEdits.has(slot.skin_id) && (
+                                <Button
+                                  size="sm"
+                                  className="h-7 w-7 p-0"
+                                  onClick={() => handleSavePrice(slot.skin_id!)}
+                                  disabled={savingPrices.has(slot.skin_id)}
+                                >
+                                  {savingPrices.has(slot.skin_id) ? <Loader2 className="size-3 animate-spin" /> : <DollarSign className="size-3" />}
+                                </Button>
+                              )}
+                            </div>
+                          )}
                           <div className="flex gap-1">
                             <Button size="sm" variant="outline" className="flex-1 h-9 sm:h-8 text-[11px] sm:text-[10px] min-w-[44px]" onClick={() => setModalSlotId(slot.id)}>
                               <RefreshCw className="size-3 mr-1" />

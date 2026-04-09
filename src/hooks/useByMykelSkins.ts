@@ -11,6 +11,7 @@ export interface ByMykelSkin {
   max_float: number | null;
   stattrak: boolean;
   collections: { name: string }[];
+  price?: number | null;
 }
 
 const API_URL =

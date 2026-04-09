@@ -1,0 +1,1 @@
+ALTER TABLE public.imported_skins ADD COLUMN price numeric(10,2) DEFAULT NULL;
