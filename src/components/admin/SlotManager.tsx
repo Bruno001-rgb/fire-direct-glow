@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X } from "lucide-react";
+import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X, DollarSign } from "lucide-react";
 import SkinSearchModal from "./SkinSearchModal";
 import { toast } from "sonner";
 
@@ -13,6 +13,7 @@ interface SkinPreview {
   pattern_name: string | null;
   image: string | null;
   rarity_name: string | null;
+  price: number | null;
 }
 
 interface SlotWithSkin {
@@ -60,7 +61,7 @@ export default function SlotManager() {
         .from("showcase_slots")
         .select(`
           id, slot_position, skin_id, category_id,
-          imported_skins (name, weapon_name, pattern_name, image, rarity_name)
+          imported_skins (name, weapon_name, pattern_name, image, rarity_name, price)
         `)
         .order("slot_position");
       if (slotsErr) throw slotsErr;
