@@ -38,6 +38,8 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
   const [origin, setOrigin] = useState({ x: "50%", y: "50%" });
   const [floatValue, setFloatValue] = useState(0);
   const touchStartY = useRef(0);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const originalRect = useRef<DOMRect | null>(null);
 
   const minFloat = skin?.min_float ?? 0;
   const maxFloat = skin?.max_float ?? 1;
@@ -66,20 +68,29 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
     return () => { document.body.style.overflow = ""; };
   }, [skin]);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
+  const handleMouseEnter = useCallback((e: React.MouseEvent<HTMLImageElement>) => {
+    originalRect.current = e.currentTarget.getBoundingClientRect();
+    setIsHovering(true);
+  }, []);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLImageElement>) => {
+    const rect = originalRect.current;
+    if (!rect) return;
     const pctX = ((e.clientX - rect.left) / rect.width) * 100;
     const pctY = ((e.clientY - rect.top) / rect.height) * 100;
-    const x = (pctX / 100 - 0.5) * 30;
-    const y = (pctY / 100 - 0.5) * -30;
+    const clampedX = Math.max(0, Math.min(100, pctX));
+    const clampedY = Math.max(0, Math.min(100, pctY));
+    const tiltStrength = 8;
+    const x = (clampedX / 100 - 0.5) * tiltStrength;
+    const y = (clampedY / 100 - 0.5) * -tiltStrength;
     setTilt({ x: y, y: x });
-    setOrigin({ x: `${pctX}%`, y: `${pctY}%` });
-    setIsHovering(true);
+    setOrigin({ x: `${clampedX}%`, y: `${clampedY}%` });
   }, []);
 
   const handleMouseLeave = useCallback(() => {
     setTilt({ x: 0, y: 0 });
     setIsHovering(false);
+    originalRect.current = null;
   }, []);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
@@ -148,12 +159,15 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
           }}
         >
           <img
+            ref={imgRef}
             src={skin.image}
             alt={skin.name}
+            onMouseEnter={handleMouseEnter}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             className="max-h-[30vh] md:max-h-[70vh] w-auto object-contain drop-shadow-2xl cursor-zoom-in"
             style={{
+              willChange: 'transform',
               transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isHovering ? 2.5 : 1})`,
               transformOrigin: `${origin.x} ${origin.y}`,
               filter: hasFloat ? getWearFilter(floatValue) : undefined,
