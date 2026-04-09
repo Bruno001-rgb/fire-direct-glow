@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
-import { X, Gamepad2 } from "lucide-react";
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import WhatsAppIcon from "@/components/WhatsAppIcon";
@@ -27,12 +27,130 @@ function getWearFilter(float: number) {
   return `brightness(${brightness}) contrast(${contrast}) saturate(${saturate})`;
 }
 
+/* ── Float visual bar ── */
+function FloatBar({ minFloat, maxFloat, current }: { minFloat: number; maxFloat: number; current: number }) {
+  // Position of the pointer on the full 0–1 bar
+  const pct = (current / 1) * 100;
+  const leftPct = (minFloat / 1) * 100;
+  const rightPct = (maxFloat / 1) * 100;
+
+  return (
+    <div className="space-y-1.5">
+      <div className="flex justify-between text-[10px] font-mono text-muted-foreground">
+        <span>{minFloat.toFixed(2)}</span>
+        <span>{maxFloat.toFixed(2)}</span>
+      </div>
+      <div className="relative h-3 rounded-full overflow-hidden bg-muted/50">
+        {/* Gradient bar */}
+        <div
+          className="absolute inset-0 rounded-full"
+          style={{
+            background: `linear-gradient(to right, 
+              hsl(142 71% 45%) 0%, 
+              hsl(48 96% 53%) 7%, 
+              hsl(25 95% 53%) 15%, 
+              hsl(0 72% 51%) 38%, 
+              hsl(0 60% 40%) 45%, 
+              hsl(0 50% 30%) 100%)`,
+          }}
+        />
+        {/* Dim areas outside skin's float range */}
+        {leftPct > 0 && (
+          <div
+            className="absolute top-0 left-0 h-full bg-background/70"
+            style={{ width: `${leftPct}%` }}
+          />
+        )}
+        {rightPct < 100 && (
+          <div
+            className="absolute top-0 right-0 h-full bg-background/70"
+            style={{ width: `${100 - rightPct}%` }}
+          />
+        )}
+        {/* Current position indicator */}
+        <div
+          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 size-4 rounded-full border-2 border-foreground bg-background shadow-md transition-all duration-300"
+          style={{ left: `${pct}%` }}
+        />
+      </div>
+      <div className="flex gap-1">
+        {WEAR_TIERS.map((t) => (
+          <div
+            key={t.short}
+            className="text-[9px] text-center flex-1 opacity-60"
+            style={{ color: t.color }}
+          >
+            {t.short}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ── Related skins ── */
+function RelatedSkins({
+  skin,
+  allSkins,
+  onSelect,
+}: {
+  skin: ByMykelSkin;
+  allSkins: ByMykelSkin[];
+  onSelect: (s: ByMykelSkin) => void;
+}) {
+  const related = useMemo(() => {
+    const collectionName = skin.collections?.[0]?.name;
+    // Prefer same collection, then same weapon
+    let pool = allSkins.filter(
+      (s) => s.id !== skin.id && collectionName && s.collections?.[0]?.name === collectionName
+    );
+    if (pool.length < 6) {
+      const weaponPool = allSkins.filter(
+        (s) => s.id !== skin.id && s.weapon?.name === skin.weapon?.name && !pool.find((p) => p.id === s.id)
+      );
+      pool = [...pool, ...weaponPool];
+    }
+    return pool.slice(0, 6);
+  }, [skin, allSkins]);
+
+  if (related.length === 0) return null;
+
+  return (
+    <div className="space-y-2">
+      <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
+        Skins relacionadas
+      </p>
+      <div className="grid grid-cols-3 gap-2">
+        {related.map((s) => (
+          <button
+            key={s.id}
+            onClick={() => onSelect(s)}
+            className="group flex flex-col items-center gap-1 p-2 rounded-lg bg-muted/30 hover:bg-muted/60 transition-colors cursor-pointer"
+          >
+            <img
+              src={s.image}
+              alt={s.name}
+              loading="lazy"
+              className="h-12 w-auto object-contain group-hover:scale-105 transition-transform"
+            />
+            <span className="text-[10px] text-muted-foreground text-center line-clamp-2 leading-tight">
+              {s.name}
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 interface Props {
   skin: ByMykelSkin | null;
   onClose: () => void;
+  allSkins?: ByMykelSkin[];
+  onSkinChange?: (skin: ByMykelSkin) => void;
 }
 
-export default function SkinDetailModal({ skin, onClose }: Props) {
+export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinChange }: Props) {
   const { addToSlot } = useLoadout();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
@@ -134,6 +252,10 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
 
   const hasFloat = skin.min_float != null && skin.max_float != null;
 
+  const handleSelectRelated = (s: ByMykelSkin) => {
+    onSkinChange?.(s);
+  };
+
   return (
     <div
       className="fixed inset-0 z-[100] flex items-stretch bg-background animate-in fade-in duration-250"
@@ -155,7 +277,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
       >
         {/* Info column */}
         <div className="order-2 md:order-1 flex-1 md:h-full md:overflow-y-auto md:border-r border-border/30 bg-card/40">
-          <div className="flex flex-col gap-4 p-5 pb-8 md:gap-5 md:p-12 md:justify-center md:min-h-full">
+          <div className="flex flex-col gap-4 p-5 pb-8 md:gap-5 md:p-12 md:min-h-full">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground">{skin.name}</h2>
 
             {skin.price != null && (
@@ -226,8 +348,8 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
                   })}
                 </div>
 
-
-
+                {/* Visual float bar */}
+                <FloatBar minFloat={minFloat} maxFloat={maxFloat} current={floatValue} />
               </div>
             )}
 
@@ -253,9 +375,30 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
               )}
             </div>
 
+            {/* Description / Lore */}
+            {skin.description && (
+              <>
+                <div className="h-px bg-border/50" />
+                <div>
+                  <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold mb-1.5">Lore</p>
+                  <p className="text-sm italic text-muted-foreground leading-relaxed">
+                    "{skin.description}"
+                  </p>
+                </div>
+              </>
+            )}
+
+            {/* Related skins */}
+            {allSkins.length > 0 && (
+              <>
+                <div className="h-px bg-border/50" />
+                <RelatedSkins skin={skin} allSkins={allSkins} onSelect={handleSelectRelated} />
+              </>
+            )}
+
             <div className="h-px bg-border/50" />
 
-            <div className="flex flex-col gap-3 mt-auto pt-2">
+            <div className="flex flex-col gap-3 pt-2">
               <Button variant="fire" className="w-full h-12 text-base" asChild>
                 <a
                   href={`https://wa.me/?text=${whatsappMsg}`}

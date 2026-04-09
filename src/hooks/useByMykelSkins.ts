@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 export interface ByMykelSkin {
   id: string;
   name: string;
+  description?: string | null;
   image: string;
   rarity: { name: string; color: string };
   weapon: { name: string };
