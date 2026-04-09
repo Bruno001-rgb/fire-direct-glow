@@ -98,7 +98,7 @@ export default function Catalogo() {
       </div>
 
       
-      <SkinDetailModal skin={selectedSkin} onClose={() => setSelectedSkin(null)} />
+      <SkinDetailModal skin={selectedSkin} onClose={() => setSelectedSkin(null)} allSkins={skins || []} onSkinChange={setSelectedSkin} />
     </div>
   );
 }
