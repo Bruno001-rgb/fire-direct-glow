@@ -124,6 +124,16 @@ function FiltersContent(props: Props) {
 export default function CatalogoFilters(props: Props) {
   const [open, setOpen] = useState(false);
 
+  const hasActiveFilters = props.search || props.weapon !== "all" || props.rarity !== "all" || props.wear !== "all" || props.sort !== "az";
+
+  const clearAll = () => {
+    props.onSearchChange("");
+    props.onWeaponChange("all");
+    props.onRarityChange("all");
+    props.onWearChange("all");
+    props.onSortChange("az");
+  };
+
   const activeCount = [props.weapon, props.rarity, props.wear].filter((v) => v !== "all").length;
 
   return (
