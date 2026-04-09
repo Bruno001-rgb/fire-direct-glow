@@ -1,49 +1,44 @@
 
 
-## Plan: Premium Float/Wear Selector in Catalog Detail Modal
+## Plan: Fullscreen Skin Detail Modal with Improved Layout
 
 ### What changes
 
-Only **one file** is modified: `src/components/catalogo/SkinDetailModal.tsx`. No other pages or components are touched.
+Only **one file**: `src/components/catalogo/SkinDetailModal.tsx`
+
+### Current state
+
+The modal is `md:max-w-4xl md:max-h-[90vh]` — a centered card on desktop, full height on mobile. The user wants it to be truly fullscreen on all devices with a better layout.
 
 ### Implementation
 
-**1. Add interactive float slider state**
-- Add `floatValue` state initialized to `skin.min_float` when the modal opens
-- Constrain slider to real `[min_float, max_float]` range from the API
-- Step size: `0.01`, display with 2 decimal places
+**1. Make modal fullscreen**
+- Remove `md:max-w-4xl`, `md:max-h-[90vh]`, `md:rounded-xl` constraints
+- Set inner container to `w-full h-full` on all breakpoints
+- The overlay already covers `fixed inset-0`
 
-**2. Wear label logic**
-Helper function mapping float to wear condition:
-- 0.00–0.07: Factory New
-- 0.07–0.15: Minimal Wear  
-- 0.15–0.38: Field-Tested
-- 0.38–0.45: Well-Worn
-- 0.45–1.00: Battle-Scarred
+**2. Improved fullscreen layout — Desktop**
+- Two-column layout using `md:grid md:grid-cols-[1fr_1fr] h-full`
+- Left column: skin image centered vertically and horizontally, taking full height with the rarity radial gradient filling the entire left half
+- Image scales larger (max-h-[70vh]) to use the space
+- Right column: scrollable info panel with generous padding, content vertically centered
 
-Only labels within the skin's actual float range are selectable.
+**3. Improved fullscreen layout — Mobile**
+- Single column, scrollable
+- Image area takes ~40vh with rarity gradient background
+- Info section below with comfortable padding
 
-**3. Premium UI upgrades**
-- Replace the static float range bar with a custom styled Radix slider (already in project) using orange accent colors
-- Add a **float badge** showing the current value (e.g. `0.06`) with mono font
-- Add a **wear condition badge** with color coding (green for FN, yellow for MW, orange for FT, red for WW/BS)
-- Add clickable wear label chips above the slider for quick selection (only enabled chips for wears the skin supports)
-- Subtle CSS filter on the skin image based on float (slight brightness/contrast shift to simulate wear)
+**4. Close button**
+- Larger, more visible close button in top-right corner
+- Semi-transparent dark background for contrast against any skin image
 
-**4. Updated WhatsApp CTA**
-- Button text: "Consultar esta skin no WhatsApp"
-- Message includes selected float: `"Olá, quero consultar a skin [name] com float [value]."`
-
-**5. What stays the same**
-- 3D tilt effect on image
-- Rarity badge, StatTrak badge
-- Collection info, category/weapon info
-- "Adicionar ao loadout" button
-- Escape to close, swipe down to close on mobile
-
-### API note
-The ByMykel API does not support dynamic image rendering by float value. The same image is kept, and only the float value, wear label, and a subtle CSS visual effect change. No external API calls are needed for this feature.
+**5. Visual polish**
+- Subtle border-left separator between columns on desktop
+- Right column gets a slightly darker background for contrast
+- Larger skin name text (3xl on desktop)
+- Larger price text
+- More breathing room between sections
 
 ### Files changed
-- `src/components/catalogo/SkinDetailModal.tsx` — full rewrite of the detail modal
+- `src/components/catalogo/SkinDetailModal.tsx` — layout overhaul to fullscreen
 
