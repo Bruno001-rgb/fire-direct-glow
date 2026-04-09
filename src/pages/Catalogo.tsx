@@ -98,7 +98,7 @@ export default function Catalogo() {
         </CatalogoDesktopLayout>
       </div>
 
-      <Footer />
+      
       <SkinDetailModal skin={selectedSkin} onClose={() => setSelectedSkin(null)} />
     </div>
   );
