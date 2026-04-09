@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Search, SlidersHorizontal, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { WEAPON_FILTERS, RARITY_FILTERS, WEAR_FILTERS, type SortMode } from "@/hooks/useByMykelSkins";
+import { WEAPON_FILTERS, RARITY_FILTERS, WEAR_FILTERS, PRICE_FILTERS, type SortMode } from "@/hooks/useByMykelSkins";
+import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
 
 interface Props {
   search: string;
@@ -16,6 +17,9 @@ interface Props {
   onWearChange: (v: string) => void;
   sort: SortMode;
   onSortChange: (v: SortMode) => void;
+  priceRange: string;
+  onPriceRangeChange: (v: string) => void;
+  allSkins?: ByMykelSkin[];
 }
 
 const SORT_OPTIONS: { label: string; value: SortMode }[] = [
@@ -29,27 +33,25 @@ function FilterChips({
   value,
   onChange,
 }: {
-  items: readonly { label?: string; value?: string }[] | readonly string[];
+  items: readonly { label: string; value: string }[];
   value: string;
   onChange: (v: string) => void;
 }) {
   return (
     <div className="flex flex-wrap gap-1.5">
       {items.map((item) => {
-        const label = typeof item === "string" ? item : item.label!;
-        const val = typeof item === "string" ? item : item.value!;
-        const active = value === val;
+        const active = value === item.value;
         return (
           <button
-            key={val}
-            onClick={() => onChange(val)}
+            key={item.value}
+            onClick={() => onChange(item.value)}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
               active
                 ? "bg-primary text-primary-foreground shadow-sm"
                 : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
             }`}
           >
-            {label}
+            {item.label}
           </button>
         );
       })}
@@ -91,23 +93,50 @@ function CollapsibleFilter({
 }
 
 function FiltersContent(props: Props) {
+  // Compute wear counts from allSkins
+  const wearItemsWithCount = useMemo(() => {
+    const skins = props.allSkins || [];
+    return WEAR_FILTERS.map((w) => {
+      if (w.value === "all") {
+        return { label: `Todos (${skins.length})`, value: w.value };
+      }
+      const count = skins.filter((s) => {
+        const min = s.min_float ?? 0;
+        const max = s.max_float ?? 1;
+        return min < w.max && max > w.min;
+      }).length;
+      return { label: `${w.label} (${count})`, value: w.value };
+    });
+  }, [props.allSkins]);
+
   return (
     <div>
       <CollapsibleFilter title="Arma" defaultOpen>
         <FilterChips
-          items={WEAPON_FILTERS as unknown as { label: string; value: string }[]}
+          items={WEAPON_FILTERS.map((w) => ({ label: w.label, value: w.value }))}
           value={props.weapon}
           onChange={props.onWeaponChange}
         />
       </CollapsibleFilter>
       <CollapsibleFilter title="Raridade">
-        <FilterChips items={RARITY_FILTERS} value={props.rarity} onChange={props.onRarityChange} />
+        <FilterChips
+          items={RARITY_FILTERS.map((r) => ({ label: r, value: r }))}
+          value={props.rarity}
+          onChange={props.onRarityChange}
+        />
       </CollapsibleFilter>
       <CollapsibleFilter title="Condição">
         <FilterChips
-          items={WEAR_FILTERS as unknown as { label: string; value: string }[]}
+          items={wearItemsWithCount}
           value={props.wear}
           onChange={props.onWearChange}
+        />
+      </CollapsibleFilter>
+      <CollapsibleFilter title="Preço">
+        <FilterChips
+          items={PRICE_FILTERS.map((p) => ({ label: p.label, value: p.value }))}
+          value={props.priceRange}
+          onChange={props.onPriceRangeChange}
         />
       </CollapsibleFilter>
       <CollapsibleFilter title="Ordenar">
@@ -125,17 +154,20 @@ export default function CatalogoFilters(props: Props) {
   const [open, setOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
 
-  const hasActiveFilters = props.search || props.weapon !== "all" || props.rarity !== "all" || props.wear !== "all" || props.sort !== "az";
+  const hasActiveFilters = props.search || props.weapon !== "all" || props.rarity !== "Todos" || props.wear !== "all" || props.sort !== "az" || props.priceRange !== "all";
 
   const clearAll = () => {
     props.onSearchChange("");
     props.onWeaponChange("all");
-    props.onRarityChange("all");
+    props.onRarityChange("Todos");
     props.onWearChange("all");
     props.onSortChange("az");
+    props.onPriceRangeChange("all");
   };
 
-  const activeCount = [props.weapon, props.rarity, props.wear].filter((v) => v !== "all").length;
+  const activeCount = [props.weapon, props.rarity, props.wear, props.priceRange].filter(
+    (v) => v !== "all" && v !== "Todos"
+  ).length;
 
   return (
     <div className="sticky top-14 sm:top-16 z-30 bg-background/95 backdrop-blur-md border-b border-border/60">
