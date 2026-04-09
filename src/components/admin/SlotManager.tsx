@@ -406,7 +406,7 @@ export default function SlotManager() {
         const isDeleting = deletingCatId === cat.id;
 
         return (
-          <div key={cat.id} className="space-y-3">
+          <div key={cat.id} ref={(el) => { if (el) catRefs.current.set(cat.id, el); }} className="space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="text-base sm:text-lg font-bold text-foreground">
                 {cat.label}{" "}
