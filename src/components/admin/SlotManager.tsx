@@ -1,11 +1,23 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X, DollarSign } from "lucide-react";
 import SkinSearchModal from "./SkinSearchModal";
 import { toast } from "sonner";
+
+const CATEGORY_OPTIONS = [
+  { label: "Facas", key: "facas" },
+  { label: "Luvas", key: "luvas" },
+  { label: "Rifles", key: "rifles" },
+  { label: "Snipers", key: "snipers" },
+  { label: "Pistolas", key: "pistolas" },
+  { label: "SMGs", key: "smgs" },
+  { label: "Shotguns", key: "shotguns" },
+  { label: "Metralhadoras", key: "metralhadoras" },
+];
 
 interface SkinPreview {
   name: string;
@@ -48,8 +60,10 @@ export default function SlotManager() {
   const [newCatSlots, setNewCatSlots] = useState(8);
   const [isCreating, setIsCreating] = useState(false);
   const [deletingCatId, setDeletingCatId] = useState<string | null>(null);
-  const [priceEdits, setPriceEdits] = useState<Map<string, string>>(new Map()); // skinId -> price string
+  const [priceEdits, setPriceEdits] = useState<Map<string, string>>(new Map());
   const [savingPrices, setSavingPrices] = useState<Set<string>>(new Set());
+  const [scrollToCatId, setScrollToCatId] = useState<string | null>(null);
+  const catRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   const { data: categories, isLoading } = useQuery({
     queryKey: ["admin-categories-slots"],
@@ -85,6 +99,30 @@ export default function SlotManager() {
 
   const hasPendingChanges = pendingChanges.size > 0;
 
+  // Scroll to newly created category
+  useEffect(() => {
+    if (scrollToCatId && categories) {
+      const el = catRefs.current.get(scrollToCatId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        setScrollToCatId(null);
+      }
+    }
+  }, [scrollToCatId, categories]);
+
+  // Collect all used skin IDs (saved + pending)
+  const getAllUsedSkinIds = useCallback(() => {
+    const used = new Map<string, string>(); // skinId -> category label
+    categories?.forEach((cat) => {
+      cat.slots.forEach((slot) => {
+        const pending = pendingChanges.get(slot.id);
+        const skinId = pending !== undefined ? pending.skinId : slot.skin_id;
+        if (skinId) used.set(skinId, cat.label);
+      });
+    });
+    return used;
+  }, [categories, pendingChanges]);
+
   const getEffectiveSlot = useCallback(
     (slot: SlotWithSkin) => {
       const pending = pendingChanges.get(slot.id);
@@ -99,6 +137,14 @@ export default function SlotManager() {
   const handleSelect = useCallback(
     (skinId: string, preview: SkinPreview) => {
       if (!modalSlotId) return;
+
+      // Check for duplicate skin across all slots
+      const usedSkins = getAllUsedSkinIds();
+      if (usedSkins.has(skinId)) {
+        toast.error(`⚠️ Essa skin já está sendo usada na categoria "${usedSkins.get(skinId)}"!`);
+        return;
+      }
+
       setPendingChanges((prev) => {
         const next = new Map(prev);
         next.set(modalSlotId, { skinId, preview });
@@ -107,7 +153,7 @@ export default function SlotManager() {
       setModalSlotId(null);
       setModalCategoryKey(undefined);
     },
-    [modalSlotId]
+    [modalSlotId, getAllUsedSkinIds]
   );
 
   const handleRemove = useCallback((slotId: string) => {
@@ -155,9 +201,13 @@ export default function SlotManager() {
       toast.error("Preencha todos os campos.");
       return;
     }
+    // Check if category key already exists
+    if (categories?.some((c) => c.key === newCatKey.trim().toLowerCase())) {
+      toast.error("Essa categoria já existe!");
+      return;
+    }
     setIsCreating(true);
     try {
-      const maxOrder = categories?.reduce((max, c) => Math.max(max, c.slots.length > 0 ? categories.indexOf(c) : 0), 0) ?? 0;
       const { data: newCat, error: catErr } = await supabase
         .from("showcase_categories")
         .insert({ key: newCatKey.trim().toLowerCase(), label: newCatLabel.trim(), slot_count: newCatSlots, sort_order: (categories?.length ?? 0) + 1 })
@@ -172,6 +222,7 @@ export default function SlotManager() {
       const { error: slotsErr } = await supabase.from("showcase_slots").insert(slotsToInsert);
       if (slotsErr) throw slotsErr;
 
+      setScrollToCatId(newCat.id);
       queryClient.invalidateQueries({ queryKey: ["admin-categories-slots"] });
       toast.success(`Categoria "${newCatLabel.trim()}" criada com ${newCatSlots} slots!`);
       setShowNewCatForm(false);
@@ -289,20 +340,30 @@ export default function SlotManager() {
             </Button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-            <Input
-              placeholder="Nome (ex: Pistolas)"
-              value={newCatLabel}
-              onChange={(e) => {
-                setNewCatLabel(e.target.value);
-                if (!newCatKey || newCatKey === newCatLabel.trim().toLowerCase().replace(/\s+/g, "-")) {
-                  setNewCatKey(e.target.value.trim().toLowerCase().replace(/\s+/g, "-"));
+            <Select
+              value={newCatKey}
+              onValueChange={(val) => {
+                const opt = CATEGORY_OPTIONS.find((o) => o.key === val);
+                if (opt) {
+                  setNewCatLabel(opt.label);
+                  setNewCatKey(opt.key);
                 }
               }}
-            />
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Selecione a categoria" />
+              </SelectTrigger>
+              <SelectContent>
+                {CATEGORY_OPTIONS.filter((opt) => !categories?.some((c) => c.key === opt.key)).map((opt) => (
+                  <SelectItem key={opt.key} value={opt.key}>{opt.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <Input
-              placeholder="Key (ex: pistolas)"
+              placeholder="Key"
               value={newCatKey}
               onChange={(e) => setNewCatKey(e.target.value)}
+              disabled
             />
             <Input
               type="number"
@@ -345,7 +406,7 @@ export default function SlotManager() {
         const isDeleting = deletingCatId === cat.id;
 
         return (
-          <div key={cat.id} className="space-y-3">
+          <div key={cat.id} ref={(el) => { if (el) catRefs.current.set(cat.id, el); }} className="space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="text-base sm:text-lg font-bold text-foreground">
                 {cat.label}{" "}
