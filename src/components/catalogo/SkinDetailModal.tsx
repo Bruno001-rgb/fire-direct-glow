@@ -159,12 +159,15 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
           }}
         >
           <img
+            ref={imgRef}
             src={skin.image}
             alt={skin.name}
+            onMouseEnter={handleMouseEnter}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             className="max-h-[30vh] md:max-h-[70vh] w-auto object-contain drop-shadow-2xl cursor-zoom-in"
             style={{
+              willChange: 'transform',
               transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isHovering ? 2.5 : 1})`,
               transformOrigin: `${origin.x} ${origin.y}`,
               filter: hasFloat ? getWearFilter(floatValue) : undefined,
