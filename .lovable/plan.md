@@ -1,28 +1,44 @@
 
 
-## Plano: Trocar busca do SkinSearchModal para usar API ByMykel
+## Plano: Adicionar categorias faltantes + UI de gerenciamento
 
-### Problema
-O `SkinSearchModal` (usado no admin para selecionar skins dos slots) busca da tabela `imported_skins` no banco. O usuário quer que busque direto da API ByMykel via o hook `useByMykelSkins` que já existe com cache infinito. Simples, sem nova seção.
+### Estado atual
+4 categorias (Facas, Luvas, Rifles, Snipers) com 8 slots cada. Faltam Pistolas, SMGs, Shotguns e Metralhadoras. Todas as skins dessas armas já existem na API ByMykel e são acessíveis no modal de busca.
 
-### Alteração
+### Alterações
 
-**Arquivo único: `src/components/admin/SkinSearchModal.tsx`**
+**1. Inserir novas categorias + slots no banco (migration)**
 
-- Trocar `useImportedSkins(search)` por `useByMykelSkins()`
-- Filtrar client-side pelo `search` (já que o hook retorna todas as skins em cache)
-- Adaptar o mapeamento dos campos no `onSelect`:
-  - `skinId` → `skin.id`
-  - `name` → `skin.name`
-  - `weapon_name` → `skin.weapon?.name`
-  - `pattern_name` → extrair parte após " | " do `skin.name`
-  - `image` → `skin.image`
-  - `rarity_name` → `skin.rarity?.name`
-- Limitar resultados exibidos a 100 (para performance do grid)
-- Manter todo o resto igual: layout, skeleton, placeholder text
+```sql
+INSERT INTO showcase_categories (key, label, sort_order) VALUES
+  ('pistolas', 'Pistolas', 5),
+  ('smgs', 'SMGs', 6),
+  ('shotguns', 'Shotguns', 7),
+  ('metralhadoras', 'Metralhadoras', 8);
+
+-- 8 slots vazios para cada nova categoria
+INSERT INTO showcase_slots (category_id, slot_position)
+SELECT id, generate_series(1, 8)
+FROM showcase_categories
+WHERE key IN ('pistolas', 'smgs', 'shotguns', 'metralhadoras');
+```
+
+**2. UI para criar/remover categorias no admin**
+
+Arquivo: `src/components/admin/SlotManager.tsx`
+
+Adicionar no topo da aba Skins:
+- Botão **"+ Nova Categoria"** → mini-form inline com nome, key e quantidade de slots
+- Ao criar, insere categoria + N slots vazios via Supabase
+- Botão de lixeira em cada categoria (com confirmação) → deleta categoria + seus slots
+- Refetch automático após criar/remover
 
 ### O que NÃO muda
-- Nenhuma nova aba ou seção no admin
-- `SlotManager` continua igual (já consome o `onSelect` com a mesma interface `SkinPreview`)
-- O hook `useImportedSkins` pode ficar no código (não quebra nada), ou ser removido como cleanup
+- SkinSearchModal continua buscando da API ByMykel completa (~2,600 skins)
+- Catálogo público e Loadout continuam usando `useCatalogSkins` (só mostra skins dos slots preenchidos)
+- Nenhuma nova aba ou página
+
+### Arquivos alterados
+- Migration SQL (novas categorias + slots)
+- `src/components/admin/SlotManager.tsx` — UI de gerenciamento de categorias
 
