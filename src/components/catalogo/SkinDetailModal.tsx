@@ -38,6 +38,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
   const [isHovering, setIsHovering] = useState(false);
   const [origin, setOrigin] = useState({ x: "50%", y: "50%" });
   const [floatValue, setFloatValue] = useState(0);
+  const [showTryModal, setShowTryModal] = useState(false);
   const touchStartY = useRef(0);
   const imgRef = useRef<HTMLImageElement>(null);
   const originalRect = useRef<DOMRect | null>(null);
@@ -264,6 +265,10 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
                   <WhatsAppIcon className="size-5" />
                   Consultar esta skin no WhatsApp
                 </a>
+              </Button>
+              <Button variant="fire-outline" className="w-full h-12 text-base" onClick={() => setShowTryModal(true)}>
+                <Gamepad2 className="size-5" />
+                Testar no jogo
               </Button>
               <Button variant="fire-outline" className="w-full h-12 text-base" onClick={handleAddToLoadout}>
                 Adicionar ao loadout
