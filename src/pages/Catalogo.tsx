@@ -1,11 +1,11 @@
 import { useState, useMemo } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import CatalogoFilters from "@/components/catalogo/CatalogoFilters";
+import CatalogoFilters, { CatalogoDesktopLayout } from "@/components/catalogo/CatalogoFilters";
 import CatalogoGrid from "@/components/catalogo/CatalogoGrid";
 import CatalogoSkeleton from "@/components/catalogo/CatalogoSkeleton";
 import SkinDetailModal from "@/components/catalogo/SkinDetailModal";
-import { filterSkins, type SortMode } from "@/hooks/useByMykelSkins";
+import { filterSkins, WEAR_FILTERS, type SortMode } from "@/hooks/useByMykelSkins";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
 import { useCatalogSkins } from "@/hooks/useCatalogSkins";
 import { Button } from "@/components/ui/button";
@@ -41,50 +41,62 @@ export default function Catalogo() {
     allSkins: skins,
   };
 
+  const hasActiveFilters = !!(
+    search || weapon !== "all" || rarity !== "Todos" || wear !== "all" || sort !== "az" || priceRange !== "all"
+  );
+
+  const clearAll = () => {
+    setSearch(""); setWeapon("all"); setRarity("Todos"); setWear("all"); setSort("az"); setPriceRange("all");
+  };
+
+  const wearItems = useMemo(() => {
+    const all = skins || [];
+    return WEAR_FILTERS.map((w) => {
+      if (w.value === "all") return { label: `Todos (${all.length})`, value: w.value };
+      const count = all.filter((s) => {
+        const min = s.min_float ?? 0; const max = s.max_float ?? 1;
+        return min < w.max && max > w.min;
+      }).length;
+      return { label: `${w.label} (${count})`, value: w.value };
+    });
+  }, [skins]);
+
+  const gridContent = (
+    <>
+      {isLoading && <CatalogoSkeleton />}
+      {isError && (
+        <div className="text-center py-20 space-y-4">
+          <p className="text-destructive text-lg">Erro ao carregar skins. Tente novamente.</p>
+          <Button variant="fire" onClick={() => refetch()}>Tentar novamente</Button>
+        </div>
+      )}
+      {skins && <CatalogoGrid skins={filtered} onSkinClick={setSelectedSkin} />}
+    </>
+  );
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
 
-      {/* Mobile: collapsible filter bar */}
+      {/* Mobile: collapsible filter bar + grid */}
       <div className="lg:hidden">
         <CatalogoFilters {...filterProps} />
+        <main className="container py-6 mt-14 sm:mt-16">
+          {gridContent}
+        </main>
       </div>
 
-      <main className="mt-14 sm:mt-16">
-        {/* Desktop: sidebar layout */}
-        <div className="hidden lg:block">
-          <CatalogoFilters {...filterProps} />
-          <div className="container">
-            <div className="flex gap-6">
-              {/* Spacer matching sidebar width */}
-              <div className="w-64 shrink-0" />
-              {/* Grid */}
-              <div className="flex-1 min-w-0 pb-8">
-                {isLoading && <CatalogoSkeleton />}
-                {isError && (
-                  <div className="text-center py-20 space-y-4">
-                    <p className="text-destructive text-lg">Erro ao carregar skins. Tente novamente.</p>
-                    <Button variant="fire" onClick={() => refetch()}>Tentar novamente</Button>
-                  </div>
-                )}
-                {skins && <CatalogoGrid skins={filtered} onSkinClick={setSelectedSkin} />}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile: simple grid */}
-        <div className="lg:hidden container py-6">
-          {isLoading && <CatalogoSkeleton />}
-          {isError && (
-            <div className="text-center py-20 space-y-4">
-              <p className="text-destructive text-lg">Erro ao carregar skins. Tente novamente.</p>
-              <Button variant="fire" onClick={() => refetch()}>Tentar novamente</Button>
-            </div>
-          )}
-          {skins && <CatalogoGrid skins={filtered} onSkinClick={setSelectedSkin} />}
-        </div>
-      </main>
+      {/* Desktop: sidebar layout with grid inside */}
+      <div className="hidden lg:block mt-16">
+        <CatalogoDesktopLayout
+          {...filterProps}
+          wearItems={wearItems}
+          hasActiveFilters={hasActiveFilters}
+          clearAll={clearAll}
+        >
+          {gridContent}
+        </CatalogoDesktopLayout>
+      </div>
 
       <Footer />
       <SkinDetailModal skin={selectedSkin} onClose={() => setSelectedSkin(null)} />

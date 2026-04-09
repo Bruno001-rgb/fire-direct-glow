@@ -323,11 +323,12 @@ export default function CatalogoFilters(props: Props) {
 }
 
 /* ═══ Desktop sidebar + top bar layout ═══ */
-function CatalogoDesktopLayout(
+export function CatalogoDesktopLayout(
   props: Props & {
     wearItems: { label: string; value: string }[];
     hasActiveFilters: boolean;
     clearAll: () => void;
+    children?: React.ReactNode;
   }
 ) {
   return (
@@ -373,6 +374,8 @@ function CatalogoDesktopLayout(
               </button>
             )}
           </div>
+          {/* Grid content injected here */}
+          {props.children}
         </div>
       </div>
     </div>
