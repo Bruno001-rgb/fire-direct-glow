@@ -39,16 +39,16 @@ export function useByMykelSkins() {
 // Weapon filter helpers
 export const WEAPON_FILTERS = [
   { label: "Todos", value: "all" },
-  { label: "AK-47", value: "AK-47" },
-  { label: "M4A4", value: "M4A4" },
-  { label: "AWP", value: "AWP" },
-  { label: "Rifles", value: "rifles" },
-  { label: "Pistolas", value: "pistols" },
-  { label: "SMGs", value: "smgs" },
-  { label: "Shotguns", value: "shotguns" },
-  { label: "Metralhadoras", value: "machineguns" },
   { label: "Faca", value: "knife" },
   { label: "Luvas", value: "gloves" },
+  { label: "Pistolas", value: "pistols" },
+  { label: "AK-47", value: "AK-47" },
+  { label: "M4A4", value: "M4A4" },
+  { label: "Rifles", value: "rifles" },
+  { label: "AWP", value: "AWP" },
+  { label: "SMGs", value: "smgs" },
+  { label: "Metralhadoras", value: "machineguns" },
+  { label: "Shotguns", value: "shotguns" },
 ] as const;
 
 export const RARITY_FILTERS = [
