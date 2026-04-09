@@ -121,7 +121,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
     >
       {/* Close button */}
       <button
-        onClick={onClose}
+        onClick={(e) => { e.stopPropagation(); onClose(); }}
         className="absolute top-4 right-4 z-20 p-3 rounded-full bg-muted/80 hover:bg-muted transition-colors backdrop-blur-sm"
       >
         <X className="size-5 text-foreground" />
