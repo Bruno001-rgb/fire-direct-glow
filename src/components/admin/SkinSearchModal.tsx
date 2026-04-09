@@ -5,24 +5,57 @@ import { useByMykelSkins } from "@/hooks/useByMykelSkins";
 import { supabase } from "@/integrations/supabase/client";
 import { Search, Loader2 } from "lucide-react";
 
+const CATEGORY_WEAPON_MAP: Record<string, (weaponName: string) => boolean> = {
+  facas: (w) => {
+    const l = w.toLowerCase();
+    return ["knife", "karambit", "bayonet", "butterfly", "falchion", "flip", "gut",
+      "huntsman", "bowie", "shadow daggers", "stiletto", "talon", "ursus", "navaja",
+      "classic knife", "paracord", "survival", "nomad", "skeleton", "kukri"].some(k => l.includes(k));
+  },
+  luvas: (w) => {
+    const l = w.toLowerCase();
+    return l.includes("gloves") || l.includes("wraps");
+  },
+  rifles: (w) => ["AK-47", "M4A4", "M4A1-S", "FAMAS", "Galil AR", "AUG", "SG 553"].includes(w),
+  snipers: (w) => ["AWP", "SSG 08", "SCAR-20", "G3SG1"].includes(w),
+  pistolas: (w) => ["Desert Eagle", "USP-S", "Glock-18", "P250", "Five-SeveN", "Tec-9", "CZ75-Auto", "R8 Revolver", "Dual Berettas", "P2000"].includes(w),
+  smgs: (w) => ["MP9", "MAC-10", "MP7", "MP5-SD", "UMP-45", "P90", "PP-Bizon"].includes(w),
+  shotguns: (w) => ["Nova", "XM1014", "Sawed-Off", "MAG-7"].includes(w),
+  metralhadoras: (w) => ["M249", "Negev"].includes(w),
+};
+
 interface SkinSearchModalProps {
   open: boolean;
   onClose: () => void;
-  onSelect: (skinId: string, preview: { name: string; weapon_name: string | null; pattern_name: string | null; image: string | null; rarity_name: string | null }) => void;
+  onSelect: (skinId: string, preview: { name: string; weapon_name: string | null; pattern_name: string | null; image: string | null; rarity_name: string | null; price: number | null }) => void;
+  categoryKey?: string;
 }
 
-export default function SkinSearchModal({ open, onClose, onSelect }: SkinSearchModalProps) {
+export default function SkinSearchModal({ open, onClose, onSelect, categoryKey }: SkinSearchModalProps) {
   const [search, setSearch] = useState("");
   const { data: allSkins, isLoading } = useByMykelSkins();
 
+  const weaponFilter = categoryKey ? CATEGORY_WEAPON_MAP[categoryKey] : null;
+
   const skins = useMemo(() => {
     if (!allSkins) return [];
-    if (!search.trim()) return allSkins.slice(0, 100);
+    let filtered = allSkins;
+
+    // Filter by category weapon type
+    if (weaponFilter) {
+      filtered = filtered.filter((s) => s.weapon?.name && weaponFilter(s.weapon.name));
+    }
+
+    if (!search.trim()) return filtered.slice(0, 100);
     const q = search.toLowerCase();
-    return allSkins
+    return filtered
       .filter((s) => s.name.toLowerCase().includes(q))
       .slice(0, 100);
-  }, [allSkins, search]);
+  }, [allSkins, search, weaponFilter]);
+
+  const categoryLabel = categoryKey
+    ? categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1)
+    : "Skin";
 
   const handleSelect = async (skin: (typeof skins)[0]) => {
     const patternName = skin.name.includes(" | ") ? skin.name.split(" | ")[1] : null;
@@ -44,6 +77,7 @@ export default function SkinSearchModal({ open, onClose, onSelect }: SkinSearchM
       pattern_name: patternName,
       image: skin.image || null,
       rarity_name: skin.rarity?.name || null,
+      price: null,
     });
     onClose();
   };
@@ -52,13 +86,13 @@ export default function SkinSearchModal({ open, onClose, onSelect }: SkinSearchM
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogContent className="max-w-2xl max-h-[85vh] sm:max-h-[80vh] flex flex-col bg-background border-border mx-2 sm:mx-auto">
         <DialogHeader>
-          <DialogTitle>Selecionar Skin</DialogTitle>
+          <DialogTitle>Selecionar {categoryLabel}</DialogTitle>
         </DialogHeader>
 
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
           <Input
-            placeholder="Buscar por nome, arma ou pattern..."
+            placeholder={`Buscar ${categoryKey ? categoryLabel.toLowerCase() : "skins"}...`}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-10 h-10 sm:h-9"
