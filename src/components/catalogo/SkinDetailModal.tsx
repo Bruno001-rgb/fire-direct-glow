@@ -153,7 +153,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
       >
         {/* Info column */}
         <div className="order-2 md:order-1 flex-1 md:h-full md:overflow-y-auto md:border-r border-border/30 bg-card/40">
-          <div className="flex flex-col gap-5 p-6 md:p-12 md:justify-center md:min-h-full">
+          <div className="flex flex-col gap-4 p-5 pb-8 md:gap-5 md:p-12 md:justify-center md:min-h-full">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground">{skin.name}</h2>
 
             {skin.price != null && (
@@ -285,7 +285,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
 
         {/* Image column */}
         <div
-          className="order-1 md:order-2 relative flex items-center justify-center min-h-[40vh] md:min-h-0 md:h-full p-8 md:p-16 overflow-hidden"
+          className="order-1 md:order-2 relative flex items-center justify-center min-h-[30vh] md:min-h-0 md:h-full p-4 md:p-16 overflow-hidden"
           style={{
             background: `radial-gradient(circle at center, ${rarityColor}20 0%, transparent 70%)`,
           }}
@@ -297,7 +297,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
             onMouseEnter={handleMouseEnter}
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
-            className="max-h-[30vh] md:max-h-[70vh] w-auto object-contain drop-shadow-2xl cursor-zoom-in"
+            className="max-h-[25vh] md:max-h-[70vh] w-auto object-contain drop-shadow-2xl cursor-zoom-in"
             style={{
               willChange: 'transform',
               transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isHovering ? 1.8 : 1})`,
