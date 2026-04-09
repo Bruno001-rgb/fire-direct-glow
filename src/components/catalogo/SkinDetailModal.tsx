@@ -68,20 +68,29 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
     return () => { document.body.style.overflow = ""; };
   }, [skin]);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
+  const handleMouseEnter = useCallback((e: React.MouseEvent<HTMLImageElement>) => {
+    originalRect.current = e.currentTarget.getBoundingClientRect();
+    setIsHovering(true);
+  }, []);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLImageElement>) => {
+    const rect = originalRect.current;
+    if (!rect) return;
     const pctX = ((e.clientX - rect.left) / rect.width) * 100;
     const pctY = ((e.clientY - rect.top) / rect.height) * 100;
-    const x = (pctX / 100 - 0.5) * 30;
-    const y = (pctY / 100 - 0.5) * -30;
+    const clampedX = Math.max(0, Math.min(100, pctX));
+    const clampedY = Math.max(0, Math.min(100, pctY));
+    const tiltStrength = 8;
+    const x = (clampedX / 100 - 0.5) * tiltStrength;
+    const y = (clampedY / 100 - 0.5) * -tiltStrength;
     setTilt({ x: y, y: x });
-    setOrigin({ x: `${pctX}%`, y: `${pctY}%` });
-    setIsHovering(true);
+    setOrigin({ x: `${clampedX}%`, y: `${clampedY}%` });
   }, []);
 
   const handleMouseLeave = useCallback(() => {
     setTilt({ x: 0, y: 0 });
     setIsHovering(false);
+    originalRect.current = null;
   }, []);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
