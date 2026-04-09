@@ -42,6 +42,9 @@ export const WEAPON_FILTERS = [
   { label: "AK-47", value: "AK-47" },
   { label: "M4A4", value: "M4A4" },
   { label: "AWP", value: "AWP" },
+  { label: "Pistolas", value: "pistols" },
+  { label: "SMGs", value: "smgs" },
+  { label: "Shotguns", value: "shotguns" },
   { label: "Faca", value: "knife" },
   { label: "Luvas", value: "gloves" },
 ] as const;
