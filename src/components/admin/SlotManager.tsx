@@ -1,11 +1,23 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X, DollarSign } from "lucide-react";
 import SkinSearchModal from "./SkinSearchModal";
 import { toast } from "sonner";
+
+const CATEGORY_OPTIONS = [
+  { label: "Facas", key: "facas" },
+  { label: "Luvas", key: "luvas" },
+  { label: "Rifles", key: "rifles" },
+  { label: "Snipers", key: "snipers" },
+  { label: "Pistolas", key: "pistolas" },
+  { label: "SMGs", key: "smgs" },
+  { label: "Shotguns", key: "shotguns" },
+  { label: "Metralhadoras", key: "metralhadoras" },
+];
 
 interface SkinPreview {
   name: string;
