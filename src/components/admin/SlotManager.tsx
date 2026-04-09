@@ -364,7 +364,7 @@ export default function SlotManager() {
                 className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
                 <option value="">Selecione a categoria</option>
-                {CATEGORY_OPTIONS.filter((opt) => !categories?.some((c) => c.key === opt.key)).map((opt) => (
+                {CATEGORY_OPTIONS.map((opt) => (
                   <option key={opt.key} value={opt.key}>{opt.label}</option>
                 ))}
                 <option value="__custom__">+ Personalizada</option>
