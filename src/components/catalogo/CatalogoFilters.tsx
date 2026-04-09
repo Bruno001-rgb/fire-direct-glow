@@ -176,19 +176,19 @@ function WeaponCategoryBar({
           <button
             key={w.value}
             onClick={() => onWeaponChange(w.value)}
-            className={`flex flex-col items-center gap-1.5 p-3 rounded-xl transition-all duration-200 shrink-0 min-w-[100px] ${
+            className={`flex flex-col items-center gap-2 p-4 rounded-xl transition-all duration-200 shrink-0 min-w-[130px] ${
               active
                 ? "bg-primary/10 border border-primary/40 shadow-sm shadow-primary/10"
                 : "bg-muted/30 border border-border/40 hover:bg-muted/50 hover:border-border/60"
             }`}
           >
             {/* Weapon image */}
-            <div className="w-20 h-14 flex items-center justify-center">
+            <div className="w-28 h-20 flex items-center justify-center">
               {w.value === "all" ? (
                 <img
                   src={logoFireskins}
                   alt="Todos"
-                  className="max-w-full max-h-full object-contain"
+                  className="w-20 h-20 object-contain"
                 />
               ) : imgSrc ? (
                 <img
