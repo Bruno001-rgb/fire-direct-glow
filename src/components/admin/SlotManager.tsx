@@ -39,6 +39,7 @@ interface PendingChange {
 export default function SlotManager() {
   const queryClient = useQueryClient();
   const [modalSlotId, setModalSlotId] = useState<string | null>(null);
+  const [modalCategoryKey, setModalCategoryKey] = useState<string | undefined>(undefined);
   const [pendingChanges, setPendingChanges] = useState<Map<string, PendingChange>>(new Map());
   const [isSaving, setIsSaving] = useState(false);
   const [showNewCatForm, setShowNewCatForm] = useState(false);
@@ -104,6 +105,7 @@ export default function SlotManager() {
         return next;
       });
       setModalSlotId(null);
+      setModalCategoryKey(undefined);
     },
     [modalSlotId]
   );
@@ -393,7 +395,7 @@ export default function SlotManager() {
                             </div>
                           )}
                           <div className="flex gap-1">
-                            <Button size="sm" variant="outline" className="flex-1 h-9 sm:h-8 text-[11px] sm:text-[10px] min-w-[44px]" onClick={() => setModalSlotId(slot.id)}>
+                            <Button size="sm" variant="outline" className="flex-1 h-9 sm:h-8 text-[11px] sm:text-[10px] min-w-[44px]" onClick={() => { setModalSlotId(slot.id); setModalCategoryKey(cat.key); }}>
                               <RefreshCw className="size-3 mr-1" />
                               Trocar
                             </Button>
@@ -405,7 +407,7 @@ export default function SlotManager() {
                       </>
                     ) : (
                       <button
-                        onClick={() => setModalSlotId(slot.id)}
+                        onClick={() => { setModalSlotId(slot.id); setModalCategoryKey(cat.key); }}
                         className="w-full aspect-[3/4] flex flex-col items-center justify-center gap-2 text-muted-foreground hover:text-foreground hover:bg-accent/30 transition-colors min-h-[120px]"
                       >
                         <ImagePlus className="size-6" />
@@ -421,7 +423,7 @@ export default function SlotManager() {
         );
       })}
 
-      <SkinSearchModal open={!!modalSlotId} onClose={() => setModalSlotId(null)} onSelect={handleSelect} />
+      <SkinSearchModal open={!!modalSlotId} onClose={() => { setModalSlotId(null); setModalCategoryKey(undefined); }} onSelect={handleSelect} categoryKey={modalCategoryKey} />
     </div>
   );
 }
