@@ -11,7 +11,7 @@ export default function CatalogoSkinCard({ skin, onClick }: Props) {
   return (
     <button
       onClick={() => onClick(skin)}
-      className="group text-left rounded-lg overflow-hidden transition-transform duration-200 hover:scale-[1.03] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      className="group text-left rounded-lg overflow-hidden transition-transform duration-200 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       style={{
         background: "#111",
         borderWidth: 1,
@@ -29,11 +29,11 @@ export default function CatalogoSkinCard({ skin, onClick }: Props) {
       <div className="h-1.5 w-full" style={{ background: rarityColor }} />
 
       <div className="p-3 flex flex-col items-center gap-2">
-        <div className="w-full aspect-square flex items-center justify-center p-2">
+        <div className="w-full aspect-square flex items-center justify-center p-2 overflow-hidden">
           <img
             src={skin.image}
             alt={skin.name}
-            className="max-h-full max-w-full object-contain"
+            className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-[1.15]"
             loading="lazy"
           />
         </div>
