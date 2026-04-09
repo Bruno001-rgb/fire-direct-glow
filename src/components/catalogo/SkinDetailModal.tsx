@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
 import { useLoadout, LOADOUT_SLOTS, type SlotKey } from "@/contexts/LoadoutContext";
@@ -224,20 +224,8 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
                   })}
                 </div>
 
-                <div className="space-y-1">
-                  <Slider
-                    value={[floatValue]}
-                    min={minFloat}
-                    max={maxFloat}
-                    step={0.01}
-                    onValueChange={([val]) => setFloatValue(val)}
-                    className="[&_[data-radix-slider-track]]:h-2 [&_[data-radix-slider-track]]:bg-muted [&_[data-radix-slider-range]]:bg-primary [&_[data-radix-slider-thumb]]:border-primary [&_[data-radix-slider-thumb]]:bg-background [&_[data-radix-slider-thumb]]:h-5 [&_[data-radix-slider-thumb]]:w-5 [&_[data-radix-slider-thumb]]:shadow-[0_0_8px_hsl(var(--primary)/0.4)]"
-                  />
-                  <div className="flex justify-between text-[10px] text-muted-foreground font-mono">
-                    <span>{minFloat.toFixed(2)}</span>
-                    <span>{maxFloat.toFixed(2)}</span>
-                  </div>
-                </div>
+
+
               </div>
             )}
 
