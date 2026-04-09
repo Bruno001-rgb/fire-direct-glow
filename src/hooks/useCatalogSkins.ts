@@ -78,13 +78,15 @@ export function useCatalogSkins() {
         const PISTOL_NAMES = ["glock-18", "usp-s", "p250", "five-seven", "tec-9", "desert eagle", "dual berettas", "r8 revolver", "cz75-auto", "p2000"];
         const SMG_NAMES = ["mac-10", "mp9", "mp7", "mp5-sd", "ump-45", "p90", "pp-bizon"];
         const SHOTGUN_NAMES = ["nova", "xm1014", "mag-7", "sawed-off"];
+        const RIFLE_NAMES = ["m4a1-s", "famas", "galil ar", "aug", "sg 553", "ssg 08", "scar-20", "g3sg1"];
 
         const wn = s.weapon_name?.toLowerCase() || "";
         const isPistol = PISTOL_NAMES.some((p) => wn.includes(p));
         const isSMG = SMG_NAMES.some((p) => wn.includes(p));
         const isShotgun = SHOTGUN_NAMES.some((p) => wn.includes(p));
+        const isRifle = RIFLE_NAMES.some((p) => wn.includes(p));
 
-        const categoryName = isKnife ? "Knives" : isGloves ? "Gloves" : isPistol ? "Pistols" : isSMG ? "SMGs" : isShotgun ? "Shotguns" : s.weapon_name || "";
+        const categoryName = isKnife ? "Knives" : isGloves ? "Gloves" : isPistol ? "Pistols" : isSMG ? "SMGs" : isShotgun ? "Shotguns" : isRifle ? "Rifles" : s.weapon_name || "";
 
         // Try to match float range from byMykel API
         // The imported name format is "Weapon | Pattern (Wear)" — strip the wear suffix for matching
