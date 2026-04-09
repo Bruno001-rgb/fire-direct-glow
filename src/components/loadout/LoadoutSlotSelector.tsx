@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { Search } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
-import { useByMykelSkins } from "@/hooks/useByMykelSkins";
+import { useCatalogSkins } from "@/hooks/useCatalogSkins";
 import { useLoadout, LOADOUT_SLOTS, type SlotKey } from "@/contexts/LoadoutContext";
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function LoadoutSlotSelector({ slotKey, onClose }: Props) {
-  const { data: skins } = useByMykelSkins();
+  const { data: skins } = useCatalogSkins();
   const { addToSlot } = useLoadout();
   const [search, setSearch] = useState("");
 
