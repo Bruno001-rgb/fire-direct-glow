@@ -40,12 +40,10 @@ const rarityText: Record<string, string> = {
   Consumer: "text-gray-400",
 };
 
-const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
-  <a
-    href={WHATSAPP_URL}
-    target="_blank"
-    rel="noopener noreferrer"
-    className="group relative flex flex-col overflow-hidden rounded-xl border border-primary/15 bg-card/60 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_30px_-4px_hsl(var(--primary)/0.35)]"
+const SkinCard = ({ item, onSelect }: { item: ShowcaseSkin; onSelect: (s: ShowcaseSkin) => void }) => (
+  <div
+    onClick={() => onSelect(item)}
+    className="group relative flex flex-col overflow-hidden rounded-xl border border-primary/15 bg-card/60 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_30px_-4px_hsl(var(--primary)/0.35)] cursor-pointer"
   >
     {/* Badge */}
     <div className="absolute top-2 right-2 z-10">
@@ -83,19 +81,28 @@ const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
 
     {/* Negociar button */}
     <div className="px-3 pb-3 sm:px-4 sm:pb-4">
-      <span className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-primary/10 border border-primary/30 text-secondary text-[10px] sm:text-[11px] font-bold uppercase tracking-wider group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+      <a
+        href={WHATSAPP_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={(e) => e.stopPropagation()}
+        className="flex items-center justify-center gap-1.5 w-full py-2 rounded-lg bg-primary/10 border border-primary/30 text-secondary text-[10px] sm:text-[11px] font-bold uppercase tracking-wider group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300"
+      >
         <WhatsAppIcon className="size-3" />
         Negociar
-      </span>
+      </a>
     </div>
 
     {/* Rarity bar */}
     <div className={`h-[3px] w-full ${rarityColor[item.rarity] || "bg-muted"}`} />
-  </a>
+  </div>
 );
+
+import SkinViewerModal from "@/components/SkinViewerModal";
 
 const CategoriesSection = () => {
   const [activeTab, setActiveTab] = useState<string>("todas");
+  const [selectedSkin, setSelectedSkin] = useState<ShowcaseSkin | null>(null);
   const { data: allSkins, isLoading } = useShowcaseSkins();
 
   const filtered = activeTab === "todas"
