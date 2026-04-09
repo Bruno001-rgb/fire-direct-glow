@@ -168,10 +168,12 @@ const CategoriesSection = () => {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
             {filtered.map((item, i) => (
-              <SkinCard key={`${item.name}-${item.skin}-${i}`} item={item} />
+              <SkinCard key={`${item.name}-${item.skin}-${i}`} item={item} onSelect={setSelectedSkin} />
             ))}
           </div>
         )}
+
+        <SkinViewerModal skin={selectedSkin} open={!!selectedSkin} onClose={() => setSelectedSkin(null)} />
       </div>
     </section>
   );
