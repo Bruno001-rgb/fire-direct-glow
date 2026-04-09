@@ -1,111 +1,35 @@
 
 
-# Plano: Melhorias no Catálogo e Admin
+# Preencher espaço vazio no modal de detalhes da skin
 
-## Resumo
-5 funcionalidades: filtro de preço no catálogo, contador de skins publicadas no admin, autenticação no admin, e contador de skins por wear nos chips de filtro.
+## Problema
+O modal de detalhes da skin tem um grande espaço vazio entre as informações (wear tiers, categoria, arma) e os botões CTA no fundo. Isso acontece porque o layout usa `md:justify-center` e `mt-auto` nos CTAs, empurrando o conteúdo para cima e os botões para baixo.
 
----
+## Solução
+Adicionar 3 novos blocos de conteúdo ao modal, preenchendo o espaço de forma útil:
 
-## 1. Filtro por faixa de preço no catálogo
+### 1. Barra visual de float
+Uma barra colorida horizontal com gradiente FN→BS mostrando o range de desgaste da skin. Um indicador (ponteiro) marca a posição atual do float. A barra mostra visualmente o `min_float` e `max_float` da skin.
 
-**Arquivo:** `src/hooks/useByMykelSkins.ts`
-- Adicionar constante `PRICE_FILTERS` com faixas: Todos, Até R$20, R$20-50, R$50-100, R$100-300, R$300+
-- Atualizar `filterSkins()` para aceitar parâmetro `priceRange` e filtrar por `skin.price`
+### 2. Descrição / lore da skin
+O campo `description` já existe na API do ByMykel mas não está sendo capturado. Vou:
+- Adicionar `description` ao tipo `ByMykelSkin`
+- Exibir o texto no modal com estilo de citação/lore (itálico, cor suave)
 
-**Arquivo:** `src/components/catalogo/CatalogoFilters.tsx`
-- Adicionar novo `CollapsibleFilter` "Preço" com chips das faixas
-- Passar novo prop `priceRange` / `onPriceRangeChange`
+### 3. Skins relacionadas
+Mostrar até 4-6 skins da mesma coleção ou mesma arma como sugestões clicáveis. Ao clicar, troca a skin exibida no modal.
 
-**Arquivo:** `src/pages/Catalogo.tsx`
-- Adicionar state `priceRange` e passar para filtros e `filterSkins()`
+## Mudanças técnicas
 
----
+**`src/hooks/useByMykelSkins.ts`**
+- Adicionar `description?: string` ao tipo `ByMykelSkin`
 
-## 2. Contador de skins publicadas no admin
+**`src/components/catalogo/SkinDetailModal.tsx`**
+- Adicionar componente `FloatBar` — barra horizontal com gradiente de cores dos tiers, indicador da posição atual, labels de min/max float
+- Adicionar seção de descrição/lore abaixo do float
+- Adicionar seção "Skins relacionadas" — recebe lista de skins filtradas por coleção ou arma, exibe como mini-cards clicáveis
+- Remover `md:justify-center` do layout para distribuir melhor o conteúdo
 
-**Arquivo:** `src/components/admin/SlotManager.tsx`
-- Adicionar query para contar skins distintas com `skin_id not null` na tabela `showcase_slots`
-- Exibir badge/contador no topo: "X skins publicadas"
-
----
-
-## 3. Autenticação no admin
-
-**Banco de dados:**
-- Criar tabela `user_roles` com enum `app_role` (admin, user)
-- Criar função `has_role()` security definer
-- Configurar RLS nas tabelas existentes para proteger operações de escrita
-
-**Novos arquivos:**
-- `src/pages/AdminLogin.tsx` — tela de login com email/senha
-- `src/hooks/useAuth.ts` — hook para gerenciar sessão e verificar role admin
-- `src/components/admin/AdminGuard.tsx` — wrapper que redireciona para login se não autenticado/admin
-
-**Arquivo:** `src/pages/Admin.tsx`
-- Envolver conteúdo com `AdminGuard`
-- Adicionar botão de logout
-
-**Arquivo:** `src/App.tsx`
-- Adicionar rota `/admin/login`
-
----
-
-## 4. Contador visual nos chips de wear
-
-**Arquivo:** `src/components/catalogo/CatalogoFilters.tsx`
-- Receber a lista completa de skins como prop (ou via contexto)
-- Para cada chip de wear, calcular quantas skins se enquadram naquela faixa de float
-- Exibir o número ao lado do label: "Factory New (12)"
-
-**Arquivo:** `src/pages/Catalogo.tsx`
-- Passar `skins` (lista completa, sem filtro de wear) para `CatalogoFilters`
-
----
-
-## Detalhes técnicos
-
-### Migração SQL para autenticação
-```sql
-CREATE TYPE public.app_role AS ENUM ('admin', 'user');
-
-CREATE TABLE public.user_roles (
-  id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
-  role app_role NOT NULL,
-  UNIQUE (user_id, role)
-);
-
-ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
-
-CREATE OR REPLACE FUNCTION public.has_role(_user_id uuid, _role app_role)
-RETURNS boolean LANGUAGE sql STABLE SECURITY DEFINER
-SET search_path = public AS $$
-  SELECT EXISTS (
-    SELECT 1 FROM public.user_roles
-    WHERE user_id = _user_id AND role = _role
-  )
-$$;
-
-CREATE POLICY "Users can read own roles" ON public.user_roles
-FOR SELECT TO authenticated USING (auth.uid() = user_id);
-```
-
-### Faixas de preço
-```typescript
-export const PRICE_FILTERS = [
-  { label: "Todos", value: "all", min: 0, max: Infinity },
-  { label: "Até R$20", value: "0-20", min: 0, max: 20 },
-  { label: "R$20-50", value: "20-50", min: 20, max: 50 },
-  { label: "R$50-100", value: "50-100", min: 50, max: 100 },
-  { label: "R$100-300", value: "100-300", min: 100, max: 300 },
-  { label: "R$300+", value: "300+", min: 300, max: Infinity },
-] as const;
-```
-
-### Ordem de implementação
-1. Filtro de preço (catálogo)
-2. Contador de wear nos chips
-3. Contador de skins no admin
-4. Autenticação no admin (mais complexo, por último)
+**`src/pages/Catalogo.tsx`** (ou onde o modal é invocado)
+- Passar lista de `allSkins` ao modal para calcular skins relacionadas
 
