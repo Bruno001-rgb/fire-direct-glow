@@ -98,13 +98,15 @@ export function filterSkins(
 
   if (weapon !== "all") {
     if (weapon === "knife") {
-      filtered = filtered.filter(
-        (s) => s.category?.name === "Knives"
-      );
+      filtered = filtered.filter((s) => s.category?.name === "Knives");
     } else if (weapon === "gloves") {
-      filtered = filtered.filter(
-        (s) => s.category?.name === "Gloves"
-      );
+      filtered = filtered.filter((s) => s.category?.name === "Gloves");
+    } else if (weapon === "pistols") {
+      filtered = filtered.filter((s) => s.category?.name === "Pistols");
+    } else if (weapon === "smgs") {
+      filtered = filtered.filter((s) => s.category?.name === "SMGs");
+    } else if (weapon === "shotguns") {
+      filtered = filtered.filter((s) => s.category?.name === "Shotguns");
     } else {
       filtered = filtered.filter((s) => s.weapon?.name === weapon);
     }
