@@ -367,6 +367,31 @@ export default function SlotManager() {
                         <div className="p-2 space-y-1">
                           <p className="text-xs font-semibold truncate">{slot.imported_skins.weapon_name}</p>
                           <p className="text-[10px] text-muted-foreground truncate">{slot.imported_skins.pattern_name}</p>
+                          {/* Price editor */}
+                          {slot.skin_id && (
+                            <div className="flex items-center gap-1 mt-1">
+                              <span className="text-[10px] text-muted-foreground">R$</span>
+                              <Input
+                                className="h-7 text-xs px-1.5 flex-1"
+                                placeholder="Preço"
+                                value={priceEdits.has(slot.skin_id) ? priceEdits.get(slot.skin_id) : (slot.imported_skins.price?.toFixed(2) ?? "")}
+                                onChange={(e) => {
+                                  const skinId = slot.skin_id!;
+                                  setPriceEdits((prev) => new Map(prev).set(skinId, e.target.value));
+                                }}
+                              />
+                              {priceEdits.has(slot.skin_id) && (
+                                <Button
+                                  size="sm"
+                                  className="h-7 w-7 p-0"
+                                  onClick={() => handleSavePrice(slot.skin_id!)}
+                                  disabled={savingPrices.has(slot.skin_id)}
+                                >
+                                  {savingPrices.has(slot.skin_id) ? <Loader2 className="size-3 animate-spin" /> : <DollarSign className="size-3" />}
+                                </Button>
+                              )}
+                            </div>
+                          )}
                           <div className="flex gap-1">
                             <Button size="sm" variant="outline" className="flex-1 h-9 sm:h-8 text-[11px] sm:text-[10px] min-w-[44px]" onClick={() => setModalSlotId(slot.id)}>
                               <RefreshCw className="size-3 mr-1" />
