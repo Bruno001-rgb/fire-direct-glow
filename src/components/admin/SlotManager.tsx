@@ -3,7 +3,6 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X, DollarSign } from "lucide-react";
 import SkinSearchModal from "./SkinSearchModal";
 import { toast } from "sonner";
@@ -340,29 +339,28 @@ export default function SlotManager() {
             </Button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-            <Select
-              value={newCatKey}
-              onValueChange={(val) => {
-                const opt = CATEGORY_OPTIONS.find((o) => o.key === val);
-                if (opt) {
-                  setNewCatLabel(opt.label);
-                  setNewCatKey(opt.key);
-                }
-              }}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Selecione a categoria" />
-              </SelectTrigger>
-              <SelectContent>
+            <div>
+              <select
+                value={newCatKey}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  const opt = CATEGORY_OPTIONS.find((o) => o.key === val);
+                  if (opt) {
+                    setNewCatLabel(opt.label);
+                    setNewCatKey(opt.key);
+                  }
+                }}
+                className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                <option value="">Selecione a categoria</option>
                 {CATEGORY_OPTIONS.filter((opt) => !categories?.some((c) => c.key === opt.key)).map((opt) => (
-                  <SelectItem key={opt.key} value={opt.key}>{opt.label}</SelectItem>
+                  <option key={opt.key} value={opt.key}>{opt.label}</option>
                 ))}
-              </SelectContent>
-            </Select>
+              </select>
+            </div>
             <Input
               placeholder="Key"
               value={newCatKey}
-              onChange={(e) => setNewCatKey(e.target.value)}
               disabled
             />
             <Input
@@ -374,10 +372,12 @@ export default function SlotManager() {
               onChange={(e) => setNewCatSlots(Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))}
             />
           </div>
-          <Button size="sm" onClick={handleCreateCategory} disabled={isCreating}>
-            {isCreating ? <Loader2 className="size-3 mr-1 animate-spin" /> : <Plus className="size-3 mr-1" />}
-            {isCreating ? "Criando..." : "Criar categoria"}
-          </Button>
+          <div className="flex justify-end">
+            <Button size="sm" onClick={handleCreateCategory} disabled={isCreating}>
+              {isCreating ? <Loader2 className="size-3 mr-1 animate-spin" /> : <Plus className="size-3 mr-1" />}
+              {isCreating ? "Criando..." : "Criar categoria"}
+            </Button>
+          </div>
         </div>
       )}
 
