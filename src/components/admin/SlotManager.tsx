@@ -53,16 +53,15 @@ export default function SlotManager() {
   const [modalCategoryKey, setModalCategoryKey] = useState<string | undefined>(undefined);
   const [pendingChanges, setPendingChanges] = useState<Map<string, PendingChange>>(new Map());
   const [isSaving, setIsSaving] = useState(false);
-  const [showNewCatForm, setShowNewCatForm] = useState(false);
-  const [newCatLabel, setNewCatLabel] = useState("");
-  const [newCatKey, setNewCatKey] = useState("");
-  const [newCatSlots, setNewCatSlots] = useState(8);
-  const [isCreating, setIsCreating] = useState(false);
+  const [showAddSlotForm, setShowAddSlotForm] = useState(false);
+  const [addSlotCatId, setAddSlotCatId] = useState("");
+  const [addSlotSkinName, setAddSlotSkinName] = useState("");
+  const [addSlotPrice, setAddSlotPrice] = useState("");
+  const [isAddingSlot, setIsAddingSlot] = useState(false);
   const [deletingCatId, setDeletingCatId] = useState<string | null>(null);
   const [priceEdits, setPriceEdits] = useState<Map<string, string>>(new Map());
   const [savingPrices, setSavingPrices] = useState<Set<string>>(new Set());
   const [scrollToCatId, setScrollToCatId] = useState<string | null>(null);
-  const [isCustomCat, setIsCustomCat] = useState(false);
   const catRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   const { data: categories, isLoading } = useQuery({
