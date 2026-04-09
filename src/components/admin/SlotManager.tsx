@@ -304,14 +304,6 @@ export default function SlotManager() {
     }
   }, [priceEdits, queryClient]);
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <Loader2 className="size-8 animate-spin text-muted-foreground" />
-      </div>
-    );
-  }
-
   // Count total published skins
   const publishedCount = useMemo(() => {
     if (!categories) return 0;
@@ -324,6 +316,15 @@ export default function SlotManager() {
     });
     return uniqueSkins.size;
   }, [categories, getEffectiveSlot]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="size-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
 
   return (
     <div className="space-y-6 sm:space-y-8">
