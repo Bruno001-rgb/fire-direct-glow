@@ -340,20 +340,30 @@ export default function SlotManager() {
             </Button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-            <Input
-              placeholder="Nome (ex: Pistolas)"
-              value={newCatLabel}
-              onChange={(e) => {
-                setNewCatLabel(e.target.value);
-                if (!newCatKey || newCatKey === newCatLabel.trim().toLowerCase().replace(/\s+/g, "-")) {
-                  setNewCatKey(e.target.value.trim().toLowerCase().replace(/\s+/g, "-"));
+            <Select
+              value={newCatKey}
+              onValueChange={(val) => {
+                const opt = CATEGORY_OPTIONS.find((o) => o.key === val);
+                if (opt) {
+                  setNewCatLabel(opt.label);
+                  setNewCatKey(opt.key);
                 }
               }}
-            />
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Selecione a categoria" />
+              </SelectTrigger>
+              <SelectContent>
+                {CATEGORY_OPTIONS.filter((opt) => !categories?.some((c) => c.key === opt.key)).map((opt) => (
+                  <SelectItem key={opt.key} value={opt.key}>{opt.label}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <Input
-              placeholder="Key (ex: pistolas)"
+              placeholder="Key"
               value={newCatKey}
               onChange={(e) => setNewCatKey(e.target.value)}
+              disabled
             />
             <Input
               type="number"
