@@ -86,7 +86,7 @@ export default function Catalogo() {
       </div>
 
       {/* Desktop: sidebar layout with grid inside — no page scroll */}
-      <div className="hidden lg:block h-[calc(100vh-4rem)] overflow-hidden">
+      <div className="hidden lg:block mt-16 h-[calc(100vh-4rem)] overflow-hidden">
         <CatalogoDesktopLayout
           {...filterProps}
           wearItems={wearItems}
