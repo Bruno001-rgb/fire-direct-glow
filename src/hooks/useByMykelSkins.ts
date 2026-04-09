@@ -55,6 +55,15 @@ export const RARITY_FILTERS = [
   "Contraband",
 ] as const;
 
+export const WEAR_FILTERS = [
+  { label: "Todos", value: "all", min: 0, max: 1 },
+  { label: "Factory New", value: "fn", min: 0, max: 0.07 },
+  { label: "Minimal Wear", value: "mw", min: 0.07, max: 0.15 },
+  { label: "Field-Tested", value: "ft", min: 0.15, max: 0.38 },
+  { label: "Well-Worn", value: "ww", min: 0.38, max: 0.45 },
+  { label: "Battle-Scarred", value: "bs", min: 0.45, max: 1.0 },
+] as const;
+
 export type SortMode = "az" | "float-asc" | "float-desc";
 
 export function filterSkins(
@@ -62,6 +71,7 @@ export function filterSkins(
   search: string,
   weapon: string,
   rarity: string,
+  wear: string,
   sort: SortMode
 ) {
   let filtered = skins;
@@ -87,6 +97,17 @@ export function filterSkins(
 
   if (rarity !== "Todos") {
     filtered = filtered.filter((s) => s.rarity?.name === rarity);
+  }
+
+  if (wear !== "all") {
+    const tier = WEAR_FILTERS.find((w) => w.value === wear);
+    if (tier) {
+      filtered = filtered.filter((s) => {
+        const min = s.min_float ?? 0;
+        const max = s.max_float ?? 1;
+        return min < tier.max && max > tier.min;
+      });
+    }
   }
 
   const sorted = [...filtered];

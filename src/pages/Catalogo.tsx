@@ -15,12 +15,13 @@ export default function Catalogo() {
   const [search, setSearch] = useState("");
   const [weapon, setWeapon] = useState("all");
   const [rarity, setRarity] = useState("Todos");
+  const [wear, setWear] = useState("all");
   const [sort, setSort] = useState<SortMode>("az");
   const [selectedSkin, setSelectedSkin] = useState<ByMykelSkin | null>(null);
 
   const filtered = useMemo(
-    () => (skins ? filterSkins(skins, search, weapon, rarity, sort) : []),
-    [skins, search, weapon, rarity, sort]
+    () => (skins ? filterSkins(skins, search, weapon, rarity, wear, sort) : []),
+    [skins, search, weapon, rarity, wear, sort]
   );
 
   return (
@@ -33,6 +34,8 @@ export default function Catalogo() {
         onWeaponChange={setWeapon}
         rarity={rarity}
         onRarityChange={setRarity}
+        wear={wear}
+        onWearChange={setWear}
         sort={sort}
         onSortChange={setSort}
       />
