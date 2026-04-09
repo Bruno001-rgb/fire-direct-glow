@@ -1,35 +1,39 @@
 
 
-## Plano: Redesign do botão "Testar no jogo" como banner com imagem de fundo
+## Plano: Suavizar todos os CTAs do site
 
-### Objetivo
-Transformar o botão simples "Testar no jogo" em um banner/card estilizado como na referência: fundo com imagem do CS2 escurecida, ícone de soldado à esquerda, texto descritivo, e botão "Entrar" à direita.
-
-### Design (baseado na imagem de referência)
-```text
-┌─────────────────────────────────────────────────────────┐
-│ [bg: imagem CS2 escurecida com overlay]                 │
-│  🔫  Jogue com a skin antes de comprá-la!    [Entrar]  │
-│      Inicie o servidor, entre nele, e faça um           │
-│      test drive com a skin no jogo                      │
-└─────────────────────────────────────────────────────────┘
-```
+### Problema atual
+A variante `fire` do botão usa gradiente agressivo, `brightness-110` no hover, e sombras fortes (`shadow-[0_4px_20px...]`). Além disso, cada componente adiciona overrides inconsistentes (uns com `rounded-sm`, outros com `rounded-xl`, sombras extras, `hover:scale-105`, etc.).
 
 ### Mudanças
 
-**1. Adicionar imagem de fundo CS2**
-- Usar uma imagem pública de CS2 (ex: de Unsplash ou similar) como background do banner
-- Salvar em `public/images/cs2-banner.jpg`
+**1. `src/components/ui/button.tsx` — Variante `fire` suavizada**
+- Gradiente sutil: `from-[#E95A0C] to-[#C94A08]` (laranja → laranja escuro, sem secondary)
+- Bordas arredondadas: `rounded-xl` 
+- Sombra difusa: `shadow-lg shadow-primary/15` (sem glow forte)
+- Hover suave: `hover:shadow-xl hover:shadow-primary/25 hover:scale-[1.02]`
+- Remover `hover:brightness-110`
+- Transição: `transition-all duration-300 ease-out`
 
-**2. `src/components/catalogo/SkinDetailModal.tsx`** (linhas 269-274)
-- Substituir o `<Button>` simples por um componente de banner/card:
-  - Container com `relative overflow-hidden rounded-lg`
-  - Imagem de fundo com overlay escuro (`bg-black/60`)
-  - Lado esquerdo: ícone Crosshair/Gamepad2 + textos ("Jogue com a skin antes de comprá-la!" + subtítulo)
-  - Lado direito: botão "Entrar" com estilo sólido
-  - `onClick` continua abrindo o `TryInGameModal`
-  - Responsivo: texto menor no mobile
+**2. Limpar overrides inconsistentes em cada componente:**
 
-### Nenhuma outra alteração
-Apenas o visual do botão muda. A lógica de `canTryInGame`, o modal de instruções e tudo mais permanece igual.
+| Arquivo | O que remover/ajustar |
+|---------|----------------------|
+| `Header.tsx` | Remover `rounded-sm` (herda `rounded-xl` da variante) |
+| `HeroSection.tsx` | Remover `rounded-sm` |
+| `FinalCTA.tsx` | Remover `rounded-sm`, remover `shadow-[0_0_25px...]` e `hover:shadow-[0_0_40px...]` |
+| `CategoriesSection.tsx` | Remover `shadow-[0_0_40px...]`, `hover:shadow-[0_0_60px...]`, `hover:scale-105` (agora `scale-[1.02]` vem da variante) |
+| `VideoShowcase.tsx` | Remover `rounded-sm` |
+| `SkinDetailModal.tsx` | Manter `w-full h-12` |
+| `TryInGameModal.tsx` | Manter `w-full h-12` |
+| `LoadoutSummary.tsx` | Sem mudança extra |
+| `Loadout.tsx` | Sem mudança extra |
+| `Catalogo.tsx` | Sem mudança extra |
+
+**3. Variante `fire-outline` — Também suavizar:**
+- Bordas: `rounded-xl border-primary/20`
+- Hover mais suave: `hover:bg-primary/5`
+
+### Resultado
+Todos os CTAs do site ficam visualmente consistentes, com bordas arredondadas, sombras suaves, hover com micro-scale, sem brilhos exagerados.
 
