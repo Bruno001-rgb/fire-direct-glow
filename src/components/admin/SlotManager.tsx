@@ -211,6 +211,33 @@ export default function SlotManager() {
     }
   }, [categories, queryClient]);
 
+  const handleSavePrice = useCallback(async (skinId: string) => {
+    const priceStr = priceEdits.get(skinId);
+    if (priceStr === undefined) return;
+    const price = priceStr.trim() === "" ? null : parseFloat(priceStr.replace(",", "."));
+    if (price !== null && isNaN(price)) {
+      toast.error("Preço inválido.");
+      return;
+    }
+    setSavingPrices((prev) => new Set(prev).add(skinId));
+    try {
+      const { error } = await supabase
+        .from("imported_skins")
+        .update({ price })
+        .eq("id", skinId);
+      if (error) throw error;
+      setPriceEdits((prev) => { const next = new Map(prev); next.delete(skinId); return next; });
+      queryClient.invalidateQueries({ queryKey: ["admin-categories-slots"] });
+      queryClient.invalidateQueries({ queryKey: ["showcase-skins"] });
+      queryClient.invalidateQueries({ queryKey: ["catalog-skins"] });
+      toast.success("Preço salvo!");
+    } catch (err: any) {
+      toast.error(`Erro: ${err.message}`);
+    } finally {
+      setSavingPrices((prev) => { const next = new Set(prev); next.delete(skinId); return next; });
+    }
+  }, [priceEdits, queryClient]);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
