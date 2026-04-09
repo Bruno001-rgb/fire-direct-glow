@@ -12,6 +12,8 @@ export interface ByMykelSkin {
   stattrak: boolean;
   collections: { name: string }[];
   price?: number | null;
+  paint_index?: string | null;
+  weapon_id?: number | null;
 }
 
 const API_URL =
