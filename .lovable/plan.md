@@ -1,23 +1,37 @@
 
 
-## Plano: Substituir o buraco preto do FinalCTA por conteúdo rico
+## Plano: Visualizador 3D de Skins via inspect.skin
 
-### Problema
-A seção FinalCTA usa uma imagem de fundo (`banner-rifas.png`) com `background-size: contain`, o que cria um grande espaço preto vazio ao redor. O resultado é um "buracão" sem conteúdo visual.
+### Resumo
+Ao clicar em uma skin no catálogo ou sidebar, abrir um modal/drawer com iframe do `inspect.skin` mostrando o modelo 3D da skin.
 
-### Solução
-Substituir a abordagem de imagem de fundo por conteúdo construído em código, inspirado na imagem de referência:
+### Alterações
 
-1. **Texto de destaque** no topo: "Participe das nossas rifas e tenha a chance de ganhar skins!" com gradiente laranja/dourado
-2. **Pódio visual** no centro: três barras (1º, 2º, 3º lugar) feitas com divs estilizados, com cores da marca (laranja, branco, cinza)
-3. **Frase de impacto**: "Sua vaga está reservada, entre agora!" em bold branco
-4. **Botão CTA**: manter o botão "Participar da Rifa" existente
-5. **Background**: gradiente sutil de preto para tons escuros com vinheta, eliminando o espaço vazio
+**1. Novo componente `src/components/SkinViewerModal.tsx`**
+- Modal fullscreen overlay com fundo escuro semitransparente (`bg-black/85`)
+- Animação slide-up (usando keyframes existentes ou CSS transition `translate-y`)
+- Borda superior laranja sutil (`border-t-2 border-primary`)
+- Conteúdo:
+  - Header: nome da skin (bold, branco), rarity abaixo (cor correspondente), botão X no canto
+  - iframe `https://inspect.skin/` ocupando largura total, `h-[60vh]`, com fundo transparente
+  - Footer fixo: botão "Negociar no WhatsApp" (abre grupo WhatsApp com mensagem pré-preenchida referenciando a skin)
+- Props: `skin: ShowcaseSkin | null`, `open: boolean`, `onClose: () => void`
 
-### Alteração técnica
-**Arquivo:** `src/components/FinalCTA.tsx`
-- Remover a div com `backgroundImage` e `aspect-[16/9]`
-- Construir o layout com elementos HTML/Tailwind: título, pódio animado, subtítulo, botão
-- Manter o banner-rifas.png como imagem decorativa (posição absoluta, opacidade reduzida) ou removê-lo se desnecessário
-- Adicionar animações sutis (fade-in, glow) consistentes com o resto do site
+**Nota sobre inspect.skin:** O site `inspect.skin` requer um inspect link ou market hash name para carregar uma skin específica. Como os dados atuais não incluem inspect links, o iframe abrirá a página base. Para skins específicas, seria necessário armazenar o `market_hash_name` no banco. O iframe carregará `https://inspect.skin/` como viewer genérico inicialmente.
+
+**2. Alterar `src/components/CategoriesSection.tsx`**
+- Adicionar state: `const [selectedSkin, setSelectedSkin] = useState<ShowcaseSkin | null>(null)`
+- Mudar o `SkinCard` de `<a>` para `<button>`/`<div>` com `onClick={() => onSelect(item)}`
+- O botão "Negociar" dentro do card continua abrindo WhatsApp diretamente (stopPropagation)
+- Renderizar `<SkinViewerModal>` no final da seção
+
+**3. Alterar `src/components/SkinsSidebar.tsx`**
+- Mesmo padrão: clicar na skin abre o modal em vez de ir direto ao WhatsApp
+- Passar callback via props ou usar um contexto simples
+
+### Design
+- Fundo do modal: `bg-black/90` overlay + conteúdo `bg-[#0a0a0a]`
+- Sem branco em lugar nenhum
+- Fontes e cores consistentes com o site (Rajdhani headings, laranja primary)
+- Responsivo: iframe ocupa 100% largura, 60vh altura em desktop, 50vh em mobile
 
