@@ -47,6 +47,8 @@ export default function SlotManager() {
   const [newCatSlots, setNewCatSlots] = useState(8);
   const [isCreating, setIsCreating] = useState(false);
   const [deletingCatId, setDeletingCatId] = useState<string | null>(null);
+  const [priceEdits, setPriceEdits] = useState<Map<string, string>>(new Map()); // skinId -> price string
+  const [savingPrices, setSavingPrices] = useState<Set<string>>(new Set());
 
   const { data: categories, isLoading } = useQuery({
     queryKey: ["admin-categories-slots"],
