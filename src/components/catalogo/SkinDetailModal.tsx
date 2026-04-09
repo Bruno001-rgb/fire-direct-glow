@@ -272,7 +272,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
                   className="relative w-full overflow-hidden rounded-lg group cursor-pointer"
                 >
                   <img
-                    src="/images/cs2-banner.jpg"
+                    src="/images/cs2-banner.avif"
                     alt=""
                     loading="lazy"
                     className="absolute inset-0 w-full h-full object-cover opacity-40 group-hover:opacity-50 transition-opacity duration-300"
