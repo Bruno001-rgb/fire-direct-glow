@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState, useMemo } from "react";
-import { X } from "lucide-react";
+import { X, Gamepad2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
 import { useLoadout, LOADOUT_SLOTS, type SlotKey } from "@/contexts/LoadoutContext";
 import { toast } from "sonner";
+import TryInGameModal from "@/components/catalogo/TryInGameModal";
 
 const WEAR_TIERS = [
   { label: "Factory New", short: "FN", min: 0, max: 0.07, color: "hsl(142 71% 45%)" },
