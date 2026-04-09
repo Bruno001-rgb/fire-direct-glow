@@ -5,12 +5,13 @@ import CatalogoFilters from "@/components/catalogo/CatalogoFilters";
 import CatalogoGrid from "@/components/catalogo/CatalogoGrid";
 import CatalogoSkeleton from "@/components/catalogo/CatalogoSkeleton";
 import SkinDetailModal from "@/components/catalogo/SkinDetailModal";
-import { useByMykelSkins, filterSkins, type SortMode } from "@/hooks/useByMykelSkins";
+import { filterSkins, type SortMode } from "@/hooks/useByMykelSkins";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
+import { useCatalogSkins } from "@/hooks/useCatalogSkins";
 import { Button } from "@/components/ui/button";
 
 export default function Catalogo() {
-  const { data: skins, isLoading, isError, refetch } = useByMykelSkins();
+  const { data: skins, isLoading, isError, refetch } = useCatalogSkins();
   const [search, setSearch] = useState("");
   const [weapon, setWeapon] = useState("all");
   const [rarity, setRarity] = useState("Todos");
