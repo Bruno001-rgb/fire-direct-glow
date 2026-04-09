@@ -17,11 +17,12 @@ export default function Catalogo() {
   const [rarity, setRarity] = useState("Todos");
   const [wear, setWear] = useState("all");
   const [sort, setSort] = useState<SortMode>("az");
+  const [priceRange, setPriceRange] = useState("all");
   const [selectedSkin, setSelectedSkin] = useState<ByMykelSkin | null>(null);
 
   const filtered = useMemo(
-    () => (skins ? filterSkins(skins, search, weapon, rarity, wear, sort) : []),
-    [skins, search, weapon, rarity, wear, sort]
+    () => (skins ? filterSkins(skins, search, weapon, rarity, wear, sort, priceRange) : []),
+    [skins, search, weapon, rarity, wear, sort, priceRange]
   );
 
   return (
@@ -38,6 +39,9 @@ export default function Catalogo() {
         onWearChange={setWear}
         sort={sort}
         onSortChange={setSort}
+        priceRange={priceRange}
+        onPriceRangeChange={setPriceRange}
+        allSkins={skins}
       />
       <main className="container py-6 mt-14 sm:mt-16">
         {isLoading && <CatalogoSkeleton />}

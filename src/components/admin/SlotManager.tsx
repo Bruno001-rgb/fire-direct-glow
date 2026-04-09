@@ -312,12 +312,30 @@ export default function SlotManager() {
     );
   }
 
+  // Count total published skins
+  const publishedCount = useMemo(() => {
+    if (!categories) return 0;
+    const uniqueSkins = new Set<string>();
+    categories.forEach((cat) => {
+      cat.slots.forEach((slot) => {
+        const effective = getEffectiveSlot(slot);
+        if (effective.skin_id) uniqueSkins.add(effective.skin_id);
+      });
+    });
+    return uniqueSkins.size;
+  }, [categories, getEffectiveSlot]);
+
   return (
     <div className="space-y-6 sm:space-y-8">
       {/* Category management header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
-          <h2 className="text-lg font-bold text-foreground">Categorias & Slots</h2>
+          <h2 className="text-lg font-bold text-foreground">
+            Categorias & Slots
+            <span className="ml-2 text-sm font-normal text-muted-foreground">
+              ({publishedCount} skin{publishedCount !== 1 ? "s" : ""} publicada{publishedCount !== 1 ? "s" : ""})
+            </span>
+          </h2>
         </div>
         {!showAddSlotForm && (
           <Button size="sm" variant="outline" onClick={() => setShowAddSlotForm(true)}>
