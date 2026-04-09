@@ -1,8 +1,9 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X } from "lucide-react";
 import SkinSearchModal from "./SkinSearchModal";
 import { toast } from "sonner";
 
@@ -39,6 +40,12 @@ export default function SlotManager() {
   const [modalSlotId, setModalSlotId] = useState<string | null>(null);
   const [pendingChanges, setPendingChanges] = useState<Map<string, PendingChange>>(new Map());
   const [isSaving, setIsSaving] = useState(false);
+  const [showNewCatForm, setShowNewCatForm] = useState(false);
+  const [newCatLabel, setNewCatLabel] = useState("");
+  const [newCatKey, setNewCatKey] = useState("");
+  const [newCatSlots, setNewCatSlots] = useState(8);
+  const [isCreating, setIsCreating] = useState(false);
+  const [deletingCatId, setDeletingCatId] = useState<string | null>(null);
 
   const { data: categories, isLoading } = useQuery({
     queryKey: ["admin-categories-slots"],
@@ -113,7 +120,6 @@ export default function SlotManager() {
   const handleSave = useCallback(async () => {
     if (pendingChanges.size === 0) return;
     setIsSaving(true);
-
     try {
       const updates = Array.from(pendingChanges.entries()).map(
         ([slotId, change]) =>
@@ -122,27 +128,85 @@ export default function SlotManager() {
             .update({ skin_id: change.skinId })
             .eq("id", slotId)
       );
-
       const results = await Promise.all(updates);
       const errors = results.filter((r) => r.error);
-
       if (errors.length > 0) {
-        console.error("Save errors:", errors.map((e) => e.error));
-        toast.error(`Erro ao salvar ${errors.length} slot(s). Tente novamente.`);
+        toast.error(`Erro ao salvar ${errors.length} slot(s).`);
         return;
       }
-
       setPendingChanges(new Map());
       queryClient.invalidateQueries({ queryKey: ["admin-categories-slots"] });
       queryClient.invalidateQueries({ queryKey: ["showcase-skins"] });
       toast.success("Configuração salva e publicada!");
     } catch (err: any) {
-      console.error("Save failed:", err);
       toast.error(`Erro inesperado: ${err.message}`);
     } finally {
       setIsSaving(false);
     }
   }, [pendingChanges, queryClient]);
+
+  const handleCreateCategory = useCallback(async () => {
+    if (!newCatLabel.trim() || !newCatKey.trim() || newCatSlots < 1) {
+      toast.error("Preencha todos os campos.");
+      return;
+    }
+    setIsCreating(true);
+    try {
+      const maxOrder = categories?.reduce((max, c) => Math.max(max, c.slots.length > 0 ? categories.indexOf(c) : 0), 0) ?? 0;
+      const { data: newCat, error: catErr } = await supabase
+        .from("showcase_categories")
+        .insert({ key: newCatKey.trim().toLowerCase(), label: newCatLabel.trim(), slot_count: newCatSlots, sort_order: (categories?.length ?? 0) + 1 })
+        .select()
+        .single();
+      if (catErr) throw catErr;
+
+      const slotsToInsert = Array.from({ length: newCatSlots }, (_, i) => ({
+        category_id: newCat.id,
+        slot_position: i + 1,
+      }));
+      const { error: slotsErr } = await supabase.from("showcase_slots").insert(slotsToInsert);
+      if (slotsErr) throw slotsErr;
+
+      queryClient.invalidateQueries({ queryKey: ["admin-categories-slots"] });
+      toast.success(`Categoria "${newCatLabel.trim()}" criada com ${newCatSlots} slots!`);
+      setShowNewCatForm(false);
+      setNewCatLabel("");
+      setNewCatKey("");
+      setNewCatSlots(8);
+    } catch (err: any) {
+      toast.error(`Erro: ${err.message}`);
+    } finally {
+      setIsCreating(false);
+    }
+  }, [newCatLabel, newCatKey, newCatSlots, categories, queryClient]);
+
+  const handleDeleteCategory = useCallback(async (catId: string, catLabel: string) => {
+    if (!confirm(`Tem certeza que deseja remover a categoria "${catLabel}" e todos os seus slots?`)) return;
+    setDeletingCatId(catId);
+    try {
+      const { error: slotsErr } = await supabase.from("showcase_slots").delete().eq("category_id", catId);
+      if (slotsErr) throw slotsErr;
+      const { error: catErr } = await supabase.from("showcase_categories").delete().eq("id", catId);
+      if (catErr) throw catErr;
+
+      // Clear pending changes for deleted slots
+      setPendingChanges((prev) => {
+        const cat = categories?.find((c) => c.id === catId);
+        if (!cat) return prev;
+        const next = new Map(prev);
+        cat.slots.forEach((s) => next.delete(s.id));
+        return next;
+      });
+
+      queryClient.invalidateQueries({ queryKey: ["admin-categories-slots"] });
+      queryClient.invalidateQueries({ queryKey: ["showcase-skins"] });
+      toast.success(`Categoria "${catLabel}" removida.`);
+    } catch (err: any) {
+      toast.error(`Erro: ${err.message}`);
+    } finally {
+      setDeletingCatId(null);
+    }
+  }, [categories, queryClient]);
 
   if (isLoading) {
     return (
@@ -154,6 +218,57 @@ export default function SlotManager() {
 
   return (
     <div className="space-y-6 sm:space-y-8">
+      {/* Category management header */}
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+        <h2 className="text-lg font-bold text-foreground">Categorias & Slots</h2>
+        {!showNewCatForm && (
+          <Button size="sm" variant="outline" onClick={() => setShowNewCatForm(true)}>
+            <Plus className="size-3 mr-1" />
+            Nova Categoria
+          </Button>
+        )}
+      </div>
+
+      {showNewCatForm && (
+        <div className="border border-border rounded-lg p-4 bg-card/60 space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-sm font-semibold">Criar nova categoria</span>
+            <Button size="sm" variant="ghost" onClick={() => setShowNewCatForm(false)}>
+              <X className="size-4" />
+            </Button>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <Input
+              placeholder="Nome (ex: Pistolas)"
+              value={newCatLabel}
+              onChange={(e) => {
+                setNewCatLabel(e.target.value);
+                if (!newCatKey || newCatKey === newCatLabel.trim().toLowerCase().replace(/\s+/g, "-")) {
+                  setNewCatKey(e.target.value.trim().toLowerCase().replace(/\s+/g, "-"));
+                }
+              }}
+            />
+            <Input
+              placeholder="Key (ex: pistolas)"
+              value={newCatKey}
+              onChange={(e) => setNewCatKey(e.target.value)}
+            />
+            <Input
+              type="number"
+              min={1}
+              max={20}
+              placeholder="Slots"
+              value={newCatSlots}
+              onChange={(e) => setNewCatSlots(Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))}
+            />
+          </div>
+          <Button size="sm" onClick={handleCreateCategory} disabled={isCreating}>
+            {isCreating ? <Loader2 className="size-3 mr-1 animate-spin" /> : <Plus className="size-3 mr-1" />}
+            {isCreating ? "Criando..." : "Criar categoria"}
+          </Button>
+        </div>
+      )}
+
       {/* Sticky save bar */}
       {hasPendingChanges && (
         <div className="sticky top-0 z-50 bg-amber-950/90 border border-amber-500/40 backdrop-blur-sm rounded-lg p-3 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-3">
@@ -161,27 +276,12 @@ export default function SlotManager() {
             ⚠️ {pendingChanges.size} alteração(ões) não salva(s)
           </span>
           <div className="flex gap-2 w-full sm:w-auto">
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={handleDiscard}
-              disabled={isSaving}
-              className="border-amber-500/40 text-amber-200 hover:bg-amber-900/50 flex-1 sm:flex-none"
-            >
+            <Button size="sm" variant="outline" onClick={handleDiscard} disabled={isSaving} className="border-amber-500/40 text-amber-200 hover:bg-amber-900/50 flex-1 sm:flex-none">
               <Undo2 className="size-3 mr-1" />
               Descartar
             </Button>
-            <Button
-              size="sm"
-              onClick={handleSave}
-              disabled={isSaving}
-              className="bg-amber-500 text-black hover:bg-amber-400 flex-1 sm:flex-none"
-            >
-              {isSaving ? (
-                <Loader2 className="size-3 mr-1 animate-spin" />
-              ) : (
-                <Save className="size-3 mr-1" />
-              )}
+            <Button size="sm" onClick={handleSave} disabled={isSaving} className="bg-amber-500 text-black hover:bg-amber-400 flex-1 sm:flex-none">
+              {isSaving ? <Loader2 className="size-3 mr-1 animate-spin" /> : <Save className="size-3 mr-1" />}
               {isSaving ? "Salvando..." : "Salvar e publicar"}
             </Button>
           </div>
@@ -191,72 +291,58 @@ export default function SlotManager() {
       {categories?.map((cat) => {
         const effectiveSlots = cat.slots.map(getEffectiveSlot);
         const filledCount = effectiveSlots.filter((s) => s.skin_id).length;
+        const isDeleting = deletingCatId === cat.id;
 
         return (
           <div key={cat.id} className="space-y-3">
-            <h3 className="text-base sm:text-lg font-bold text-foreground">
-              {cat.label}{" "}
-              <span className="text-sm font-normal text-muted-foreground">
-                ({filledCount}/{cat.slot_count} preenchidos)
-              </span>
-            </h3>
+            <div className="flex items-center justify-between">
+              <h3 className="text-base sm:text-lg font-bold text-foreground">
+                {cat.label}{" "}
+                <span className="text-sm font-normal text-muted-foreground">
+                  ({filledCount}/{cat.slot_count} preenchidos)
+                </span>
+              </h3>
+              <Button
+                size="sm"
+                variant="ghost"
+                className="text-destructive hover:text-destructive h-8 w-8 p-0"
+                onClick={() => handleDeleteCategory(cat.id, cat.label)}
+                disabled={isDeleting}
+              >
+                {isDeleting ? <Loader2 className="size-4 animate-spin" /> : <Trash2 className="size-4" />}
+              </Button>
+            </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
               {effectiveSlots.map((slot) => {
                 const isPending = pendingChanges.has(slot.id);
-
                 return (
                   <div
                     key={slot.id}
                     className={`border rounded-lg overflow-hidden bg-card/60 transition-colors ${
-                      isPending
-                        ? "border-amber-500 ring-1 ring-amber-500/30"
-                        : "border-border"
+                      isPending ? "border-amber-500 ring-1 ring-amber-500/30" : "border-border"
                     }`}
                   >
                     {slot.imported_skins ? (
                       <>
                         <div className="aspect-square bg-muted/20 relative">
                           {slot.imported_skins.image && (
-                            <img
-                              src={slot.imported_skins.image}
-                              alt={slot.imported_skins.name}
-                              className="w-full h-full object-contain"
-                              loading="lazy"
-                            />
+                            <img src={slot.imported_skins.image} alt={slot.imported_skins.name} className="w-full h-full object-contain" loading="lazy" />
                           )}
-                          <span className="absolute top-1 left-1 text-[9px] font-bold bg-background/80 px-1.5 py-0.5 rounded">
-                            #{slot.slot_position}
-                          </span>
+                          <span className="absolute top-1 left-1 text-[9px] font-bold bg-background/80 px-1.5 py-0.5 rounded">#{slot.slot_position}</span>
                           {isPending && (
-                            <span className="absolute top-1 right-1 text-[9px] font-bold bg-amber-500 text-black px-1.5 py-0.5 rounded">
-                              Não salvo
-                            </span>
+                            <span className="absolute top-1 right-1 text-[9px] font-bold bg-amber-500 text-black px-1.5 py-0.5 rounded">Não salvo</span>
                           )}
                         </div>
                         <div className="p-2 space-y-1">
-                          <p className="text-xs font-semibold truncate">
-                            {slot.imported_skins.weapon_name}
-                          </p>
-                          <p className="text-[10px] text-muted-foreground truncate">
-                            {slot.imported_skins.pattern_name}
-                          </p>
+                          <p className="text-xs font-semibold truncate">{slot.imported_skins.weapon_name}</p>
+                          <p className="text-[10px] text-muted-foreground truncate">{slot.imported_skins.pattern_name}</p>
                           <div className="flex gap-1">
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              className="flex-1 h-9 sm:h-8 text-[11px] sm:text-[10px] min-w-[44px]"
-                              onClick={() => setModalSlotId(slot.id)}
-                            >
+                            <Button size="sm" variant="outline" className="flex-1 h-9 sm:h-8 text-[11px] sm:text-[10px] min-w-[44px]" onClick={() => setModalSlotId(slot.id)}>
                               <RefreshCw className="size-3 mr-1" />
                               Trocar
                             </Button>
-                            <Button
-                              size="sm"
-                              variant="ghost"
-                              className="h-9 sm:h-8 w-9 sm:w-8 px-0 text-destructive min-w-[44px]"
-                              onClick={() => handleRemove(slot.id)}
-                            >
+                            <Button size="sm" variant="ghost" className="h-9 sm:h-8 w-9 sm:w-8 px-0 text-destructive min-w-[44px]" onClick={() => handleRemove(slot.id)}>
                               <Trash2 className="size-3.5 sm:size-3" />
                             </Button>
                           </div>
@@ -280,11 +366,7 @@ export default function SlotManager() {
         );
       })}
 
-      <SkinSearchModal
-        open={!!modalSlotId}
-        onClose={() => setModalSlotId(null)}
-        onSelect={handleSelect}
-      />
+      <SkinSearchModal open={!!modalSlotId} onClose={() => setModalSlotId(null)} onSelect={handleSelect} />
     </div>
   );
 }
