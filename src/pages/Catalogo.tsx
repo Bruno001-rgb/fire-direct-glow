@@ -25,34 +25,67 @@ export default function Catalogo() {
     [skins, search, weapon, rarity, wear, sort, priceRange]
   );
 
+  const filterProps = {
+    search,
+    onSearchChange: setSearch,
+    weapon,
+    onWeaponChange: setWeapon,
+    rarity,
+    onRarityChange: setRarity,
+    wear,
+    onWearChange: setWear,
+    sort,
+    onSortChange: setSort,
+    priceRange,
+    onPriceRangeChange: setPriceRange,
+    allSkins: skins,
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Header />
-      <CatalogoFilters
-        search={search}
-        onSearchChange={setSearch}
-        weapon={weapon}
-        onWeaponChange={setWeapon}
-        rarity={rarity}
-        onRarityChange={setRarity}
-        wear={wear}
-        onWearChange={setWear}
-        sort={sort}
-        onSortChange={setSort}
-        priceRange={priceRange}
-        onPriceRangeChange={setPriceRange}
-        allSkins={skins}
-      />
-      <main className="container py-6 mt-14 sm:mt-16">
-        {isLoading && <CatalogoSkeleton />}
-        {isError && (
-          <div className="text-center py-20 space-y-4">
-            <p className="text-destructive text-lg">Erro ao carregar skins. Tente novamente.</p>
-            <Button variant="fire" onClick={() => refetch()}>Tentar novamente</Button>
+
+      {/* Mobile: collapsible filter bar */}
+      <div className="lg:hidden">
+        <CatalogoFilters {...filterProps} />
+      </div>
+
+      <main className="mt-14 sm:mt-16">
+        {/* Desktop: sidebar layout */}
+        <div className="hidden lg:block">
+          <CatalogoFilters {...filterProps} />
+          <div className="container">
+            <div className="flex gap-6">
+              {/* Spacer matching sidebar width */}
+              <div className="w-64 shrink-0" />
+              {/* Grid */}
+              <div className="flex-1 min-w-0 pb-8">
+                {isLoading && <CatalogoSkeleton />}
+                {isError && (
+                  <div className="text-center py-20 space-y-4">
+                    <p className="text-destructive text-lg">Erro ao carregar skins. Tente novamente.</p>
+                    <Button variant="fire" onClick={() => refetch()}>Tentar novamente</Button>
+                  </div>
+                )}
+                {skins && <CatalogoGrid skins={filtered} onSkinClick={setSelectedSkin} />}
+              </div>
+            </div>
           </div>
-        )}
-        {skins && <CatalogoGrid skins={filtered} onSkinClick={setSelectedSkin} />}
+        </div>
+
+        {/* Mobile: simple grid */}
+        <div className="lg:hidden container py-6">
+          {isLoading && <CatalogoSkeleton />}
+          {isError && (
+            <div className="text-center py-20 space-y-4">
+              <p className="text-destructive text-lg">Erro ao carregar skins. Tente novamente.</p>
+              <Button variant="fire" onClick={() => refetch()}>Tentar novamente</Button>
+            </div>
+          )}
+          {skins && <CatalogoGrid skins={filtered} onSkinClick={setSelectedSkin} />}
+        </div>
       </main>
+
       <Footer />
       <SkinDetailModal skin={selectedSkin} onClose={() => setSelectedSkin(null)} />
     </div>
