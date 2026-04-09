@@ -98,7 +98,7 @@ const HeroSection = () => {
               </Button>
 
               <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" asChild>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                <a href="/#como-funciona">
                   Nos Conheça
                   <ArrowRight className="size-4 ml-1" />
                 </a>
