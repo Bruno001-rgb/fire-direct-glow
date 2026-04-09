@@ -46,6 +46,7 @@ export const WEAPON_FILTERS = [
   { label: "Pistolas", value: "pistols" },
   { label: "SMGs", value: "smgs" },
   { label: "Shotguns", value: "shotguns" },
+  { label: "Metralhadoras", value: "machineguns" },
   { label: "Faca", value: "knife" },
   { label: "Luvas", value: "gloves" },
 ] as const;
@@ -110,6 +111,8 @@ export function filterSkins(
       filtered = filtered.filter((s) => s.category?.name === "SMGs");
     } else if (weapon === "shotguns") {
       filtered = filtered.filter((s) => s.category?.name === "Shotguns");
+    } else if (weapon === "machineguns") {
+      filtered = filtered.filter((s) => s.category?.name === "Machine Guns");
     } else {
       filtered = filtered.filter((s) => s.weapon?.name === weapon);
     }

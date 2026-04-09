@@ -167,6 +167,9 @@ function WeaponCategoryBar({
       } else if (catName === "Rifles") {
         c["rifles"] = (c["rifles"] || 0) + 1;
         if (!img["rifles"] && s.image) img["rifles"] = s.image;
+      } else if (catName === "Machine Guns") {
+        c["machineguns"] = (c["machineguns"] || 0) + 1;
+        if (!img["machineguns"] && s.image) img["machineguns"] = s.image;
       } else if (s.weapon?.name) {
         c[s.weapon.name] = (c[s.weapon.name] || 0) + 1;
         if (!img[s.weapon.name] && s.image) img[s.weapon.name] = s.image;
