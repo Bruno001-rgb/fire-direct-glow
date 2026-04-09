@@ -183,7 +183,7 @@ function WeaponCategoryBar({
             }`}
           >
             {/* Weapon image */}
-            <div className="w-16 h-12 flex items-center justify-center">
+            <div className="w-20 h-14 flex items-center justify-center">
               {w.value === "all" ? (
                 <img
                   src={logoFireskins}
