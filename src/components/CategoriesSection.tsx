@@ -72,8 +72,8 @@ const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
       </div>
     </div>
 
-    {/* Negociar button */}
-    <div className="px-3 pb-3 sm:px-4 sm:pb-4">
+    {/* Negociar button - hidden on desktop, visible on hover; always visible on mobile */}
+    <div className="px-3 pb-3 sm:px-4 sm:pb-4 md:opacity-0 md:translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out">
       <span className="flex items-center justify-center gap-1.5 w-full py-2 rounded-xl bg-gradient-to-br from-[#E95A0C] to-[#C94A08] text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-lg shadow-primary/15 group-hover:shadow-xl group-hover:shadow-primary/25 group-hover:scale-[1.02] transition-all duration-300 ease-out">
         <WhatsAppIcon className="size-3" />
         Negociar
