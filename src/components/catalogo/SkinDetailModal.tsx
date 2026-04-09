@@ -1,12 +1,31 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useMemo } from "react";
 import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
 import { useLoadout, LOADOUT_SLOTS, type SlotKey } from "@/contexts/LoadoutContext";
 import { toast } from "sonner";
 
-const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
+const WEAR_TIERS = [
+  { label: "Factory New", short: "FN", min: 0, max: 0.07, color: "hsl(142 71% 45%)" },
+  { label: "Minimal Wear", short: "MW", min: 0.07, max: 0.15, color: "hsl(48 96% 53%)" },
+  { label: "Field-Tested", short: "FT", min: 0.15, max: 0.38, color: "hsl(25 95% 53%)" },
+  { label: "Well-Worn", short: "WW", min: 0.38, max: 0.45, color: "hsl(0 72% 51%)" },
+  { label: "Battle-Scarred", short: "BS", min: 0.45, max: 1.0, color: "hsl(0 60% 40%)" },
+] as const;
+
+function getWearTier(float: number) {
+  return WEAR_TIERS.find((t) => float >= t.min && float < t.max) ?? WEAR_TIERS[4];
+}
+
+function getWearFilter(float: number) {
+  // subtle visual wear: FN = bright, BS = slightly darker/desaturated
+  const brightness = 1 - float * 0.15;
+  const contrast = 1 - float * 0.08;
+  const saturate = 1 - float * 0.2;
+  return `brightness(${brightness}) contrast(${contrast}) saturate(${saturate})`;
+}
 
 interface Props {
   skin: ByMykelSkin | null;
@@ -16,8 +35,25 @@ interface Props {
 export default function SkinDetailModal({ skin, onClose }: Props) {
   const { addToSlot } = useLoadout();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [floatValue, setFloatValue] = useState(0);
   const imgRef = useRef<HTMLDivElement>(null);
   const touchStartY = useRef(0);
+
+  const minFloat = skin?.min_float ?? 0;
+  const maxFloat = skin?.max_float ?? 1;
+
+  // Reset float when skin changes
+  useEffect(() => {
+    if (skin) setFloatValue(skin.min_float ?? 0);
+  }, [skin]);
+
+  // Available wear tiers for this skin
+  const availableTiers = useMemo(
+    () => WEAR_TIERS.filter((t) => t.min < maxFloat && t.max > minFloat),
+    [minFloat, maxFloat]
+  );
+
+  const currentTier = getWearTier(floatValue);
 
   // Close on Escape
   useEffect(() => {
@@ -36,7 +72,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 30; // max 15deg
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 30;
     const y = ((e.clientY - rect.top) / rect.height - 0.5) * -30;
     setTilt({ x: y, y: x });
   }, []);
@@ -57,11 +93,10 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
   const rarityColor = skin.rarity?.color || "#888";
 
   const whatsappMsg = encodeURIComponent(
-    `Olá! Tenho interesse na skin ${skin.name}. Pode me passar mais informações?`
+    `Olá, quero consultar a skin ${skin.name} com float ${floatValue.toFixed(2)}.`
   );
 
   const handleAddToLoadout = () => {
-    // Find matching slot
     const slot = LOADOUT_SLOTS.find((s) => {
       if (s.weaponFilter === "knife") return skin.category?.name === "Knives";
       if (s.weaponFilter === "gloves") return skin.category?.name === "Gloves";
@@ -75,6 +110,14 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
     }
   };
 
+  const handleTierClick = (tier: typeof WEAR_TIERS[number]) => {
+    const clampedMin = Math.max(tier.min, minFloat);
+    const clampedMax = Math.min(tier.max, maxFloat);
+    setFloatValue(Math.round(((clampedMin + clampedMax) / 2) * 100) / 100);
+  };
+
+  const hasFloat = skin.min_float != null && skin.max_float != null;
+
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 animate-in fade-in duration-250"
@@ -83,7 +126,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
       onTouchEnd={handleTouchEnd}
     >
       <div
-        className="relative w-full h-full md:h-auto md:max-h-[90vh] md:max-w-4xl md:rounded-xl overflow-y-auto bg-card"
+        className="relative w-full h-full md:h-auto md:max-h-[90vh] md:max-w-4xl md:rounded-xl overflow-y-auto bg-card border border-border/50"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close */}
@@ -108,9 +151,10 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
             <img
               src={skin.image}
               alt={skin.name}
-              className="max-h-64 md:max-h-80 object-contain transition-transform duration-150"
+              className="max-h-64 md:max-h-80 object-contain transition-all duration-300"
               style={{
                 transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+                filter: hasFloat ? getWearFilter(floatValue) : undefined,
               }}
             />
           </div>
@@ -137,27 +181,71 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
                   StatTrak™
                 </span>
               )}
+              {hasFloat && (
+                <>
+                  <span
+                    className="text-xs font-bold px-2.5 py-1 rounded font-mono"
+                    style={{ background: currentTier.color + "25", color: currentTier.color }}
+                  >
+                    {floatValue.toFixed(2)}
+                  </span>
+                  <span
+                    className="text-xs font-bold px-2.5 py-1 rounded"
+                    style={{ background: currentTier.color + "25", color: currentTier.color }}
+                  >
+                    {currentTier.label}
+                  </span>
+                </>
+              )}
             </div>
 
             <div className="h-px bg-border" />
 
-            {/* Float range */}
-            {skin.min_float != null && skin.max_float != null && (
-              <div className="space-y-1.5">
-                <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Float Range</p>
-                <div className="flex items-center gap-3 text-sm">
-                  <span className="text-foreground font-mono">{skin.min_float.toFixed(4)}</span>
-                  <div className="flex-1 h-2 rounded-full bg-muted overflow-hidden">
-                    <div
-                      className="h-full rounded-full"
-                      style={{
-                        marginLeft: `${skin.min_float * 100}%`,
-                        width: `${(skin.max_float - skin.min_float) * 100}%`,
-                        background: rarityColor,
-                      }}
-                    />
+            {/* Float/Wear selector */}
+            {hasFloat && (
+              <div className="space-y-3">
+                <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
+                  Desgaste / Float
+                </p>
+
+                {/* Wear tier chips */}
+                <div className="flex flex-wrap gap-1.5">
+                  {WEAR_TIERS.map((tier) => {
+                    const available = availableTiers.includes(tier);
+                    const active = currentTier === tier;
+                    return (
+                      <button
+                        key={tier.short}
+                        disabled={!available}
+                        onClick={() => handleTierClick(tier)}
+                        className="text-[11px] font-bold px-2.5 py-1 rounded-md transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
+                        style={{
+                          background: active ? tier.color + "30" : "hsl(var(--muted))",
+                          color: active ? tier.color : "hsl(var(--muted-foreground))",
+                          borderWidth: "1px",
+                          borderColor: active ? tier.color + "50" : "transparent",
+                        }}
+                      >
+                        {tier.short}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Slider */}
+                <div className="space-y-1">
+                  <Slider
+                    value={[floatValue]}
+                    min={minFloat}
+                    max={maxFloat}
+                    step={0.01}
+                    onValueChange={([val]) => setFloatValue(val)}
+                    className="[&_[data-radix-slider-track]]:h-2 [&_[data-radix-slider-track]]:bg-muted [&_[data-radix-slider-range]]:bg-primary [&_[data-radix-slider-thumb]]:border-primary [&_[data-radix-slider-thumb]]:bg-background [&_[data-radix-slider-thumb]]:h-5 [&_[data-radix-slider-thumb]]:w-5 [&_[data-radix-slider-thumb]]:shadow-[0_0_8px_hsl(var(--primary)/0.4)]"
+                  />
+                  <div className="flex justify-between text-[10px] text-muted-foreground font-mono">
+                    <span>{minFloat.toFixed(2)}</span>
+                    <span>{maxFloat.toFixed(2)}</span>
                   </div>
-                  <span className="text-foreground font-mono">{skin.max_float.toFixed(4)}</span>
                 </div>
               </div>
             )}
@@ -194,7 +282,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
                   rel="noopener noreferrer"
                 >
                   <WhatsAppIcon className="size-4" />
-                  Tenho interesse — falar no WhatsApp
+                  Consultar esta skin no WhatsApp
                 </a>
               </Button>
               <Button variant="fire-outline" className="w-full" onClick={handleAddToLoadout}>
