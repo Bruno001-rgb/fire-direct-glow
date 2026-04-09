@@ -124,6 +124,16 @@ function FiltersContent(props: Props) {
 export default function CatalogoFilters(props: Props) {
   const [open, setOpen] = useState(false);
 
+  const hasActiveFilters = props.search || props.weapon !== "all" || props.rarity !== "all" || props.wear !== "all" || props.sort !== "az";
+
+  const clearAll = () => {
+    props.onSearchChange("");
+    props.onWeaponChange("all");
+    props.onRarityChange("all");
+    props.onWearChange("all");
+    props.onSortChange("az");
+  };
+
   const activeCount = [props.weapon, props.rarity, props.wear].filter((v) => v !== "all").length;
 
   return (
@@ -139,6 +149,16 @@ export default function CatalogoFilters(props: Props) {
               className="pl-9 bg-muted/50 border-border/40 h-11 text-sm rounded-xl focus:border-primary/40 focus:ring-primary/20 transition-all"
             />
           </div>
+          {hasActiveFilters && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearAll}
+              className="hidden md:inline-flex text-xs text-muted-foreground hover:text-foreground shrink-0 h-11"
+            >
+              Limpar filtros
+            </Button>
+          )}
           {/* Mobile filter button */}
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
@@ -153,7 +173,14 @@ export default function CatalogoFilters(props: Props) {
             </SheetTrigger>
             <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto">
               <SheetHeader>
-                <SheetTitle>Filtros</SheetTitle>
+                <div className="flex items-center justify-between">
+                  <SheetTitle>Filtros</SheetTitle>
+                  {hasActiveFilters && (
+                    <Button variant="ghost" size="sm" onClick={clearAll} className="text-xs text-muted-foreground">
+                      Limpar filtros
+                    </Button>
+                  )}
+                </div>
               </SheetHeader>
               <div className="mt-4">
                 <FiltersContent {...props} />
