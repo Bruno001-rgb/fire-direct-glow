@@ -439,8 +439,11 @@ export default function SlotManager() {
                               <RefreshCw className="size-3 mr-1" />
                               Trocar
                             </Button>
-                            <Button size="sm" variant="ghost" className="h-9 sm:h-8 w-9 sm:w-8 px-0 text-destructive min-w-[44px]" onClick={() => handleRemove(slot.id)}>
-                              <Trash2 className="size-3.5 sm:size-3" />
+                            <Button size="sm" variant="ghost" className="h-9 sm:h-8 w-9 sm:w-8 px-0 text-muted-foreground hover:text-foreground min-w-[44px]" onClick={() => handleRemove(slot.id)} title="Limpar skin">
+                              <Undo2 className="size-3.5 sm:size-3" />
+                            </Button>
+                            <Button size="sm" variant="ghost" className="h-9 sm:h-8 w-9 sm:w-8 px-0 text-destructive min-w-[44px]" onClick={() => handleDeleteSlot(slot.id, cat.id, slot.slot_position)} title="Remover slot">
+                              <X className="size-3.5 sm:size-3" />
                             </Button>
                           </div>
                         </div>
