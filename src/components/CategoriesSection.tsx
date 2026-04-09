@@ -37,14 +37,8 @@ const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
     href={WHATSAPP_URL}
     target="_blank"
     rel="noopener noreferrer"
-    className="group relative flex flex-col overflow-hidden rounded-xl border border-primary/15 bg-card/60 hover:border-primary/50 transition-all duration-300 hover:shadow-[0_0_30px_-4px_hsl(var(--primary)/0.35)]"
+    className="group relative flex flex-col overflow-hidden rounded-xl border border-primary/10 bg-card/60 hover:border-primary/30 transition-all duration-300 hover:shadow-[0_0_20px_-4px_hsl(var(--primary)/0.15)]"
   >
-    {/* Badge */}
-    <div className="absolute top-2 right-2 z-10">
-      <span className="px-2 py-0.5 rounded text-[8px] sm:text-[9px] font-bold uppercase tracking-wider bg-primary/90 text-primary-foreground">
-        Disponível
-      </span>
-    </div>
 
     {/* Image */}
     <div className="aspect-[4/3] overflow-hidden relative bg-gradient-to-br from-background/80 to-card">
@@ -115,9 +109,9 @@ const CategoriesSection = () => {
         {/* Header */}
         <div className="mb-6 sm:mb-8">
           <h2 className="section-heading font-heading">
-            Catálogo <span className="text-gradient-fire">premium</span>
+            Confira <span className="text-gradient-fire">Nossas Skins</span>
           </h2>
-          <p className="mt-1 text-xs sm:text-sm text-muted-foreground">Uma prévia das nossas melhores skins — explore o catálogo completo</p>
+          <p className="mt-1 text-xs sm:text-sm text-muted-foreground">Skins para todos os estilos e bolsos</p>
         </div>
 
         {/* Grid */}

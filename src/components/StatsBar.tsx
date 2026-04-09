@@ -1,7 +1,7 @@
-import { Flame, Users, Clock, ShieldCheck } from "lucide-react";
+import { Flame, Users, Clock, ShieldCheck, Tag } from "lucide-react";
 
 const stats = [
-  { icon: Flame, label: "247 skins disponíveis", accent: true, priority: true },
+  { icon: Tag, label: "Skins a partir de R$5", accent: true, priority: true },
   { icon: Users, label: "1.2K+ negociações", priority: true },
   { icon: Clock, label: "Resposta em < 5 min", priority: false },
   { icon: ShieldCheck, label: "100% seguro", priority: false },
