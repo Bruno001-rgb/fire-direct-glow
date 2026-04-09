@@ -123,6 +123,7 @@ function FiltersContent(props: Props) {
 
 export default function CatalogoFilters(props: Props) {
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   const hasActiveFilters = props.search || props.weapon !== "all" || props.rarity !== "all" || props.wear !== "all" || props.sort !== "az";
 
@@ -137,60 +138,94 @@ export default function CatalogoFilters(props: Props) {
   const activeCount = [props.weapon, props.rarity, props.wear].filter((v) => v !== "all").length;
 
   return (
-    <div className="sticky top-14 sm:top-16 z-30 bg-background/95 backdrop-blur-md border-b border-border/60 py-3">
-      <div className="container space-y-2">
-        <div className="flex gap-2">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
-            <Input
-              placeholder="Buscar skin..."
-              value={props.search}
-              onChange={(e) => props.onSearchChange(e.target.value)}
-              className="pl-9 bg-muted/50 border-border/40 h-11 text-sm rounded-xl focus:border-primary/40 focus:ring-primary/20 transition-all"
-            />
+    <div className="sticky top-14 sm:top-16 z-30 bg-background/95 backdrop-blur-md border-b border-border/60">
+      <div className="container">
+        {/* Collapsible header */}
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="flex items-center justify-between w-full py-3 group"
+        >
+          <div className="flex items-center gap-2">
+            <Search className="size-4 text-muted-foreground" />
+            <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
+              Buscar Skins
+            </span>
+            {activeCount > 0 && (
+              <span className="size-5 flex items-center justify-center rounded-full bg-primary text-primary-foreground text-[10px] font-bold">
+                {activeCount}
+              </span>
+            )}
           </div>
-          {hasActiveFilters && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={clearAll}
-              className="hidden md:inline-flex text-xs text-muted-foreground hover:text-foreground shrink-0 h-11"
-            >
-              Limpar filtros
-            </Button>
-          )}
-          {/* Mobile filter button */}
-          <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="md:hidden shrink-0 h-11 w-11 rounded-xl border-border/40 relative">
-                <SlidersHorizontal className="size-4" />
-                {activeCount > 0 && (
-                  <span className="absolute -top-1 -right-1 size-4 flex items-center justify-center rounded-full bg-primary text-primary-foreground text-[9px] font-bold">
-                    {activeCount}
-                  </span>
-                )}
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto">
-              <SheetHeader>
-                <div className="flex items-center justify-between">
-                  <SheetTitle>Filtros</SheetTitle>
-                  {hasActiveFilters && (
-                    <Button variant="ghost" size="sm" onClick={clearAll} className="text-xs text-muted-foreground">
-                      Limpar filtros
-                    </Button>
-                  )}
+          <ChevronDown
+            className={`size-4 text-muted-foreground transition-transform duration-200 ${expanded ? "rotate-180" : ""}`}
+          />
+        </button>
+
+        {/* Expandable content */}
+        <div
+          className={`grid transition-all duration-300 ease-out ${
+            expanded ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+          }`}
+        >
+          <div className="overflow-hidden">
+            <div className="pb-3 space-y-3">
+              {/* Search + clear */}
+              <div className="flex gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+                  <Input
+                    placeholder="Buscar skin..."
+                    value={props.search}
+                    onChange={(e) => props.onSearchChange(e.target.value)}
+                    className="pl-9 bg-muted/50 border-border/40 h-11 text-sm rounded-xl focus:border-primary/40 focus:ring-primary/20 transition-all"
+                  />
                 </div>
-              </SheetHeader>
-              <div className="mt-4">
+                {hasActiveFilters && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={clearAll}
+                    className="hidden md:inline-flex text-xs text-muted-foreground hover:text-foreground shrink-0 h-11"
+                  >
+                    Limpar filtros
+                  </Button>
+                )}
+                {/* Mobile filter button */}
+                <Sheet open={open} onOpenChange={setOpen}>
+                  <SheetTrigger asChild>
+                    <Button variant="outline" size="icon" className="md:hidden shrink-0 h-11 w-11 rounded-xl border-border/40 relative">
+                      <SlidersHorizontal className="size-4" />
+                      {activeCount > 0 && (
+                        <span className="absolute -top-1 -right-1 size-4 flex items-center justify-center rounded-full bg-primary text-primary-foreground text-[9px] font-bold">
+                          {activeCount}
+                        </span>
+                      )}
+                    </Button>
+                  </SheetTrigger>
+                  <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto">
+                    <SheetHeader>
+                      <div className="flex items-center justify-between">
+                        <SheetTitle>Filtros</SheetTitle>
+                        {hasActiveFilters && (
+                          <Button variant="ghost" size="sm" onClick={clearAll} className="text-xs text-muted-foreground">
+                            Limpar filtros
+                          </Button>
+                        )}
+                      </div>
+                    </SheetHeader>
+                    <div className="mt-4">
+                      <FiltersContent {...props} />
+                    </div>
+                  </SheetContent>
+                </Sheet>
+              </div>
+
+              {/* Desktop filters */}
+              <div className="hidden md:block">
                 <FiltersContent {...props} />
               </div>
-            </SheetContent>
-          </Sheet>
-        </div>
-        {/* Desktop filters */}
-        <div className="hidden md:block">
-          <FiltersContent {...props} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
