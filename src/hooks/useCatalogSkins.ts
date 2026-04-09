@@ -31,12 +31,14 @@ export function useCatalogSkins() {
 
       // Build a lookup from byMykel skins by normalized name for float matching
       const apiSkins = apiRes as any[];
-      const floatLookup = new Map<string, { min: number; max: number }>();
+      const floatLookup = new Map<string, { min: number; max: number; paint_index?: string; weapon_id?: number }>();
       for (const s of apiSkins) {
         if (s.name && s.min_float != null && s.max_float != null) {
           floatLookup.set(s.name.toLowerCase(), {
             min: s.min_float,
             max: s.max_float,
+            paint_index: s.paint_index ?? undefined,
+            weapon_id: s.weapon?.weapon_id ?? undefined,
           });
         }
       }
@@ -95,6 +97,8 @@ export function useCatalogSkins() {
           stattrak: false,
           collections: [],
           price: s.price ?? null,
+          paint_index: floatData?.paint_index ?? null,
+          weapon_id: floatData?.weapon_id ?? null,
         });
       }
 
