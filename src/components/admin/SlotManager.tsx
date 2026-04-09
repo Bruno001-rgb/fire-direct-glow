@@ -62,6 +62,7 @@ export default function SlotManager() {
   const [priceEdits, setPriceEdits] = useState<Map<string, string>>(new Map());
   const [savingPrices, setSavingPrices] = useState<Set<string>>(new Set());
   const [scrollToCatId, setScrollToCatId] = useState<string | null>(null);
+  const [isCustomCat, setIsCustomCat] = useState(false);
   const catRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   const { data: categories, isLoading } = useQuery({
@@ -344,10 +345,20 @@ export default function SlotManager() {
                 value={newCatKey}
                 onChange={(e) => {
                   const val = e.target.value;
+                  if (val === "__custom__") {
+                    setNewCatLabel("");
+                    setNewCatKey("");
+                    setIsCustomCat(true);
+                    return;
+                  }
+                  setIsCustomCat(false);
                   const opt = CATEGORY_OPTIONS.find((o) => o.key === val);
                   if (opt) {
                     setNewCatLabel(opt.label);
                     setNewCatKey(opt.key);
+                  } else {
+                    setNewCatLabel("");
+                    setNewCatKey("");
                   }
                 }}
                 className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -356,21 +367,41 @@ export default function SlotManager() {
                 {CATEGORY_OPTIONS.filter((opt) => !categories?.some((c) => c.key === opt.key)).map((opt) => (
                   <option key={opt.key} value={opt.key}>{opt.label}</option>
                 ))}
+                <option value="__custom__">+ Personalizada</option>
               </select>
             </div>
-            <Input
-              placeholder="Key"
-              value={newCatKey}
-              disabled
-            />
-            <Input
-              type="number"
-              min={1}
-              max={20}
-              placeholder="Slots"
-              value={newCatSlots}
-              onChange={(e) => setNewCatSlots(Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))}
-            />
+            {isCustomCat ? (
+              <>
+                <Input
+                  placeholder="Nome (ex: Adesivos)"
+                  value={newCatLabel}
+                  onChange={(e) => {
+                    setNewCatLabel(e.target.value);
+                    setNewCatKey(e.target.value.trim().toLowerCase().replace(/\s+/g, "-"));
+                  }}
+                />
+                <Input
+                  type="number"
+                  min={1}
+                  max={20}
+                  placeholder="Slots"
+                  value={newCatSlots}
+                  onChange={(e) => setNewCatSlots(Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))}
+                />
+              </>
+            ) : (
+              <>
+                <Input placeholder="Key" value={newCatKey} disabled />
+                <Input
+                  type="number"
+                  min={1}
+                  max={20}
+                  placeholder="Slots"
+                  value={newCatSlots}
+                  onChange={(e) => setNewCatSlots(Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))}
+                />
+              </>
+            )}
           </div>
           <div className="flex justify-end">
             <Button size="sm" onClick={handleCreateCategory} disabled={isCreating}>
