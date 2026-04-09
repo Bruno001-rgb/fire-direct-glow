@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import SlotManager from "@/components/admin/SlotManager";
 import TestimonialsManager from "@/components/admin/TestimonialsManager";
-import AdminGuard from "@/components/admin/AdminGuard";
+// import AdminGuard from "@/components/admin/AdminGuard";
 import { toast } from "sonner";
 
 export default function Admin() {
@@ -31,7 +31,7 @@ export default function Admin() {
   };
 
   return (
-    <AdminGuard>
+    <>
       <div className="min-h-screen bg-background text-foreground">
         <header className="border-b border-border sticky top-0 z-50 bg-background/95 backdrop-blur">
           <div className="container flex items-center justify-between h-14">
@@ -89,6 +89,6 @@ export default function Admin() {
           </Tabs>
         </main>
       </div>
-    </AdminGuard>
+    </>
   );
 }
