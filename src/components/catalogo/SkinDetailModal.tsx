@@ -152,7 +152,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Info column */}
-        <div className="flex-1 md:h-full md:overflow-y-auto md:border-r border-border/30 bg-card/40">
+        <div className="order-2 md:order-1 flex-1 md:h-full md:overflow-y-auto md:border-r border-border/30 bg-card/40">
           <div className="flex flex-col gap-5 p-6 md:p-12 md:justify-center md:min-h-full">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground">{skin.name}</h2>
 
