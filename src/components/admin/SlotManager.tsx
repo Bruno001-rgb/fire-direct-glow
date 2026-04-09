@@ -105,6 +105,7 @@ export default function SlotManager() {
         return next;
       });
       setModalSlotId(null);
+      setModalCategoryKey(undefined);
     },
     [modalSlotId]
   );
