@@ -173,7 +173,14 @@ export default function CatalogoFilters(props: Props) {
             </SheetTrigger>
             <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto">
               <SheetHeader>
-                <SheetTitle>Filtros</SheetTitle>
+                <div className="flex items-center justify-between">
+                  <SheetTitle>Filtros</SheetTitle>
+                  {hasActiveFilters && (
+                    <Button variant="ghost" size="sm" onClick={clearAll} className="text-xs text-muted-foreground">
+                      Limpar filtros
+                    </Button>
+                  )}
+                </div>
               </SheetHeader>
               <div className="mt-4">
                 <FiltersContent {...props} />
