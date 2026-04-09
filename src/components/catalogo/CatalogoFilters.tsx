@@ -6,6 +6,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { Slider } from "@/components/ui/slider";
 import { WEAPON_FILTERS, RARITY_FILTERS, WEAR_FILTERS, PRICE_FILTERS, type SortMode } from "@/hooks/useByMykelSkins";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
+import logoFireskins from "@/assets/logo-fireskins.webp";
 
 interface Props {
   search: string;
