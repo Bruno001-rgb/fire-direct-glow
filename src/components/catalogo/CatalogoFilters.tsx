@@ -188,7 +188,7 @@ function WeaponCategoryBar({
                 <img
                   src={logoFireskins}
                   alt="Todos"
-                  className="w-20 h-20 object-contain"
+                  className="w-36 h-36 object-contain"
                 />
               ) : imgSrc ? (
                 <img
