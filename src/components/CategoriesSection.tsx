@@ -1,18 +1,10 @@
-import { useState } from "react";
-import { Star, Loader2 } from "lucide-react";
+import { useMemo } from "react";
+import { Star, Loader2, ArrowRight } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import { useShowcaseSkins, type ShowcaseSkin } from "@/hooks/useShowcaseSkins";
 
 const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
-
-const tabs = [
-  { key: "todas", label: "Todas" },
-  { key: "facas", label: "Facas" },
-  { key: "luvas", label: "Luvas" },
-  { key: "rifles", label: "Rifles" },
-  { key: "snipers", label: "Snipers" },
-] as const;
 
 const rarityColor: Record<string, string> = {
   Covert: "bg-red-500",
@@ -95,12 +87,19 @@ const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
 );
 
 const CategoriesSection = () => {
-  const [activeTab, setActiveTab] = useState<string>("todas");
   const { data: allSkins, isLoading } = useShowcaseSkins();
 
-  const filtered = activeTab === "todas"
-    ? (allSkins || [])
-    : (allSkins || []).filter((s) => s.category === activeTab);
+  // Pick one skin per weapon name (first occurrence)
+  const uniqueWeaponSkins = useMemo(() => {
+    if (!allSkins) return [];
+    const seen = new Set<string>();
+    return allSkins.filter((s) => {
+      const key = s.name;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }, [allSkins]);
 
   return (
     <section id="catalogo" className="py-6 sm:py-8 relative overflow-hidden">
@@ -114,39 +113,11 @@ const CategoriesSection = () => {
 
       <div className="container relative z-10">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6 sm:mb-8">
-          <div>
-            <h2 className="section-heading font-heading">
-              Catálogo <span className="text-gradient-fire">premium</span>
-            </h2>
-            <p className="mt-1 text-xs sm:text-sm text-muted-foreground">Escolha sua skin e negocie direto no WhatsApp</p>
-          </div>
-          <Button variant="fire" size="sm" className="uppercase tracking-wider text-[11px] h-9 shrink-0 rounded-sm" asChild>
-            <a href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20quero%20ver%20o%20cat%C3%A1logo%20completo!" target="_blank" rel="noopener noreferrer">
-              <WhatsAppIcon className="size-3.5" />
-              Ver catálogo completo
-            </a>
-          </Button>
-        </div>
-
-        {/* Tabs */}
-        <div className="flex gap-6 mb-6 sm:mb-8 overflow-x-auto pb-1 scrollbar-hide border-b border-primary/10">
-          {tabs.map((tab) => (
-            <button
-              key={tab.key}
-              onClick={() => setActiveTab(tab.key)}
-              className={`relative pb-3 text-[11px] sm:text-xs font-bold uppercase tracking-wider transition-colors duration-300 whitespace-nowrap ${
-                activeTab === tab.key
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {tab.label}
-              {activeTab === tab.key && (
-                <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary rounded-full" />
-              )}
-            </button>
-          ))}
+        <div className="mb-6 sm:mb-8">
+          <h2 className="section-heading font-heading">
+            Catálogo <span className="text-gradient-fire">premium</span>
+          </h2>
+          <p className="mt-1 text-xs sm:text-sm text-muted-foreground">Uma prévia das nossas melhores skins — explore o catálogo completo</p>
         </div>
 
         {/* Grid */}
@@ -154,16 +125,33 @@ const CategoriesSection = () => {
           <div className="flex items-center justify-center py-20">
             <Loader2 className="size-8 animate-spin text-muted-foreground" />
           </div>
-        ) : filtered.length === 0 ? (
+        ) : uniqueWeaponSkins.length === 0 ? (
           <div className="text-center py-20 text-muted-foreground text-sm">
             Nenhuma skin configurada ainda. Acesse <a href="/admin" className="text-primary underline">/admin</a> para configurar.
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-            {filtered.map((item, i) => (
-              <SkinCard key={`${item.name}-${item.skin}-${i}`} item={item} />
-            ))}
-          </div>
+          <>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+              {uniqueWeaponSkins.map((item, i) => (
+                <SkinCard key={`${item.name}-${item.skin}-${i}`} item={item} />
+              ))}
+            </div>
+
+            {/* Big CTA */}
+            <div className="mt-10 sm:mt-14 flex justify-center">
+              <Button
+                variant="fire"
+                size="lg"
+                className="text-sm sm:text-base px-8 sm:px-12 py-6 sm:py-7 rounded-xl uppercase tracking-widest font-extrabold gap-3 shadow-[0_0_40px_-8px_hsl(var(--primary)/0.5)] hover:shadow-[0_0_60px_-8px_hsl(var(--primary)/0.7)] transition-all duration-500 hover:scale-105"
+                asChild
+              >
+                <a href="/catalogo">
+                  <span>Ver catálogo completo</span>
+                  <ArrowRight className="size-5" />
+                </a>
+              </Button>
+            </div>
+          </>
         )}
       </div>
     </section>
