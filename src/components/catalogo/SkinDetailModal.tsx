@@ -114,14 +114,14 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-stretch bg-background/98 animate-in fade-in duration-250"
+      className="fixed inset-0 z-[100] flex items-stretch bg-background animate-in fade-in duration-250"
       onClick={onClose}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
       {/* Close button */}
       <button
-        onClick={onClose}
+        onClick={(e) => { e.stopPropagation(); onClose(); }}
         className="absolute top-4 right-4 z-20 p-3 rounded-full bg-muted/80 hover:bg-muted transition-colors backdrop-blur-sm"
       >
         <X className="size-5 text-foreground" />
