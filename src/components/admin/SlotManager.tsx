@@ -99,6 +99,30 @@ export default function SlotManager() {
 
   const hasPendingChanges = pendingChanges.size > 0;
 
+  // Scroll to newly created category
+  useEffect(() => {
+    if (scrollToCatId && categories) {
+      const el = catRefs.current.get(scrollToCatId);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+        setScrollToCatId(null);
+      }
+    }
+  }, [scrollToCatId, categories]);
+
+  // Collect all used skin IDs (saved + pending)
+  const getAllUsedSkinIds = useCallback(() => {
+    const used = new Map<string, string>(); // skinId -> category label
+    categories?.forEach((cat) => {
+      cat.slots.forEach((slot) => {
+        const pending = pendingChanges.get(slot.id);
+        const skinId = pending !== undefined ? pending.skinId : slot.skin_id;
+        if (skinId) used.set(skinId, cat.label);
+      });
+    });
+    return used;
+  }, [categories, pendingChanges]);
+
   const getEffectiveSlot = useCallback(
     (slot: SlotWithSkin) => {
       const pending = pendingChanges.get(slot.id);
@@ -113,6 +137,14 @@ export default function SlotManager() {
   const handleSelect = useCallback(
     (skinId: string, preview: SkinPreview) => {
       if (!modalSlotId) return;
+
+      // Check for duplicate skin across all slots
+      const usedSkins = getAllUsedSkinIds();
+      if (usedSkins.has(skinId)) {
+        toast.error(`⚠️ Essa skin já está sendo usada na categoria "${usedSkins.get(skinId)}"!`);
+        return;
+      }
+
       setPendingChanges((prev) => {
         const next = new Map(prev);
         next.set(modalSlotId, { skinId, preview });
@@ -121,7 +153,7 @@ export default function SlotManager() {
       setModalSlotId(null);
       setModalCategoryKey(undefined);
     },
-    [modalSlotId]
+    [modalSlotId, getAllUsedSkinIds]
   );
 
   const handleRemove = useCallback((slotId: string) => {
