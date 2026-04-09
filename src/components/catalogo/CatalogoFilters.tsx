@@ -149,6 +149,16 @@ export default function CatalogoFilters(props: Props) {
               className="pl-9 bg-muted/50 border-border/40 h-11 text-sm rounded-xl focus:border-primary/40 focus:ring-primary/20 transition-all"
             />
           </div>
+          {hasActiveFilters && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearAll}
+              className="hidden md:inline-flex text-xs text-muted-foreground hover:text-foreground shrink-0 h-11"
+            >
+              Limpar filtros
+            </Button>
+          )}
           {/* Mobile filter button */}
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
