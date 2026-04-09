@@ -49,7 +49,7 @@ const Header = () => {
           onClick={() => mobile && setMobileOpen(false)}
         >
           {item.label}
-          {item.showBadge && filledCount > 0 && (
+          {"showBadge" in item && item.showBadge && filledCount > 0 && (
             <span className="absolute -top-2 -right-4 size-4 flex items-center justify-center rounded-full bg-primary text-primary-foreground text-[9px] font-bold">
               {filledCount}
             </span>
