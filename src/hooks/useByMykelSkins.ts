@@ -99,6 +99,17 @@ export function filterSkins(
     filtered = filtered.filter((s) => s.rarity?.name === rarity);
   }
 
+  if (wear !== "all") {
+    const tier = WEAR_FILTERS.find((w) => w.value === wear);
+    if (tier) {
+      filtered = filtered.filter((s) => {
+        const min = s.min_float ?? 0;
+        const max = s.max_float ?? 1;
+        return min < tier.max && max > tier.min;
+      });
+    }
+  }
+
   const sorted = [...filtered];
   switch (sort) {
     case "az":
