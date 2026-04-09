@@ -213,6 +213,25 @@ export default function SlotManager() {
     }
   }, [categories, queryClient]);
 
+  const handleDeleteSlot = useCallback(async (slotId: string, catId: string, slotPosition: number) => {
+    if (!confirm(`Remover slot #${slotPosition}?`)) return;
+    try {
+      const { error } = await supabase.from("showcase_slots").delete().eq("id", slotId);
+      if (error) throw error;
+      // Update slot_count
+      const cat = categories?.find((c) => c.id === catId);
+      if (cat) {
+        await supabase.from("showcase_categories").update({ slot_count: Math.max(0, cat.slot_count - 1) }).eq("id", catId);
+      }
+      setPendingChanges((prev) => { const next = new Map(prev); next.delete(slotId); return next; });
+      queryClient.invalidateQueries({ queryKey: ["admin-categories-slots"] });
+      queryClient.invalidateQueries({ queryKey: ["showcase-skins"] });
+      toast.success(`Slot #${slotPosition} removido.`);
+    } catch (err: any) {
+      toast.error(`Erro: ${err.message}`);
+    }
+  }, [categories, queryClient]);
+
   const handleSavePrice = useCallback(async (skinId: string) => {
     const priceStr = priceEdits.get(skinId);
     if (priceStr === undefined) return;
