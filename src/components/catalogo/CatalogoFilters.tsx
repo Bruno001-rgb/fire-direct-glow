@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search, SlidersHorizontal, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -43,10 +43,10 @@ function FilterChips({
           <button
             key={val}
             onClick={() => onChange(val)}
-            className={`px-3 py-1.5 rounded text-xs font-semibold transition-colors ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all duration-200 ${
               active
-                ? "bg-primary text-primary-foreground"
-                : "bg-muted text-muted-foreground hover:bg-muted/80"
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "bg-muted/60 text-muted-foreground hover:bg-muted hover:text-foreground"
             }`}
           >
             {label}
@@ -57,37 +57,66 @@ function FilterChips({
   );
 }
 
+function CollapsibleFilter({
+  title,
+  children,
+  defaultOpen = false,
+}: {
+  title: string;
+  children: React.ReactNode;
+  defaultOpen?: boolean;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
+
+  return (
+    <div className="border-b border-border/40 last:border-b-0">
+      <button
+        onClick={() => setOpen(!open)}
+        className="flex items-center justify-between w-full py-2.5 text-xs font-semibold text-muted-foreground uppercase tracking-wider hover:text-foreground transition-colors"
+      >
+        {title}
+        <ChevronDown
+          className={`size-3.5 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      <div
+        className={`grid transition-all duration-200 ease-out ${
+          open ? "grid-rows-[1fr] opacity-100 pb-3" : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="overflow-hidden">{children}</div>
+      </div>
+    </div>
+  );
+}
+
 function FiltersContent(props: Props) {
   return (
-    <div className="space-y-4">
-      <div>
-        <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wider">Arma</p>
+    <div>
+      <CollapsibleFilter title="Arma" defaultOpen>
         <FilterChips
           items={WEAPON_FILTERS as unknown as { label: string; value: string }[]}
           value={props.weapon}
           onChange={props.onWeaponChange}
         />
-      </div>
-      <div>
-        <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wider">Raridade</p>
+      </CollapsibleFilter>
+      <CollapsibleFilter title="Raridade">
         <FilterChips items={RARITY_FILTERS} value={props.rarity} onChange={props.onRarityChange} />
-      </div>
-      <div>
-        <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wider">Condição</p>
+      </CollapsibleFilter>
+      <CollapsibleFilter title="Condição">
         <FilterChips
           items={WEAR_FILTERS as unknown as { label: string; value: string }[]}
           value={props.wear}
           onChange={props.onWearChange}
         />
-      </div>
-      <div>
-        <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wider">Ordenar</p>
+      </CollapsibleFilter>
+      <CollapsibleFilter title="Ordenar">
         <FilterChips
           items={SORT_OPTIONS.map((o) => ({ label: o.label, value: o.value }))}
           value={props.sort}
           onChange={(v) => props.onSortChange(v as SortMode)}
         />
-      </div>
+      </CollapsibleFilter>
     </div>
   );
 }
@@ -95,9 +124,11 @@ function FiltersContent(props: Props) {
 export default function CatalogoFilters(props: Props) {
   const [open, setOpen] = useState(false);
 
+  const activeCount = [props.weapon, props.rarity, props.wear].filter((v) => v !== "all").length;
+
   return (
-    <div className="sticky top-14 sm:top-16 z-30 bg-background/95 backdrop-blur-md border-b border-border py-3">
-      <div className="container space-y-3">
+    <div className="sticky top-14 sm:top-16 z-30 bg-background/95 backdrop-blur-md border-b border-border/60 py-3">
+      <div className="container space-y-2">
         <div className="flex gap-2">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
@@ -105,14 +136,19 @@ export default function CatalogoFilters(props: Props) {
               placeholder="Buscar skin..."
               value={props.search}
               onChange={(e) => props.onSearchChange(e.target.value)}
-              className="pl-9 bg-muted border-border"
+              className="pl-9 bg-muted/50 border-border/40 h-11 text-sm rounded-xl focus:border-primary/40 focus:ring-primary/20 transition-all"
             />
           </div>
           {/* Mobile filter button */}
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild>
-              <Button variant="outline" size="icon" className="md:hidden shrink-0">
+              <Button variant="outline" size="icon" className="md:hidden shrink-0 h-11 w-11 rounded-xl border-border/40 relative">
                 <SlidersHorizontal className="size-4" />
+                {activeCount > 0 && (
+                  <span className="absolute -top-1 -right-1 size-4 flex items-center justify-center rounded-full bg-primary text-primary-foreground text-[9px] font-bold">
+                    {activeCount}
+                  </span>
+                )}
               </Button>
             </SheetTrigger>
             <SheetContent side="bottom" className="max-h-[70vh] overflow-y-auto">
