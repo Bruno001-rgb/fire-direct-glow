@@ -151,33 +151,8 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
         className="flex flex-col md:grid md:grid-cols-2 w-full h-full overflow-y-auto md:overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Image column */}
-        <div
-          className="relative flex items-center justify-center min-h-[40vh] md:min-h-0 md:h-full p-8 md:p-16 overflow-hidden"
-          style={{
-            background: `radial-gradient(circle at center, ${rarityColor}20 0%, transparent 70%)`,
-          }}
-        >
-          <img
-            ref={imgRef}
-            src={skin.image}
-            alt={skin.name}
-            onMouseEnter={handleMouseEnter}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            className="max-h-[30vh] md:max-h-[70vh] w-auto object-contain drop-shadow-2xl cursor-zoom-in"
-            style={{
-              willChange: 'transform',
-              transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isHovering ? 1.8 : 1})`,
-              transformOrigin: `${origin.x} ${origin.y}`,
-              filter: hasFloat ? getWearFilter(floatValue) : undefined,
-              transition: isHovering ? 'transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
-            }}
-          />
-        </div>
-
         {/* Info column */}
-        <div className="flex-1 md:h-full md:overflow-y-auto md:border-l border-border/30 bg-card/40">
+        <div className="flex-1 md:h-full md:overflow-y-auto md:border-r border-border/30 bg-card/40">
           <div className="flex flex-col gap-5 p-6 md:p-12 md:justify-center md:min-h-full">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground">{skin.name}</h2>
 
