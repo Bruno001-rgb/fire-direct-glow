@@ -1,26 +1,36 @@
 
 
-## Plan: Hover Zoom Effect on Skin Image (cs.money style)
+## Plan: Zoom na Imagem do Modal (cs.money style)
 
-### What changes
+### O que muda
 
-**One file**: `src/components/catalogo/CatalogoSkinCard.tsx`
+O zoom interativo deve acontecer **dentro do modal fullscreen** quando o usuário passa o mouse sobre a imagem da skin — igual ao cs.money. Atualmente o modal já tem um efeito de tilt 3D com `perspective/rotateX/rotateY`, mas falta o zoom tipo lupa.
 
-On cs.money, hovering a skin card scales the skin image up smoothly (like a magnifying effect on the image only, not the whole card). Currently the card does `hover:scale-[1.03]` on the entire button — we want to replace/complement that with a smooth zoom on just the skin image.
+### Comportamento desejado (baseado no cs.money)
 
-### Implementation
+- Ao passar o mouse sobre a imagem no modal, a skin faz **zoom ~1.5x** na direção do cursor (transform-origin segue o mouse)
+- Ao sair o mouse, volta ao tamanho normal suavemente
+- O container da imagem tem `overflow-hidden` para clipar o zoom
+- O tilt 3D existente é mantido junto com o zoom
 
-1. **Remove the card-level scale** — replace `hover:scale-[1.03]` with no card scale (or keep a very subtle one like `hover:scale-[1.01]`)
+### Implementação
 
-2. **Add image zoom on hover** — on the `<img>` element, add:
-   - `transition-transform duration-300`
-   - `group-hover:scale-[1.15]` (image scales up 15% on card hover)
-   - The parent div with `aspect-square` already has `overflow` implicit from the card's `overflow-hidden`, so the zoomed image stays clipped within bounds
+**Arquivo**: `src/components/catalogo/SkinDetailModal.tsx`
 
-3. **Add overflow-hidden to the image container** — ensure the `aspect-square` wrapper div has `overflow-hidden` so the scaled image doesn't bleed outside
+1. **Adicionar estado `isHovering`** — boolean para controlar o zoom
+2. **Adicionar estado `origin`** — `{ x: string, y: string }` para `transform-origin` dinâmico baseado na posição do mouse
+3. **Atualizar `handleMouseMove`** — além do tilt, calcular o `transform-origin` em porcentagem (ex: `"30% 60%"`) e setar `isHovering = true`
+4. **Atualizar `handleMouseLeave`** — setar `isHovering = false` e resetar tilt
+5. **Aplicar na `<img>`**:
+   - Adicionar `scale(1.5)` ao transform quando `isHovering` é true
+   - Setar `transformOrigin` dinamicamente para seguir o cursor
+   - Manter o tilt 3D existente
+6. **Adicionar `overflow-hidden`** ao div container da imagem para clipar o zoom
+7. **Cursor `zoom-in`** no container da imagem
 
-This gives the same smooth zoom-on-hover feel as cs.money where the skin image "pops" toward you on hover while the card itself stays mostly in place.
+### Resultado
+O usuário passa o mouse sobre a skin no modal e ela amplia como uma lupa, seguindo o cursor — idêntico ao cs.money.
 
-### Files changed
-- `src/components/catalogo/CatalogoSkinCard.tsx` — image hover zoom effect
+### Arquivos alterados
+- `src/components/catalogo/SkinDetailModal.tsx` — zoom interativo na imagem do modal
 
