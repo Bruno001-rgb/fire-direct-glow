@@ -176,7 +176,7 @@ function WeaponCategoryBar({
           <button
             key={w.value}
             onClick={() => onWeaponChange(w.value)}
-            className={`flex flex-col items-center gap-2 p-4 rounded-xl transition-all duration-200 shrink-0 w-[150px] h-[140px] ${
+            className={`flex flex-col items-center gap-2 p-4 rounded-xl transition-all duration-200 shrink-0 min-w-[130px] ${
               active
                 ? "bg-primary/10 border border-primary/40 shadow-sm shadow-primary/10"
                 : "bg-muted/30 border border-border/40 hover:bg-muted/50 hover:border-border/60"
