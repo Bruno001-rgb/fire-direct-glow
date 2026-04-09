@@ -327,91 +327,67 @@ export default function SlotManager() {
     <div className="space-y-6 sm:space-y-8">
       {/* Category management header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-        <h2 className="text-lg font-bold text-foreground">Categorias & Slots</h2>
-        {!showNewCatForm && (
-          <Button size="sm" variant="outline" onClick={() => setShowNewCatForm(true)}>
+        <div>
+          <h2 className="text-lg font-bold text-foreground">Categorias & Slots</h2>
+        </div>
+        {!showAddSlotForm && (
+          <Button size="sm" variant="outline" onClick={() => setShowAddSlotForm(true)}>
             <Plus className="size-3 mr-1" />
-            Nova Categoria
+            Adicionar Slot
           </Button>
         )}
       </div>
 
-      {showNewCatForm && (
+      {showAddSlotForm && (
         <div className="border border-border rounded-lg p-4 bg-card/60 space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-semibold">Criar nova categoria</span>
-            <Button size="sm" variant="ghost" onClick={() => setShowNewCatForm(false)}>
+            <div>
+              <span className="text-sm font-semibold">Adicionar slot</span>
+              <p className="text-xs text-muted-foreground mt-0.5">Escolha a categoria, informe o nome da skin e defina o preço.</p>
+            </div>
+            <Button size="sm" variant="ghost" onClick={() => setShowAddSlotForm(false)}>
               <X className="size-4" />
             </Button>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Categoria</label>
               <select
-                value={newCatKey}
-                onChange={(e) => {
-                  const val = e.target.value;
-                  if (val === "__custom__") {
-                    setNewCatLabel("");
-                    setNewCatKey("");
-                    setIsCustomCat(true);
-                    return;
-                  }
-                  setIsCustomCat(false);
-                  const opt = CATEGORY_OPTIONS.find((o) => o.key === val);
-                  if (opt) {
-                    setNewCatLabel(opt.label);
-                    setNewCatKey(opt.key);
-                  } else {
-                    setNewCatLabel("");
-                    setNewCatKey("");
-                  }
-                }}
+                value={addSlotCatId}
+                onChange={(e) => setAddSlotCatId(e.target.value)}
                 className="flex h-10 w-full rounded-md border border-border bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
               >
-                <option value="">Selecione a categoria</option>
-                {CATEGORY_OPTIONS.map((opt) => (
-                  <option key={opt.key} value={opt.key}>{opt.label}</option>
+                <option value="">Selecione...</option>
+                {categories?.map((cat) => (
+                  <option key={cat.id} value={cat.id}>{cat.label}</option>
                 ))}
-                <option value="__custom__">+ Personalizada</option>
               </select>
             </div>
-            {isCustomCat ? (
-              <>
-                <Input
-                  placeholder="Nome (ex: Adesivos)"
-                  value={newCatLabel}
-                  onChange={(e) => {
-                    setNewCatLabel(e.target.value);
-                    setNewCatKey(e.target.value.trim().toLowerCase().replace(/\s+/g, "-"));
-                  }}
-                />
-                <Input
-                  type="number"
-                  min={1}
-                  max={20}
-                  placeholder="Slots"
-                  value={newCatSlots}
-                  onChange={(e) => setNewCatSlots(Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))}
-                />
-              </>
-            ) : (
-              <>
-                <Input placeholder="Key" value={newCatKey} disabled />
-                <Input
-                  type="number"
-                  min={1}
-                  max={20}
-                  placeholder="Slots"
-                  value={newCatSlots}
-                  onChange={(e) => setNewCatSlots(Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))}
-                />
-              </>
-            )}
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Nome da skin</label>
+              <Input
+                placeholder="AWP Dragon Lore"
+                value={addSlotSkinName}
+                onChange={(e) => setAddSlotSkinName(e.target.value)}
+              />
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">Preço</label>
+              <Input
+                placeholder="R$ 1.250,00"
+                value={addSlotPrice}
+                onChange={(e) => setAddSlotPrice(e.target.value)}
+              />
+            </div>
           </div>
           <div className="flex justify-end">
-            <Button size="sm" onClick={handleCreateCategory} disabled={isCreating}>
-              {isCreating ? <Loader2 className="size-3 mr-1 animate-spin" /> : <Plus className="size-3 mr-1" />}
-              {isCreating ? "Criando..." : "Criar categoria"}
+            <Button
+              size="sm"
+              onClick={handleAddSlot}
+              disabled={isAddingSlot || !addSlotCatId || !addSlotSkinName.trim() || !addSlotPrice.trim()}
+            >
+              {isAddingSlot ? <Loader2 className="size-3 mr-1 animate-spin" /> : <Plus className="size-3 mr-1" />}
+              {isAddingSlot ? "Adicionando..." : "Adicionar slot"}
             </Button>
           </div>
         </div>
