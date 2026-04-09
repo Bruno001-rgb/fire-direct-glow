@@ -141,7 +141,7 @@ const CategoriesSection = () => {
               <Button
                 variant="fire"
                 size="lg"
-                className="text-sm sm:text-base px-8 sm:px-12 py-6 sm:py-7 rounded-xl uppercase tracking-widest font-extrabold gap-3 shadow-[0_0_40px_-8px_hsl(var(--primary)/0.5)] hover:shadow-[0_0_60px_-8px_hsl(var(--primary)/0.7)] transition-all duration-500 hover:scale-105"
+                className="text-sm sm:text-base px-8 sm:px-12 py-6 sm:py-7 uppercase tracking-widest font-extrabold gap-3"
                 asChild
               >
                 <a href="/catalogo">
