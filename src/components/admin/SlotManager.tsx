@@ -201,9 +201,13 @@ export default function SlotManager() {
       toast.error("Preencha todos os campos.");
       return;
     }
+    // Check if category key already exists
+    if (categories?.some((c) => c.key === newCatKey.trim().toLowerCase())) {
+      toast.error("Essa categoria já existe!");
+      return;
+    }
     setIsCreating(true);
     try {
-      const maxOrder = categories?.reduce((max, c) => Math.max(max, c.slots.length > 0 ? categories.indexOf(c) : 0), 0) ?? 0;
       const { data: newCat, error: catErr } = await supabase
         .from("showcase_categories")
         .insert({ key: newCatKey.trim().toLowerCase(), label: newCatLabel.trim(), slot_count: newCatSlots, sort_order: (categories?.length ?? 0) + 1 })
@@ -218,6 +222,7 @@ export default function SlotManager() {
       const { error: slotsErr } = await supabase.from("showcase_slots").insert(slotsToInsert);
       if (slotsErr) throw slotsErr;
 
+      setScrollToCatId(newCat.id);
       queryClient.invalidateQueries({ queryKey: ["admin-categories-slots"] });
       toast.success(`Categoria "${newCatLabel.trim()}" criada com ${newCatSlots} slots!`);
       setShowNewCatForm(false);
