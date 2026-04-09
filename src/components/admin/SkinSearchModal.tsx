@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useImportedSkins } from "@/hooks/useImportedSkins";
+import { useByMykelSkins } from "@/hooks/useByMykelSkins";
 import { Search, Loader2 } from "lucide-react";
 
 interface SkinSearchModalProps {
@@ -12,7 +12,16 @@ interface SkinSearchModalProps {
 
 export default function SkinSearchModal({ open, onClose, onSelect }: SkinSearchModalProps) {
   const [search, setSearch] = useState("");
-  const { data: skins, isLoading } = useImportedSkins(search);
+  const { data: allSkins, isLoading } = useByMykelSkins();
+
+  const skins = useMemo(() => {
+    if (!allSkins) return [];
+    if (!search.trim()) return allSkins.slice(0, 100);
+    const q = search.toLowerCase();
+    return allSkins
+      .filter((s) => s.name.toLowerCase().includes(q))
+      .slice(0, 100);
+  }, [allSkins, search]);
 
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
@@ -37,43 +46,46 @@ export default function SkinSearchModal({ open, onClose, onSelect }: SkinSearchM
             <div className="flex items-center justify-center py-12">
               <Loader2 className="size-6 animate-spin text-muted-foreground" />
             </div>
-          ) : !skins?.length ? (
+          ) : !skins.length ? (
             <p className="text-center text-muted-foreground py-12 text-sm">
-              {search ? "Nenhuma skin encontrada" : "Digite para buscar skins. Sincronize primeiro se a lista estiver vazia."}
+              {search ? "Nenhuma skin encontrada" : "Digite para buscar skins"}
             </p>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {skins.map((skin: any) => (
-                <button
-                  key={skin.source_skin_id || skin.id}
-                  onClick={() => {
-                    onSelect(skin.source_skin_id || skin.id, {
-                      name: skin.name,
-                      weapon_name: skin.weapon_name || null,
-                      pattern_name: skin.pattern_name || null,
-                      image: skin.image || null,
-                      rarity_name: skin.rarity_name || null,
-                    });
-                    onClose();
-                  }}
-                  className="flex flex-col items-center gap-1 p-2 rounded-lg border border-border hover:border-primary/50 hover:bg-accent/50 transition-colors text-left min-h-[44px]"
-                >
-                  {skin.image && (
-                    <img
-                      src={skin.image}
-                      alt={skin.name}
-                      className="w-full aspect-square object-contain rounded bg-muted/30"
-                      loading="lazy"
-                    />
-                  )}
-                  <span className="text-[11px] sm:text-xs font-medium truncate w-full text-center">
-                    {skin.weapon_name || ""}
-                  </span>
-                  <span className="text-[10px] text-muted-foreground truncate w-full text-center">
-                    {skin.pattern_name || skin.name}
-                  </span>
-                </button>
-              ))}
+              {skins.map((skin) => {
+                const patternName = skin.name.includes(" | ") ? skin.name.split(" | ")[1] : null;
+                return (
+                  <button
+                    key={skin.id}
+                    onClick={() => {
+                      onSelect(skin.id, {
+                        name: skin.name,
+                        weapon_name: skin.weapon?.name || null,
+                        pattern_name: patternName,
+                        image: skin.image || null,
+                        rarity_name: skin.rarity?.name || null,
+                      });
+                      onClose();
+                    }}
+                    className="flex flex-col items-center gap-1 p-2 rounded-lg border border-border hover:border-primary/50 hover:bg-accent/50 transition-colors text-left min-h-[44px]"
+                  >
+                    {skin.image && (
+                      <img
+                        src={skin.image}
+                        alt={skin.name}
+                        className="w-full aspect-square object-contain rounded bg-muted/30"
+                        loading="lazy"
+                      />
+                    )}
+                    <span className="text-[11px] sm:text-xs font-medium truncate w-full text-center">
+                      {skin.weapon?.name || ""}
+                    </span>
+                    <span className="text-[10px] text-muted-foreground truncate w-full text-center">
+                      {patternName || skin.name}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
