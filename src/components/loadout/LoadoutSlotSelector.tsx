@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function LoadoutSlotSelector({ slotKey, onClose }: Props) {
-  const { data: skins } = useByMykelSkins();
+  const { data: skins } = useCatalogSkins();
   const { addToSlot } = useLoadout();
   const [search, setSearch] = useState("");
 
