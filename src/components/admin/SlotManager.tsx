@@ -60,8 +60,10 @@ export default function SlotManager() {
   const [newCatSlots, setNewCatSlots] = useState(8);
   const [isCreating, setIsCreating] = useState(false);
   const [deletingCatId, setDeletingCatId] = useState<string | null>(null);
-  const [priceEdits, setPriceEdits] = useState<Map<string, string>>(new Map()); // skinId -> price string
+  const [priceEdits, setPriceEdits] = useState<Map<string, string>>(new Map());
   const [savingPrices, setSavingPrices] = useState<Set<string>>(new Set());
+  const [scrollToCatId, setScrollToCatId] = useState<string | null>(null);
+  const catRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   const { data: categories, isLoading } = useQuery({
     queryKey: ["admin-categories-slots"],
