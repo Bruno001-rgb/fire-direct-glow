@@ -141,35 +141,66 @@ function WeaponCategoryBar({
   onWeaponChange: (v: string) => void;
   allSkins?: ByMykelSkin[];
 }) {
-  const counts = useMemo(() => {
-    if (!allSkins) return {};
+  const { counts, images } = useMemo(() => {
+    if (!allSkins) return { counts: {} as Record<string, number>, images: {} as Record<string, string> };
     const c: Record<string, number> = { all: allSkins.length };
+    const img: Record<string, string> = {};
+
     allSkins.forEach((s) => {
-      if (s.category?.name === "Knives") c["knife"] = (c["knife"] || 0) + 1;
-      else if (s.category?.name === "Gloves") c["gloves"] = (c["gloves"] || 0) + 1;
-      else if (s.weapon?.name) c[s.weapon.name] = (c[s.weapon.name] || 0) + 1;
+      if (s.category?.name === "Knives") {
+        c["knife"] = (c["knife"] || 0) + 1;
+        if (!img["knife"] && s.image) img["knife"] = s.image;
+      } else if (s.category?.name === "Gloves") {
+        c["gloves"] = (c["gloves"] || 0) + 1;
+        if (!img["gloves"] && s.image) img["gloves"] = s.image;
+      } else if (s.weapon?.name) {
+        c[s.weapon.name] = (c[s.weapon.name] || 0) + 1;
+        if (!img[s.weapon.name] && s.image) img[s.weapon.name] = s.image;
+      }
     });
-    return c;
+
+    // Pick a representative image for "all"
+    if (allSkins.length > 0 && allSkins[0].image) img["all"] = allSkins[0].image;
+
+    return { counts: c, images: img };
   }, [allSkins]);
 
   return (
-    <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+    <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide">
       {WEAPON_FILTERS.map((w) => {
         const active = weapon === w.value;
         const count = counts[w.value] || 0;
+        const imgSrc = images[w.value];
         return (
           <button
             key={w.value}
             onClick={() => onWeaponChange(w.value)}
-            className={`flex flex-col items-center gap-1 px-4 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 shrink-0 min-w-[72px] ${
+            className={`flex flex-col items-center gap-1.5 p-3 rounded-xl transition-all duration-200 shrink-0 min-w-[100px] ${
               active
-                ? "bg-primary/15 text-primary border border-primary/30"
-                : "bg-muted/40 text-muted-foreground hover:bg-muted/70 hover:text-foreground border border-transparent"
+                ? "bg-primary/10 border border-primary/40 shadow-sm shadow-primary/10"
+                : "bg-muted/30 border border-border/40 hover:bg-muted/50 hover:border-border/60"
             }`}
           >
-            <span>{w.label}</span>
+            {/* Weapon image */}
+            <div className="w-16 h-12 flex items-center justify-center">
+              {imgSrc ? (
+                <img
+                  src={imgSrc}
+                  alt={w.label}
+                  className="max-w-full max-h-full object-contain"
+                  loading="lazy"
+                />
+              ) : (
+                <div className="w-10 h-8 rounded bg-muted/50" />
+              )}
+            </div>
+            <span className={`text-xs font-semibold ${active ? "text-primary" : "text-muted-foreground"}`}>
+              {w.label}
+            </span>
             {allSkins && (
-              <span className="text-[10px] opacity-70">({count})</span>
+              <span className={`text-[10px] ${active ? "text-primary/70" : "text-muted-foreground/60"}`}>
+                ({count})
+              </span>
             )}
           </button>
         );
