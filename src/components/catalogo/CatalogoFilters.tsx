@@ -148,12 +148,22 @@ function WeaponCategoryBar({
     const img: Record<string, string> = {};
 
     allSkins.forEach((s) => {
-      if (s.category?.name === "Knives") {
+      const catName = s.category?.name;
+      if (catName === "Knives") {
         c["knife"] = (c["knife"] || 0) + 1;
         if (!img["knife"] && s.image) img["knife"] = s.image;
-      } else if (s.category?.name === "Gloves") {
+      } else if (catName === "Gloves") {
         c["gloves"] = (c["gloves"] || 0) + 1;
         if (!img["gloves"] && s.image) img["gloves"] = s.image;
+      } else if (catName === "Pistols") {
+        c["pistols"] = (c["pistols"] || 0) + 1;
+        if (!img["pistols"] && s.image) img["pistols"] = s.image;
+      } else if (catName === "SMGs") {
+        c["smgs"] = (c["smgs"] || 0) + 1;
+        if (!img["smgs"] && s.image) img["smgs"] = s.image;
+      } else if (catName === "Shotguns") {
+        c["shotguns"] = (c["shotguns"] || 0) + 1;
+        if (!img["shotguns"] && s.image) img["shotguns"] = s.image;
       } else if (s.weapon?.name) {
         c[s.weapon.name] = (c[s.weapon.name] || 0) + 1;
         if (!img[s.weapon.name] && s.image) img[s.weapon.name] = s.image;
