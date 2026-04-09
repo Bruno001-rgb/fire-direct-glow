@@ -1,6 +1,5 @@
 import { useState, useMemo } from "react";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import CatalogoFilters, { CatalogoDesktopLayout } from "@/components/catalogo/CatalogoFilters";
 import CatalogoGrid from "@/components/catalogo/CatalogoGrid";
 import CatalogoSkeleton from "@/components/catalogo/CatalogoSkeleton";
