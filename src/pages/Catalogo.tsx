@@ -1,6 +1,5 @@
 import { useState, useMemo } from "react";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import CatalogoFilters, { CatalogoDesktopLayout } from "@/components/catalogo/CatalogoFilters";
 import CatalogoGrid from "@/components/catalogo/CatalogoGrid";
 import CatalogoSkeleton from "@/components/catalogo/CatalogoSkeleton";
@@ -87,7 +86,7 @@ export default function Catalogo() {
       </div>
 
       {/* Desktop: sidebar layout with grid inside — no page scroll */}
-      <div className="hidden lg:block h-[calc(100vh-4rem)] overflow-hidden">
+      <div className="hidden lg:block mt-16 h-[calc(100vh-4rem)] overflow-hidden">
         <CatalogoDesktopLayout
           {...filterProps}
           wearItems={wearItems}
