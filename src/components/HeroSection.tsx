@@ -1,4 +1,4 @@
-import { ArrowRight, Shield, Zap, Gem } from "lucide-react";
+import { ArrowRight, Shield, Zap, Tag } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import InteractiveKnife from "@/components/InteractiveKnife";
@@ -9,24 +9,24 @@ const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
 const trustItems = [
   { icon: Zap, label: "Atendimento rápido" },
   { icon: Shield, label: "Negociação segura" },
-  { icon: Gem, label: "Skins premium" },
+  { icon: Tag, label: "Preço justo" },
 ];
 
 const HeroSection = () => {
   return (
     <section id="topo" className="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-[90vh] flex items-center overflow-hidden bg-black">
-      {/* ── Background layers ── */}
+      {/* ── Background layers (reduced intensity) ── */}
       <div
         className="absolute -bottom-40 -left-40 w-[500px] sm:w-[700px] lg:w-[900px] h-[400px] sm:h-[500px] lg:h-[700px] rounded-full blur-[200px]"
-        style={{ background: "radial-gradient(ellipse, hsla(22, 91%, 47%, 0.12) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse, hsla(22, 91%, 47%, 0.07) 0%, transparent 70%)" }}
       />
       <div
         className="absolute -top-32 -right-32 w-[400px] sm:w-[500px] lg:w-[700px] h-[300px] sm:h-[400px] lg:h-[600px] rounded-full blur-[180px]"
-        style={{ background: "radial-gradient(ellipse, hsla(254, 55%, 52%, 0.08) 0%, transparent 70%)" }}
+        style={{ background: "radial-gradient(ellipse, hsla(254, 55%, 52%, 0.05) 0%, transparent 70%)" }}
       />
       <div
         className="absolute top-1/2 right-[15%] -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[160px] hidden lg:block"
-        style={{ background: "radial-gradient(circle, hsla(22, 91%, 47%, 0.1) 0%, transparent 60%)" }}
+        style={{ background: "radial-gradient(circle, hsla(22, 91%, 47%, 0.06) 0%, transparent 60%)" }}
       />
 
       {/* Vignette */}
@@ -43,7 +43,7 @@ const HeroSection = () => {
 
       {/* Diagonal stripes */}
       <div
-        className="absolute top-0 right-0 w-1/2 h-full opacity-[0.03]"
+        className="absolute top-0 right-0 w-1/2 h-full opacity-[0.02]"
         style={{
           backgroundImage: `repeating-linear-gradient(-55deg, transparent, transparent 40px, rgba(233,90,12,0.4) 40px, rgba(233,90,12,0.4) 41px)`,
           maskImage: "linear-gradient(to left, rgba(0,0,0,0.5) 0%, transparent 70%)",
@@ -57,7 +57,7 @@ const HeroSection = () => {
       </div>
 
       {/* Top glow line */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
       {/* ── Content grid ── */}
       <div className="container relative z-10 py-12 sm:py-16 lg:py-0">
@@ -65,43 +65,27 @@ const HeroSection = () => {
 
           {/* ── Left: Text block ── */}
           <div className="text-center lg:text-left max-w-xl mx-auto lg:mx-0">
-            {/* Premium label */}
+            {/* Label */}
             <div className="inline-flex items-center gap-2.5 mb-5 sm:mb-8">
-              <div className="h-px w-6 sm:w-8" style={{ background: "#E95A0C" }} />
+              <div className="h-px w-6 sm:w-8 bg-primary" />
               <span
-                className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.35em] px-2.5 sm:px-3 py-1.5 rounded-sm"
-                style={{
-                  background: "rgba(233, 90, 12, 0.08)",
-                  border: "1px solid rgba(233, 90, 12, 0.2)",
-                  color: "#F5A006",
-                }}
+                className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.35em] px-2.5 sm:px-3 py-1.5 rounded-sm bg-primary/8 border border-primary/20 text-primary"
               >
-                FireSkins • Skins Premium CS2
+                FireSkins • Skins CS2
               </span>
-              <div className="h-px w-8 hidden lg:block" style={{ background: "#E95A0C" }} />
+              <div className="h-px w-8 hidden lg:block bg-primary" />
             </div>
 
             {/* Headline */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tight font-heading leading-[0.9] mb-4 sm:mb-6">
-              <span className="text-foreground block">Compre, Venda</span>
-              <span className="text-foreground block">e Faça </span>
-              <span
-                className="bg-clip-text text-transparent block"
-                style={{ backgroundImage: "linear-gradient(135deg, #E95A0C 0%, #F5A006 60%, #E95A0C 100%)" }}
-              >
-                Upgrade das
-              </span>
-              <span
-                className="bg-clip-text text-transparent block"
-                style={{ backgroundImage: "linear-gradient(135deg, #E95A0C 0%, #F5A006 60%, #E95A0C 100%)" }}
-              >
-                Suas Skins
-              </span>
+              <span className="text-foreground block">Sua Skin dos</span>
+              <span className="text-foreground block">Sonhos pelo</span>
+              <span className="text-primary block">Melhor Preço</span>
             </h1>
 
             {/* Subtitle */}
             <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-6 sm:mb-8">
-              Facas, luvas e skins premium de CS2 com atendimento rápido, negociação segura e suporte direto no WhatsApp.
+              Encontre a skin perfeita com preço justo, pagamento facilitado e atendimento humano no WhatsApp.
             </p>
 
             {/* CTA Buttons */}
@@ -125,7 +109,7 @@ const HeroSection = () => {
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-4 sm:gap-x-5 gap-y-2">
               {trustItems.map((item) => (
                 <div key={item.label} className="flex items-center gap-1.5">
-                  <item.icon className="size-3.5" style={{ color: "#E95A0C" }} />
+                  <item.icon className="size-3.5 text-primary" />
                   <span className="text-[10px] sm:text-[11px] text-muted-foreground uppercase tracking-widest font-semibold">
                     {item.label}
                   </span>
@@ -134,20 +118,20 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* ── Right: Premium knife composition ── */}
+          {/* ── Right: Knife composition ── */}
           <div className="relative flex items-center justify-center lg:justify-end">
             {/* Outer glow ring */}
             <div
               className="absolute w-[min(70vw,280px)] h-[min(70vw,280px)] sm:w-[380px] sm:h-[380px] lg:w-[460px] lg:h-[460px] rounded-full"
               style={{
-                background: "radial-gradient(circle, hsla(22, 91%, 47%, 0.06) 0%, transparent 70%)",
+                background: "radial-gradient(circle, hsla(22, 91%, 47%, 0.04) 0%, transparent 70%)",
               }}
             />
             {/* Inner glow ring */}
             <div
               className="absolute w-[min(50vw,180px)] h-[min(50vw,180px)] sm:w-[260px] sm:h-[260px] lg:w-[320px] lg:h-[320px] rounded-full"
               style={{
-                background: "radial-gradient(circle, hsla(22, 91%, 47%, 0.1) 0%, hsla(38, 92%, 49%, 0.04) 50%, transparent 70%)",
+                background: "radial-gradient(circle, hsla(22, 91%, 47%, 0.06) 0%, transparent 70%)",
               }}
             />
 
@@ -155,7 +139,7 @@ const HeroSection = () => {
             <div
               className="absolute w-[min(65vw,250px)] h-[min(65vw,250px)] sm:w-[350px] sm:h-[350px] lg:w-[420px] lg:h-[420px] rounded-full"
               style={{
-                border: "1px solid rgba(233, 90, 12, 0.08)",
+                border: "1px solid rgba(233, 90, 12, 0.06)",
               }}
             />
 
@@ -171,7 +155,7 @@ const HeroSection = () => {
       {/* Bottom glow line */}
       <div
         className="absolute bottom-0 left-0 right-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, #E95A0C, #F5A006, transparent)" }}
+        style={{ background: "linear-gradient(90deg, transparent, hsl(22 91% 47% / 0.5), transparent)" }}
       />
     </section>
   );
