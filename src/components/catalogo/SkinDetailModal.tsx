@@ -142,17 +142,17 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
       >
         {/* Image column */}
         <div
-          className="relative flex items-center justify-center min-h-[40vh] md:min-h-0 md:h-full p-8 md:p-16 overflow-hidden cursor-zoom-in"
+          className="relative flex items-center justify-center min-h-[40vh] md:min-h-0 md:h-full p-8 md:p-16 overflow-hidden"
           style={{
             background: `radial-gradient(circle at center, ${rarityColor}20 0%, transparent 70%)`,
           }}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
         >
           <img
             src={skin.image}
             alt={skin.name}
-            className="max-h-[30vh] md:max-h-[70vh] w-auto object-contain drop-shadow-2xl"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            className="max-h-[30vh] md:max-h-[70vh] w-auto object-contain drop-shadow-2xl cursor-zoom-in"
             style={{
               transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isHovering ? 2.5 : 1})`,
               transformOrigin: `${origin.x} ${origin.y}`,
