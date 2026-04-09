@@ -1,52 +1,62 @@
 
 
-## Plano: Redesign "acessível" — manter dark, simplificar visual
+## Plan: Fix RLS policies for admin slot management
 
-### Problema
-O site transmite uma imagem muito premium/cara, afastando leads que buscam preços acessíveis. Precisamos comunicar que aqui tem skins **para todos os bolsos**.
+### Problem
+The "Adicionar slot" form fails with RLS error because:
+1. `imported_skins` table has no INSERT policy for `anon` role — the admin panel runs unauthenticated
+2. `showcase_slots` table has no DELETE policy for `anon` — deleting slots will also fail
+3. `showcase_categories` table has no DELETE/UPDATE policy for `anon` — category updates fail
 
-### Alterações
+### Solution
+Add missing RLS policies via a database migration:
 
-**1. Paleta de cores — suavizar o "luxo" (index.css)**
-- Trocar gradiente dourado (#F5A006) por um tom laranja mais quente e menos "gold"
-- Reduzir intensidade dos glows e shadows em 50%
-- Remover `text-gradient-fire` dourado dos headings — usar laranja sólido
-- Simplificar `.glass-card-glow` — menos brilho, mais clean
+**Migration — add anon write policies:**
+```sql
+-- Allow anon to insert into imported_skins
+CREATE POLICY "Anon can insert imported_skins"
+ON public.imported_skins FOR INSERT TO anon
+WITH CHECK (true);
 
-**2. Hero (HeroSection.tsx)**
-- Trocar headline de "Compre, Venda e Faça Upgrade das Suas Skins" para algo mais acessível: **"Skins de CS2 para Todos os Bolsos"** ou **"Sua Skin dos Sonhos pelo Melhor Preço"**
-- Remover texto "premium" da label superior — trocar "FireSkins • Skins Premium CS2" por **"FireSkins • Skins CS2"**
-- Reduzir efeitos de glow/blur dos backgrounds (diminuir tamanho e opacidade dos blurs decorativos)
-- Subtitle mais direto: "Encontre a skin perfeita com preço justo, pagamento facilitado e atendimento humano no WhatsApp."
+-- Allow anon to delete from imported_skins  
+CREATE POLICY "Anon can delete imported_skins"
+ON public.imported_skins FOR DELETE TO anon
+USING (true);
 
-**3. Seção Catálogo (CategoriesSection.tsx)**
-- Trocar título "Catálogo premium" por **"Nossas Skins"** ou **"Confira Nossas Skins"**
-- Trocar subtítulo para "Skins para todos os estilos e bolsos"
-- Remover badge "Disponível" dos cards — substituir por preço ou simplesmente remover
-- Reduzir glow no hover dos cards
+-- Allow anon to delete from showcase_slots
+CREATE POLICY "Anon can delete showcase_slots"
+ON public.showcase_slots FOR DELETE TO anon
+USING (true);
 
-**4. Stats Bar (StatsBar.tsx)**
-- Adicionar stat "Preços a partir de R$5" ou "Skins a partir de R$5" para reforçar acessibilidade
+-- Allow anon to insert into showcase_slots
+CREATE POLICY "Anon can insert showcase_slots"
+ON public.showcase_slots FOR INSERT TO anon
+WITH CHECK (true);
 
-**5. FinalCTA (FinalCTA.tsx)**
-- Reduzir intensidade das fire lines e glows
-- Manter estrutura mas com menos "premium feel"
+-- Allow anon to update showcase_categories
+CREATE POLICY "Anon can update showcase_categories"
+ON public.showcase_categories FOR UPDATE TO anon
+USING (true);
 
-**6. CSS global (index.css)**
-- `--secondary`: diminuir saturação do dourado, tornando mais laranja
-- Reduzir opacidade dos `glow-orange`, `pulse-glow` em ~40%
-- `glass-card-glow` hover: reduzir box-shadow
+-- Allow anon to delete showcase_categories
+CREATE POLICY "Anon can delete showcase_categories"
+ON public.showcase_categories FOR DELETE TO anon
+USING (true);
 
-### O que NÃO muda
-- Estrutura de páginas e componentes
-- Funcionalidade do admin, catálogo, loadout
-- Cores base (dark theme, laranja primário)
-- CTAs e links do WhatsApp
+-- Allow anon to insert showcase_categories
+CREATE POLICY "Anon can insert showcase_categories"
+ON public.showcase_categories FOR INSERT TO anon
+WITH CHECK (true);
+```
 
-### Arquivos alterados
-- `src/index.css` — paleta e efeitos
-- `src/components/HeroSection.tsx` — textos e efeitos
-- `src/components/CategoriesSection.tsx` — textos
-- `src/components/StatsBar.tsx` — novo stat
-- `src/components/FinalCTA.tsx` — reduzir glows
+### Security note
+These open policies allow unauthenticated writes. This works for now but should be locked down with proper admin authentication in the future.
+
+### Files changed
+- **Database migration only** — no code changes needed
+
+### After fix
+- Adding a slot will save correctly to the database
+- Deleting slots will work
+- Category management (add/delete) will work
 
