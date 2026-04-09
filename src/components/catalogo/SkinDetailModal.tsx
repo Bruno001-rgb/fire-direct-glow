@@ -20,7 +20,6 @@ function getWearTier(float: number) {
 }
 
 function getWearFilter(float: number) {
-  // subtle visual wear: FN = bright, BS = slightly darker/desaturated
   const brightness = 1 - float * 0.15;
   const contrast = 1 - float * 0.08;
   const saturate = 1 - float * 0.2;
@@ -36,18 +35,15 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
   const { addToSlot } = useLoadout();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [floatValue, setFloatValue] = useState(0);
-  const imgRef = useRef<HTMLDivElement>(null);
   const touchStartY = useRef(0);
 
   const minFloat = skin?.min_float ?? 0;
   const maxFloat = skin?.max_float ?? 1;
 
-  // Reset float when skin changes
   useEffect(() => {
     if (skin) setFloatValue(skin.min_float ?? 0);
   }, [skin]);
 
-  // Available wear tiers for this skin
   const availableTiers = useMemo(
     () => WEAR_TIERS.filter((t) => t.min < maxFloat && t.max > minFloat),
     [minFloat, maxFloat]
@@ -55,7 +51,6 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
 
   const currentTier = getWearTier(floatValue);
 
-  // Close on Escape
   useEffect(() => {
     if (!skin) return;
     const handler = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -63,7 +58,6 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
     return () => window.removeEventListener("keydown", handler);
   }, [skin, onClose]);
 
-  // Prevent body scroll
   useEffect(() => {
     if (!skin) return;
     document.body.style.overflow = "hidden";
@@ -120,51 +114,50 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 animate-in fade-in duration-250"
+      className="fixed inset-0 z-[100] flex items-stretch bg-background/98 animate-in fade-in duration-250"
       onClick={onClose}
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 z-20 p-3 rounded-full bg-muted/80 hover:bg-muted transition-colors backdrop-blur-sm"
+      >
+        <X className="size-5 text-foreground" />
+      </button>
+
       <div
-        className="relative w-full h-full md:h-auto md:max-h-[90vh] md:max-w-4xl md:rounded-xl overflow-y-auto bg-card border border-border/50"
+        className="flex flex-col md:grid md:grid-cols-2 w-full h-full overflow-y-auto md:overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-3 right-3 z-10 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors"
+        {/* Image column */}
+        <div
+          className="relative flex items-center justify-center min-h-[40vh] md:min-h-0 md:h-full p-8 md:p-16"
+          style={{
+            background: `radial-gradient(circle at center, ${rarityColor}20 0%, transparent 70%)`,
+          }}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
         >
-          <X className="size-5" />
-        </button>
-
-        <div className="md:grid md:grid-cols-2 gap-0">
-          {/* Image column */}
-          <div
-            ref={imgRef}
-            className="flex items-center justify-center p-8 md:p-12 min-h-[300px]"
+          <img
+            src={skin.image}
+            alt={skin.name}
+            className="max-h-[30vh] md:max-h-[70vh] w-auto object-contain transition-all duration-300 drop-shadow-2xl"
             style={{
-              background: `radial-gradient(circle at center, ${rarityColor}25 0%, transparent 70%)`,
+              transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
+              filter: hasFloat ? getWearFilter(floatValue) : undefined,
             }}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-          >
-            <img
-              src={skin.image}
-              alt={skin.name}
-              className="max-h-64 md:max-h-80 object-contain transition-all duration-300"
-              style={{
-                transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`,
-                filter: hasFloat ? getWearFilter(floatValue) : undefined,
-              }}
-            />
-          </div>
+          />
+        </div>
 
-          {/* Info column */}
-          <div className="p-6 md:p-8 flex flex-col gap-4">
-            <h2 className="text-2xl font-bold text-foreground">{skin.name}</h2>
+        {/* Info column */}
+        <div className="flex-1 md:h-full md:overflow-y-auto md:border-l border-border/30 bg-card/40">
+          <div className="flex flex-col gap-5 p-6 md:p-12 md:justify-center md:min-h-full">
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground">{skin.name}</h2>
 
             {skin.price != null && (
-              <p className="text-2xl font-extrabold text-primary">
+              <p className="text-2xl md:text-3xl font-extrabold text-primary">
                 R$ {skin.price.toFixed(2).replace(".", ",")}
               </p>
             )}
@@ -199,7 +192,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
               )}
             </div>
 
-            <div className="h-px bg-border" />
+            <div className="h-px bg-border/50" />
 
             {/* Float/Wear selector */}
             {hasFloat && (
@@ -208,7 +201,6 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
                   Desgaste / Float
                 </p>
 
-                {/* Wear tier chips */}
                 <div className="flex flex-wrap gap-1.5">
                   {WEAR_TIERS.map((tier) => {
                     const available = availableTiers.includes(tier);
@@ -232,7 +224,6 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
                   })}
                 </div>
 
-                {/* Slider */}
                 <div className="space-y-1">
                   <Slider
                     value={[floatValue]}
@@ -257,7 +248,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
               </div>
             )}
 
-            <div className="flex gap-4">
+            <div className="flex gap-6">
               {skin.category && (
                 <div>
                   <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Categoria</p>
@@ -272,20 +263,20 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
               )}
             </div>
 
-            <div className="h-px bg-border" />
+            <div className="h-px bg-border/50" />
 
-            <div className="flex flex-col gap-2 mt-auto">
-              <Button variant="fire" className="w-full" asChild>
+            <div className="flex flex-col gap-3 mt-auto pt-2">
+              <Button variant="fire" className="w-full h-12 text-base" asChild>
                 <a
                   href={`https://wa.me/?text=${whatsappMsg}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <WhatsAppIcon className="size-4" />
+                  <WhatsAppIcon className="size-5" />
                   Consultar esta skin no WhatsApp
                 </a>
               </Button>
-              <Button variant="fire-outline" className="w-full" onClick={handleAddToLoadout}>
+              <Button variant="fire-outline" className="w-full h-12 text-base" onClick={handleAddToLoadout}>
                 Adicionar ao loadout
               </Button>
             </div>
