@@ -1,33 +1,35 @@
 
 
-## Plano: Fallback defindexMap + esconder botão quando inválido
+## Plano: Redesign do botão "Testar no jogo" como banner com imagem de fundo
+
+### Objetivo
+Transformar o botão simples "Testar no jogo" em um banner/card estilizado como na referência: fundo com imagem do CS2 escurecida, ícone de soldado à esquerda, texto descritivo, e botão "Entrar" à direita.
+
+### Design (baseado na imagem de referência)
+```text
+┌─────────────────────────────────────────────────────────┐
+│ [bg: imagem CS2 escurecida com overlay]                 │
+│  🔫  Jogue com a skin antes de comprá-la!    [Entrar]  │
+│      Inicie o servidor, entre nele, e faça um           │
+│      test drive com a skin no jogo                      │
+└─────────────────────────────────────────────────────────┘
+```
 
 ### Mudanças
 
-**1. `src/components/catalogo/TryInGameModal.tsx`**
-- Exportar o `defindexMap` e criar uma função utilitária `resolveDefindex(skin)` que:
-  1. Tenta `defindexMap[skin.weapon_id]` (direto da API)
-  2. Fallback: converte `skin.weapon.name` para snake_case (`"AK-47"` → `"weapon_ak47"`) e busca no map
-  3. Retorna `number | null`
+**1. Adicionar imagem de fundo CS2**
+- Usar uma imagem pública de CS2 (ex: de Unsplash ou similar) como background do banner
+- Salvar em `public/images/cs2-banner.jpg`
 
-- Exportar também uma função `canTryInGame(skin)` que retorna `true` somente se:
-  - `resolveDefindex(skin)` retorna um número válido
-  - `skin.paint_index` é um número > 0
-
-- Atualizar a lógica interna do modal para usar `resolveDefindex` em vez de `skin.weapon_id ?? 0`
-
-**2. `src/components/catalogo/SkinDetailModal.tsx`**
-- Importar `canTryInGame` do TryInGameModal
-- Envolver o botão "Testar no jogo" em uma condição: só renderizar se `canTryInGame(skin)` for `true`
-- Sem mensagem de erro — o botão simplesmente não aparece
-
-### Lógica de conversão snake_case
-```
-"AK-47" → "weapon_ak47"
-"M4A1-S" → "weapon_m4a1_silencer" (precisa de mapeamento especial)
-```
-Para nomes especiais (M4A1-S, USP-S, etc.) que não convertem limpo, incluir um `nameAliasMap` pequeno como fallback extra.
+**2. `src/components/catalogo/SkinDetailModal.tsx`** (linhas 269-274)
+- Substituir o `<Button>` simples por um componente de banner/card:
+  - Container com `relative overflow-hidden rounded-lg`
+  - Imagem de fundo com overlay escuro (`bg-black/60`)
+  - Lado esquerdo: ícone Crosshair/Gamepad2 + textos ("Jogue com a skin antes de comprá-la!" + subtítulo)
+  - Lado direito: botão "Entrar" com estilo sólido
+  - `onClick` continua abrindo o `TryInGameModal`
+  - Responsivo: texto menor no mobile
 
 ### Nenhuma outra alteração
-Apenas a lógica de resolução do defindex e visibilidade condicional do botão.
+Apenas o visual do botão muda. A lógica de `canTryInGame`, o modal de instruções e tudo mais permanece igual.
 
