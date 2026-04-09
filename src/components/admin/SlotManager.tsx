@@ -39,6 +39,7 @@ interface PendingChange {
 export default function SlotManager() {
   const queryClient = useQueryClient();
   const [modalSlotId, setModalSlotId] = useState<string | null>(null);
+  const [modalCategoryKey, setModalCategoryKey] = useState<string | undefined>(undefined);
   const [pendingChanges, setPendingChanges] = useState<Map<string, PendingChange>>(new Map());
   const [isSaving, setIsSaving] = useState(false);
   const [showNewCatForm, setShowNewCatForm] = useState(false);
