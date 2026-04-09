@@ -334,15 +334,36 @@ export default function SlotManager() {
                   ({filledCount}/{cat.slot_count} preenchidos)
                 </span>
               </h3>
-              <Button
-                size="sm"
-                variant="ghost"
-                className="text-destructive hover:text-destructive h-8 w-8 p-0"
-                onClick={() => handleDeleteCategory(cat.id, cat.label)}
-                disabled={isDeleting}
-              >
-                {isDeleting ? <Loader2 className="size-4 animate-spin" /> : <Trash2 className="size-4" />}
-              </Button>
+              <div className="flex items-center gap-1">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="h-8 text-xs"
+                  onClick={async () => {
+                    const newPos = cat.slot_count + 1;
+                    try {
+                      await supabase.from("showcase_categories").update({ slot_count: newPos }).eq("id", cat.id);
+                      await supabase.from("showcase_slots").insert({ category_id: cat.id, slot_position: newPos });
+                      queryClient.invalidateQueries({ queryKey: ["admin-categories-slots"] });
+                      toast.success(`Slot #${newPos} adicionado!`);
+                    } catch (err: any) {
+                      toast.error(`Erro: ${err.message}`);
+                    }
+                  }}
+                >
+                  <Plus className="size-3 mr-1" />
+                  Slot
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="text-destructive hover:text-destructive h-8 w-8 p-0"
+                  onClick={() => handleDeleteCategory(cat.id, cat.label)}
+                  disabled={isDeleting}
+                >
+                  {isDeleting ? <Loader2 className="size-4 animate-spin" /> : <Trash2 className="size-4" />}
+                </Button>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
