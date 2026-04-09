@@ -1,44 +1,26 @@
 
 
-## Plan: Fullscreen Skin Detail Modal with Improved Layout
+## Plan: Hover Zoom Effect on Skin Image (cs.money style)
 
 ### What changes
 
-Only **one file**: `src/components/catalogo/SkinDetailModal.tsx`
+**One file**: `src/components/catalogo/CatalogoSkinCard.tsx`
 
-### Current state
-
-The modal is `md:max-w-4xl md:max-h-[90vh]` — a centered card on desktop, full height on mobile. The user wants it to be truly fullscreen on all devices with a better layout.
+On cs.money, hovering a skin card scales the skin image up smoothly (like a magnifying effect on the image only, not the whole card). Currently the card does `hover:scale-[1.03]` on the entire button — we want to replace/complement that with a smooth zoom on just the skin image.
 
 ### Implementation
 
-**1. Make modal fullscreen**
-- Remove `md:max-w-4xl`, `md:max-h-[90vh]`, `md:rounded-xl` constraints
-- Set inner container to `w-full h-full` on all breakpoints
-- The overlay already covers `fixed inset-0`
+1. **Remove the card-level scale** — replace `hover:scale-[1.03]` with no card scale (or keep a very subtle one like `hover:scale-[1.01]`)
 
-**2. Improved fullscreen layout — Desktop**
-- Two-column layout using `md:grid md:grid-cols-[1fr_1fr] h-full`
-- Left column: skin image centered vertically and horizontally, taking full height with the rarity radial gradient filling the entire left half
-- Image scales larger (max-h-[70vh]) to use the space
-- Right column: scrollable info panel with generous padding, content vertically centered
+2. **Add image zoom on hover** — on the `<img>` element, add:
+   - `transition-transform duration-300`
+   - `group-hover:scale-[1.15]` (image scales up 15% on card hover)
+   - The parent div with `aspect-square` already has `overflow` implicit from the card's `overflow-hidden`, so the zoomed image stays clipped within bounds
 
-**3. Improved fullscreen layout — Mobile**
-- Single column, scrollable
-- Image area takes ~40vh with rarity gradient background
-- Info section below with comfortable padding
+3. **Add overflow-hidden to the image container** — ensure the `aspect-square` wrapper div has `overflow-hidden` so the scaled image doesn't bleed outside
 
-**4. Close button**
-- Larger, more visible close button in top-right corner
-- Semi-transparent dark background for contrast against any skin image
-
-**5. Visual polish**
-- Subtle border-left separator between columns on desktop
-- Right column gets a slightly darker background for contrast
-- Larger skin name text (3xl on desktop)
-- Larger price text
-- More breathing room between sections
+This gives the same smooth zoom-on-hover feel as cs.money where the skin image "pops" toward you on hover while the card itself stays mostly in place.
 
 ### Files changed
-- `src/components/catalogo/SkinDetailModal.tsx` — layout overhaul to fullscreen
+- `src/components/catalogo/CatalogoSkinCard.tsx` — image hover zoom effect
 
