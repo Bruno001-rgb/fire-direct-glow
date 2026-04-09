@@ -213,6 +213,25 @@ export default function SlotManager() {
     }
   }, [categories, queryClient]);
 
+  const handleDeleteSlot = useCallback(async (slotId: string, catId: string, slotPosition: number) => {
+    if (!confirm(`Remover slot #${slotPosition}?`)) return;
+    try {
+      const { error } = await supabase.from("showcase_slots").delete().eq("id", slotId);
+      if (error) throw error;
+      // Update slot_count
+      const cat = categories?.find((c) => c.id === catId);
+      if (cat) {
+        await supabase.from("showcase_categories").update({ slot_count: Math.max(0, cat.slot_count - 1) }).eq("id", catId);
+      }
+      setPendingChanges((prev) => { const next = new Map(prev); next.delete(slotId); return next; });
+      queryClient.invalidateQueries({ queryKey: ["admin-categories-slots"] });
+      queryClient.invalidateQueries({ queryKey: ["showcase-skins"] });
+      toast.success(`Slot #${slotPosition} removido.`);
+    } catch (err: any) {
+      toast.error(`Erro: ${err.message}`);
+    }
+  }, [categories, queryClient]);
+
   const handleSavePrice = useCallback(async (skinId: string) => {
     const priceStr = priceEdits.get(skinId);
     if (priceStr === undefined) return;
@@ -420,21 +439,35 @@ export default function SlotManager() {
                               <RefreshCw className="size-3 mr-1" />
                               Trocar
                             </Button>
-                            <Button size="sm" variant="ghost" className="h-9 sm:h-8 w-9 sm:w-8 px-0 text-destructive min-w-[44px]" onClick={() => handleRemove(slot.id)}>
-                              <Trash2 className="size-3.5 sm:size-3" />
+                            <Button size="sm" variant="ghost" className="h-9 sm:h-8 w-9 sm:w-8 px-0 text-muted-foreground hover:text-foreground min-w-[44px]" onClick={() => handleRemove(slot.id)} title="Limpar skin">
+                              <Undo2 className="size-3.5 sm:size-3" />
+                            </Button>
+                            <Button size="sm" variant="ghost" className="h-9 sm:h-8 w-9 sm:w-8 px-0 text-destructive min-w-[44px]" onClick={() => handleDeleteSlot(slot.id, cat.id, slot.slot_position)} title="Remover slot">
+                              <X className="size-3.5 sm:size-3" />
                             </Button>
                           </div>
                         </div>
                       </>
                     ) : (
-                      <button
-                        onClick={() => { setModalSlotId(slot.id); setModalCategoryKey(cat.key); }}
-                        className="w-full aspect-[3/4] flex flex-col items-center justify-center gap-2 text-muted-foreground hover:text-foreground hover:bg-accent/30 transition-colors min-h-[120px]"
-                      >
-                        <ImagePlus className="size-6" />
-                        <span className="text-xs">Slot #{slot.slot_position}</span>
-                        <span className="text-[10px]">Clique para adicionar</span>
-                      </button>
+                      <div className="w-full aspect-[3/4] flex flex-col items-center justify-center gap-2 min-h-[120px] relative">
+                        <button
+                          onClick={() => { setModalSlotId(slot.id); setModalCategoryKey(cat.key); }}
+                          className="flex-1 w-full flex flex-col items-center justify-center gap-2 text-muted-foreground hover:text-foreground hover:bg-accent/30 transition-colors"
+                        >
+                          <ImagePlus className="size-6" />
+                          <span className="text-xs">Slot #{slot.slot_position}</span>
+                          <span className="text-[10px]">Clique para adicionar</span>
+                        </button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="absolute top-1 right-1 h-7 w-7 p-0 text-destructive"
+                          onClick={() => handleDeleteSlot(slot.id, cat.id, slot.slot_position)}
+                          title="Remover slot"
+                        >
+                          <X className="size-3.5" />
+                        </Button>
+                      </div>
                     )}
                   </div>
                 );
