@@ -3,7 +3,7 @@ import { Search, SlidersHorizontal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { WEAPON_FILTERS, RARITY_FILTERS, type SortMode } from "@/hooks/useByMykelSkins";
+import { WEAPON_FILTERS, RARITY_FILTERS, WEAR_FILTERS, type SortMode } from "@/hooks/useByMykelSkins";
 
 interface Props {
   search: string;
@@ -12,6 +12,8 @@ interface Props {
   onWeaponChange: (v: string) => void;
   rarity: string;
   onRarityChange: (v: string) => void;
+  wear: string;
+  onWearChange: (v: string) => void;
   sort: SortMode;
   onSortChange: (v: SortMode) => void;
 }
@@ -69,6 +71,14 @@ function FiltersContent(props: Props) {
       <div>
         <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wider">Raridade</p>
         <FilterChips items={RARITY_FILTERS} value={props.rarity} onChange={props.onRarityChange} />
+      </div>
+      <div>
+        <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wider">Condição</p>
+        <FilterChips
+          items={WEAR_FILTERS as unknown as { label: string; value: string }[]}
+          value={props.wear}
+          onChange={props.onWearChange}
+        />
       </div>
       <div>
         <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wider">Ordenar</p>
