@@ -6,7 +6,7 @@ import WhatsAppIcon from "@/components/WhatsAppIcon";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
 import { useLoadout, LOADOUT_SLOTS, type SlotKey } from "@/contexts/LoadoutContext";
 import { toast } from "sonner";
-import TryInGameModal from "@/components/catalogo/TryInGameModal";
+import TryInGameModal, { canTryInGame } from "@/components/catalogo/TryInGameModal";
 
 const WEAR_TIERS = [
   { label: "Factory New", short: "FN", min: 0, max: 0.07, color: "hsl(142 71% 45%)" },
@@ -266,10 +266,12 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
                   Consultar esta skin no WhatsApp
                 </a>
               </Button>
-              <Button variant="fire-outline" className="w-full h-12 text-base" onClick={() => setShowTryModal(true)}>
-                <Gamepad2 className="size-5" />
-                Testar no jogo
-              </Button>
+              {canTryInGame(skin) && (
+                <Button variant="fire-outline" className="w-full h-12 text-base" onClick={() => setShowTryModal(true)}>
+                  <Gamepad2 className="size-5" />
+                  Testar no jogo
+                </Button>
+              )}
               <Button variant="fire-outline" className="w-full h-12 text-base" onClick={handleAddToLoadout}>
                 Adicionar ao loadout
               </Button>

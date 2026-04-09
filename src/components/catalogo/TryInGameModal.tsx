@@ -134,8 +134,56 @@ const defindexMap: Record<string, number> = {
   "weapon_gloves_broken_fang": 4725,
 };
 
+const nameAliasMap: Record<string, string> = {
+  "M4A1-S": "weapon_m4a1_silencer",
+  "USP-S": "weapon_usp_silencer",
+  "CZ75-Auto": "weapon_cz75a",
+  "PP-Bizon": "weapon_bizon",
+  "Dual Berettas": "weapon_elite",
+  "R8 Revolver": "weapon_revolver",
+  "SCAR-20": "weapon_scar20",
+  "G3SG1": "weapon_g3sg1",
+  "SSG 08": "weapon_ssg08",
+  "SG 553": "weapon_sg556",
+  "MP5-SD": "weapon_mp5sd",
+};
+
+function toWeaponKey(name: string): string {
+  return "weapon_" + name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/_+$/, "");
+}
+
+export function resolveDefindex(skin: ByMykelSkin): number | null {
+  // 1. Try skin.weapon_id directly
+  if (skin.weapon_id != null) {
+    const key = typeof skin.weapon_id === "string" ? skin.weapon_id : null;
+    if (key && defindexMap[key]) return defindexMap[key];
+    // If weapon_id is already a number in defindexMap values, use it
+    if (typeof skin.weapon_id === "number" && skin.weapon_id > 0) {
+      const exists = Object.values(defindexMap).includes(skin.weapon_id);
+      if (exists) return skin.weapon_id;
+    }
+  }
+
+  // 2. Fallback: weapon.name → alias or snake_case
+  const weaponName = skin.weapon?.name;
+  if (weaponName) {
+    const alias = nameAliasMap[weaponName];
+    if (alias && defindexMap[alias]) return defindexMap[alias];
+    const key = toWeaponKey(weaponName);
+    if (defindexMap[key]) return defindexMap[key];
+  }
+
+  return null;
+}
+
+export function canTryInGame(skin: ByMykelSkin): boolean {
+  const defindex = resolveDefindex(skin);
+  const paintIndex = Number(skin.paint_index);
+  return defindex != null && paintIndex > 0;
+}
+
 export default function TryInGameModal({ skin, floatValue, onClose }: Props) {
-  const weaponId = skin.weapon_id ?? 0;
+  const weaponId = resolveDefindex(skin) ?? 0;
   const paintIndex = skin.paint_index ?? "0";
   const serverCmd = "connect dust2.epidemic.gg";
   const skinCmd = `!g ${weaponId} ${paintIndex} 0 ${floatValue.toFixed(2)}`;
