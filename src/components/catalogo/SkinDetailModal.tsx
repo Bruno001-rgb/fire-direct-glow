@@ -302,6 +302,14 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
           />
         </div>
       </div>
+
+      {showTryModal && (
+        <TryInGameModal
+          skin={skin}
+          floatValue={floatValue}
+          onClose={() => setShowTryModal(false)}
+        />
+      )}
     </div>
   );
 }
