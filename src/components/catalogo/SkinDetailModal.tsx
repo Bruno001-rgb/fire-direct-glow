@@ -285,7 +285,7 @@ export default function SkinDetailModal({ skin, onClose }: Props) {
 
         {/* Image column */}
         <div
-          className="relative flex items-center justify-center min-h-[40vh] md:min-h-0 md:h-full p-8 md:p-16 overflow-hidden"
+          className="order-1 md:order-2 relative flex items-center justify-center min-h-[40vh] md:min-h-0 md:h-full p-8 md:p-16 overflow-hidden"
           style={{
             background: `radial-gradient(circle at center, ${rarityColor}20 0%, transparent 70%)`,
           }}
