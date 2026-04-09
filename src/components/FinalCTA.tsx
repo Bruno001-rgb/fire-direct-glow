@@ -88,7 +88,7 @@ const FinalCTA = () => {
           <Button
             variant="fire"
             size="lg"
-            className="text-sm sm:text-base px-12 sm:px-16 h-14 uppercase tracking-wider"
+            className="text-sm sm:text-base px-12 sm:px-16 h-14 uppercase tracking-wider text-black"
             asChild
           >
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
