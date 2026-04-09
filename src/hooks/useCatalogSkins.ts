@@ -78,7 +78,7 @@ export function useCatalogSkins() {
         const PISTOL_NAMES = ["glock-18", "usp-s", "p250", "five-seven", "tec-9", "desert eagle", "dual berettas", "r8 revolver", "cz75-auto", "p2000"];
         const SMG_NAMES = ["mac-10", "mp9", "mp7", "mp5-sd", "ump-45", "p90", "pp-bizon"];
         const SHOTGUN_NAMES = ["nova", "xm1014", "mag-7", "sawed-off"];
-        const RIFLE_NAMES = ["m4a1-s", "famas", "galil ar", "aug", "sg 553", "ssg 08", "scar-20", "g3sg1"];
+        const RIFLE_NAMES = ["ak-47", "m4a4", "m4a1-s", "awp", "famas", "galil ar", "aug", "sg 553", "ssg 08", "scar-20", "g3sg1"];
 
         const wn = s.weapon_name?.toLowerCase() || "";
         const isPistol = PISTOL_NAMES.some((p) => wn.includes(p));
