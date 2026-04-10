@@ -1,29 +1,26 @@
 
 
-## Etapa 16 — Analytics básico (Plausible + track utility)
+## Etapa 17 — Seção de confiança (TrustSection)
 
 ### What changes
 
-1. **`index.html`** — Add Plausible script tag before `</head>` with `data-domain="fire-direct-glow.lovable.app"`
+1. **New `src/components/Placeholder.tsx`** — Inline placeholder component for dynamic values (renders an orange-tinted span with the label text)
 
-2. **New file `src/lib/track.ts`** — Lightweight wrapper that calls `window.plausible()` in production and `console.log` in dev, with silent error handling
+2. **New `src/components/TrustSection.tsx`** — Trust-building section with:
+   - Dark section background, gradient separator lines top/bottom
+   - "Segurança primeiro" label badge (matching HeroSection style)
+   - Heading: "Por que confiar na **FireSkins**?"
+   - Subtitle addressing scam fears directly
+   - 4-card responsive grid (1→2→4 cols) with ShieldCheck, MessageCircle, Clock, Users icons
+   - Card styling: `bg-card/60 border border-primary/10 rounded-xl p-6 hover:border-primary/25 transition-colors`
+   - Steam profile card links to `#` with pending note
 
-3. **Add `track()` calls to 6 existing components** (import + onClick additions only, no UI changes):
+3. **`src/pages/Index.tsx`** — Import TrustSection, place between `<CategoriesSection />` and `<VideoShowcase />`
 
-| File | Element | Event |
-|------|---------|-------|
-| `HeroSection.tsx` | Primary CTA (`<a href="/catalogo">`) | `track("cta_click", { location: "hero", target: "catalogo" })` |
-| `HeroSection.tsx` | Secondary CTA (WhatsApp `<a>`) | `track("cta_click", { location: "hero", target: "whatsapp" })` |
-| `Header.tsx` | "Ver skins" button (`<Link to="/catalogo">`) | `track("cta_click", { location: "header", target: "catalogo" })` |
-| `FinalCTA.tsx` | WhatsApp CTA button | `track("cta_click", { location: "final_cta", target: "whatsapp" })` |
-| `CategoriesSection.tsx` | SkinCard wrapper `<a>` | `track("skin_click", { location: "showcase", skin: item.name })` |
-| `SkinDetailModal.tsx` | "Consultar esta skin" WhatsApp button | `track("cta_click", { location: "skin_detail", target: "whatsapp", skin: skin.name })` |
-| `CatalogoSkinCard.tsx` | Card `<button>` click | `track("skin_click", { location: "catalogo", skin: skin.name })` |
+### Technical details
 
-### Technical notes
-
-- For `<a>` and `<Link>` elements rendered via `asChild`, we add `onClick` directly on the inner element — navigation still works normally
-- For `CatalogoSkinCard`, the existing `onClick` prop calls `onClick(skin)` — we add `track()` before it in the handler
-- For `CategoriesSection`'s `SkinCard`, it's an `<a>` tag — we add an `onClick` handler that only tracks (doesn't prevent default)
-- No UI, layout, or behavioral changes whatsoever
+- Placeholder component: `<span className="bg-primary/20 text-primary px-1.5 py-0.5 rounded text-xs font-mono">{label}</span>`
+- Separator pattern: `<div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />` (consistent with existing sections)
+- No data fetching, no state — purely presentational
+- 3 files touched total (2 new, 1 edit)
 
