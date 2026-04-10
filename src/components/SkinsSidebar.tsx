@@ -1,6 +1,6 @@
 import { useShowcaseSkins } from "@/hooks/useShowcaseSkins";
 
-import { WHATSAPP_URL } from "@/constants";
+const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
 
 const rarityColor: Record<string, string> = {
   Covert: "text-red-400",
@@ -35,8 +35,6 @@ const SkinsSidebar = () => {
                   <img
                     src={skin.image}
                     alt={`${skin.name} ${skin.skin}`}
-                    width={128}
-                    height={128}
                     loading="lazy"
                     className="w-full h-full object-contain p-1 group-hover:scale-110 transition-transform duration-500"
                   />

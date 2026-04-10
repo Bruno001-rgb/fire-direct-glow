@@ -2,7 +2,7 @@ import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import { Trophy } from "lucide-react";
 
-import { WHATSAPP_URL } from "@/constants";
+const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
 
 const FinalCTA = () => {
   return (

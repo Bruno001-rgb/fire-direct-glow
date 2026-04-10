@@ -3,7 +3,7 @@ import WhatsAppIcon from "@/components/WhatsAppIcon";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 import logoBlackbot from "@/assets/logo-blackbot.webp";
 
-import { WHATSAPP_URL } from "@/constants";
+const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
 
 const Footer = () => {
   return (
@@ -123,7 +123,7 @@ const Footer = () => {
               <img
                 src={logoFireskins}
                 alt="FireSkins"
-                className="max-h-48 sm:max-h-64 lg:max-h-80 w-auto object-contain"
+                className="h-48 sm:h-72 lg:h-[26rem] xl:h-[36rem] w-auto object-contain -my-8 sm:-my-16 lg:-my-28 xl:-my-40"
                 loading="lazy"
               />
               <a

@@ -1,11 +1,12 @@
 
 
-# Etapa 8 — Imagens: layout shift e lazy loading
+# Aumentar número de skins relacionadas
 
-## Mudanças
+Mudança simples no `SkinDetailModal.tsx`:
 
-1. **`src/components/TestimonialsSection.tsx`** — Adicionar `width={300} height={400}` na tag `<img>` dos depoimentos
-2. **`src/components/SkinsSidebar.tsx`** — Adicionar `width={128} height={128}` na tag `<img>` das skins
+1. Na função `RelatedSkins`, aumentar o limite de `.slice(0, 6)` para `.slice(0, 12)`
+2. Ajustar o grid de `grid-cols-3` para `grid-cols-3 sm:grid-cols-4` para acomodar mais itens
+3. Aumentar o pool de fallback de `< 6` para `< 12`
 
-Nenhuma outra mudança.
+**Arquivo:** `src/components/catalogo/SkinDetailModal.tsx`
 

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import InteractiveKnife from "@/components/InteractiveKnife";
 import heroKnife from "@/assets/knife-massacre.webp";
 
-import { WHATSAPP_URL } from "@/constants";
+const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
 
 const trustItems = [
   { icon: Zap, label: "Atendimento rápido" },
