@@ -1,6 +1,5 @@
 import { useCatalogSkins } from "@/hooks/useCatalogSkins";
-
-const WHATSAPP_URL = "https://wa.me/5562996632201";
+import { useNavigate } from "react-router-dom";
 
 const rarityColor: Record<string, string> = {
   Covert: "text-red-400",
@@ -12,6 +11,7 @@ const rarityColor: Record<string, string> = {
 
 const SkinsSidebar = () => {
   const { data: catalogSkins } = useCatalogSkins();
+  const navigate = useNavigate();
 
   // Map catalog skins to sidebar format
   const skins = catalogSkins?.map((s) => ({
@@ -31,12 +31,10 @@ const SkinsSidebar = () => {
       <div className="sidebar-scroll-track">
         <div className="sidebar-scroll-content">
           {items.map((skin, i) => (
-            <a
+            <div
               key={`${skin.name}-${skin.skin}-${i}`}
-              href={WHATSAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block p-1.5 xl:p-2 group"
+              onClick={() => navigate("/catalogo")}
+              className="block p-1.5 xl:p-2 group cursor-pointer"
             >
               <div className="rounded-lg overflow-hidden border border-primary/10 group-hover:border-primary/40 transition-colors duration-300 bg-card/50">
                 <div className="aspect-square overflow-hidden bg-background/50">
@@ -54,7 +52,7 @@ const SkinsSidebar = () => {
                   </p>
                 </div>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </div>
