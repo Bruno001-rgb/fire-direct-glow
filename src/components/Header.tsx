@@ -9,8 +9,8 @@ import logoFireskins from "@/assets/logo-fireskins.webp";
 const WHATSAPP_URL = "https://wa.me/5562996632201";
 
 const NAV_LINKS = [
-  { href: "/#catalogo", label: "Catálogo", type: "anchor" },
-  { href: "/catalogo", label: "Catálogo Completo", type: "link" },
+  { href: "/#catalogo", label: "Vitrine", type: "anchor" },
+  { href: "/catalogo", label: "Catálogo", type: "link" },
   { href: "/loadout", label: "Meu Loadout", type: "link", showBadge: true },
   { href: "/#como-funciona", label: "Como funciona", type: "anchor" },
   { href: "/#contato", label: "Contato", type: "anchor" },
