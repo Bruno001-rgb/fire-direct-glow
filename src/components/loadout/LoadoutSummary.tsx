@@ -1,19 +1,19 @@
 import { useLoadout, LOADOUT_SLOTS } from "@/contexts/LoadoutContext";
 import { Button } from "@/components/ui/button";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { whatsappLoadoutLink } from "@/constants";
 
 export default function LoadoutSummary() {
   const { loadout, filledCount, clearAll } = useLoadout();
 
   if (filledCount === 0) return null;
 
-  const items = LOADOUT_SLOTS.filter((s) => loadout[s.key]).map(
-    (s) => `- ${s.label}: ${loadout[s.key]!.name}`
-  );
+  const items = LOADOUT_SLOTS.filter((s) => loadout[s.key]).map((s) => ({
+    slot: s.label,
+    skinName: loadout[s.key]!.name,
+  }));
 
-  const message = encodeURIComponent(
-    `Olá! Gostaria de montar esse loadout na FireSkins:\n${items.join("\n")}\nPodem me passar os preços e disponibilidade?`
-  );
+  const whatsappHref = whatsappLoadoutLink(items);
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-40 bg-card/95 backdrop-blur-md border-t border-border p-4">
@@ -27,7 +27,7 @@ export default function LoadoutSummary() {
             Limpar
           </Button>
           <Button variant="fire" size="sm" className="flex-1 sm:flex-none" asChild>
-            <a href={`https://wa.me/?text=${message}`} target="_blank" rel="noopener noreferrer">
+            <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon className="size-4" />
               Enviar loadout no WhatsApp
             </a>

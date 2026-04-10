@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { track } from "@/lib/track";
+import { whatsappSkinLink } from "@/constants";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
 import { useLoadout, LOADOUT_SLOTS, type SlotKey } from "@/contexts/LoadoutContext";
 import { toast } from "sonner";
@@ -227,9 +228,7 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
 
   const rarityColor = skin.rarity?.color || "#888";
 
-  const whatsappMsg = encodeURIComponent(
-    `Olá, quero consultar a skin ${skin.name} com float ${floatValue.toFixed(2)}.`
-  );
+  const whatsappHref = whatsappSkinLink(skin.name, floatValue);
 
   const handleAddToLoadout = () => {
     const slot = LOADOUT_SLOTS.find((s) => {
@@ -397,7 +396,7 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
             <div className="flex flex-col gap-3 pt-2">
               <Button variant="fire" className="w-full h-12 text-base" asChild>
                 <a
-                  href={`https://wa.me/?text=${whatsappMsg}`}
+                  href={whatsappHref}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => track("cta_click", { location: "skin_detail", target: "whatsapp", skin: skin.name })}
