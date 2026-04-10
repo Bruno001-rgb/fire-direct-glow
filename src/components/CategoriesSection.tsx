@@ -35,7 +35,7 @@ const rarityText: Record<string, string> = {
 const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
   <a
     href="/catalogo"
-    className="group relative flex flex-col overflow-hidden rounded-xl border border-primary/10 bg-card/60 hover:border-primary/30 transition-all duration-300 hover:shadow-[0_0_20px_-4px_hsl(var(--primary)/0.15)]"
+    className="group relative flex flex-col overflow-hidden rounded-xl border border-primary/10 bg-card/60 hover:border-primary/30 transition-all duration-300 hover:shadow-md"
   >
 
     {/* Image */}
@@ -90,11 +90,6 @@ const CategoriesSection = () => {
     <section id="catalogo" className="py-6 sm:py-8 relative overflow-hidden">
       {/* Cinematic background layers */}
       <div className="absolute inset-0 bg-black" />
-      <div className="absolute top-0 right-0 w-[600px] h-[400px] rounded-full blur-[160px]"
-        style={{ background: "radial-gradient(ellipse, hsla(22, 91%, 47%, 0.04) 0%, transparent 70%)" }} />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[350px] rounded-full blur-[140px]"
-        style={{ background: "radial-gradient(ellipse, hsla(254, 55%, 52%, 0.04) 0%, transparent 70%)" }} />
-      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 50%, hsl(0 0% 0% / 0.4) 100%)" }} />
 
       <div className="container relative z-10">
         {/* Header */}
