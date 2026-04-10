@@ -19,7 +19,7 @@ const FinalCTA = () => {
       >
         {/* Title */}
         <h2
-          className="text-center text-2xl sm:text-3xl lg:text-4xl font-bold font-heading uppercase tracking-wider mb-12 sm:mb-16 text-primary"
+          className="text-center text-3xl sm:text-4xl lg:text-5xl font-bold font-heading uppercase tracking-wider mb-12 sm:mb-16 text-primary"
         >
           Participe das nossas rifas — skins para todo bolso!
         </h2>

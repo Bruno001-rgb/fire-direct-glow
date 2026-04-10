@@ -44,7 +44,7 @@ const HeroSection = () => {
             </div>
 
             {/* Headline */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tight font-heading leading-[0.9] mb-3 sm:mb-6">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tight font-heading leading-[0.9] mb-3 sm:mb-6">
               <span className="text-foreground block">Skins CS2 para</span>
               <span className="text-primary block">Todo Jogador</span>
             </h1>

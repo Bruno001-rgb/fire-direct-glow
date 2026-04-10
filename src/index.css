@@ -111,7 +111,7 @@ html {
   }
 
   .section-heading {
-    @apply text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight uppercase;
+    @apply text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight uppercase;
   }
 
   .animate-float {
