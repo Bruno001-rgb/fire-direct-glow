@@ -9,7 +9,7 @@ import { track } from "@/lib/track";
 
 const NAV_LINKS = [
   { href: "/catalogo", label: "Catálogo", type: "link" },
-  { href: "/loadout", label: "Meu Loadout", type: "link", showBadge: true },
+  { href: "/loadout", label: "Minha Lista", type: "link", showBadge: true },
   { href: "/#como-funciona", label: "Como funciona", type: "anchor" },
   { href: "/#contato", label: "Contato", type: "anchor" },
 ] as const;
