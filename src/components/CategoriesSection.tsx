@@ -64,11 +64,6 @@ const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
         <span className={`text-[8px] sm:text-[9px] font-bold uppercase tracking-widest ${rarityText[item.rarity] || "text-muted-foreground"}`}>
           {item.rarity}
         </span>
-        {item.price != null && (
-          <span className="text-xs sm:text-sm font-extrabold text-primary">
-            R$ {item.price.toFixed(2).replace(".", ",")}
-          </span>
-        )}
       </div>
     </div>
 
