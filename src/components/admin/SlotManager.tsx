@@ -13,7 +13,6 @@ interface SkinPreview {
   pattern_name: string | null;
   image: string | null;
   rarity_name: string | null;
-  price: number | null;
 }
 
 interface SlotWithSkin {
