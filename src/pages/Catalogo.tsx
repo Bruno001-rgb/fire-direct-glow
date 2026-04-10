@@ -12,7 +12,9 @@ import { Button } from "@/components/ui/button";
 
 export default function Catalogo() {
   const { data: skins, isLoading, isError, refetch } = useCatalogSkins();
-  const [search, setSearch] = useState("");
+  const [searchParams] = useSearchParams();
+  const initialSearch = searchParams.get("search") || "";
+  const [search, setSearch] = useState(initialSearch);
   const [weapon, setWeapon] = useState("all");
   const [rarity, setRarity] = useState("Todos");
   const [wear, setWear] = useState("all");
