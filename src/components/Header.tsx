@@ -5,6 +5,7 @@ import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import { useLoadout } from "@/contexts/LoadoutContext";
 import logoFireskins from "@/assets/logo-fireskins.webp";
+import { track } from "@/lib/track";
 
 const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
 
@@ -83,7 +84,7 @@ const Header = () => {
 
         <div className="flex items-center gap-2">
           <Button variant="fire" size="sm" className="hidden md:inline-flex h-8 sm:h-9 text-[11px] uppercase tracking-wider" asChild>
-            <Link to="/catalogo">
+            <Link to="/catalogo" onClick={() => track("cta_click", { location: "header", target: "catalogo" })}>
               Ver skins
             </Link>
           </Button>
