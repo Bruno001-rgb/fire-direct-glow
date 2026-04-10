@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useLoadout } from "@/contexts/LoadoutContext";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 
-const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
+const WHATSAPP_URL = "https://wa.me/5562996632201";
 
 const NAV_LINKS = [
   { href: "/#catalogo", label: "Catálogo", type: "anchor" },

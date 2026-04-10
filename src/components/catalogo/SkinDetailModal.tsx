@@ -396,7 +396,7 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
             <div className="flex flex-col gap-3 pt-2">
               <Button variant="fire" className="w-full h-12 text-base" asChild>
                 <a
-                  href={`https://wa.me/?text=${whatsappMsg}`}
+                  href={`https://wa.me/5562996632201?text=${whatsappMsg}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
