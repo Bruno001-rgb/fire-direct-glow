@@ -1,6 +1,5 @@
 import { useCatalogSkins } from "@/hooks/useCatalogSkins";
-
-const WHATSAPP_URL = "https://wa.me/5562996632201";
+import { useNavigate } from "react-router-dom";
 
 const rarityColor: Record<string, string> = {
   Covert: "text-red-400",
