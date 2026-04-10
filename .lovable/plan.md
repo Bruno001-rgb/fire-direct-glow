@@ -1,48 +1,30 @@
 
 
-## Etapa 19 — Dois canais de WhatsApp
+## Etapa 21 — Loadout envia pro WhatsApp direto
 
 ### What changes
 
-1. **Create `src/constants.ts`** — Central WhatsApp constants and helper functions:
-   - `WHATSAPP_DIRECT` (wa.me link with placeholder number)
-   - `WHATSAPP_COMMUNITY` (existing group link)
-   - `whatsappDirectLink(context?)` — generates wa.me link with pre-filled message
-   - `whatsappSkinLink(skinName)` — generates skin inquiry link with float info
-   - `whatsappLoadoutLink(items)` — generates loadout list link
+1. **`src/components/loadout/LoadoutSummary.tsx`** — Add copy-to-clipboard action, tracking, rename button text:
+   - Add imports: `Copy` from lucide, `toast` from sonner, `track` from lib/track
+   - Add `handleCopy` function using `navigator.clipboard.writeText`
+   - Rename WhatsApp button: "Enviar loadout no WhatsApp" → "Enviar lista no WhatsApp"
+   - Add `onClick` tracking to WhatsApp link
+   - Add "Copiar lista" text button below the action buttons
 
-2. **Update 6 files** to remove local `WHATSAPP_URL` and use centralized constants:
+2. **`src/pages/Loadout.tsx`** — Update copy:
+   - Heading: "Meu Loadout" → "Minha Lista"
+   - Subtitle: "Monte seu inventário ideal e envie pelo WhatsApp." → "Escolha suas skins favoritas e envie pra gente encontrar."
+   - Empty state: "Nenhuma skin selecionada ainda." → "Sua lista está vazia."
+   - Empty state sub: "Explore o catálogo e adicione ao loadout." → "Explore o catálogo e adicione as skins que você quer."
+   - CTA button: "Ver catálogo" → "Explorar skins"
 
-| File | Current | New | Channel |
-|------|---------|-----|---------|
-| `HeroSection.tsx` | Local `WHATSAPP_URL` → group | `whatsappDirectLink()` | DIRECT |
-| `FinalCTA.tsx` | Local `WHATSAPP_URL` → group | `whatsappDirectLink("Oi, vim pelo site...")` | DIRECT |
-| `Header.tsx` | Local `WHATSAPP_URL` (unused in JSX currently) | Remove constant | — |
-| `SkinDetailModal.tsx` | Inline `wa.me/?text=` (no number) | `whatsappSkinLink(skin.name)` with float | DIRECT |
-| `TryInGameModal.tsx` | Inline `wa.me/?text=` (no number) | `whatsappDirectLink(...)` | DIRECT |
-| `LoadoutSummary.tsx` | Inline `wa.me/?text=` (no number) | `whatsappLoadoutLink(items)` | DIRECT |
-
-3. **Footer community link** — Add WhatsApp community link next to Instagram in the social area (line ~129), using `WHATSAPP_COMMUNITY` with same gradient icon box styling as Instagram
-
-### Key details
-
-- All purchase-intent CTAs → `WHATSAPP_DIRECT` (wa.me/55XXXXXXXXXXX with pre-filled message)
-- Footer social link → `WHATSAPP_COMMUNITY` (group invite)
-- `Header.tsx` had `WHATSAPP_URL` declared but never used in JSX — just remove it
-- `SkinDetailModal` currently builds `whatsappMsg` inline with `encodeURIComponent` — replace with `whatsappSkinLink()` but keep the float info in the message
-- `LoadoutSummary` builds message inline — replace with `whatsappLoadoutLink()` using LOADOUT_SLOTS data
-- No layout, structure, or behavioral changes
+3. **`src/components/Header.tsx`** — Rename nav link label: "Meu Loadout" → "Minha Lista" (line 12)
 
 ### Files touched
 
 | File | Action |
 |------|--------|
-| `src/constants.ts` | Create |
-| `src/components/HeroSection.tsx` | Edit — swap import/URL |
-| `src/components/FinalCTA.tsx` | Edit — swap import/URL |
-| `src/components/Header.tsx` | Edit — remove unused constant |
-| `src/components/Footer.tsx` | Edit — remove constant, add community link |
-| `src/components/catalogo/SkinDetailModal.tsx` | Edit — use whatsappSkinLink |
-| `src/components/catalogo/TryInGameModal.tsx` | Edit — use whatsappDirectLink |
-| `src/components/loadout/LoadoutSummary.tsx` | Edit — use whatsappLoadoutLink |
+| `src/components/loadout/LoadoutSummary.tsx` | Edit — add copy action, tracking, rename |
+| `src/pages/Loadout.tsx` | Edit — update 5 text strings |
+| `src/components/Header.tsx` | Edit — rename nav label |
 
