@@ -1,16 +1,16 @@
 
 
-# HeroSection — simplificar background
+# CategoriesSection — simplificar background e hover
 
-## Alterações em `src/components/HeroSection.tsx`
+## Alterações em `src/components/CategoriesSection.tsx`
 
-1. **Remover** os 3 divs de gradiente radial (`radial-gradient(ellipse, hsla(...)`)  — linhas ~23-35
-2. **Remover** o div do grid sutil (`opacity-[0.02]` com `backgroundImage: linear-gradient`) — linhas ~41-48
-3. **Remover** o div das listras diagonais (`repeating-linear-gradient(-55deg...)`) — linhas ~50-57
-4. **Reduzir** opacidade do watermark de `opacity-[0.012]` para `opacity-[0.006]`
-5. **Manter** intactos: `bg-black`, vignette (`boxShadow inset`), linha de topo, linha de base, todo o conteúdo (texto, botões, trust items, faca)
+1. **Remover** os 3 divs de gradiente radial (linhas ~100-105 com `radial-gradient(ellipse, hsla(...)`)
+2. **Remover** o div de vignette radial (`radial-gradient(ellipse at center, transparent 50%...)`) — linha ~106
+3. **Manter** apenas `bg-black` no fundo da section
+4. **Hover dos cards**: trocar `hover:shadow-[0_0_20px_-4px_hsl(var(--primary)/0.15)]` por `hover:shadow-md`
+5. **Não mexer** em: grid, conteúdo dos cards, botão CTA, preços
 
 | Arquivo | Ação |
 |---------|------|
-| `src/components/HeroSection.tsx` | Remover 3 gradientes + grid + listras, reduzir opacidade watermark |
+| `src/components/CategoriesSection.tsx` | Remover gradientes de fundo, simplificar hover shadow |
 
