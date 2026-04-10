@@ -1,12 +1,22 @@
 
 
-# Aumentar número de skins relacionadas
+# Centralizar WHATSAPP_URL
 
-Mudança simples no `SkinDetailModal.tsx`:
+## O que muda
+1. Criar `src/constants.ts` exportando `WHATSAPP_URL`
+2. Em 6 arquivos, remover a declaração local e importar de `@/constants`
 
-1. Na função `RelatedSkins`, aumentar o limite de `.slice(0, 6)` para `.slice(0, 12)`
-2. Ajustar o grid de `grid-cols-3` para `grid-cols-3 sm:grid-cols-4` para acomodar mais itens
-3. Aumentar o pool de fallback de `< 6` para `< 12`
+## Arquivos
 
-**Arquivo:** `src/components/catalogo/SkinDetailModal.tsx`
+| Arquivo | Ação |
+|---|---|
+| `src/constants.ts` | Criar com `export const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";` |
+| `src/components/CategoriesSection.tsx` | Remover linha `const WHATSAPP_URL = ...`, adicionar `import { WHATSAPP_URL } from "@/constants";` |
+| `src/components/FinalCTA.tsx` | Idem |
+| `src/components/Footer.tsx` | Idem |
+| `src/components/Header.tsx` | Idem |
+| `src/components/HeroSection.tsx` | Idem |
+| `src/components/SkinsSidebar.tsx` | Idem |
+
+Nenhuma mudança de comportamento, estilo ou estrutura.
 
