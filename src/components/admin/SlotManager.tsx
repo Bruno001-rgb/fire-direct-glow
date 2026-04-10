@@ -324,7 +324,7 @@ export default function SlotManager() {
               <X className="size-4" />
             </Button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div>
               <label className="text-xs text-muted-foreground mb-1 block">Categoria</label>
               <select
@@ -346,20 +346,12 @@ export default function SlotManager() {
                 onChange={(e) => setAddSlotSkinName(e.target.value)}
               />
             </div>
-            <div>
-              <label className="text-xs text-muted-foreground mb-1 block">Preço</label>
-              <Input
-                placeholder="R$ 1.250,00"
-                value={addSlotPrice}
-                onChange={(e) => setAddSlotPrice(e.target.value)}
-              />
-            </div>
           </div>
           <div className="flex justify-end">
             <Button
               size="sm"
               onClick={handleAddSlot}
-              disabled={isAddingSlot || !addSlotCatId || !addSlotSkinName.trim() || !addSlotPrice.trim()}
+              disabled={isAddingSlot || !addSlotCatId || !addSlotSkinName.trim()}
             >
               {isAddingSlot ? <Loader2 className="size-3 mr-1 animate-spin" /> : <Plus className="size-3 mr-1" />}
               {isAddingSlot ? "Adicionando..." : "Adicionar slot"}
