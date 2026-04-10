@@ -68,7 +68,7 @@ export default function Admin() {
         </header>
 
         <main className="container py-6">
-          <Tabs defaultValue="skins">
+          <Tabs defaultValue="vitrine">
             <TabsList className="mb-6">
               <TabsTrigger value="vitrine">Vitrine</TabsTrigger>
               <TabsTrigger value="catalogo">Catálogo</TabsTrigger>
