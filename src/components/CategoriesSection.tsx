@@ -3,8 +3,7 @@ import { Star, Loader2, ArrowRight } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import { useShowcaseSkins, type ShowcaseSkin } from "@/hooks/useShowcaseSkins";
-
-const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
+import { WHATSAPP_URL } from "@/constants";
 
 const rarityColor: Record<string, string> = {
   Covert: "bg-red-500",
