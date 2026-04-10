@@ -15,44 +15,11 @@ const trustItems = [
 const HeroSection = () => {
   return (
     <section id="topo" className="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-[90vh] flex items-center overflow-hidden bg-black">
-      {/* ── Background layers (reduced intensity) ── */}
-      <div
-        className="absolute -bottom-40 -left-40 w-[500px] sm:w-[700px] lg:w-[900px] h-[400px] sm:h-[500px] lg:h-[700px] rounded-full blur-[200px]"
-        style={{ background: "radial-gradient(ellipse, hsla(22, 91%, 47%, 0.07) 0%, transparent 70%)" }}
-      />
-      <div
-        className="absolute -top-32 -right-32 w-[400px] sm:w-[500px] lg:w-[700px] h-[300px] sm:h-[400px] lg:h-[600px] rounded-full blur-[180px]"
-        style={{ background: "radial-gradient(ellipse, hsla(254, 55%, 52%, 0.05) 0%, transparent 70%)" }}
-      />
-      <div
-        className="absolute top-1/2 right-[15%] -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[160px] hidden lg:block"
-        style={{ background: "radial-gradient(circle, hsla(22, 91%, 47%, 0.06) 0%, transparent 60%)" }}
-      />
-
       {/* Vignette */}
       <div className="absolute inset-0" style={{ boxShadow: "inset 0 0 200px 80px rgba(0,0,0,0.7)" }} />
 
-      {/* Subtle grid */}
-      <div
-        className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)`,
-          backgroundSize: "80px 80px",
-        }}
-      />
-
-      {/* Diagonal stripes */}
-      <div
-        className="absolute top-0 right-0 w-1/2 h-full opacity-[0.02]"
-        style={{
-          backgroundImage: `repeating-linear-gradient(-55deg, transparent, transparent 40px, rgba(233,90,12,0.4) 40px, rgba(233,90,12,0.4) 41px)`,
-          maskImage: "linear-gradient(to left, rgba(0,0,0,0.5) 0%, transparent 70%)",
-          WebkitMaskImage: "linear-gradient(to left, rgba(0,0,0,0.5) 0%, transparent 70%)",
-        }}
-      />
-
       {/* Large watermark */}
-      <div className="watermark top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.012]">
+      <div className="watermark top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.006]">
         FIRESKINS
       </div>
 
