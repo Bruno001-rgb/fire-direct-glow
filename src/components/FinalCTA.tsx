@@ -21,7 +21,7 @@ const FinalCTA = () => {
         <h2
           className="text-center text-2xl sm:text-3xl lg:text-4xl font-bold font-heading uppercase tracking-wider mb-12 sm:mb-16 text-primary"
         >
-          Participe das nossas rifas e tenha a chance de ganhar skins!
+          Participe das nossas rifas — skins para todo bolso!
         </h2>
 
         {/* Podium */}
@@ -77,6 +77,8 @@ const FinalCTA = () => {
 
         {/* Base line */}
         <div className="max-w-md mx-auto h-px mb-10 sm:mb-14 bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+
+        <p className="text-sm text-muted-foreground text-center mb-6">Rifas a partir de R$2 — qualquer um pode participar.</p>
 
         {/* Impact phrase */}
         <p className="text-center text-lg sm:text-xl lg:text-2xl font-bold text-white mb-8 sm:mb-10 tracking-wide">
