@@ -77,12 +77,12 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
             </h2>
 
             {/* Subtitle */}
-            <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-8">
+            <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-4 sm:mb-8">
               Assista ao vídeo e descubra como comprar, vender e negociar suas skins com rapidez e segurança.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4">
+            <div className="hidden sm:flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4">
               <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" onClick={openFullscreen}>
                 <Play className="size-4 fill-current" />
                 Assistir vídeo
@@ -97,7 +97,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
             </div>
 
             {/* Trust line */}
-            <div className="mt-8 flex items-center gap-2 justify-center lg:justify-start">
+            <div className="mt-4 sm:mt-8 flex items-center gap-2 justify-center lg:justify-start">
               <div className="flex -space-x-1">
                 <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#E95A0C' }} />
                 <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#F5A006' }} />
