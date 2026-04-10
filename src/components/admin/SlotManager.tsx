@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X, DollarSign } from "lucide-react";
+import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X } from "lucide-react";
 import SkinSearchModal from "./SkinSearchModal";
 import { toast } from "sonner";
 
@@ -13,7 +13,6 @@ interface SkinPreview {
   pattern_name: string | null;
   image: string | null;
   rarity_name: string | null;
-  price: number | null;
 }
 
 interface SlotWithSkin {
@@ -45,11 +44,9 @@ export default function SlotManager() {
   const [showAddSlotForm, setShowAddSlotForm] = useState(false);
   const [addSlotCatId, setAddSlotCatId] = useState("");
   const [addSlotSkinName, setAddSlotSkinName] = useState("");
-  const [addSlotPrice, setAddSlotPrice] = useState("");
+  
   const [isAddingSlot, setIsAddingSlot] = useState(false);
   const [deletingCatId, setDeletingCatId] = useState<string | null>(null);
-  const [priceEdits, setPriceEdits] = useState<Map<string, string>>(new Map());
-  const [savingPrices, setSavingPrices] = useState<Set<string>>(new Set());
   const [scrollToCatId, setScrollToCatId] = useState<string | null>(null);
   const catRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
@@ -66,7 +63,7 @@ export default function SlotManager() {
         .from("showcase_slots")
         .select(`
           id, slot_position, skin_id, category_id,
-          imported_skins (name, weapon_name, pattern_name, image, rarity_name, price)
+          imported_skins (name, weapon_name, pattern_name, image, rarity_name)
         `)
         .order("slot_position");
       if (slotsErr) throw slotsErr;
@@ -185,9 +182,7 @@ export default function SlotManager() {
   }, [pendingChanges, queryClient]);
 
   const handleAddSlot = useCallback(async () => {
-    if (!addSlotCatId || !addSlotSkinName.trim() || !addSlotPrice.trim()) return;
-    const price = parseFloat(addSlotPrice.replace(",", "."));
-    if (isNaN(price)) { toast.error("Preço inválido."); return; }
+    if (!addSlotCatId || !addSlotSkinName.trim()) return;
 
     setIsAddingSlot(true);
     try {
@@ -200,7 +195,6 @@ export default function SlotManager() {
       const { error: skinErr } = await supabase.from("imported_skins").insert({
         id: skinId,
         name: addSlotSkinName.trim(),
-        price,
       });
       if (skinErr) throw skinErr;
 
@@ -220,7 +214,6 @@ export default function SlotManager() {
       queryClient.invalidateQueries({ queryKey: ["showcase-skins"] });
       toast.success(`Slot adicionado em "${cat.label}"!`);
       setAddSlotSkinName("");
-      setAddSlotPrice("");
       setAddSlotCatId("");
       setShowAddSlotForm(false);
     } catch (err: any) {
@@ -228,7 +221,7 @@ export default function SlotManager() {
     } finally {
       setIsAddingSlot(false);
     }
-  }, [addSlotCatId, addSlotSkinName, addSlotPrice, categories, queryClient]);
+  }, [addSlotCatId, addSlotSkinName, categories, queryClient]);
 
   const handleDeleteCategory = useCallback(async (catId: string, catLabel: string) => {
     if (!confirm(`Tem certeza que deseja remover a categoria "${catLabel}" e todos os seus slots?`)) return;
@@ -277,32 +270,6 @@ export default function SlotManager() {
     }
   }, [categories, queryClient]);
 
-  const handleSavePrice = useCallback(async (skinId: string) => {
-    const priceStr = priceEdits.get(skinId);
-    if (priceStr === undefined) return;
-    const price = priceStr.trim() === "" ? null : parseFloat(priceStr.replace(",", "."));
-    if (price !== null && isNaN(price)) {
-      toast.error("Preço inválido.");
-      return;
-    }
-    setSavingPrices((prev) => new Set(prev).add(skinId));
-    try {
-      const { error } = await supabase
-        .from("imported_skins")
-        .update({ price })
-        .eq("id", skinId);
-      if (error) throw error;
-      setPriceEdits((prev) => { const next = new Map(prev); next.delete(skinId); return next; });
-      queryClient.invalidateQueries({ queryKey: ["admin-categories-slots"] });
-      queryClient.invalidateQueries({ queryKey: ["showcase-skins"] });
-      queryClient.invalidateQueries({ queryKey: ["catalog-skins"] });
-      toast.success("Preço salvo!");
-    } catch (err: any) {
-      toast.error(`Erro: ${err.message}`);
-    } finally {
-      setSavingPrices((prev) => { const next = new Set(prev); next.delete(skinId); return next; });
-    }
-  }, [priceEdits, queryClient]);
 
   // Count total published skins
   const publishedCount = useMemo(() => {
@@ -351,13 +318,13 @@ export default function SlotManager() {
           <div className="flex items-center justify-between">
             <div>
               <span className="text-sm font-semibold">Adicionar slot</span>
-              <p className="text-xs text-muted-foreground mt-0.5">Escolha a categoria, informe o nome da skin e defina o preço.</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Escolha a categoria e informe o nome da skin.</p>
             </div>
             <Button size="sm" variant="ghost" onClick={() => setShowAddSlotForm(false)}>
               <X className="size-4" />
             </Button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div>
               <label className="text-xs text-muted-foreground mb-1 block">Categoria</label>
               <select
@@ -379,20 +346,12 @@ export default function SlotManager() {
                 onChange={(e) => setAddSlotSkinName(e.target.value)}
               />
             </div>
-            <div>
-              <label className="text-xs text-muted-foreground mb-1 block">Preço</label>
-              <Input
-                placeholder="R$ 1.250,00"
-                value={addSlotPrice}
-                onChange={(e) => setAddSlotPrice(e.target.value)}
-              />
-            </div>
           </div>
           <div className="flex justify-end">
             <Button
               size="sm"
               onClick={handleAddSlot}
-              disabled={isAddingSlot || !addSlotCatId || !addSlotSkinName.trim() || !addSlotPrice.trim()}
+              disabled={isAddingSlot || !addSlotCatId || !addSlotSkinName.trim()}
             >
               {isAddingSlot ? <Loader2 className="size-3 mr-1 animate-spin" /> : <Plus className="size-3 mr-1" />}
               {isAddingSlot ? "Adicionando..." : "Adicionar slot"}
@@ -490,31 +449,6 @@ export default function SlotManager() {
                         <div className="p-2 space-y-1">
                           <p className="text-xs font-semibold truncate">{slot.imported_skins.weapon_name}</p>
                           <p className="text-[10px] text-muted-foreground truncate">{slot.imported_skins.pattern_name}</p>
-                          {/* Price editor */}
-                          {slot.skin_id && (
-                            <div className="flex items-center gap-1 mt-1">
-                              <span className="text-[10px] text-muted-foreground">R$</span>
-                              <Input
-                                className="h-7 text-xs px-1.5 flex-1"
-                                placeholder="Preço"
-                                value={priceEdits.has(slot.skin_id) ? priceEdits.get(slot.skin_id) : (slot.imported_skins.price?.toFixed(2) ?? "")}
-                                onChange={(e) => {
-                                  const skinId = slot.skin_id!;
-                                  setPriceEdits((prev) => new Map(prev).set(skinId, e.target.value));
-                                }}
-                              />
-                              {priceEdits.has(slot.skin_id) && (
-                                <Button
-                                  size="sm"
-                                  className="h-7 w-7 p-0"
-                                  onClick={() => handleSavePrice(slot.skin_id!)}
-                                  disabled={savingPrices.has(slot.skin_id)}
-                                >
-                                  {savingPrices.has(slot.skin_id) ? <Loader2 className="size-3 animate-spin" /> : <DollarSign className="size-3" />}
-                                </Button>
-                              )}
-                            </div>
-                          )}
                           <div className="flex gap-1">
                             <Button size="sm" variant="outline" className="flex-1 h-9 sm:h-8 text-[11px] sm:text-[10px] min-w-[44px]" onClick={() => { setModalSlotId(slot.id); setModalCategoryKey(cat.key); }}>
                               <RefreshCw className="size-3 mr-1" />
