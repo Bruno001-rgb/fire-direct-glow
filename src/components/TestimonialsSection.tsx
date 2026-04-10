@@ -44,7 +44,7 @@ const TestimonialsSection = () => {
             <span className="text-gradient-fire">clientes</span>
           </h2>
         </div>
-        <p className="text-xs sm:text-sm text-muted-foreground max-w-md">
+        <p className="text-sm text-muted-foreground max-w-md">
           Prints reais de negociações e feedbacks no WhatsApp.
         </p>
       </div>
@@ -65,7 +65,7 @@ const TestimonialsSection = () => {
               />
               {t.title && (
                 <div className="px-3 py-2 border-t border-primary/8">
-                  <p className="text-[10px] sm:text-xs text-muted-foreground font-medium truncate">
+                  <p className="text-xs sm:text-sm text-muted-foreground font-medium truncate">
                     {t.title}
                   </p>
                 </div>

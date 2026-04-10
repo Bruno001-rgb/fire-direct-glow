@@ -51,7 +51,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
             <div className="inline-flex items-center gap-2 mb-6">
               <div className="h-px w-6" style={{ background: '#E95A0C' }} />
               <span
-                className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.35em] px-3 py-1.5 rounded-sm backdrop-blur-sm"
+                className="text-xs font-bold uppercase tracking-[0.35em] px-3 py-1.5 rounded-sm backdrop-blur-sm"
                 style={{
                   background: 'rgba(233, 90, 12, 0.08)',
                   border: '1px solid rgba(233, 90, 12, 0.2)',
@@ -103,7 +103,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
                 <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#F5A006' }} />
                 <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#5A3DCC' }} />
               </div>
-              <span className="text-[10px] sm:text-[11px] text-muted-foreground uppercase tracking-widest">
+              <span className="text-xs sm:text-sm text-muted-foreground uppercase tracking-widest">
                 +2.000 negociações realizadas
               </span>
             </div>
@@ -130,7 +130,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
               <div className="flex items-center justify-between px-4 sm:px-5 py-3" style={{ borderBottom: '1px solid rgba(233, 90, 12, 0.1)' }}>
                 <div className="flex items-center gap-2">
                   <Flame className="size-4" style={{ color: '#E95A0C' }} />
-                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] font-heading" style={{ color: '#F5A006' }}>
+                  <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] font-heading" style={{ color: '#F5A006' }}>
                     FireSkins
                   </span>
                 </div>
@@ -191,14 +191,14 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
                   <div className="absolute bottom-3 left-3 w-4 h-4" style={{ borderBottom: '1px solid rgba(90, 61, 204, 0.3)', borderLeft: '1px solid rgba(90, 61, 204, 0.3)' }} />
                   <div className="absolute bottom-3 right-3 w-4 h-4" style={{ borderBottom: '1px solid rgba(90, 61, 204, 0.3)', borderRight: '1px solid rgba(90, 61, 204, 0.3)' }} />
 
-                  <span className="absolute top-3 right-8 text-[8px] font-mono tracking-widest" style={{ color: 'rgba(245, 160, 6, 0.2)' }}>REC</span>
-                  <span className="absolute bottom-3 left-8 text-[8px] font-mono tracking-widest" style={{ color: 'rgba(90, 61, 204, 0.25)' }}>00:00</span>
+                  <span className="absolute top-3 right-8 text-[10px] font-mono tracking-widest" style={{ color: 'rgba(245, 160, 6, 0.2)' }}>REC</span>
+                  <span className="absolute bottom-3 left-8 text-[10px] font-mono tracking-widest" style={{ color: 'rgba(90, 61, 204, 0.25)' }}>00:00</span>
                 </div>
               </div>
 
               {/* Card footer */}
               <div className="flex items-center justify-between px-4 sm:px-5 py-3" style={{ borderTop: '1px solid rgba(233, 90, 12, 0.08)' }}>
-                <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground font-heading">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground font-heading">
                   Sua loja de skins CS2
                 </span>
               </div>

@@ -36,7 +36,7 @@ const HeroSection = () => {
             <div className="inline-flex items-center gap-2.5 mb-5 sm:mb-8">
               <div className="h-px w-6 sm:w-8 bg-primary" />
               <span
-                className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.35em] px-2.5 sm:px-3 py-1.5 rounded-sm bg-primary/8 border border-primary/20 text-primary"
+                className="text-xs font-bold uppercase tracking-[0.35em] px-2.5 sm:px-3 py-1.5 rounded-sm bg-primary/8 border border-primary/20 text-primary"
               >
                 Skins CS2 • Pix • Cartão • Crypto
               </span>
@@ -50,7 +50,7 @@ const HeroSection = () => {
             </h1>
 
             {/* Subtitle */}
-            <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-6 sm:mb-8">
+            <p className="text-base sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-6 sm:mb-8">
               Do seu primeiro drop até aquela knife dos sonhos. Escolhe, paga no Pix e recebe na hora.
             </p>
 
@@ -76,7 +76,7 @@ const HeroSection = () => {
               {trustItems.map((item) => (
                 <div key={item.label} className="flex items-center gap-1.5">
                   <item.icon className="size-3.5 text-primary" />
-                  <span className="text-[10px] sm:text-[11px] text-muted-foreground uppercase tracking-widest font-semibold">
+                  <span className="text-xs sm:text-sm text-muted-foreground uppercase tracking-widest font-semibold">
                     {item.label}
                   </span>
                 </div>

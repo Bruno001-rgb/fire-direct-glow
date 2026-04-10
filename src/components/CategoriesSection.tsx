@@ -55,11 +55,11 @@ const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
     <div className="p-3 sm:p-4 flex flex-col gap-1 flex-1">
       <div className="flex items-center gap-1.5">
         <Star className="size-3 sm:size-3.5 text-primary fill-primary flex-shrink-0" />
-        <p className="text-xs sm:text-sm font-extrabold text-primary tracking-wide truncate">{item.name}</p>
+        <p className="text-sm font-extrabold text-primary tracking-wide truncate">{item.name}</p>
       </div>
-      <p className="text-[10px] sm:text-xs text-muted-foreground font-medium">{item.skin}</p>
+      <p className="text-xs sm:text-sm text-muted-foreground font-medium">{item.skin}</p>
       <div className="flex items-center justify-between mt-auto pt-2">
-        <span className={`text-[8px] sm:text-[9px] font-bold uppercase tracking-widest ${rarityText[item.rarity] || "text-muted-foreground"}`}>
+        <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-widest ${rarityText[item.rarity] || "text-muted-foreground"}`}>
           {item.rarity}
         </span>
       </div>
@@ -97,7 +97,7 @@ const CategoriesSection = () => {
           <h2 className="section-heading font-heading">
             Skins pra <span className="text-gradient-fire">Todo Estilo</span>
           </h2>
-          <p className="mt-1 text-xs sm:text-sm text-muted-foreground">De pistolas a facas, sempre tem algo no seu estilo</p>
+          <p className="mt-1 text-sm text-muted-foreground">De pistolas a facas, sempre tem algo no seu estilo</p>
         </div>
 
         {/* Grid */}
