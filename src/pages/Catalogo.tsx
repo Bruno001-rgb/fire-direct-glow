@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import CatalogoFilters, { CatalogoDesktopLayout } from "@/components/catalogo/CatalogoFilters";
 import CatalogoGrid from "@/components/catalogo/CatalogoGrid";
