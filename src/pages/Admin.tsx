@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import SlotManager from "@/components/admin/SlotManager";
 import TestimonialsManager from "@/components/admin/TestimonialsManager";
+import CatalogManager from "@/components/admin/CatalogManager";
 // import AdminGuard from "@/components/admin/AdminGuard";
 import { toast } from "sonner";
 
@@ -67,17 +68,25 @@ export default function Admin() {
         </header>
 
         <main className="container py-6">
-          <Tabs defaultValue="skins">
+          <Tabs defaultValue="vitrine">
             <TabsList className="mb-6">
-              <TabsTrigger value="skins">Skins</TabsTrigger>
+              <TabsTrigger value="vitrine">Vitrine</TabsTrigger>
+              <TabsTrigger value="catalogo">Catálogo</TabsTrigger>
               <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="skins">
+            <TabsContent value="vitrine">
               <p className="text-sm text-muted-foreground mb-6">
-                Selecione as skins que aparecem em cada categoria da landing page.
+                Skins da página inicial. Aparecem automaticamente no catálogo.
               </p>
               <SlotManager />
+            </TabsContent>
+
+            <TabsContent value="catalogo">
+              <p className="text-sm text-muted-foreground mb-6">
+                Skins extras que aparecem apenas no catálogo.
+              </p>
+              <CatalogManager />
             </TabsContent>
 
             <TabsContent value="depoimentos">

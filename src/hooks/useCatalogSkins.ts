@@ -13,8 +13,8 @@ export function useCatalogSkins() {
   return useQuery({
     queryKey: ["catalog-skins"],
     queryFn: async (): Promise<ByMykelSkin[]> => {
-      // Fetch DB skins and byMykel API in parallel
-      const [dbResult, apiRes] = await Promise.all([
+      // Fetch showcase slots, catalog-only skins, and byMykel API in parallel
+      const [dbResult, catalogResult, apiRes] = await Promise.all([
         supabase
           .from("showcase_slots")
           .select(`
@@ -24,10 +24,25 @@ export function useCatalogSkins() {
             )
           `)
           .not("skin_id", "is", null),
+        supabase
+          .from("catalog_skins")
+          .select(`
+            skin_id,
+            imported_skins:skin_id (
+              id, name, weapon_name, pattern_name, rarity_name, rarity_color, image, price
+            )
+          `),
         fetch(BYMYKEL_API).then((r) => (r.ok ? r.json() : [])).catch(() => []),
       ]);
 
       if (dbResult.error) throw dbResult.error;
+      if (catalogResult.error) throw catalogResult.error;
+
+      // Combine both sources
+      const allSlots = [
+        ...(dbResult.data || []),
+        ...(catalogResult.data || []),
+      ];
 
       // Build a lookup from byMykel skins by normalized name for float matching
       const apiSkins = apiRes as any[];
@@ -47,7 +62,7 @@ export function useCatalogSkins() {
       const seen = new Set<string>();
       const skins: ByMykelSkin[] = [];
 
-      for (const slot of dbResult.data || []) {
+      for (const slot of allSlots) {
         const s = slot.imported_skins as any;
         if (!s || seen.has(s.id)) continue;
         seen.add(s.id);
