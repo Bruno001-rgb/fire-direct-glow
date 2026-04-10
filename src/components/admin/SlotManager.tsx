@@ -414,7 +414,7 @@ export default function SlotManager() {
         </div>
       )}
 
-      {categories?.map((cat) => {
+      {filteredCategories?.map((cat) => {
         const effectiveSlots = cat.slots.map(getEffectiveSlot);
         const filledCount = effectiveSlots.filter((s) => s.skin_id).length;
         const isDeleting = deletingCatId === cat.id;
