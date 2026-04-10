@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import { Star, Loader2, ArrowRight } from "lucide-react";
-import WhatsAppIcon from "@/components/WhatsAppIcon";
+
 import { Button } from "@/components/ui/button";
 import { useShowcaseSkins, type ShowcaseSkin } from "@/hooks/useShowcaseSkins";
 
-const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
+
 
 const rarityColor: Record<string, string> = {
   Covert: "bg-red-500",
@@ -34,9 +34,7 @@ const rarityText: Record<string, string> = {
 
 const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
   <a
-    href={WHATSAPP_URL}
-    target="_blank"
-    rel="noopener noreferrer"
+    href="/catalogo"
     className="group relative flex flex-col overflow-hidden rounded-xl border border-primary/10 bg-card/60 hover:border-primary/30 transition-all duration-300 hover:shadow-[0_0_20px_-4px_hsl(var(--primary)/0.15)]"
   >
 
@@ -67,13 +65,6 @@ const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
       </div>
     </div>
 
-    {/* Negociar button - hidden on desktop, visible on hover; always visible on mobile */}
-    <div className="px-3 pb-3 sm:px-4 sm:pb-4 md:opacity-0 md:translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out">
-      <span className="flex items-center justify-center gap-1.5 w-full py-2 rounded-xl bg-gradient-to-br from-[#E95A0C] to-[#C94A08] text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-wider shadow-lg shadow-primary/15 group-hover:shadow-xl group-hover:shadow-primary/25 group-hover:scale-[1.02] transition-all duration-300 ease-out">
-        <WhatsAppIcon className="size-3" />
-        Negociar
-      </span>
-    </div>
 
     {/* Rarity bar */}
     <div className={`h-[3px] w-full ${rarityColor[item.rarity] || "bg-muted"}`} />
@@ -109,9 +100,9 @@ const CategoriesSection = () => {
         {/* Header */}
         <div className="mb-6 sm:mb-8">
           <h2 className="section-heading font-heading">
-            Confira <span className="text-gradient-fire">Nossas Skins</span>
+            Skins pra <span className="text-gradient-fire">Todo Estilo</span>
           </h2>
-          <p className="mt-1 text-xs sm:text-sm text-muted-foreground">Skins para todos os estilos e bolsos</p>
+          <p className="mt-1 text-xs sm:text-sm text-muted-foreground">De pistolas a facas, sempre tem algo no seu estilo</p>
         </div>
 
         {/* Grid */}
