@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X } from "lucide-react";
+import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X, Search } from "lucide-react";
 import SkinSearchModal from "./SkinSearchModal";
 import { toast } from "sonner";
 
