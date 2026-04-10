@@ -47,8 +47,6 @@ export default function SlotManager() {
   
   const [isAddingSlot, setIsAddingSlot] = useState(false);
   const [deletingCatId, setDeletingCatId] = useState<string | null>(null);
-  const [priceEdits, setPriceEdits] = useState<Map<string, string>>(new Map());
-  const [savingPrices, setSavingPrices] = useState<Set<string>>(new Set());
   const [scrollToCatId, setScrollToCatId] = useState<string | null>(null);
   const catRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
