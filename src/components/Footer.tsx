@@ -47,7 +47,7 @@ const Footer = () => {
               >
                 Sua loja de confiança em skins CS2
               </p>
-              <h3 className="text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-black uppercase font-heading leading-[1.1]">
+              <h3 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase font-heading leading-[1.1]">
                 <span className="text-foreground">Venda & </span>
                 <br />
                 <span

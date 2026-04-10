@@ -64,7 +64,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
             </div>
 
             {/* Headline */}
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tight font-heading leading-[0.88] mb-5">
+            <h2 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tight font-heading leading-[0.88] mb-5">
               <span
                 className="bg-clip-text text-transparent block"
                 style={{ backgroundImage: 'linear-gradient(135deg, #E95A0C 0%, #F5A006 60%, #E95A0C 100%)' }}
