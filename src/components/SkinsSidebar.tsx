@@ -52,7 +52,7 @@ const SkinsSidebar = () => {
                   </p>
                 </div>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </div>
