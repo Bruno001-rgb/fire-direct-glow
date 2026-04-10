@@ -285,6 +285,24 @@ export default function SlotManager() {
     return uniqueSkins.size;
   }, [categories, getEffectiveSlot]);
 
+  const filteredCategories = useMemo(() => {
+    if (!categories || !searchFilter.trim()) return categories;
+    const term = searchFilter.toLowerCase();
+    return categories.filter((cat) => {
+      if (cat.label.toLowerCase().includes(term) || cat.key.toLowerCase().includes(term)) return true;
+      return cat.slots.some((slot) => {
+        const effective = getEffectiveSlot(slot);
+        const skin = effective.imported_skins;
+        if (!skin) return false;
+        return (
+          skin.name?.toLowerCase().includes(term) ||
+          skin.weapon_name?.toLowerCase().includes(term) ||
+          skin.pattern_name?.toLowerCase().includes(term)
+        );
+      });
+    });
+  }, [categories, searchFilter, getEffectiveSlot]);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
