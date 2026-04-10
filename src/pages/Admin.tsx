@@ -77,16 +77,16 @@ export default function Admin() {
 
             <TabsContent value="vitrine">
               <p className="text-sm text-muted-foreground mb-6">
-                Skins da página inicial. Aparecem automaticamente no catálogo.
+                Skins que aparecem na vitrine da página inicial.
               </p>
-              <SlotManager />
+              <CatalogManager />
             </TabsContent>
 
             <TabsContent value="catalogo">
               <p className="text-sm text-muted-foreground mb-6">
-                Skins extras que aparecem apenas no catálogo.
+                Gerencie categorias e slots do catálogo completo. Skins da vitrine aparecem aqui automaticamente.
               </p>
-              <CatalogManager />
+              <SlotManager />
             </TabsContent>
 
             <TabsContent value="depoimentos">
