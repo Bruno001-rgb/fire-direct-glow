@@ -69,15 +69,23 @@ export default function Admin() {
         <main className="container py-6">
           <Tabs defaultValue="skins">
             <TabsList className="mb-6">
-              <TabsTrigger value="skins">Skins</TabsTrigger>
+              <TabsTrigger value="vitrine">Vitrine</TabsTrigger>
+              <TabsTrigger value="catalogo">Catálogo</TabsTrigger>
               <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
             </TabsList>
 
-            <TabsContent value="skins">
+            <TabsContent value="vitrine">
               <p className="text-sm text-muted-foreground mb-6">
-                Selecione as skins que aparecem em cada categoria da landing page.
+                Skins da página inicial. Aparecem automaticamente no catálogo.
               </p>
               <SlotManager />
+            </TabsContent>
+
+            <TabsContent value="catalogo">
+              <p className="text-sm text-muted-foreground mb-6">
+                Skins extras que aparecem apenas no catálogo.
+              </p>
+              <CatalogManager />
             </TabsContent>
 
             <TabsContent value="depoimentos">
