@@ -1,22 +1,11 @@
 
 
-# Centralizar WHATSAPP_URL
+# Etapa 3 — Performance de fontes
 
-## O que muda
-1. Criar `src/constants.ts` exportando `WHATSAPP_URL`
-2. Em 6 arquivos, remover a declaração local e importar de `@/constants`
+## Mudanças
 
-## Arquivos
+1. **`src/index.css`** — Remover as 2 linhas de `@import url(...)` das fontes Inter e Rajdhani
+2. **`index.html`** — Adicionar no `<head>` (antes de outros stylesheets) os 6 tags `<link>` para preconnect, preload e stylesheet das fontes
 
-| Arquivo | Ação |
-|---|---|
-| `src/constants.ts` | Criar com `export const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";` |
-| `src/components/CategoriesSection.tsx` | Remover linha `const WHATSAPP_URL = ...`, adicionar `import { WHATSAPP_URL } from "@/constants";` |
-| `src/components/FinalCTA.tsx` | Idem |
-| `src/components/Footer.tsx` | Idem |
-| `src/components/Header.tsx` | Idem |
-| `src/components/HeroSection.tsx` | Idem |
-| `src/components/SkinsSidebar.tsx` | Idem |
-
-Nenhuma mudança de comportamento, estilo ou estrutura.
+Nenhuma outra mudança.
 
