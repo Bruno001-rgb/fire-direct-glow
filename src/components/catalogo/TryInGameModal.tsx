@@ -3,7 +3,6 @@ import { X, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
-import { whatsappDirectLink } from "@/constants";
 
 interface Props {
   skin: ByMykelSkin;
@@ -191,7 +190,9 @@ export default function TryInGameModal({ skin, floatValue, onClose }: Props) {
 
   const steps = STEPS(serverCmd, skinCmd);
 
-  const whatsappHref = whatsappDirectLink(`Olá! Testei a ${skin.name} e quero comprar!`);
+  const whatsappMsg = encodeURIComponent(
+    `Olá! Testei a ${skin.name} e quero comprar!`
+  );
 
   return (
     <div
@@ -242,7 +243,7 @@ export default function TryInGameModal({ skin, floatValue, onClose }: Props) {
         <div className="mt-8">
           <Button variant="fire" className="w-full h-12 text-base" asChild>
             <a
-              href={whatsappHref}
+              href={`https://wa.me/?text=${whatsappMsg}`}
               target="_blank"
               rel="noopener noreferrer"
             >

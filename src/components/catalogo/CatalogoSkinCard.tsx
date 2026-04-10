@@ -1,5 +1,4 @@
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
-import { track } from "@/lib/track";
 
 interface Props {
   skin: ByMykelSkin;
@@ -11,7 +10,7 @@ export default function CatalogoSkinCard({ skin, onClick }: Props) {
 
   return (
     <button
-      onClick={() => { track("skin_click", { location: "catalogo", skin: skin.name }); onClick(skin); }}
+      onClick={() => onClick(skin)}
       className="group text-left rounded-lg overflow-hidden transition-transform duration-200 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       style={{
         background: "#111",

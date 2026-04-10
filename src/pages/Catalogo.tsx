@@ -8,7 +8,6 @@ import { filterSkins, WEAR_FILTERS, type SortMode } from "@/hooks/useByMykelSkin
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
 import { useCatalogSkins } from "@/hooks/useCatalogSkins";
 import { Button } from "@/components/ui/button";
-import { Info } from "lucide-react";
 
 export default function Catalogo() {
   const { data: skins, isLoading, isError, refetch } = useCatalogSkins();
@@ -79,28 +78,12 @@ export default function Catalogo() {
       <div className="lg:hidden">
         <CatalogoFilters {...filterProps} />
         <main className="container py-6 mt-14 sm:mt-16">
-          <div className="flex items-start gap-3 p-4 bg-primary/5 border border-primary/10 rounded-xl mb-6">
-            <Info className="size-5 text-primary shrink-0 mt-0.5" />
-            <p className="text-sm text-muted-foreground">
-              Explore todas as skins do CS2 e escolha as que você quer.{" "}
-              <span className="text-foreground font-medium">A gente encontra pra você pelo melhor preço.</span>
-            </p>
-          </div>
           {gridContent}
         </main>
       </div>
 
       {/* Desktop: sidebar layout with grid inside — no page scroll */}
       <div className="hidden lg:block mt-16 h-[calc(100vh-4rem)] overflow-hidden">
-        <div className="container pt-4">
-          <div className="flex items-start gap-3 p-4 bg-primary/5 border border-primary/10 rounded-xl mb-4">
-            <Info className="size-5 text-primary shrink-0 mt-0.5" />
-            <p className="text-sm text-muted-foreground">
-              Explore todas as skins do CS2 e escolha as que você quer.{" "}
-              <span className="text-foreground font-medium">A gente encontra pra você pelo melhor preço.</span>
-            </p>
-          </div>
-        </div>
         <CatalogoDesktopLayout
           {...filterProps}
           wearItems={wearItems}

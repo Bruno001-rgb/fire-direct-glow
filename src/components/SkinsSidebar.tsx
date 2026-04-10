@@ -1,34 +1,50 @@
 import { useShowcaseSkins } from "@/hooks/useShowcaseSkins";
 
+const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
+
+const rarityColor: Record<string, string> = {
+  Covert: "text-red-400",
+  Contraband: "text-amber-400",
+  Extraordinary: "text-fuchsia-400",
+  Remarkable: "text-purple-300",
+  Exotic: "text-pink-300",
+};
+
 const SkinsSidebar = () => {
   const { data: skins } = useShowcaseSkins();
+
   if (!skins || skins.length === 0) return null;
+
+  // Duplicate for infinite scroll loop
   const items = [...skins, ...skins];
 
   return (
-    <aside className="hidden lg:flex flex-col w-[220px] shrink-0 border-l border-primary/10 bg-card/40 relative overflow-hidden">
-      <div className="sticky top-0 z-10 bg-card/80 backdrop-blur-sm border-b border-primary/10 px-4 py-3">
-        <p className="text-xs font-bold uppercase tracking-widest text-primary">Catálogo</p>
-      </div>
-
-      <div className="flex-1 overflow-hidden relative">
-        <div className="animate-marquee-vertical flex flex-col gap-3 p-3">
+    <aside className="hidden lg:block w-[110px] xl:w-[130px] flex-shrink-0 sticky top-16 h-[calc(100vh-4rem)] overflow-hidden border-r border-primary/10 bg-card/30">
+      <div className="sidebar-scroll-track">
+        <div className="sidebar-scroll-content">
           {items.map((skin, i) => (
             <a
-              key={`${skin.name}-${i}`}
-              href="/catalogo"
-              className="group block rounded-lg border border-primary/10 bg-background/60 hover:border-primary/30 transition-all overflow-hidden"
+              key={`${skin.name}-${skin.skin}-${i}`}
+              href={WHATSAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-1.5 xl:p-2 group"
             >
-              <div className="aspect-[4/3] overflow-hidden bg-gradient-to-br from-background/80 to-card">
-                <img
-                  src={skin.image}
-                  alt={skin.name}
-                  loading="lazy"
-                  className="w-full h-full object-contain p-2 group-hover:scale-110 transition-transform duration-500"
-                />
-              </div>
-              <div className="px-3 py-2">
-                <p className="text-xs font-semibold text-foreground truncate">{skin.name}</p>
+              <div className="rounded-lg overflow-hidden border border-primary/10 group-hover:border-primary/40 transition-colors duration-300 bg-card/50">
+                <div className="aspect-square overflow-hidden bg-background/50">
+                  <img
+                    src={skin.image}
+                    alt={`${skin.name} ${skin.skin}`}
+                    loading="lazy"
+                    className="w-full h-full object-contain p-1 group-hover:scale-110 transition-transform duration-500"
+                  />
+                </div>
+                <div className="px-1.5 py-1 text-center">
+                  <p className="text-[8px] xl:text-[9px] font-bold truncate leading-tight">{skin.name}</p>
+                  <p className={`text-[7px] xl:text-[8px] font-bold uppercase tracking-wider ${rarityColor[skin.rarity] || "text-muted-foreground"}`}>
+                    {skin.rarity}
+                  </p>
+                </div>
               </div>
             </a>
           ))}

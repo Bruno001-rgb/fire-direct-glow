@@ -3,8 +3,6 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import WhatsAppIcon from "@/components/WhatsAppIcon";
-import { track } from "@/lib/track";
-import { whatsappSkinLink } from "@/constants";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
 import { useLoadout, LOADOUT_SLOTS, type SlotKey } from "@/contexts/LoadoutContext";
 import { toast } from "sonner";
@@ -228,7 +226,9 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
 
   const rarityColor = skin.rarity?.color || "#888";
 
-  const whatsappHref = whatsappSkinLink(skin.name, floatValue);
+  const whatsappMsg = encodeURIComponent(
+    `Olá, quero consultar a skin ${skin.name} com float ${floatValue.toFixed(2)}.`
+  );
 
   const handleAddToLoadout = () => {
     const slot = LOADOUT_SLOTS.find((s) => {
@@ -238,7 +238,7 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
     });
     if (slot) {
       addToSlot(slot.key as SlotKey, skin);
-      toast.success(`${skin.name} adicionada à sua lista (${slot.label})`);
+      toast.success(`${skin.name} adicionada ao loadout (${slot.label})`);
     } else {
       toast.info("Essa skin não corresponde a nenhum slot do loadout.");
     }
@@ -396,16 +396,14 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
             <div className="flex flex-col gap-3 pt-2">
               <Button variant="fire" className="w-full h-12 text-base" asChild>
                 <a
-                  href={whatsappHref}
+                  href={`https://wa.me/?text=${whatsappMsg}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  onClick={() => track("cta_click", { location: "skin_detail", target: "whatsapp", skin: skin.name })}
                 >
                   <WhatsAppIcon className="size-5" />
-                  Quero essa skin
+                  Consultar esta skin no WhatsApp
                 </a>
               </Button>
-              <p className="text-xs text-center text-muted-foreground -mt-1">Consulte disponibilidade e valor direto com a gente</p>
               {canTryInGame(skin) && (
                 <button
                   onClick={() => setShowTryModal(true)}
@@ -431,7 +429,7 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
                 </button>
               )}
               <Button variant="fire-outline" className="w-full h-12 text-base" onClick={handleAddToLoadout}>
-                Adicionar à minha lista
+                Adicionar ao loadout
               </Button>
             </div>
           </div>

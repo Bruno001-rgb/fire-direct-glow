@@ -2,7 +2,8 @@ import { Instagram } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 import logoBlackbot from "@/assets/logo-blackbot.webp";
-import { WHATSAPP_COMMUNITY } from "@/constants";
+
+const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
 
 const Footer = () => {
   return (
@@ -125,44 +126,24 @@ const Footer = () => {
                 className="h-48 sm:h-72 lg:h-[26rem] xl:h-[36rem] w-auto object-contain -my-8 sm:-my-16 lg:-my-28 xl:-my-40"
                 loading="lazy"
               />
-              <div className="flex items-center gap-4 mt-2">
-                <a
-                  href="https://instagram.com/fireskinscs2"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 group"
+              <a
+                href="https://instagram.com/fireskinscs2"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 mt-2 group"
+              >
+                <div
+                  className="flex items-center justify-center w-11 h-11 rounded-xl transition-all duration-300 group-hover:scale-110"
+                  style={{
+                    background: "linear-gradient(135deg, #E95A0C, #F5A006)",
+                  }}
                 >
-                  <div
-                    className="flex items-center justify-center w-11 h-11 rounded-xl transition-all duration-300 group-hover:scale-110"
-                    style={{
-                      background: "linear-gradient(135deg, #E95A0C, #F5A006)",
-                    }}
-                  >
-                    <Instagram className="size-5 text-white" />
-                  </div>
-                  <span className="text-base font-semibold text-white/70 group-hover:text-white transition-colors">
-                    fireskinscs2
-                  </span>
-                </a>
-                <a
-                  href={WHATSAPP_COMMUNITY}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 group"
-                >
-                  <div
-                    className="flex items-center justify-center w-11 h-11 rounded-xl transition-all duration-300 group-hover:scale-110"
-                    style={{
-                      background: "linear-gradient(135deg, #E95A0C, #F5A006)",
-                    }}
-                  >
-                    <WhatsAppIcon className="size-5 text-white" />
-                  </div>
-                  <span className="text-base font-semibold text-white/70 group-hover:text-white transition-colors">
-                    Comunidade
-                  </span>
-                </a>
-              </div>
+                  <Instagram className="size-5 text-white" />
+                </div>
+                <span className="text-base font-semibold text-white/70 group-hover:text-white transition-colors">
+                  fireskinscs2
+                </span>
+              </a>
             </div>
           </div>
         </div>

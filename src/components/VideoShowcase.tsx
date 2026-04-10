@@ -1,29 +1,15 @@
 import { useState, useRef, useEffect } from "react";
-import { Play, Crosshair, CreditCard, Zap, X } from "lucide-react";
+import { Play, Flame, ArrowRight, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import logoFireskins from "@/assets/logo-fireskins.webp";
 
-const STEPS = [
-  {
-    number: "01",
-    icon: Crosshair,
-    title: "Escolhe a skin",
-    description: "Navegue pelo catálogo e encontre a skin que combina com seu estilo.",
-  },
-  {
-    number: "02",
-    icon: CreditCard,
-    title: "Paga como quiser",
-    description: "Pix, cartão ou crypto. Você escolhe o que for melhor.",
-  },
-  {
-    number: "03",
-    icon: Zap,
-    title: "Recebe na hora",
-    description: "Skin enviada direto pro seu inventário Steam. Sem espera.",
-  },
-];
+interface VideoShowcaseProps {
+  videoSrc?: string;
+}
 
-const VideoShowcase = () => {
+const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const modalVideoRef = useRef<HTMLVideoElement>(null);
 
   const openFullscreen = () => {
@@ -71,67 +57,176 @@ const VideoShowcase = () => {
         }}
       />
 
+      {/* Floating particles */}
+      <div className="absolute top-1/4 left-1/4 w-1 h-1 rounded-full animate-pulse" style={{ background: '#E95A0C', boxShadow: '0 0 8px #E95A0C' }} />
+      <div className="absolute top-1/3 right-1/3 w-0.5 h-0.5 rounded-full animate-pulse" style={{ background: '#F5A006', boxShadow: '0 0 6px #F5A006', animationDelay: '1s' }} />
+      <div className="absolute bottom-1/3 left-1/3 w-0.5 h-0.5 rounded-full animate-pulse" style={{ background: '#5A3DCC', boxShadow: '0 0 6px #5A3DCC', animationDelay: '2s' }} />
+      <div className="absolute top-2/3 right-1/4 w-1 h-1 rounded-full animate-pulse" style={{ background: '#E95A0C', boxShadow: '0 0 10px #E95A0C', animationDelay: '0.5s' }} />
+      <div className="absolute bottom-1/4 right-1/2 w-0.5 h-0.5 rounded-full animate-pulse" style={{ background: '#F5A006', boxShadow: '0 0 4px #F5A006', animationDelay: '1.5s' }} />
+
       {/* ── Content ── */}
       <div className="container relative z-10 py-10 sm:py-14 lg:py-16">
-        {/* Header */}
-        <div className="text-center mb-10 sm:mb-14">
-          <div className="inline-flex items-center gap-2 mb-5">
-            <div className="h-px w-6" style={{ background: '#E95A0C' }} />
-            <span
-              className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.35em] px-3 py-1.5 rounded-sm"
-              style={{
-                background: 'rgba(233, 90, 12, 0.08)',
-                border: '1px solid rgba(233, 90, 12, 0.2)',
-                color: '#F5A006',
-              }}
-            >
-              Simples e rápido
-            </span>
-            <div className="h-px w-6" style={{ background: '#E95A0C' }} />
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center max-w-6xl mx-auto">
+
+          {/* ── Left: Text block ── */}
+          <div className="text-center lg:text-left">
+            {/* Premium label */}
+            <div className="inline-flex items-center gap-2 mb-6">
+              <div className="h-px w-6" style={{ background: '#E95A0C' }} />
+              <span
+                className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.35em] px-3 py-1.5 rounded-sm backdrop-blur-sm"
+                style={{
+                  background: 'rgba(233, 90, 12, 0.08)',
+                  border: '1px solid rgba(233, 90, 12, 0.2)',
+                  color: '#F5A006',
+                }}
+              >
+                FireSkins Apresenta
+              </span>
+              <div className="h-px w-6 hidden lg:block" style={{ background: '#E95A0C' }} />
+            </div>
+
+            {/* Headline */}
+            <h2 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tight font-heading leading-[0.88] mb-5">
+              <span
+                className="bg-clip-text text-transparent block"
+                style={{ backgroundImage: 'linear-gradient(135deg, #E95A0C 0%, #F5A006 60%, #E95A0C 100%)' }}
+              >
+                Conheça
+              </span>
+              <span className="text-foreground block mt-1">
+                a FireSkins
+              </span>
+            </h2>
+
+            {/* Subtitle */}
+            <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-8">
+              Assista ao vídeo e descubra como comprar, vender e negociar suas skins com rapidez e segurança.
+            </p>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4">
+              <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" onClick={openFullscreen}>
+                <Play className="size-4 fill-current" />
+                Assistir vídeo
+              </Button>
+
+              <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" asChild>
+                <a href="#catalogo">
+                  Ver catálogo
+                  <ArrowRight className="size-4 ml-1" />
+                </a>
+              </Button>
+            </div>
+
+            {/* Trust line */}
+            <div className="mt-8 flex items-center gap-2 justify-center lg:justify-start">
+              <div className="flex -space-x-1">
+                <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#E95A0C' }} />
+                <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#F5A006' }} />
+                <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#5A3DCC' }} />
+              </div>
+              <span className="text-[10px] sm:text-[11px] text-muted-foreground uppercase tracking-widest">
+                +2.000 negociações realizadas
+              </span>
+            </div>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight font-heading leading-[0.9] mb-3">
-            <span className="text-foreground">Como </span>
-            <span className="text-primary">Funciona</span>
-          </h2>
-          <p className="text-sm sm:text-base text-muted-foreground">3 passos e a skin é sua</p>
-        </div>
+          {/* ── Right: Video Preview Card ── */}
+          <div className="relative">
+            {/* Outer glow */}
+            <div className="absolute -inset-4 rounded-lg opacity-60 blur-2xl"
+              style={{ background: 'linear-gradient(135deg, rgba(233, 90, 12, 0.08), rgba(90, 61, 204, 0.06))' }}
+            />
 
-        {/* Steps grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl mx-auto mb-12 sm:mb-16">
-          {STEPS.map((step) => (
+            {/* Glass card */}
             <div
-              key={step.number}
-              className="relative rounded-xl p-6 sm:p-8 overflow-hidden border border-primary/10 bg-card/60"
+              className="relative rounded-lg overflow-hidden"
+              style={{
+                background: 'linear-gradient(145deg, rgba(20, 15, 35, 0.8), rgba(10, 8, 20, 0.95))',
+                border: '1px solid rgba(233, 90, 12, 0.15)',
+                boxShadow: '0 0 1px rgba(233, 90, 12, 0.4), 0 0 40px rgba(233, 90, 12, 0.06), 0 20px 60px rgba(0,0,0,0.5)',
+                backdropFilter: 'blur(20px)',
+              }}
             >
-              {/* Large number background */}
-              <span className="absolute top-3 right-4 text-5xl sm:text-6xl font-black font-heading text-primary/[0.07] select-none leading-none">
-                {step.number}
-              </span>
+              {/* Card header */}
+              <div className="flex items-center justify-between px-4 sm:px-5 py-3" style={{ borderBottom: '1px solid rgba(233, 90, 12, 0.1)' }}>
+                <div className="flex items-center gap-2">
+                  <Flame className="size-4" style={{ color: '#E95A0C' }} />
+                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] font-heading" style={{ color: '#F5A006' }}>
+                    FireSkins
+                  </span>
+                </div>
+              </div>
 
-              <div className="relative z-10 flex flex-col gap-3">
-                <step.icon className="size-6 text-primary" />
-                <h3 className="text-base sm:text-lg font-bold text-foreground">{step.title}</h3>
-                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{step.description}</p>
+              {/* Video area */}
+              <div className="relative" style={{ aspectRatio: '16/9' }}>
+                <div className="absolute inset-0">
+                  <div className="absolute inset-0 bg-black" />
+
+                  {/* Low-poly triangles */}
+                  <svg className="absolute inset-0 w-full h-full opacity-[0.04]" viewBox="0 0 400 225" preserveAspectRatio="none">
+                    <polygon points="0,225 100,180 50,120" fill="#E95A0C" />
+                    <polygon points="100,180 200,225 150,140" fill="#5A3DCC" />
+                    <polygon points="200,225 300,190 250,130" fill="#E95A0C" />
+                    <polygon points="300,190 400,225 350,150" fill="#5A3DCC" />
+                    <polygon points="50,120 150,80 100,40" fill="#5A3DCC" />
+                    <polygon points="150,80 250,130 200,60" fill="#E95A0C" />
+                    <polygon points="250,130 350,90 300,30" fill="#5A3DCC" />
+                    <polygon points="350,90 400,0 400,150" fill="#E95A0C" />
+                    <polygon points="0,120 50,60 100,100" fill="#E95A0C" />
+                    <polygon points="0,0 100,40 50,80" fill="#5A3DCC" />
+                  </svg>
+
+                  {/* Center logo — FIXED: sane size instead of 66rem */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
+                    <img src={logoFireskins} alt="FireSkins" className="w-40 h-40 sm:w-56 sm:h-56 object-contain opacity-30" />
+                  </div>
+
+                  {/* Inner vignette */}
+                  <div className="absolute inset-0" style={{ boxShadow: 'inset 0 0 80px 20px rgba(0,0,0,0.5)' }} />
+
+                  {/* Orange ambient glow */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 sm:w-48 sm:h-48 rounded-full"
+                    style={{ background: 'radial-gradient(circle, rgba(233, 90, 12, 0.08) 0%, transparent 70%)' }}
+                  />
+
+                  {/* Play button */}
+                  <div className="absolute inset-0 flex items-center justify-center z-10">
+                    <div className="relative group/btn cursor-pointer" onClick={openFullscreen}>
+                      <div className="absolute inset-0 rounded-full animate-ping opacity-20" style={{ background: 'rgba(233, 90, 12, 0.3)' }} />
+                      <div
+                        className="w-14 h-14 sm:w-20 sm:h-20 rounded-full flex items-center justify-center transition-all duration-300"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(233, 90, 12, 0.15), rgba(245, 160, 6, 0.1))',
+                          border: '2px solid rgba(233, 90, 12, 0.5)',
+                          boxShadow: '0 0 30px rgba(233, 90, 12, 0.2), 0 0 60px rgba(233, 90, 12, 0.08), inset 0 0 20px rgba(233, 90, 12, 0.05)',
+                        }}
+                      >
+                        <Play className="size-5 sm:size-8 ml-0.5 sm:ml-1" style={{ color: '#F5A006', fill: '#F5A006' }} />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* HUD corners */}
+                  <div className="absolute top-3 left-3 w-4 h-4" style={{ borderTop: '1px solid rgba(233, 90, 12, 0.3)', borderLeft: '1px solid rgba(233, 90, 12, 0.3)' }} />
+                  <div className="absolute top-3 right-3 w-4 h-4" style={{ borderTop: '1px solid rgba(233, 90, 12, 0.3)', borderRight: '1px solid rgba(233, 90, 12, 0.3)' }} />
+                  <div className="absolute bottom-3 left-3 w-4 h-4" style={{ borderBottom: '1px solid rgba(90, 61, 204, 0.3)', borderLeft: '1px solid rgba(90, 61, 204, 0.3)' }} />
+                  <div className="absolute bottom-3 right-3 w-4 h-4" style={{ borderBottom: '1px solid rgba(90, 61, 204, 0.3)', borderRight: '1px solid rgba(90, 61, 204, 0.3)' }} />
+
+                  <span className="absolute top-3 right-8 text-[8px] font-mono tracking-widest" style={{ color: 'rgba(245, 160, 6, 0.2)' }}>REC</span>
+                  <span className="absolute bottom-3 left-8 text-[8px] font-mono tracking-widest" style={{ color: 'rgba(90, 61, 204, 0.25)' }}>00:00</span>
+                </div>
+              </div>
+
+              {/* Card footer */}
+              <div className="flex items-center justify-between px-4 sm:px-5 py-3" style={{ borderTop: '1px solid rgba(233, 90, 12, 0.08)' }}>
+                <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground font-heading">
+                  Sua loja de skins CS2
+                </span>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Video CTA */}
-        <div className="flex flex-col items-center gap-4">
-          <p className="text-sm text-muted-foreground">Quer ver na prática?</p>
-          <button
-            onClick={openFullscreen}
-            className="group flex items-center gap-2.5 px-6 py-3 rounded-full transition-all duration-300 hover:scale-105"
-            style={{
-              background: 'rgba(233, 90, 12, 0.1)',
-              border: '1px solid rgba(233, 90, 12, 0.3)',
-            }}
-          >
-            <Play className="size-4 fill-current text-primary" />
-            <span className="text-sm font-semibold text-primary uppercase tracking-wider">Assistir vídeo</span>
-          </button>
+          </div>
         </div>
       </div>
 
