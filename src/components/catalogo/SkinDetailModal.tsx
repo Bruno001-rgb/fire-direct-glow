@@ -238,7 +238,7 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
     });
     if (slot) {
       addToSlot(slot.key as SlotKey, skin);
-      toast.success(`${skin.name} adicionada ao loadout (${slot.label})`);
+      toast.success(`${skin.name} adicionada à sua lista (${slot.label})`);
     } else {
       toast.info("Essa skin não corresponde a nenhum slot do loadout.");
     }
@@ -402,9 +402,10 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
                   onClick={() => track("cta_click", { location: "skin_detail", target: "whatsapp", skin: skin.name })}
                 >
                   <WhatsAppIcon className="size-5" />
-                  Consultar esta skin no WhatsApp
+                  Quero essa skin
                 </a>
               </Button>
+              <p className="text-xs text-center text-muted-foreground -mt-1">Consulte disponibilidade e valor direto com a gente</p>
               {canTryInGame(skin) && (
                 <button
                   onClick={() => setShowTryModal(true)}
@@ -430,7 +431,7 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
                 </button>
               )}
               <Button variant="fire-outline" className="w-full h-12 text-base" onClick={handleAddToLoadout}>
-                Adicionar ao loadout
+                Adicionar à minha lista
               </Button>
             </div>
           </div>
