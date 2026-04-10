@@ -14,7 +14,7 @@ const trustItems = [
 
 const HeroSection = () => {
   return (
-    <section id="topo" className="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-[90vh] flex items-center overflow-hidden bg-black">
+    <section id="topo" className="relative min-h-[auto] sm:min-h-[85vh] lg:min-h-[90vh] flex items-start sm:items-center overflow-hidden bg-black">
       {/* Vignette */}
       <div className="absolute inset-0" style={{ boxShadow: "inset 0 0 200px 80px rgba(0,0,0,0.7)" }} />
 
@@ -27,13 +27,13 @@ const HeroSection = () => {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
       {/* ── Content grid ── */}
-      <div className="container relative z-10 py-12 sm:py-16 lg:py-0">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-6 items-center">
+      <div className="container relative z-10 py-6 sm:py-16 lg:py-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-6 items-center">
 
           {/* ── Left: Text block ── */}
           <div className="text-center lg:text-left max-w-xl mx-auto lg:mx-0">
             {/* Label */}
-            <div className="inline-flex items-center gap-2.5 mb-5 sm:mb-8">
+            <div className="inline-flex items-center gap-2.5 mb-3 sm:mb-8">
               <div className="h-px w-6 sm:w-8 bg-primary" />
               <span
                 className="text-xs font-bold uppercase tracking-[0.35em] px-2.5 sm:px-3 py-1.5 rounded-sm bg-primary/8 border border-primary/20 text-primary"
@@ -44,18 +44,18 @@ const HeroSection = () => {
             </div>
 
             {/* Headline */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tight font-heading leading-[0.9] mb-4 sm:mb-6">
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tight font-heading leading-[0.9] mb-3 sm:mb-6">
               <span className="text-foreground block">Skins CS2 para</span>
               <span className="text-primary block">Todo Jogador</span>
             </h1>
 
             {/* Subtitle */}
-            <p className="text-base sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-6 sm:mb-8">
+            <p className="text-base sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-4 sm:mb-8">
               Do seu primeiro drop até aquela knife dos sonhos. Escolhe, paga no Pix e recebe na hora.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4 mb-6 sm:mb-8">
+            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4 mb-4 sm:mb-8">
               <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" asChild>
                 <a href="/catalogo">
                   <ArrowRight className="size-4" />
@@ -72,7 +72,7 @@ const HeroSection = () => {
             </div>
 
             {/* Trust items */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-4 sm:gap-x-5 gap-y-2">
+            <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-x-5 sm:gap-y-2">
               {trustItems.map((item) => (
                 <div key={item.label} className="flex items-center gap-1.5">
                   <item.icon className="size-3.5 text-primary" />
