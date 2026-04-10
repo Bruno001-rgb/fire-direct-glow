@@ -1,30 +1,27 @@
 
 
-## Etapa 21 — Loadout envia pro WhatsApp direto
+## Etapa 22 — Copy do catálogo como wishlist
 
 ### What changes
 
-1. **`src/components/loadout/LoadoutSummary.tsx`** — Add copy-to-clipboard action, tracking, rename button text:
-   - Add imports: `Copy` from lucide, `toast` from sonner, `track` from lib/track
-   - Add `handleCopy` function using `navigator.clipboard.writeText`
-   - Rename WhatsApp button: "Enviar loadout no WhatsApp" → "Enviar lista no WhatsApp"
-   - Add `onClick` tracking to WhatsApp link
-   - Add "Copiar lista" text button below the action buttons
+1. **`src/pages/Catalogo.tsx`** — Add info banner after Header in both mobile and desktop branches:
+   - Import `Info` from lucide-react
+   - Mobile: insert banner div after `<CatalogoFilters>`, before `<main>` (around line 79-80)
+   - Desktop: insert banner inside the desktop block, before `<CatalogoDesktopLayout>` (around line 87)
+   - Banner: `<Info>` icon + "Explore todas as skins do CS2 e escolha as que você quer. A gente encontra pra você pelo melhor preço."
 
-2. **`src/pages/Loadout.tsx`** — Update copy:
-   - Heading: "Meu Loadout" → "Minha Lista"
-   - Subtitle: "Monte seu inventário ideal e envie pelo WhatsApp." → "Escolha suas skins favoritas e envie pra gente encontrar."
-   - Empty state: "Nenhuma skin selecionada ainda." → "Sua lista está vazia."
-   - Empty state sub: "Explore o catálogo e adicione ao loadout." → "Explore o catálogo e adicione as skins que você quer."
-   - CTA button: "Ver catálogo" → "Explorar skins"
+2. **`src/components/catalogo/CatalogoSkinCard.tsx`** — No changes needed. Card has no CTA label text, it just opens the modal on click. Already correct.
 
-3. **`src/components/Header.tsx`** — Rename nav link label: "Meu Loadout" → "Minha Lista" (line 12)
+3. **`src/components/catalogo/SkinDetailModal.tsx`** — Update copy:
+   - Line 405: "Consultar esta skin no WhatsApp" → "Quero essa skin"
+   - After the WhatsApp button (line 407), add: `<p className="text-xs text-center text-muted-foreground -mt-1">Consulte disponibilidade e valor direto com a gente</p>`
+   - Line 433: "Adicionar ao loadout" → "Adicionar à minha lista"
+   - Line 241: toast message "adicionada ao loadout" → "adicionada à sua lista"
 
 ### Files touched
 
 | File | Action |
 |------|--------|
-| `src/components/loadout/LoadoutSummary.tsx` | Edit — add copy action, tracking, rename |
-| `src/pages/Loadout.tsx` | Edit — update 5 text strings |
-| `src/components/Header.tsx` | Edit — rename nav label |
+| `src/pages/Catalogo.tsx` | Edit — add info banner in both layouts |
+| `src/components/catalogo/SkinDetailModal.tsx` | Edit — update 3 text strings, add subtitle |
 
