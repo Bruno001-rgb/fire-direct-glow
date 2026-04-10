@@ -40,29 +40,6 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
 
       {/* ── Background layers ── */}
       <div className="absolute inset-0 bg-black" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] sm:w-[800px] h-[300px] sm:h-[500px]"
-        style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(233, 90, 12, 0.12) 0%, rgba(233, 90, 12, 0.04) 40%, transparent 70%)' }}
-      />
-      <div className="absolute -top-20 -right-20 w-[400px] sm:w-[600px] h-[400px] sm:h-[600px]"
-        style={{ background: 'radial-gradient(ellipse at 70% 30%, rgba(90, 61, 204, 0.08) 0%, transparent 60%)' }}
-      />
-      <div className="absolute inset-0" style={{ boxShadow: 'inset 0 0 200px 60px rgba(0,0,0,0.6)' }} />
-
-      {/* Diagonal pattern */}
-      <div className="absolute top-0 right-0 w-1/2 h-full opacity-[0.04]"
-        style={{
-          backgroundImage: `repeating-linear-gradient(-55deg, transparent, transparent 30px, rgba(233, 90, 12, 0.5) 30px, rgba(233, 90, 12, 0.5) 31px)`,
-          maskImage: 'linear-gradient(to left, rgba(0,0,0,0.6) 0%, transparent 80%)',
-          WebkitMaskImage: 'linear-gradient(to left, rgba(0,0,0,0.6) 0%, transparent 80%)',
-        }}
-      />
-
-      {/* Floating particles */}
-      <div className="absolute top-1/4 left-1/4 w-1 h-1 rounded-full animate-pulse" style={{ background: '#E95A0C', boxShadow: '0 0 8px #E95A0C' }} />
-      <div className="absolute top-1/3 right-1/3 w-0.5 h-0.5 rounded-full animate-pulse" style={{ background: '#F5A006', boxShadow: '0 0 6px #F5A006', animationDelay: '1s' }} />
-      <div className="absolute bottom-1/3 left-1/3 w-0.5 h-0.5 rounded-full animate-pulse" style={{ background: '#5A3DCC', boxShadow: '0 0 6px #5A3DCC', animationDelay: '2s' }} />
-      <div className="absolute top-2/3 right-1/4 w-1 h-1 rounded-full animate-pulse" style={{ background: '#E95A0C', boxShadow: '0 0 10px #E95A0C', animationDelay: '0.5s' }} />
-      <div className="absolute bottom-1/4 right-1/2 w-0.5 h-0.5 rounded-full animate-pulse" style={{ background: '#F5A006', boxShadow: '0 0 4px #F5A006', animationDelay: '1.5s' }} />
 
       {/* ── Content ── */}
       <div className="container relative z-10 py-10 sm:py-14 lg:py-16">
@@ -145,7 +122,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
               style={{
                 background: 'linear-gradient(145deg, rgba(20, 15, 35, 0.8), rgba(10, 8, 20, 0.95))',
                 border: '1px solid rgba(233, 90, 12, 0.15)',
-                boxShadow: '0 0 1px rgba(233, 90, 12, 0.4), 0 0 40px rgba(233, 90, 12, 0.06), 0 20px 60px rgba(0,0,0,0.5)',
+                boxShadow: '0 2px 20px rgba(0,0,0,0.4)',
                 backdropFilter: 'blur(20px)',
               }}
             >
