@@ -1,4 +1,4 @@
-import { useShowcaseSkins } from "@/hooks/useShowcaseSkins";
+import { useCatalogSkins } from "@/hooks/useCatalogSkins";
 
 const WHATSAPP_URL = "https://wa.me/5562996632201";
 
