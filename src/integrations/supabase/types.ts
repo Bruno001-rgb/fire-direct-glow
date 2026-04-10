@@ -30,7 +30,22 @@ export type Database = {
           id?: string
           skin_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "catalog_skins_skin_id_fkey"
+            columns: ["skin_id"]
+            isOneToOne: true
+            referencedRelation: "admin_skin_index"
+            referencedColumns: ["source_skin_id"]
+          },
+          {
+            foreignKeyName: "catalog_skins_skin_id_fkey"
+            columns: ["skin_id"]
+            isOneToOne: true
+            referencedRelation: "imported_skins"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       imported_skins: {
         Row: {
