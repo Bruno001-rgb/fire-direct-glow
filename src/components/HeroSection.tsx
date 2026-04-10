@@ -1,6 +1,7 @@
 import { ArrowRight, Shield, Zap, Tag } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
+import { track } from "@/lib/track";
 import InteractiveKnife from "@/components/InteractiveKnife";
 import heroKnife from "@/assets/knife-massacre.webp";
 
@@ -90,14 +91,14 @@ const HeroSection = () => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4 mb-6 sm:mb-8">
               <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" asChild>
-                <a href="/catalogo">
+                <a href="/catalogo" onClick={() => track("cta_click", { location: "hero", target: "catalogo" })}>
                   <ArrowRight className="size-4" />
                   Ver skins disponíveis
                 </a>
               </Button>
 
               <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" asChild>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track("cta_click", { location: "hero", target: "whatsapp" })}>
                   <WhatsAppIcon className="size-4" />
                   Falar com a gente
                 </a>

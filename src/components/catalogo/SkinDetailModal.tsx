@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { track } from "@/lib/track";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
 import { useLoadout, LOADOUT_SLOTS, type SlotKey } from "@/contexts/LoadoutContext";
 import { toast } from "sonner";
@@ -399,6 +400,7 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
                   href={`https://wa.me/?text=${whatsappMsg}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => track("cta_click", { location: "skin_detail", target: "whatsapp", skin: skin.name })}
                 >
                   <WhatsAppIcon className="size-5" />
                   Consultar esta skin no WhatsApp

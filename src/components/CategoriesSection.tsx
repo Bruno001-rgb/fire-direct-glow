@@ -3,6 +3,7 @@ import { Star, Loader2, ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useShowcaseSkins, type ShowcaseSkin } from "@/hooks/useShowcaseSkins";
+import { track } from "@/lib/track";
 
 
 
@@ -35,6 +36,7 @@ const rarityText: Record<string, string> = {
 const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
   <a
     href="/catalogo"
+    onClick={() => track("skin_click", { location: "showcase", skin: item.name })}
     className="group relative flex flex-col overflow-hidden rounded-xl border border-primary/10 bg-card/60 hover:border-primary/30 transition-all duration-300 hover:shadow-[0_0_20px_-4px_hsl(var(--primary)/0.15)]"
   >
 
