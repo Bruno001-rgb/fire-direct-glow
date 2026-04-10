@@ -14,12 +14,12 @@ export function useShowcaseSkins() {
   return useQuery({
     queryKey: ["showcase-skins"],
     queryFn: async (): Promise<ShowcaseSkin[]> => {
-      // Get all slots with their category and skin data
-      const { data: slots, error: slotsError } = await supabase
+      const { data: slots, error } = await supabase
         .from("showcase_slots")
         .select(`
-          slot_position,
+          id,
           skin_id,
+          created_at,
           imported_skins (
             name,
             weapon_name,
@@ -27,33 +27,24 @@ export function useShowcaseSkins() {
             rarity_name,
             image,
             price
-          ),
-          showcase_categories (
-            key,
-            sort_order
           )
         `)
         .not("skin_id", "is", null)
-        .order("slot_position");
+        .order("created_at", { ascending: false });
 
-      if (slotsError) throw slotsError;
+      if (error) throw error;
 
       return (slots || [])
-        .filter((s: any) => s.imported_skins && s.showcase_categories)
-        .sort((a: any, b: any) => {
-          const catDiff = (a.showcase_categories.sort_order || 0) - (b.showcase_categories.sort_order || 0);
-          if (catDiff !== 0) return catDiff;
-          return a.slot_position - b.slot_position;
-        })
+        .filter((s: any) => s.imported_skins)
         .map((s: any) => ({
           name: s.imported_skins.weapon_name || s.imported_skins.name,
           skin: s.imported_skins.pattern_name || "",
-          category: s.showcase_categories.key,
+          category: "vitrine",
           rarity: s.imported_skins.rarity_name || "Covert",
           image: s.imported_skins.image || "",
           price: s.imported_skins.price ?? null,
         }));
     },
-    staleTime: 1000 * 60 * 5, // 5 min cache
+    staleTime: 1000 * 60 * 5,
   });
 }
