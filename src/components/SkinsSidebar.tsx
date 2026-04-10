@@ -11,7 +11,15 @@ const rarityColor: Record<string, string> = {
 };
 
 const SkinsSidebar = () => {
-  const { data: skins } = useShowcaseSkins();
+  const { data: catalogSkins } = useCatalogSkins();
+
+  // Map catalog skins to sidebar format
+  const skins = catalogSkins?.map((s) => ({
+    name: s.weapon?.name || s.name,
+    skin: s.name,
+    rarity: s.rarity?.name || "Covert",
+    image: s.image || "",
+  })) || [];
 
   if (!skins || skins.length === 0) return null;
 
