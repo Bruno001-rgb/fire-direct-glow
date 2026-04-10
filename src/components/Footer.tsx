@@ -3,7 +3,7 @@ import WhatsAppIcon from "@/components/WhatsAppIcon";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 import logoBlackbot from "@/assets/logo-blackbot.webp";
 
-const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
+const WHATSAPP_URL = "https://wa.me/5562996632201";
 
 const Footer = () => {
   return (

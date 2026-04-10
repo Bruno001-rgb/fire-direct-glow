@@ -243,7 +243,7 @@ export default function TryInGameModal({ skin, floatValue, onClose }: Props) {
         <div className="mt-8">
           <Button variant="fire" className="w-full h-12 text-base" asChild>
             <a
-              href={`https://wa.me/?text=${whatsappMsg}`}
+              href={`https://wa.me/5562996632201?text=${whatsappMsg}`}
               target="_blank"
               rel="noopener noreferrer"
             >
