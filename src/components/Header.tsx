@@ -1,12 +1,19 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Tag, Users, Clock, ShieldCheck } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import { useLoadout } from "@/contexts/LoadoutContext";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 
 import { WHATSAPP_URL } from "@/constants";
+
+const stats = [
+  { icon: Tag, label: "Skins a partir de R$5", accent: true, priority: true },
+  { icon: Users, label: "1.2K+ negociações", priority: true },
+  { icon: Clock, label: "Resposta em < 5 min", priority: false },
+  { icon: ShieldCheck, label: "100% seguro", priority: false },
+];
 
 const NAV_LINKS = [
   { href: "/#catalogo", label: "Catálogo", type: "anchor" },
@@ -21,12 +28,10 @@ const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileOpen(false);
   }, [location]);
 
-  // Prevent body scroll when menu is open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -72,12 +77,35 @@ const Header = () => {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/85 backdrop-blur-xl border-b border-primary/8">
+      {/* Stats bar */}
+      <div className="w-full bg-card/80 border-b border-primary/8">
+        <div className="container flex items-center justify-center gap-3 sm:gap-6 lg:gap-8 h-8 overflow-x-auto scrollbar-hide">
+          {stats.map((stat) => (
+            <div
+              key={stat.label}
+              className={`flex items-center gap-1.5 whitespace-nowrap ${!stat.priority ? "hidden sm:flex" : ""}`}
+            >
+              <stat.icon
+                className={`size-3 flex-shrink-0 ${stat.accent ? "text-primary" : "text-muted-foreground"}`}
+              />
+              <span
+                className={`text-[10px] sm:text-[11px] font-semibold tracking-wide ${
+                  stat.accent ? "text-primary" : "text-muted-foreground"
+                }`}
+              >
+                {stat.label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Nav bar */}
       <div className="container flex items-center justify-between h-14 sm:h-16">
         <a href="/" className="flex items-center">
           <img src={logoFireskins} alt="FireSkins" className="h-10 sm:h-12 w-auto object-contain" />
         </a>
 
-        {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-6">
           {NAV_LINKS.map((item) => renderNavItem(item))}
         </nav>
@@ -90,7 +118,6 @@ const Header = () => {
             </a>
           </Button>
 
-          {/* Hamburger button */}
           <button
             className="md:hidden flex items-center justify-center size-9 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -105,10 +132,10 @@ const Header = () => {
       {mobileOpen && (
         <>
           <div
-            className="fixed inset-0 top-14 bg-black/60 backdrop-blur-sm z-40 md:hidden"
+            className="fixed inset-0 top-[5.5rem] bg-black/60 backdrop-blur-sm z-40 md:hidden"
             onClick={() => setMobileOpen(false)}
           />
-          <nav className="fixed top-14 left-0 right-0 z-50 md:hidden bg-background/95 backdrop-blur-xl border-b border-border px-6 py-4 animate-in slide-in-from-top-2 duration-200">
+          <nav className="fixed top-[5.5rem] sm:top-24 left-0 right-0 z-50 md:hidden bg-background/95 backdrop-blur-xl border-b border-border px-6 py-4 animate-in slide-in-from-top-2 duration-200">
             {NAV_LINKS.map((item) => renderNavItem(item, true))}
 
             <div className="pt-4">
