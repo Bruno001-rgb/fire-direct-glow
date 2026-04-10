@@ -7,9 +7,9 @@ import heroKnife from "@/assets/knife-massacre.webp";
 const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
 
 const trustItems = [
-  { icon: Zap, label: "Atendimento rápido" },
-  { icon: Shield, label: "Negociação segura" },
-  { icon: Tag, label: "Preço justo" },
+  { icon: Zap, label: "Entrega imediata" },
+  { icon: Shield, label: "Pagamento seguro" },
+  { icon: Tag, label: "Skins pra todo bolso" },
 ];
 
 const HeroSection = () => {
@@ -71,36 +71,35 @@ const HeroSection = () => {
               <span
                 className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.35em] px-2.5 sm:px-3 py-1.5 rounded-sm bg-primary/8 border border-primary/20 text-primary"
               >
-                FireSkins • Skins CS2
+                Skins CS2 • Pix • Cartão • Crypto
               </span>
               <div className="h-px w-8 hidden lg:block bg-primary" />
             </div>
 
             {/* Headline */}
             <h1 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tight font-heading leading-[0.9] mb-4 sm:mb-6">
-              <span className="text-foreground block">Sua Skin dos</span>
-              <span className="text-foreground block">Sonhos pelo</span>
-              <span className="text-primary block">Melhor Preço</span>
+              <span className="text-foreground block">Skins CS2 para</span>
+              <span className="text-primary block">Todo Jogador</span>
             </h1>
 
             {/* Subtitle */}
             <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-6 sm:mb-8">
-              Encontre a skin perfeita com preço justo, pagamento facilitado e atendimento humano no WhatsApp.
+              Do seu primeiro drop até aquela knife dos sonhos. Escolhe, paga no Pix e recebe na hora.
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4 mb-6 sm:mb-8">
               <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" asChild>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                  <WhatsAppIcon className="size-4" />
-                  Chamar no WhatsApp
+                <a href="/catalogo">
+                  <ArrowRight className="size-4" />
+                  Ver skins disponíveis
                 </a>
               </Button>
 
               <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" asChild>
-                <a href="/#como-funciona">
-                  Nos Conheça
-                  <ArrowRight className="size-4 ml-1" />
+                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                  <WhatsAppIcon className="size-4" />
+                  Falar com a gente
                 </a>
               </Button>
             </div>
