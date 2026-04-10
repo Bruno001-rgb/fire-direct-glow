@@ -1,10 +1,10 @@
 import { Flame, Users, Clock, ShieldCheck, Tag } from "lucide-react";
 
 const stats = [
-  { icon: Tag, label: "Skins a partir de R$5", accent: true, priority: true },
-  { icon: Users, label: "1.2K+ negociações", priority: true },
-  { icon: Clock, label: "Resposta em < 5 min", priority: false },
-  { icon: ShieldCheck, label: "100% seguro", priority: false },
+  { icon: Tag, label: "Skins pra todo bolso", accent: true, priority: true },
+  { icon: Users, label: "1.200+ skins entregues", priority: true },
+  { icon: Clock, label: "Entrega imediata", priority: false },
+  { icon: ShieldCheck, label: "Pix, cartão e crypto", priority: false },
 ];
 
 const StatsBar = () => {
