@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X } from "lucide-react";
+import { RefreshCw, Trash2, ImagePlus, Loader2, Save, Undo2, Plus, X, Search } from "lucide-react";
 import SkinSearchModal from "./SkinSearchModal";
 import { toast } from "sonner";
 
@@ -48,6 +48,7 @@ export default function SlotManager() {
   const [isAddingSlot, setIsAddingSlot] = useState(false);
   const [deletingCatId, setDeletingCatId] = useState<string | null>(null);
   const [scrollToCatId, setScrollToCatId] = useState<string | null>(null);
+  const [searchFilter, setSearchFilter] = useState("");
   const catRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   const { data: categories, isLoading } = useQuery({
@@ -284,6 +285,24 @@ export default function SlotManager() {
     return uniqueSkins.size;
   }, [categories, getEffectiveSlot]);
 
+  const filteredCategories = useMemo(() => {
+    if (!categories || !searchFilter.trim()) return categories;
+    const term = searchFilter.toLowerCase();
+    return categories.filter((cat) => {
+      if (cat.label.toLowerCase().includes(term) || cat.key.toLowerCase().includes(term)) return true;
+      return cat.slots.some((slot) => {
+        const effective = getEffectiveSlot(slot);
+        const skin = effective.imported_skins;
+        if (!skin) return false;
+        return (
+          skin.name?.toLowerCase().includes(term) ||
+          skin.weapon_name?.toLowerCase().includes(term) ||
+          skin.pattern_name?.toLowerCase().includes(term)
+        );
+      });
+    });
+  }, [categories, searchFilter, getEffectiveSlot]);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-20">
@@ -310,6 +329,22 @@ export default function SlotManager() {
             <Plus className="size-3 mr-1" />
             Adicionar Slot
           </Button>
+        )}
+      </div>
+
+      {/* Search/filter */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+        <Input
+          placeholder="Buscar categoria ou skin..."
+          value={searchFilter}
+          onChange={(e) => setSearchFilter(e.target.value)}
+          className="pl-9"
+        />
+        {searchFilter && (
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
+            {filteredCategories?.length ?? 0} resultado(s)
+          </span>
         )}
       </div>
 
@@ -379,7 +414,7 @@ export default function SlotManager() {
         </div>
       )}
 
-      {categories?.map((cat) => {
+      {filteredCategories?.map((cat) => {
         const effectiveSlots = cat.slots.map(getEffectiveSlot);
         const filledCount = effectiveSlots.filter((s) => s.skin_id).length;
         const isDeleting = deletingCatId === cat.id;
