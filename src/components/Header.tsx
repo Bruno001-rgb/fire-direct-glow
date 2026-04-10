@@ -9,8 +9,7 @@ import logoFireskins from "@/assets/logo-fireskins.webp";
 const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
 
 const NAV_LINKS = [
-  { href: "/#catalogo", label: "Catálogo", type: "anchor" },
-  { href: "/catalogo", label: "Catálogo Completo", type: "link" },
+  { href: "/catalogo", label: "Catálogo", type: "link" },
   { href: "/loadout", label: "Meu Loadout", type: "link", showBadge: true },
   { href: "/#como-funciona", label: "Como funciona", type: "anchor" },
   { href: "/#contato", label: "Contato", type: "anchor" },
@@ -84,10 +83,9 @@ const Header = () => {
 
         <div className="flex items-center gap-2">
           <Button variant="fire" size="sm" className="hidden md:inline-flex h-8 sm:h-9 text-[11px] uppercase tracking-wider" asChild>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-              <WhatsAppIcon className="size-3.5" />
-              Chamar no WhatsApp
-            </a>
+            <Link to="/catalogo">
+              Ver skins
+            </Link>
           </Button>
 
           {/* Hamburger button */}
@@ -113,10 +111,9 @@ const Header = () => {
 
             <div className="pt-4">
               <Button variant="fire" className="w-full h-11 text-sm uppercase tracking-wider" asChild>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
-                  <WhatsAppIcon className="size-4" />
-                  Chamar no WhatsApp
-                </a>
+                <Link to="/catalogo" onClick={() => setMobileOpen(false)}>
+                  Ver skins
+                </Link>
               </Button>
             </div>
           </nav>
