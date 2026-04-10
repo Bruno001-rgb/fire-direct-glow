@@ -20,7 +20,7 @@ const StatsBar = () => {
               className={`size-3 flex-shrink-0 ${stat.accent ? "text-primary" : "text-muted-foreground"}`}
             />
             <span
-              className={`text-xs font-semibold tracking-wide ${
+              className={`text-sm font-semibold tracking-wide ${
                 stat.accent ? "text-primary" : "text-muted-foreground"
               }`}
             >

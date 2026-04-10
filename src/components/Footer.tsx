@@ -156,7 +156,7 @@ const Footer = () => {
       <div className="bg-black">
         <div className="container py-4">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
-            <span className="text-[10px] sm:text-[11px] text-muted-foreground uppercase tracking-[0.2em] text-center sm:text-left">
+            <span className="text-xs text-muted-foreground uppercase tracking-[0.2em] text-center sm:text-left">
               © {new Date().getFullYear()}{" "}
               <span className="font-bold text-foreground tracking-[0.15em]">FireSkins</span>
               {" "}— Todos os direitos reservados.
@@ -166,16 +166,16 @@ const Footer = () => {
                 href="https://blackbotdigital.com.br/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-[10px] sm:text-[11px] uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
+                className="flex items-center gap-1.5 text-xs uppercase tracking-wider text-muted-foreground transition-colors hover:text-foreground"
               >
                 Feito por
                 <img src={logoBlackbot} alt="BlackBot Digital" className="h-4 sm:h-5 w-auto inline-block" />
                 <span className="font-semibold">BlackBot</span>
               </a>
-              <a href="#" className="text-[10px] sm:text-[11px] uppercase tracking-wider transition-colors hover:text-[#F5A006]" style={{ color: "#E95A0C" }}>
+              <a href="#" className="text-xs uppercase tracking-wider transition-colors hover:text-[#F5A006]" style={{ color: "#E95A0C" }}>
                 Privacidade
               </a>
-              <a href="#" className="text-[10px] sm:text-[11px] uppercase tracking-wider transition-colors hover:text-[#F5A006]" style={{ color: "#E95A0C" }}>
+              <a href="#" className="text-xs uppercase tracking-wider transition-colors hover:text-[#F5A006]" style={{ color: "#E95A0C" }}>
                 Termos
               </a>
             </div>

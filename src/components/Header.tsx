@@ -33,7 +33,7 @@ const Header = () => {
   }, [mobileOpen]);
 
   const linkClass =
-    "text-[11px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors duration-200";
+    "text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors duration-200";
   const mobileLinkClass =
     "block text-sm font-bold uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors duration-200 py-3 border-b border-border/40";
 
@@ -83,7 +83,7 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button variant="fire" size="sm" className="hidden md:inline-flex h-8 sm:h-9 text-[11px] uppercase tracking-wider" asChild>
+          <Button variant="fire" size="sm" className="hidden md:inline-flex h-8 sm:h-9 text-xs uppercase tracking-wider" asChild>
             <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon className="size-3.5" />
               Chamar no WhatsApp
