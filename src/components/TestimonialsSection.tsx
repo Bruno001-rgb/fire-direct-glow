@@ -60,6 +60,8 @@ const TestimonialsSection = () => {
               <img
                 src={t.image_url}
                 alt={t.title || "Depoimento de cliente"}
+                width={300}
+                height={400}
                 loading="lazy"
                 className="w-full h-auto object-contain"
               />

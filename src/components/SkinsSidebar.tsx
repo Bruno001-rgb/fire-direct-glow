@@ -35,6 +35,8 @@ const SkinsSidebar = () => {
                   <img
                     src={skin.image}
                     alt={`${skin.name} ${skin.skin}`}
+                    width={128}
+                    height={128}
                     loading="lazy"
                     className="w-full h-full object-contain p-1 group-hover:scale-110 transition-transform duration-500"
                   />
