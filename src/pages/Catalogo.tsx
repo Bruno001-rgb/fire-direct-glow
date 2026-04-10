@@ -16,12 +16,11 @@ export default function Catalogo() {
   const [rarity, setRarity] = useState("Todos");
   const [wear, setWear] = useState("all");
   const [sort, setSort] = useState<SortMode>("az");
-  const [priceRange, setPriceRange] = useState("all");
   const [selectedSkin, setSelectedSkin] = useState<ByMykelSkin | null>(null);
 
   const filtered = useMemo(
-    () => (skins ? filterSkins(skins, search, weapon, rarity, wear, sort, priceRange) : []),
-    [skins, search, weapon, rarity, wear, sort, priceRange]
+    () => (skins ? filterSkins(skins, search, weapon, rarity, wear, sort) : []),
+    [skins, search, weapon, rarity, wear, sort]
   );
 
   const filterProps = {
@@ -35,17 +34,15 @@ export default function Catalogo() {
     onWearChange: setWear,
     sort,
     onSortChange: setSort,
-    priceRange,
-    onPriceRangeChange: setPriceRange,
     allSkins: skins,
   };
 
   const hasActiveFilters = !!(
-    search || weapon !== "all" || rarity !== "Todos" || wear !== "all" || sort !== "az" || priceRange !== "all"
+    search || weapon !== "all" || rarity !== "Todos" || wear !== "all" || sort !== "az"
   );
 
   const clearAll = () => {
-    setSearch(""); setWeapon("all"); setRarity("Todos"); setWear("all"); setSort("az"); setPriceRange("all");
+    setSearch(""); setWeapon("all"); setRarity("Todos"); setWear("all"); setSort("az");
   };
 
   const wearItems = useMemo(() => {

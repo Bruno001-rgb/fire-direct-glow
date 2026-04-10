@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Slider } from "@/components/ui/slider";
-import { WEAPON_FILTERS, RARITY_FILTERS, WEAR_FILTERS, PRICE_FILTERS, type SortMode } from "@/hooks/useByMykelSkins";
+import { WEAPON_FILTERS, RARITY_FILTERS, WEAR_FILTERS, type SortMode } from "@/hooks/useByMykelSkins";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 
@@ -19,8 +19,6 @@ interface Props {
   onWearChange: (v: string) => void;
   sort: SortMode;
   onSortChange: (v: SortMode) => void;
-  priceRange: string;
-  onPriceRangeChange: (v: string) => void;
   allSkins?: ByMykelSkin[];
 }
 
@@ -100,13 +98,6 @@ function CollapsibleFilter({
 function FiltersBody(props: Props & { wearItems: { label: string; value: string }[] }) {
   return (
     <>
-      <CollapsibleFilter title="Preço" defaultOpen>
-        <FilterChips
-          items={PRICE_FILTERS.map((p) => ({ label: p.label, value: p.value }))}
-          value={props.priceRange}
-          onChange={props.onPriceRangeChange}
-        />
-      </CollapsibleFilter>
       <CollapsibleFilter title="Raridade" defaultOpen>
         <FilterChips
           items={RARITY_FILTERS.map((r) => ({ label: r, value: r }))}
@@ -242,8 +233,7 @@ export default function CatalogoFilters(props: Props) {
     props.weapon !== "all" ||
     props.rarity !== "Todos" ||
     props.wear !== "all" ||
-    props.sort !== "az" ||
-    props.priceRange !== "all"
+    props.sort !== "az"
   );
 
   const clearAll = () => {
@@ -252,10 +242,9 @@ export default function CatalogoFilters(props: Props) {
     props.onRarityChange("Todos");
     props.onWearChange("all");
     props.onSortChange("az");
-    props.onPriceRangeChange("all");
   };
 
-  const activeCount = [props.weapon, props.rarity, props.wear, props.priceRange].filter(
+  const activeCount = [props.weapon, props.rarity, props.wear].filter(
     (v) => v !== "all" && v !== "Todos"
   ).length;
 

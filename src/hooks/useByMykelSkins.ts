@@ -72,15 +72,6 @@ export const WEAR_FILTERS = [
   { label: "Battle-Scarred", value: "bs", min: 0.45, max: 1.0 },
 ] as const;
 
-export const PRICE_FILTERS = [
-  { label: "Todos", value: "all", min: 0, max: Infinity },
-  { label: "Até R$20", value: "0-20", min: 0, max: 20 },
-  { label: "R$20-50", value: "20-50", min: 20, max: 50 },
-  { label: "R$50-100", value: "50-100", min: 50, max: 100 },
-  { label: "R$100-300", value: "100-300", min: 100, max: 300 },
-  { label: "R$300+", value: "300+", min: 300, max: Infinity },
-] as const;
-
 export type SortMode = "az" | "float-asc" | "float-desc";
 
 export function filterSkins(
@@ -89,8 +80,7 @@ export function filterSkins(
   weapon: string,
   rarity: string,
   wear: string,
-  sort: SortMode,
-  priceRange: string = "all"
+  sort: SortMode
 ) {
   let filtered = skins;
 
@@ -130,16 +120,6 @@ export function filterSkins(
         const min = s.min_float ?? 0;
         const max = s.max_float ?? 1;
         return min < tier.max && max > tier.min;
-      });
-    }
-  }
-
-  if (priceRange !== "all") {
-    const range = PRICE_FILTERS.find((p) => p.value === priceRange);
-    if (range) {
-      filtered = filtered.filter((s) => {
-        const price = s.price ?? 0;
-        return price >= range.min && price < range.max;
       });
     }
   }
