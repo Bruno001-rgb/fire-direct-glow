@@ -53,6 +53,30 @@ export type Database = {
         }
         Relationships: []
       }
+      leads: {
+        Row: {
+          created_at: string
+          id: string
+          skin_interest: string | null
+          source: string
+          whatsapp: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          skin_interest?: string | null
+          source?: string
+          whatsapp: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          skin_interest?: string | null
+          source?: string
+          whatsapp?: string
+        }
+        Relationships: []
+      }
       showcase_categories: {
         Row: {
           id: string

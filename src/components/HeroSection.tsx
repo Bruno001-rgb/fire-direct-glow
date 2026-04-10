@@ -1,10 +1,13 @@
-import { ArrowRight, Shield, Zap, Tag } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight, Shield, Zap, Tag, Loader2 } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import { track } from "@/lib/track";
 import InteractiveKnife from "@/components/InteractiveKnife";
 import heroKnife from "@/assets/knife-massacre.webp";
 import { whatsappDirectLink } from "@/constants";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const trustItems = [
   { icon: Zap, label: "Entrega imediata" },
@@ -13,6 +16,30 @@ const trustItems = [
 ];
 
 const HeroSection = () => {
+  const [heroWhatsapp, setHeroWhatsapp] = useState("");
+  const [heroSubmitting, setHeroSubmitting] = useState(false);
+
+  const handleHeroSubmit = async () => {
+    if (!heroWhatsapp.trim() || heroWhatsapp.trim().length < 10) {
+      toast.error("Digite um número de WhatsApp válido.");
+      return;
+    }
+    setHeroSubmitting(true);
+    try {
+      const { error } = await supabase.from("leads").insert({
+        whatsapp: heroWhatsapp.trim(),
+        source: "hero",
+      });
+      if (error) throw error;
+      toast.success("Recebemos! Vamos te chamar em breve.");
+      setHeroWhatsapp("");
+    } catch {
+      toast.error("Erro ao enviar. Tenta de novo.");
+    } finally {
+      setHeroSubmitting(false);
+    }
+  };
+
   return (
     <section id="topo" className="relative min-h-[75vh] sm:min-h-[85vh] lg:min-h-[90vh] flex items-center overflow-hidden bg-black">
       {/* ── Background layers (reduced intensity) ── */}
@@ -114,6 +141,28 @@ const HeroSection = () => {
                   </span>
                 </div>
               ))}
+            </div>
+
+            {/* Compact lead capture */}
+            <div className="mt-6 sm:mt-8 max-w-md mx-auto lg:mx-0">
+              <p className="text-[10px] sm:text-[11px] text-muted-foreground uppercase tracking-widest font-semibold mb-2">
+                Quer receber ofertas?
+              </p>
+              <div className="flex gap-2">
+                <input
+                  type="tel"
+                  placeholder="Seu WhatsApp (com DDD)"
+                  value={heroWhatsapp}
+                  onChange={(e) => setHeroWhatsapp(e.target.value)}
+                  className="flex-1 h-10 rounded-lg bg-card/60 border border-primary/15 px-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/40 transition-colors"
+                />
+                <Button variant="fire" size="sm" className="h-10 px-4" onClick={handleHeroSubmit} disabled={heroSubmitting}>
+                  {heroSubmitting ? <Loader2 className="size-4 animate-spin" /> : "Enviar"}
+                </Button>
+              </div>
+              <p className="mt-1.5 text-[9px] sm:text-[10px] text-muted-foreground/50">
+                Deixe seu número que a gente te chama. Sem spam.
+              </p>
             </div>
           </div>
 

@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import SlotManager from "@/components/admin/SlotManager";
 import TestimonialsManager from "@/components/admin/TestimonialsManager";
+import LeadsManager from "@/components/admin/LeadsManager";
 // import AdminGuard from "@/components/admin/AdminGuard";
 import { toast } from "sonner";
 
@@ -71,6 +72,7 @@ export default function Admin() {
             <TabsList className="mb-6">
               <TabsTrigger value="skins">Skins</TabsTrigger>
               <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
+              <TabsTrigger value="leads">Leads</TabsTrigger>
             </TabsList>
 
             <TabsContent value="skins">
@@ -85,6 +87,13 @@ export default function Admin() {
                 Gerencie os prints/depoimentos exibidos na landing page.
               </p>
               <TestimonialsManager />
+            </TabsContent>
+
+            <TabsContent value="leads">
+              <p className="text-sm text-muted-foreground mb-6">
+                Contatos recebidos pelo site. Entre em contato o mais rápido possível.
+              </p>
+              <LeadsManager />
             </TabsContent>
           </Tabs>
         </main>
