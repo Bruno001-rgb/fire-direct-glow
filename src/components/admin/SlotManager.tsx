@@ -48,6 +48,7 @@ export default function SlotManager() {
   const [isAddingSlot, setIsAddingSlot] = useState(false);
   const [deletingCatId, setDeletingCatId] = useState<string | null>(null);
   const [scrollToCatId, setScrollToCatId] = useState<string | null>(null);
+  const [searchFilter, setSearchFilter] = useState("");
   const catRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   const { data: categories, isLoading } = useQuery({
