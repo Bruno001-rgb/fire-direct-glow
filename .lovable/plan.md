@@ -1,26 +1,22 @@
 
 
-## Etapa 17 — Seção de confiança (TrustSection)
+## Etapa 18 — Placeholders marcados em todo o site
 
 ### What changes
 
-1. **New `src/components/Placeholder.tsx`** — Inline placeholder component for dynamic values (renders an orange-tinted span with the label text)
+1. **`src/components/Placeholder.tsx`** — Add master list comment at the top documenting all placeholders across the site
 
-2. **New `src/components/TrustSection.tsx`** — Trust-building section with:
-   - Dark section background, gradient separator lines top/bottom
-   - "Segurança primeiro" label badge (matching HeroSection style)
-   - Heading: "Por que confiar na **FireSkins**?"
-   - Subtitle addressing scam fears directly
-   - 4-card responsive grid (1→2→4 cols) with ShieldCheck, MessageCircle, Clock, Users icons
-   - Card styling: `bg-card/60 border border-primary/10 rounded-xl p-6 hover:border-primary/25 transition-colors`
-   - Steam profile card links to `#` with pending note
+2. **`src/components/Footer.tsx`** — Import `Placeholder`, add CNPJ placeholder after the copyright span (line ~163)
 
-3. **`src/pages/Index.tsx`** — Import TrustSection, place between `<CategoriesSection />` and `<VideoShowcase />`
+3. **Create `src/constants.ts`** — New file with the pending-data comment block at the top (the file doesn't exist yet)
 
-### Technical details
+4. **`src/components/HeroSection.tsx`** — The trust items use general marketing copy ("Entrega imediata", "Pagamento seguro", "Skins pra todo bolso") with no specific numbers, so no placeholders needed here
 
-- Placeholder component: `<span className="bg-primary/20 text-primary px-1.5 py-0.5 rounded text-xs font-mono">{label}</span>`
-- Separator pattern: `<div className="h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />` (consistent with existing sections)
-- No data fetching, no state — purely presentational
-- 3 files touched total (2 new, 1 edit)
+### Files
+
+| File | Action |
+|------|--------|
+| `src/components/Placeholder.tsx` | Edit — add master list comment |
+| `src/components/Footer.tsx` | Edit — import Placeholder + add CNPJ span |
+| `src/constants.ts` | Create — comment block with pending data notes |
 
