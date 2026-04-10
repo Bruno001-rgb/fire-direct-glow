@@ -63,7 +63,7 @@ export default function SlotManager() {
         .from("showcase_slots")
         .select(`
           id, slot_position, skin_id, category_id,
-          imported_skins (name, weapon_name, pattern_name, image, rarity_name, price)
+          imported_skins (name, weapon_name, pattern_name, image, rarity_name)
         `)
         .order("slot_position");
       if (slotsErr) throw slotsErr;
