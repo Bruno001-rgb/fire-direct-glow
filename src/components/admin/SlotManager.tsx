@@ -44,7 +44,7 @@ export default function SlotManager() {
   const [showAddSlotForm, setShowAddSlotForm] = useState(false);
   const [addSlotCatId, setAddSlotCatId] = useState("");
   const [addSlotSkinName, setAddSlotSkinName] = useState("");
-  const [addSlotPrice, setAddSlotPrice] = useState("");
+  
   const [isAddingSlot, setIsAddingSlot] = useState(false);
   const [deletingCatId, setDeletingCatId] = useState<string | null>(null);
   const [priceEdits, setPriceEdits] = useState<Map<string, string>>(new Map());
