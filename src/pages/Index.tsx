@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import StatsBar from "@/components/StatsBar";
 import HeroSection from "@/components/HeroSection";
 import CategoriesSection from "@/components/CategoriesSection";
+import TrustSection from "@/components/TrustSection";
 import VideoShowcase from "@/components/VideoShowcase";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import FinalCTA from "@/components/FinalCTA";
@@ -16,6 +17,7 @@ const Index = () => {
       <main className="pt-14 sm:pt-16">
         <HeroSection />
         <CategoriesSection />
+        <TrustSection />
         <VideoShowcase />
         <TestimonialsSection />
         <FinalCTA />
