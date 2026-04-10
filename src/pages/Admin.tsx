@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import SlotManager from "@/components/admin/SlotManager";
 import TestimonialsManager from "@/components/admin/TestimonialsManager";
+import CatalogManager from "@/components/admin/CatalogManager";
 // import AdminGuard from "@/components/admin/AdminGuard";
 import { toast } from "sonner";
 
