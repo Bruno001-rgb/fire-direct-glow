@@ -332,6 +332,22 @@ export default function SlotManager() {
         )}
       </div>
 
+      {/* Search/filter */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground" />
+        <Input
+          placeholder="Buscar categoria ou skin..."
+          value={searchFilter}
+          onChange={(e) => setSearchFilter(e.target.value)}
+          className="pl-9"
+        />
+        {searchFilter && (
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
+            {filteredCategories?.length ?? 0} resultado(s)
+          </span>
+        )}
+      </div>
+
       {showAddSlotForm && (
         <div className="border border-border rounded-lg p-4 bg-card/60 space-y-3">
           <div className="flex items-center justify-between">
