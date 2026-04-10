@@ -18,6 +18,7 @@ export function useShowcaseSkins() {
         .from("catalog_skins")
         .select(`
           skin_id,
+          sort_order,
           imported_skins:skin_id (
             name,
             weapon_name,
@@ -26,7 +27,8 @@ export function useShowcaseSkins() {
             image,
             price
           )
-        `);
+        `)
+        .order("sort_order", { ascending: true });
 
       if (error) throw error;
 
