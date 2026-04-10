@@ -33,7 +33,7 @@ const SkinsSidebar = () => {
           {items.map((skin, i) => (
             <div
               key={`${skin.name}-${skin.skin}-${i}`}
-              onClick={() => navigate("/catalogo")}
+              onClick={() => navigate(`/catalogo?search=${encodeURIComponent(skin.name)}`)}
               className="block p-1.5 xl:p-2 group cursor-pointer"
             >
               <div className="rounded-lg overflow-hidden border border-primary/10 group-hover:border-primary/40 transition-colors duration-300 bg-card/50">

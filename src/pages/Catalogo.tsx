@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import CatalogoFilters, { CatalogoDesktopLayout } from "@/components/catalogo/CatalogoFilters";
 import CatalogoGrid from "@/components/catalogo/CatalogoGrid";
@@ -11,7 +12,9 @@ import { Button } from "@/components/ui/button";
 
 export default function Catalogo() {
   const { data: skins, isLoading, isError, refetch } = useCatalogSkins();
-  const [search, setSearch] = useState("");
+  const [searchParams] = useSearchParams();
+  const initialSearch = searchParams.get("search") || "";
+  const [search, setSearch] = useState(initialSearch);
   const [weapon, setWeapon] = useState("all");
   const [rarity, setRarity] = useState("Todos");
   const [wear, setWear] = useState("all");
