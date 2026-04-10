@@ -4,8 +4,7 @@ import { Button } from "@/components/ui/button";
 import { track } from "@/lib/track";
 import InteractiveKnife from "@/components/InteractiveKnife";
 import heroKnife from "@/assets/knife-massacre.webp";
-
-const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
+import { whatsappDirectLink } from "@/constants";
 
 const trustItems = [
   { icon: Zap, label: "Entrega imediata" },
@@ -98,7 +97,7 @@ const HeroSection = () => {
               </Button>
 
               <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" asChild>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track("cta_click", { location: "hero", target: "whatsapp" })}>
+                <a href={whatsappDirectLink()} target="_blank" rel="noopener noreferrer" onClick={() => track("cta_click", { location: "hero", target: "whatsapp" })}>
                   <WhatsAppIcon className="size-4" />
                   Falar com a gente
                 </a>

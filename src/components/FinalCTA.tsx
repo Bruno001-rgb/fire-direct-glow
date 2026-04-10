@@ -1,8 +1,7 @@
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import { track } from "@/lib/track";
-
-const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
+import { whatsappDirectLink } from "@/constants";
 
 const FinalCTA = () => {
   return (
@@ -32,7 +31,7 @@ const FinalCTA = () => {
             className="text-sm sm:text-base px-12 sm:px-16 h-14 uppercase tracking-wider"
             asChild
           >
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" onClick={() => track("cta_click", { location: "final_cta", target: "whatsapp" })}>
+            <a href={whatsappDirectLink("Oi, vim pelo site e quero ajuda pra encontrar uma skin!")} target="_blank" rel="noopener noreferrer" onClick={() => track("cta_click", { location: "final_cta", target: "whatsapp" })}>
               <WhatsAppIcon className="size-5 sm:size-6" />
               Chamar no WhatsApp
             </a>

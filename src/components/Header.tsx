@@ -7,8 +7,6 @@ import { useLoadout } from "@/contexts/LoadoutContext";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 import { track } from "@/lib/track";
 
-const WHATSAPP_URL = "https://chat.whatsapp.com/JYNmohUbdnI4eppUVBCeMK";
-
 const NAV_LINKS = [
   { href: "/catalogo", label: "Catálogo", type: "link" },
   { href: "/loadout", label: "Meu Loadout", type: "link", showBadge: true },
