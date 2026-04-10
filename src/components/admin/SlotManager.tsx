@@ -182,9 +182,7 @@ export default function SlotManager() {
   }, [pendingChanges, queryClient]);
 
   const handleAddSlot = useCallback(async () => {
-    if (!addSlotCatId || !addSlotSkinName.trim() || !addSlotPrice.trim()) return;
-    const price = parseFloat(addSlotPrice.replace(",", "."));
-    if (isNaN(price)) { toast.error("Preço inválido."); return; }
+    if (!addSlotCatId || !addSlotSkinName.trim()) return;
 
     setIsAddingSlot(true);
     try {
@@ -197,7 +195,6 @@ export default function SlotManager() {
       const { error: skinErr } = await supabase.from("imported_skins").insert({
         id: skinId,
         name: addSlotSkinName.trim(),
-        price,
       });
       if (skinErr) throw skinErr;
 
@@ -217,7 +214,6 @@ export default function SlotManager() {
       queryClient.invalidateQueries({ queryKey: ["showcase-skins"] });
       toast.success(`Slot adicionado em "${cat.label}"!`);
       setAddSlotSkinName("");
-      setAddSlotPrice("");
       setAddSlotCatId("");
       setShowAddSlotForm(false);
     } catch (err: any) {
@@ -225,7 +221,7 @@ export default function SlotManager() {
     } finally {
       setIsAddingSlot(false);
     }
-  }, [addSlotCatId, addSlotSkinName, addSlotPrice, categories, queryClient]);
+  }, [addSlotCatId, addSlotSkinName, categories, queryClient]);
 
   const handleDeleteCategory = useCallback(async (catId: string, catLabel: string) => {
     if (!confirm(`Tem certeza que deseja remover a categoria "${catLabel}" e todos os seus slots?`)) return;
