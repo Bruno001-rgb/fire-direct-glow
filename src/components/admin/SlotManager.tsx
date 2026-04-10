@@ -318,7 +318,7 @@ export default function SlotManager() {
           <div className="flex items-center justify-between">
             <div>
               <span className="text-sm font-semibold">Adicionar slot</span>
-              <p className="text-xs text-muted-foreground mt-0.5">Escolha a categoria, informe o nome da skin e defina o preço.</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Escolha a categoria e informe o nome da skin.</p>
             </div>
             <Button size="sm" variant="ghost" onClick={() => setShowAddSlotForm(false)}>
               <X className="size-4" />
