@@ -9,86 +9,6 @@ import { useLoadout, LOADOUT_SLOTS, type SlotKey } from "@/contexts/LoadoutConte
 import { toast } from "sonner";
 import TryInGameModal, { canTryInGame } from "@/components/catalogo/TryInGameModal";
 
-const WEAR_TIERS = [
-  { label: "Factory New", short: "FN", min: 0, max: 0.07, color: "hsl(142 71% 45%)" },
-  { label: "Minimal Wear", short: "MW", min: 0.07, max: 0.15, color: "hsl(48 96% 53%)" },
-  { label: "Field-Tested", short: "FT", min: 0.15, max: 0.38, color: "hsl(25 95% 53%)" },
-  { label: "Well-Worn", short: "WW", min: 0.38, max: 0.45, color: "hsl(0 72% 51%)" },
-  { label: "Battle-Scarred", short: "BS", min: 0.45, max: 1.0, color: "hsl(0 60% 40%)" },
-] as const;
-
-function getWearTier(float: number) {
-  return WEAR_TIERS.find((t) => float >= t.min && float < t.max) ?? WEAR_TIERS[4];
-}
-
-function getWearFilter(float: number) {
-  const brightness = 1 - float * 0.15;
-  const contrast = 1 - float * 0.08;
-  const saturate = 1 - float * 0.2;
-  return `brightness(${brightness}) contrast(${contrast}) saturate(${saturate})`;
-}
-
-/* ── Float visual bar ── */
-function FloatBar({ minFloat, maxFloat, current }: { minFloat: number; maxFloat: number; current: number }) {
-  // Position of the pointer on the full 0–1 bar
-  const pct = (current / 1) * 100;
-  const leftPct = (minFloat / 1) * 100;
-  const rightPct = (maxFloat / 1) * 100;
-
-  return (
-    <div className="space-y-1.5">
-      <div className="flex justify-between text-[10px] font-mono text-muted-foreground">
-        <span>{minFloat.toFixed(2)}</span>
-        <span>{maxFloat.toFixed(2)}</span>
-      </div>
-      <div className="relative h-3 rounded-full overflow-hidden bg-muted/50">
-        {/* Gradient bar */}
-        <div
-          className="absolute inset-0 rounded-full"
-          style={{
-            background: `linear-gradient(to right, 
-              hsl(142 71% 45%) 0%, 
-              hsl(48 96% 53%) 7%, 
-              hsl(25 95% 53%) 15%, 
-              hsl(0 72% 51%) 38%, 
-              hsl(0 60% 40%) 45%, 
-              hsl(0 50% 30%) 100%)`,
-          }}
-        />
-        {/* Dim areas outside skin's float range */}
-        {leftPct > 0 && (
-          <div
-            className="absolute top-0 left-0 h-full bg-background/70"
-            style={{ width: `${leftPct}%` }}
-          />
-        )}
-        {rightPct < 100 && (
-          <div
-            className="absolute top-0 right-0 h-full bg-background/70"
-            style={{ width: `${100 - rightPct}%` }}
-          />
-        )}
-        {/* Current position indicator */}
-        <div
-          className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 size-4 rounded-full border-2 border-foreground bg-background shadow-md transition-all duration-300"
-          style={{ left: `${pct}%` }}
-        />
-      </div>
-      <div className="flex gap-1">
-        {WEAR_TIERS.map((t) => (
-          <div
-            key={t.short}
-            className="text-[9px] text-center flex-1 opacity-60"
-            style={{ color: t.color }}
-          >
-            {t.short}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 /* ── Related skins ── */
 function RelatedSkins({
   skin,
@@ -101,7 +21,6 @@ function RelatedSkins({
 }) {
   const related = useMemo(() => {
     const collectionName = skin.collections?.[0]?.name;
-    // Prefer same collection, then same weapon
     let pool = allSkins.filter(
       (s) => s.id !== skin.id && collectionName && s.collections?.[0]?.name === collectionName
     );
@@ -157,25 +76,10 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [origin, setOrigin] = useState({ x: "50%", y: "50%" });
-  const [floatValue, setFloatValue] = useState(0);
   const [showTryModal, setShowTryModal] = useState(false);
   const touchStartY = useRef(0);
   const imgRef = useRef<HTMLImageElement>(null);
   const originalRect = useRef<DOMRect | null>(null);
-
-  const minFloat = skin?.min_float ?? 0;
-  const maxFloat = skin?.max_float ?? 1;
-
-  useEffect(() => {
-    if (skin) setFloatValue(skin.min_float ?? 0);
-  }, [skin]);
-
-  const availableTiers = useMemo(
-    () => WEAR_TIERS.filter((t) => t.min < maxFloat && t.max > minFloat),
-    [minFloat, maxFloat]
-  );
-
-  const currentTier = getWearTier(floatValue);
 
   useEffect(() => {
     if (!skin) return;
@@ -229,7 +133,7 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
   const rarityColor = skin.rarity?.color || "#888";
 
   const whatsappMsg = encodeURIComponent(
-    `Olá, quero consultar a skin ${skin.name} com float ${floatValue.toFixed(2)}.`
+    `Olá, quero consultar a skin ${skin.name}.`
   );
 
   const handleAddToLoadout = () => {
@@ -246,14 +150,6 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
     }
   };
 
-  const handleTierClick = (tier: typeof WEAR_TIERS[number]) => {
-    const clampedMin = Math.max(tier.min, minFloat);
-    const clampedMax = Math.min(tier.max, maxFloat);
-    setFloatValue(Math.round(((clampedMin + clampedMax) / 2) * 100) / 100);
-  };
-
-  const hasFloat = skin.min_float != null && skin.max_float != null;
-
   const handleSelectRelated = (s: ByMykelSkin) => {
     onSkinChange?.(s);
   };
@@ -265,7 +161,6 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Close button */}
       <button
         onClick={(e) => { e.stopPropagation(); onClose(); }}
         className="absolute top-4 right-4 z-20 p-3 rounded-full bg-muted/80 hover:bg-muted transition-colors backdrop-blur-sm"
@@ -282,7 +177,6 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
           <div className="flex flex-col gap-4 p-5 pb-8 md:gap-5 md:p-12 md:min-h-full">
             <h2 className="text-2xl md:text-3xl font-bold text-foreground">{skin.name}</h2>
 
-
             <div className="flex items-center gap-2 flex-wrap">
               <span
                 className="text-xs font-bold px-2 py-1 rounded"
@@ -295,60 +189,9 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
                   StatTrak™
                 </span>
               )}
-              {hasFloat && (
-                <>
-                  <span
-                    className="text-xs font-bold px-2.5 py-1 rounded font-mono"
-                    style={{ background: currentTier.color + "25", color: currentTier.color }}
-                  >
-                    {floatValue.toFixed(2)}
-                  </span>
-                  <span
-                    className="text-xs font-bold px-2.5 py-1 rounded"
-                    style={{ background: currentTier.color + "25", color: currentTier.color }}
-                  >
-                    {currentTier.label}
-                  </span>
-                </>
-              )}
             </div>
 
             <div className="h-px bg-border/50" />
-
-            {/* Float/Wear selector */}
-            {hasFloat && (
-              <div className="space-y-3">
-                <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">
-                  Desgaste / Float
-                </p>
-
-                <div className="flex flex-wrap gap-1.5">
-                  {WEAR_TIERS.map((tier) => {
-                    const available = availableTiers.includes(tier);
-                    const active = currentTier === tier;
-                    return (
-                      <button
-                        key={tier.short}
-                        disabled={!available}
-                        onClick={() => handleTierClick(tier)}
-                        className="text-[11px] font-bold px-2.5 py-1 rounded-md transition-all duration-200 disabled:opacity-30 disabled:cursor-not-allowed"
-                        style={{
-                          background: active ? tier.color + "30" : "hsl(var(--muted))",
-                          color: active ? tier.color : "hsl(var(--muted-foreground))",
-                          borderWidth: "1px",
-                          borderColor: active ? tier.color + "50" : "transparent",
-                        }}
-                      >
-                        {tier.short}
-                      </button>
-                    );
-                  })}
-                </div>
-
-                {/* Visual float bar */}
-                <FloatBar minFloat={minFloat} maxFloat={maxFloat} current={floatValue} />
-              </div>
-            )}
 
             {skin.collections?.[0] && (
               <div>
@@ -372,7 +215,6 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
               )}
             </div>
 
-            {/* Description / Lore */}
             {skin.description && (
               <>
                 <div className="h-px bg-border/50" />
@@ -385,7 +227,6 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
               </>
             )}
 
-            {/* Related skins */}
             {allSkins.length > 0 && (
               <>
                 <div className="h-px bg-border/50" />
@@ -456,7 +297,6 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
               willChange: 'transform',
               transform: `perspective(600px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isHovering ? 1.8 : 1})`,
               transformOrigin: `${origin.x} ${origin.y}`,
-              filter: hasFloat ? getWearFilter(floatValue) : undefined,
               transition: isHovering ? 'transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1)' : 'transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)',
             }}
           />
@@ -466,7 +306,7 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
       {showTryModal && (
         <TryInGameModal
           skin={skin}
-          floatValue={floatValue}
+          floatValue={skin.min_float ?? 0}
           onClose={() => setShowTryModal(false)}
         />
       )}
