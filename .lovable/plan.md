@@ -1,26 +1,17 @@
 
 
-# Adicionar indicadores de credibilidade abaixo da foto
+# Mover stats de credibilidade para baixo da foto
 
 ## O que muda
 
-Adicionar uma faixa de stats sobrepostos na base da foto (dentro da névoa), mostrando números de credibilidade como skins vendidas, clientes atendidos, etc. Os números ficam posicionados absolutamente na parte inferior da foto, integrados ao efeito de smoke.
+Tirar os stats de dentro do container `relative` da foto (onde estão posicionados com `absolute`) e colocá-los logo abaixo, como um elemento normal no fluxo do layout.
 
 ## Alteração em `src/components/HeroSection.tsx`
 
-Após as camadas de névoa (linha 109), adicionar uma div `absolute bottom-4` com 3 indicadores lado a lado:
-
-| Indicador | Valor | Ícone |
-|-----------|-------|-------|
-| Skins vendidas | 5.000+ | Flame |
-| Clientes satisfeitos | 1.200+ | Users |
-| Anos no mercado | 3+ | ShieldCheck |
-
-- Layout: `flex justify-center gap-6` com cada item tendo número grande em `text-primary font-bold` e label pequeno em `text-muted-foreground`
-- Fundo semi-transparente (`bg-black/40 backdrop-blur-sm rounded-xl`) para legibilidade sobre a névoa
-- Responsivo: gap e font-size menores no mobile
+1. Remover o bloco de stats overlay (absolute) de dentro do wrapper da foto
+2. Adicionar o mesmo bloco logo após o fechamento do wrapper da foto, como elemento separado com `mt-4`, centralizado, sem posicionamento absoluto
 
 | Arquivo | Ação |
 |---------|------|
-| `src/components/HeroSection.tsx` | Adicionar stats overlay na base da foto |
+| `src/components/HeroSection.tsx` | Mover stats de absolute para abaixo da foto |
 
