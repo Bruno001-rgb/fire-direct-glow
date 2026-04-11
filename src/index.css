@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap');
 
@@ -19,11 +23,11 @@
     --primary: 22 91% 47%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 38 92% 49%;
+    --secondary: 24 95% 53%;
     --secondary-foreground: 225 30% 6%;
 
     --muted: 225 20% 10%;
-    --muted-foreground: 225 10% 50%;
+    --muted-foreground: 225 10% 62%;
 
     --accent: 254 55% 52%;
     --accent-foreground: 0 0% 100%;
@@ -34,8 +38,6 @@
     --border: 225 20% 14%;
     --input: 225 20% 14%;
     --ring: 22 91% 47%;
-
-    --radius: 0.75rem;
 
     --radius: 0.75rem;
 
@@ -71,34 +73,32 @@
   }
 
   .glass-card-glow {
-    @apply bg-card/70 backdrop-blur-xl border border-primary/15 rounded-xl;
-    box-shadow: 0 0 20px hsl(22 91% 47% / 0.06);
+    @apply bg-card/70 backdrop-blur-xl border border-primary/10 rounded-xl;
+    box-shadow: 0 0 12px hsl(22 91% 47% / 0.04);
     transition: box-shadow 0.4s ease, border-color 0.4s ease;
   }
 
   .glass-card-glow:hover {
-    border-color: hsl(22 91% 47% / 0.35);
-    box-shadow: 0 0 30px hsl(22 91% 47% / 0.12), 0 0 60px hsl(22 91% 47% / 0.04);
+    border-color: hsl(22 91% 47% / 0.25);
+    box-shadow: 0 0 20px hsl(22 91% 47% / 0.08);
   }
 
   .glow-orange {
-    box-shadow: 0 0 40px hsl(22 91% 47% / 0.15), 0 0 80px hsl(22 91% 47% / 0.06);
+    box-shadow: 0 0 25px hsl(22 91% 47% / 0.08), 0 0 50px hsl(22 91% 47% / 0.03);
   }
 
   .text-gradient-fire {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(22 91% 47%), hsl(38 92% 49%), hsl(22 91% 55%));
+    @apply text-primary font-bold;
   }
 
   .bg-cinematic {
-    background: radial-gradient(ellipse at 50% 0%, hsl(22 91% 47% / 0.03) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 50%, hsl(254 55% 52% / 0.02) 0%, transparent 50%),
+    background: radial-gradient(ellipse at 50% 0%, hsl(22 91% 47% / 0.02) 0%, transparent 60%),
                 hsl(0 0% 0%);
   }
 
   .bg-cinematic-alt {
-    background: radial-gradient(ellipse at 20% 50%, hsl(254 55% 52% / 0.04) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, hsl(22 91% 47% / 0.03) 0%, transparent 50%),
+    background: radial-gradient(ellipse at 20% 50%, hsl(254 55% 52% / 0.02) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, hsl(22 91% 47% / 0.02) 0%, transparent 50%),
                 hsl(0 0% 0%);
   }
 
@@ -111,7 +111,7 @@
   }
 
   .section-heading {
-    @apply text-xl sm:text-2xl lg:text-3xl font-bold tracking-tight uppercase;
+    @apply text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight uppercase;
   }
 
   .animate-float {
@@ -156,8 +156,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 16px hsl(22 91% 47% / 0.25); }
-  50% { box-shadow: 0 0 24px hsl(22 91% 47% / 0.4), 0 0 48px hsl(22 91% 47% / 0.12); }
+  0%, 100% { box-shadow: 0 0 10px hsl(22 91% 47% / 0.15); }
+  50% { box-shadow: 0 0 18px hsl(22 91% 47% / 0.25), 0 0 36px hsl(22 91% 47% / 0.08); }
 }
 
 @keyframes smoke-drift {

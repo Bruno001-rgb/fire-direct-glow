@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RefreshCw, Loader2, ArrowLeft } from "lucide-react";
+import { RefreshCw, Loader2, ArrowLeft, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import SlotManager from "@/components/admin/SlotManager";
 import TestimonialsManager from "@/components/admin/TestimonialsManager";
+import CatalogManager from "@/components/admin/CatalogManager";
+import CredentialsManager from "@/components/admin/CredentialsManager";
+import AdminsManager from "@/components/admin/AdminsManager";
 import { toast } from "sonner";
 
 export default function Admin() {
@@ -24,57 +27,92 @@ export default function Admin() {
     }
   };
 
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = "/admin/login";
+  };
+
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-border sticky top-0 z-50 bg-background/95 backdrop-blur">
-        <div className="container flex items-center justify-between h-14">
-          <div className="flex items-center gap-3">
-            <Link to="/">
-              <Button variant="ghost" size="sm">
-                <ArrowLeft className="size-4 mr-1" />
-                Voltar
+    <>
+      <div className="min-h-screen bg-background text-foreground">
+        <header className="border-b border-border sticky top-0 z-50 bg-background/95 backdrop-blur">
+          <div className="container flex items-center justify-between h-14">
+            <div className="flex items-center gap-3">
+              <Link to="/">
+                <Button variant="ghost" size="sm">
+                  <ArrowLeft className="size-4 mr-1" />
+                  Voltar
+                </Button>
+              </Link>
+              <h1 className="text-lg font-bold">Admin — Vitrine</h1>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                onClick={handleSync}
+                disabled={syncing}
+                size="sm"
+                variant="outline"
+              >
+                {syncing ? (
+                  <Loader2 className="size-4 mr-1 animate-spin" />
+                ) : (
+                  <RefreshCw className="size-4 mr-1" />
+                )}
+                Sincronizar Skins
               </Button>
-            </Link>
-            <h1 className="text-lg font-bold">Admin — Vitrine</h1>
+              <Button onClick={handleLogout} size="sm" variant="ghost">
+                <LogOut className="size-4 mr-1" />
+                Sair
+              </Button>
+            </div>
           </div>
-          <Button
-            onClick={handleSync}
-            disabled={syncing}
-            size="sm"
-            variant="outline"
-          >
-            {syncing ? (
-              <Loader2 className="size-4 mr-1 animate-spin" />
-            ) : (
-              <RefreshCw className="size-4 mr-1" />
-            )}
-            Sincronizar Skins
-          </Button>
-        </div>
-      </header>
+        </header>
 
-      <main className="container py-6">
-        <Tabs defaultValue="skins">
-          <TabsList className="mb-6">
-            <TabsTrigger value="skins">Skins</TabsTrigger>
-            <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
-          </TabsList>
+        <main className="container py-6">
+          <Tabs defaultValue="vitrine">
+            <TabsList className="mb-6">
+              <TabsTrigger value="vitrine">Vitrine</TabsTrigger>
+              <TabsTrigger value="catalogo">Catálogo</TabsTrigger>
+              <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
+              <TabsTrigger value="sobre">Sobre</TabsTrigger>
+              <TabsTrigger value="admins">Admins</TabsTrigger>
+            </TabsList>
 
-          <TabsContent value="skins">
-            <p className="text-sm text-muted-foreground mb-6">
-              Selecione as skins que aparecem em cada categoria da landing page.
-            </p>
-            <SlotManager />
-          </TabsContent>
+            <TabsContent value="vitrine">
+              <p className="text-sm text-muted-foreground mb-6">
+                Skins que aparecem na vitrine da página inicial.
+              </p>
+              <CatalogManager />
+            </TabsContent>
 
-          <TabsContent value="depoimentos">
-            <p className="text-sm text-muted-foreground mb-6">
-              Gerencie os prints/depoimentos exibidos na landing page.
-            </p>
-            <TestimonialsManager />
-          </TabsContent>
-        </Tabs>
-      </main>
-    </div>
+            <TabsContent value="catalogo">
+              <p className="text-sm text-muted-foreground mb-6">
+                Gerencie categorias e slots do catálogo completo. Skins da vitrine aparecem aqui automaticamente.
+              </p>
+              <SlotManager />
+            </TabsContent>
+
+            <TabsContent value="depoimentos">
+              <p className="text-sm text-muted-foreground mb-6">
+                Gerencie os prints/depoimentos exibidos na landing page.
+              </p>
+              <TestimonialsManager />
+            </TabsContent>
+            <TabsContent value="sobre">
+              <p className="text-sm text-muted-foreground mb-6">
+                Edite as informações da seção "Conheça a FireSkins".
+              </p>
+              <CredentialsManager />
+            </TabsContent>
+            <TabsContent value="admins">
+              <p className="text-sm text-muted-foreground mb-6">
+                Gerencie os administradores do painel. O Super Admin pode adicionar, remover e transferir o cargo.
+              </p>
+              <AdminsManager />
+            </TabsContent>
+          </Tabs>
+        </main>
+      </div>
+    </>
   );
 }

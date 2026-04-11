@@ -1,6 +1,5 @@
-import { useShowcaseSkins } from "@/hooks/useShowcaseSkins";
-
-const WHATSAPP_URL = "https://wa.me/5511999999999?text=Ol%C3%A1%2C%20tenho%20interesse%20na%20skin%20";
+import { useCatalogSkins } from "@/hooks/useCatalogSkins";
+import { useNavigate } from "react-router-dom";
 
 const rarityColor: Record<string, string> = {
   Covert: "text-red-400",
@@ -11,7 +10,16 @@ const rarityColor: Record<string, string> = {
 };
 
 const SkinsSidebar = () => {
-  const { data: skins } = useShowcaseSkins();
+  const { data: catalogSkins } = useCatalogSkins();
+  const navigate = useNavigate();
+
+  // Map catalog skins to sidebar format
+  const skins = catalogSkins?.map((s) => ({
+    name: s.weapon?.name || s.name,
+    skin: s.name,
+    rarity: s.rarity?.name || "Covert",
+    image: s.image || "",
+  })) || [];
 
   if (!skins || skins.length === 0) return null;
 
@@ -23,12 +31,10 @@ const SkinsSidebar = () => {
       <div className="sidebar-scroll-track">
         <div className="sidebar-scroll-content">
           {items.map((skin, i) => (
-            <a
+            <div
               key={`${skin.name}-${skin.skin}-${i}`}
-              href={`${WHATSAPP_URL}${encodeURIComponent(skin.name + " " + skin.skin)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block p-1.5 xl:p-2 group"
+              onClick={() => navigate(`/catalogo?search=${encodeURIComponent(skin.name)}`)}
+              className="block p-1.5 xl:p-2 group cursor-pointer"
             >
               <div className="rounded-lg overflow-hidden border border-primary/10 group-hover:border-primary/40 transition-colors duration-300 bg-card/50">
                 <div className="aspect-square overflow-hidden bg-background/50">
@@ -46,7 +52,7 @@ const SkinsSidebar = () => {
                   </p>
                 </div>
               </div>
-            </a>
+            </div>
           ))}
         </div>
       </div>

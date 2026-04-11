@@ -7,50 +7,42 @@ export interface ShowcaseSkin {
   category: string;
   rarity: string;
   image: string;
+  price: number | null;
 }
 
 export function useShowcaseSkins() {
   return useQuery({
     queryKey: ["showcase-skins"],
     queryFn: async (): Promise<ShowcaseSkin[]> => {
-      // Get all slots with their category and skin data
-      const { data: slots, error: slotsError } = await supabase
-        .from("showcase_slots")
+      const { data, error } = await supabase
+        .from("catalog_skins")
         .select(`
-          slot_position,
           skin_id,
-          imported_skins (
+          sort_order,
+          imported_skins:skin_id (
             name,
             weapon_name,
             pattern_name,
             rarity_name,
-            image
-          ),
-          showcase_categories (
-            key,
-            sort_order
+            image,
+            price
           )
         `)
-        .not("skin_id", "is", null)
-        .order("slot_position");
+        .order("sort_order", { ascending: true });
 
-      if (slotsError) throw slotsError;
+      if (error) throw error;
 
-      return (slots || [])
-        .filter((s: any) => s.imported_skins && s.showcase_categories)
-        .sort((a: any, b: any) => {
-          const catDiff = (a.showcase_categories.sort_order || 0) - (b.showcase_categories.sort_order || 0);
-          if (catDiff !== 0) return catDiff;
-          return a.slot_position - b.slot_position;
-        })
+      return (data || [])
+        .filter((s: any) => s.imported_skins)
         .map((s: any) => ({
           name: s.imported_skins.weapon_name || s.imported_skins.name,
           skin: s.imported_skins.pattern_name || "",
-          category: s.showcase_categories.key,
+          category: "vitrine",
           rarity: s.imported_skins.rarity_name || "Covert",
           image: s.imported_skins.image || "",
+          price: s.imported_skins.price ?? null,
         }));
     },
-    staleTime: 1000 * 60 * 5, // 5 min cache
+    staleTime: 1000 * 60 * 5,
   });
 }

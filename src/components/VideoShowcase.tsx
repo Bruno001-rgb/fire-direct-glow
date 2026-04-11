@@ -40,29 +40,6 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
 
       {/* ── Background layers ── */}
       <div className="absolute inset-0 bg-black" />
-      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] sm:w-[800px] h-[300px] sm:h-[500px]"
-        style={{ background: 'radial-gradient(ellipse at 50% 100%, rgba(233, 90, 12, 0.12) 0%, rgba(233, 90, 12, 0.04) 40%, transparent 70%)' }}
-      />
-      <div className="absolute -top-20 -right-20 w-[400px] sm:w-[600px] h-[400px] sm:h-[600px]"
-        style={{ background: 'radial-gradient(ellipse at 70% 30%, rgba(90, 61, 204, 0.08) 0%, transparent 60%)' }}
-      />
-      <div className="absolute inset-0" style={{ boxShadow: 'inset 0 0 200px 60px rgba(0,0,0,0.6)' }} />
-
-      {/* Diagonal pattern */}
-      <div className="absolute top-0 right-0 w-1/2 h-full opacity-[0.04]"
-        style={{
-          backgroundImage: `repeating-linear-gradient(-55deg, transparent, transparent 30px, rgba(233, 90, 12, 0.5) 30px, rgba(233, 90, 12, 0.5) 31px)`,
-          maskImage: 'linear-gradient(to left, rgba(0,0,0,0.6) 0%, transparent 80%)',
-          WebkitMaskImage: 'linear-gradient(to left, rgba(0,0,0,0.6) 0%, transparent 80%)',
-        }}
-      />
-
-      {/* Floating particles */}
-      <div className="absolute top-1/4 left-1/4 w-1 h-1 rounded-full animate-pulse" style={{ background: '#E95A0C', boxShadow: '0 0 8px #E95A0C' }} />
-      <div className="absolute top-1/3 right-1/3 w-0.5 h-0.5 rounded-full animate-pulse" style={{ background: '#F5A006', boxShadow: '0 0 6px #F5A006', animationDelay: '1s' }} />
-      <div className="absolute bottom-1/3 left-1/3 w-0.5 h-0.5 rounded-full animate-pulse" style={{ background: '#5A3DCC', boxShadow: '0 0 6px #5A3DCC', animationDelay: '2s' }} />
-      <div className="absolute top-2/3 right-1/4 w-1 h-1 rounded-full animate-pulse" style={{ background: '#E95A0C', boxShadow: '0 0 10px #E95A0C', animationDelay: '0.5s' }} />
-      <div className="absolute bottom-1/4 right-1/2 w-0.5 h-0.5 rounded-full animate-pulse" style={{ background: '#F5A006', boxShadow: '0 0 4px #F5A006', animationDelay: '1.5s' }} />
 
       {/* ── Content ── */}
       <div className="container relative z-10 py-10 sm:py-14 lg:py-16">
@@ -74,7 +51,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
             <div className="inline-flex items-center gap-2 mb-6">
               <div className="h-px w-6" style={{ background: '#E95A0C' }} />
               <span
-                className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.35em] px-3 py-1.5 rounded-sm backdrop-blur-sm"
+                className="text-xs font-bold uppercase tracking-[0.35em] px-3 py-1.5 rounded-sm backdrop-blur-sm"
                 style={{
                   background: 'rgba(233, 90, 12, 0.08)',
                   border: '1px solid rgba(233, 90, 12, 0.2)',
@@ -87,7 +64,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
             </div>
 
             {/* Headline */}
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl xl:text-7xl font-black uppercase tracking-tight font-heading leading-[0.88] mb-5">
+            <h2 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tight font-heading leading-[0.88] mb-5">
               <span
                 className="bg-clip-text text-transparent block"
                 style={{ backgroundImage: 'linear-gradient(135deg, #E95A0C 0%, #F5A006 60%, #E95A0C 100%)' }}
@@ -100,18 +77,18 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
             </h2>
 
             {/* Subtitle */}
-            <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-8">
+            <p className="text-sm sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-4 sm:mb-8">
               Assista ao vídeo e descubra como comprar, vender e negociar suas skins com rapidez e segurança.
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4">
-              <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm rounded-sm w-full sm:w-auto" onClick={openFullscreen}>
+            <div className="hidden sm:flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4">
+              <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" onClick={openFullscreen}>
                 <Play className="size-4 fill-current" />
                 Assistir vídeo
               </Button>
 
-              <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm rounded-sm w-full sm:w-auto" asChild>
+              <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" asChild>
                 <a href="#catalogo">
                   Ver catálogo
                   <ArrowRight className="size-4 ml-1" />
@@ -120,13 +97,13 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
             </div>
 
             {/* Trust line */}
-            <div className="mt-8 flex items-center gap-2 justify-center lg:justify-start">
+            <div className="mt-4 sm:mt-8 flex items-center gap-2 justify-center lg:justify-start">
               <div className="flex -space-x-1">
                 <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#E95A0C' }} />
                 <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#F5A006' }} />
                 <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#5A3DCC' }} />
               </div>
-              <span className="text-[10px] sm:text-[11px] text-muted-foreground uppercase tracking-widest">
+              <span className="text-xs sm:text-sm text-muted-foreground uppercase tracking-widest">
                 +2.000 negociações realizadas
               </span>
             </div>
@@ -145,7 +122,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
               style={{
                 background: 'linear-gradient(145deg, rgba(20, 15, 35, 0.8), rgba(10, 8, 20, 0.95))',
                 border: '1px solid rgba(233, 90, 12, 0.15)',
-                boxShadow: '0 0 1px rgba(233, 90, 12, 0.4), 0 0 40px rgba(233, 90, 12, 0.06), 0 20px 60px rgba(0,0,0,0.5)',
+                boxShadow: '0 2px 20px rgba(0,0,0,0.4)',
                 backdropFilter: 'blur(20px)',
               }}
             >
@@ -153,7 +130,7 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
               <div className="flex items-center justify-between px-4 sm:px-5 py-3" style={{ borderBottom: '1px solid rgba(233, 90, 12, 0.1)' }}>
                 <div className="flex items-center gap-2">
                   <Flame className="size-4" style={{ color: '#E95A0C' }} />
-                  <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] font-heading" style={{ color: '#F5A006' }}>
+                  <span className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] font-heading" style={{ color: '#F5A006' }}>
                     FireSkins
                   </span>
                 </div>
@@ -214,14 +191,14 @@ const VideoShowcase = ({ videoSrc }: VideoShowcaseProps) => {
                   <div className="absolute bottom-3 left-3 w-4 h-4" style={{ borderBottom: '1px solid rgba(90, 61, 204, 0.3)', borderLeft: '1px solid rgba(90, 61, 204, 0.3)' }} />
                   <div className="absolute bottom-3 right-3 w-4 h-4" style={{ borderBottom: '1px solid rgba(90, 61, 204, 0.3)', borderRight: '1px solid rgba(90, 61, 204, 0.3)' }} />
 
-                  <span className="absolute top-3 right-8 text-[8px] font-mono tracking-widest" style={{ color: 'rgba(245, 160, 6, 0.2)' }}>REC</span>
-                  <span className="absolute bottom-3 left-8 text-[8px] font-mono tracking-widest" style={{ color: 'rgba(90, 61, 204, 0.25)' }}>00:00</span>
+                  <span className="absolute top-3 right-8 text-[10px] font-mono tracking-widest" style={{ color: 'rgba(245, 160, 6, 0.2)' }}>REC</span>
+                  <span className="absolute bottom-3 left-8 text-[10px] font-mono tracking-widest" style={{ color: 'rgba(90, 61, 204, 0.25)' }}>00:00</span>
                 </div>
               </div>
 
               {/* Card footer */}
               <div className="flex items-center justify-between px-4 sm:px-5 py-3" style={{ borderTop: '1px solid rgba(233, 90, 12, 0.08)' }}>
-                <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground font-heading">
+                <span className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground font-heading">
                   Sua loja de skins CS2
                 </span>
               </div>
