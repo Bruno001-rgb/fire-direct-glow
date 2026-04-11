@@ -1,5 +1,6 @@
 import { Instagram, Youtube, Mail, Facebook } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
+import blackbotLogo from "@/assets/blackbot-logo.png";
 import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
 import logoFireskins from "@/assets/logo-fireskins-full.png";
 import { Input } from "@/components/ui/input";
