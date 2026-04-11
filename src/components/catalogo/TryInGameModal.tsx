@@ -111,7 +111,7 @@ const defindexMap: Record<string, number> = {
   "weapon_knife_falchion": 512,
   "weapon_knife_bowie": 514,
   "weapon_knife_butterfly": 515,
-  "weapon_knife_push": 517,
+  "weapon_knife_push": 516,
   "weapon_knife_cord": 517,
   "weapon_knife_canis": 518,
   "weapon_knife_survival_bowie": 518,
@@ -136,6 +136,7 @@ const defindexMap: Record<string, number> = {
 };
 
 const nameAliasMap: Record<string, string> = {
+  // Existing
   "M4A1-S": "weapon_m4a1_silencer",
   "USP-S": "weapon_usp_silencer",
   "CZ75-Auto": "weapon_cz75a",
@@ -147,6 +148,48 @@ const nameAliasMap: Record<string, string> = {
   "SSG 08": "weapon_ssg08",
   "SG 553": "weapon_sg556",
   "MP5-SD": "weapon_mp5sd",
+  // Pistolas
+  "AK-47": "weapon_ak47",
+  "Desert Eagle": "weapon_deagle",
+  "Five-SeveN": "weapon_fiveseven",
+  "Glock-18": "weapon_glock",
+  "P2000": "weapon_hkp2000",
+  "Tec-9": "weapon_tec9",
+  // SMGs
+  "MAC-10": "weapon_mac10",
+  "UMP-45": "weapon_ump45",
+  // Pesadas
+  "MAG-7": "weapon_mag7",
+  "Sawed-Off": "weapon_sawedoff",
+  "Galil AR": "weapon_galilar",
+  // Facas
+  "Bowie Knife": "weapon_knife_bowie",
+  "Butterfly Knife": "weapon_knife_butterfly",
+  "Classic Knife": "weapon_knife_css",
+  "Falchion Knife": "weapon_knife_falchion",
+  "Flip Knife": "weapon_knife_flip",
+  "Gut Knife": "weapon_knife_gut",
+  "Huntsman Knife": "weapon_knife_tactical",
+  "Karambit": "weapon_knife_karambit",
+  "Kukri Knife": "weapon_knife_kukri",
+  "M9 Bayonet": "weapon_knife_m9_bayonet",
+  "Navaja Knife": "weapon_knife_gypsy_jackknife",
+  "Nomad Knife": "weapon_knife_nomad",
+  "Paracord Knife": "weapon_knife_cord",
+  "Shadow Daggers": "weapon_knife_push",
+  "Skeleton Knife": "weapon_knife_skeleton",
+  "Stiletto Knife": "weapon_knife_stiletto",
+  "Survival Knife": "weapon_knife_survival_bowie",
+  "Talon Knife": "weapon_knife_talon",
+  "Ursus Knife": "weapon_knife_ursus",
+  // Luvas
+  "Broken Fang Gloves": "weapon_gloves_broken_fang",
+  "Driver Gloves": "weapon_gloves_slick",
+  "Hand Wraps": "weapon_gloves_handwrap_leathery",
+  "Hydra Gloves": "weapon_gloves_hydra",
+  "Moto Gloves": "weapon_gloves_motorcycle",
+  "Specialist Gloves": "weapon_gloves_specialist",
+  "Sport Gloves": "weapon_gloves_sporty",
 };
 
 function toWeaponKey(name: string): string {
