@@ -82,7 +82,7 @@ const AboutSection = () => {
                     {item.title}
                   </h3>
                   <span className="text-gradient-fire font-bold text-xl">
-                    {item.value}
+                    {item.icon === "message-circle" ? "Fale conosco" : item.value}
                   </span>
                   <p className="text-muted-foreground text-sm">
                     {item.description}
