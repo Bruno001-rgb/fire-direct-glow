@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_login_attempts: {
+        Row: {
+          created_at: string
+          email: string
+          failure_reason: string | null
+          id: string
+          ip_hint: string | null
+          success: boolean
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          failure_reason?: string | null
+          id?: string
+          ip_hint?: string | null
+          success?: boolean
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          failure_reason?: string | null
+          id?: string
+          ip_hint?: string | null
+          success?: boolean
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       catalog_skins: {
         Row: {
           created_at: string
