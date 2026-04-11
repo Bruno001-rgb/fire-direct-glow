@@ -1,28 +1,34 @@
 
 
-# Substituir faca pela foto da equipe com glow laranja pulsante
+# Foto da equipe como background da Hero
 
-## O que muda
+Transformar a foto da equipe em uma imagem de fundo integrada à seção hero, removendo a moldura quadrada e aumentando o tamanho para dar a sensação de que faz parte do site.
 
-Trocar a imagem da faca na hero pela foto da equipe FireSkins, mantendo o efeito de glow laranja pulsante que já existe no componente `InteractiveKnife` — adaptado para uma foto de pessoas (sem rotação 3D, apenas flutuação suave e aura).
+## Alterações em `src/components/HeroSection.tsx`
 
-## Alterações
+**Remover**: O bloco inteiro da coluna direita (div com a foto, glows, borda `border-primary/15`)
 
-### 1. Copiar a imagem para o projeto
-- Copiar `user-uploads://image-2.png` para `src/assets/team-photo.png`
+**Adicionar**: A foto como background absoluto da seção hero:
+- Posicionada no lado direito (ou cobrindo toda a seção com opacity reduzida)
+- Sem `rounded-2xl` e sem a borda (`border border-primary/15` — a "linha quadrada")
+- Tamanho maior: `w-full` ou pelo menos `w-[60%]` do lado direito, cobrindo a altura toda
+- `object-cover` para preencher sem distorção
+- Overlay escuro com gradiente da esquerda para a direita para o texto continuar legível
+- Manter o glow laranja pulsante por trás como efeito atmosférico sutil
 
-### 2. Atualizar `src/components/HeroSection.tsx`
-- Trocar o import de `heroKnife` pelo `team-photo.png`
-- Remover o componente `InteractiveKnife` e os anéis HUD/glow ao redor
-- Criar uma composição nova: a foto da equipe com recorte arredondado, e por trás um glow laranja pulsante usando CSS animation (keyframes de opacity e blur)
-- A foto terá flutuação idle suave (translateY com animation CSS) sem a interação 3D de mouse (não faz sentido para foto de pessoas)
-- Drop-shadow laranja sutil na foto
+**Layout**: Mudar de grid 2 colunas para layout single-column com texto sobre a foto de fundo. O texto fica à esquerda com o gradiente escuro protegendo a leitura, e a foto aparece mais no lado direito.
 
-### 3. Remover dependência do `InteractiveKnife`
-- O componente `InteractiveKnife` não será mais usado na hero (pode permanecer no projeto caso usado em outro lugar)
+```text
+┌──────────────────────────────────────────────────┐
+│  gradient overlay  │        FOTO (background)    │
+│  ████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ │
+│  TEXTO AQUI  ░░░░░░░░░░ equipe visível ░░░░░░░░ │
+│  CTA buttons ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ │
+│  trust items ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░ │
+└──────────────────────────────────────────────────┘
+```
 
 | Arquivo | Ação |
 |---------|------|
-| `src/assets/team-photo.png` | Novo — imagem da equipe |
-| `src/components/HeroSection.tsx` | Substituir faca pela foto com glow pulsante |
+| `src/components/HeroSection.tsx` | Reestruturar: foto como bg, remover borda, remover grid 2col |
 
