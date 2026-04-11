@@ -7,6 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import SlotManager from "@/components/admin/SlotManager";
 import TestimonialsManager from "@/components/admin/TestimonialsManager";
 import CatalogManager from "@/components/admin/CatalogManager";
+import CredentialsManager from "@/components/admin/CredentialsManager";
 // import AdminGuard from "@/components/admin/AdminGuard";
 import { toast } from "sonner";
 
@@ -73,6 +74,7 @@ export default function Admin() {
               <TabsTrigger value="vitrine">Vitrine</TabsTrigger>
               <TabsTrigger value="catalogo">Catálogo</TabsTrigger>
               <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
+              <TabsTrigger value="sobre">Sobre</TabsTrigger>
             </TabsList>
 
             <TabsContent value="vitrine">
@@ -94,6 +96,12 @@ export default function Admin() {
                 Gerencie os prints/depoimentos exibidos na landing page.
               </p>
               <TestimonialsManager />
+            </TabsContent>
+            <TabsContent value="sobre">
+              <p className="text-sm text-muted-foreground mb-6">
+                Edite as informações da seção "Conheça a FireSkins".
+              </p>
+              <CredentialsManager />
             </TabsContent>
           </Tabs>
         </main>
