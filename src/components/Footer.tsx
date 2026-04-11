@@ -68,13 +68,13 @@ const Footer = () => {
 
             {/* Col 1 — Identity */}
             <div className="flex flex-col gap-4">
-              <img src={logoFireskins} alt="FireSkins" className="h-12 w-auto max-w-[180px] object-contain self-start" loading="lazy" />
+              <img src={logoFireskins} alt="FireSkins" className="h-24 w-auto max-w-[360px] object-contain self-start" loading="lazy" />
               <div className="space-y-1">
-                <a href="mailto:suporte@fireskins.gg" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
+                <a href="mailto:suporte@fireskins.gg" className="flex items-center gap-2 text-base text-white/70 hover:text-white transition-colors">
                   <Mail className="size-4 shrink-0" style={{ color: "#E95A0C" }} />
                   suporte@fireskins.gg
                 </a>
-                <p className="text-xs text-muted-foreground pl-6">Suporte técnico</p>
+                <p className="text-sm text-white/50 pl-6">Suporte técnico</p>
               </div>
               {/* Social icons */}
               <div className="flex items-center gap-2 pt-2">
@@ -102,31 +102,34 @@ const Footer = () => {
 
             {/* Col 2 — Serviços */}
             <div className="flex flex-col gap-3">
-              <h4 className="text-sm font-bold uppercase tracking-widest" style={{ color: "#E95A0C" }}>Serviços</h4>
-              {["Vender skins", "Programa de fidelidade", "Programa de indicação"].map((item) => (
-                <a key={item} href="#" className="text-sm text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1">{item}</a>
+              <h4 className="text-base font-bold uppercase tracking-widest" style={{ color: "#E95A0C" }}>Serviços</h4>
+              {[
+                { label: "Vender skins", href: whatsAppUrl, external: true },
+                { label: "Catálogo de skins", href: "/catalogo", external: false },
+                { label: "Monte seu loadout", href: "/loadout", external: false },
+              ].map((item) => (
+                <a key={item.label} href={item.href} target={item.external ? "_blank" : undefined} rel={item.external ? "noopener noreferrer" : undefined} className="text-base text-white/80 hover:text-white transition-all duration-200 hover:translate-x-1">{item.label}</a>
               ))}
             </div>
 
             {/* Col 3 — Produto */}
             <div className="flex flex-col gap-3">
-              <h4 className="text-sm font-bold uppercase tracking-widest" style={{ color: "#E95A0C" }}>Produto</h4>
+              <h4 className="text-base font-bold uppercase tracking-widest" style={{ color: "#E95A0C" }}>Produto</h4>
               {[
-                "Perguntas frequentes",
-                "Sobre nós",
-                "Fale conosco",
-                "A FireSkins é confiável?",
-                "O que é a FireSkins",
-                "Proteção contra golpes",
+                { label: "Sobre nós", href: "/#sobre" },
+                { label: "A FireSkins é confiável?", href: "/#depoimentos" },
+                { label: "Perguntas frequentes", href: "/#contato" },
+                { label: "Fale conosco", href: whatsAppUrl, external: true },
+                { label: "Proteção contra golpes", href: "/#sobre" },
               ].map((item) => (
-                <a key={item} href="#" className="text-sm text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1">{item}</a>
+                <a key={item.label} href={item.href} target={(item as any).external ? "_blank" : undefined} rel={(item as any).external ? "noopener noreferrer" : undefined} className="text-base text-white/80 hover:text-white transition-all duration-200 hover:translate-x-1">{item.label}</a>
               ))}
             </div>
 
             {/* Col 4 — Newsletter */}
             <div className="flex flex-col gap-3">
-              <h4 className="text-sm font-bold uppercase tracking-widest" style={{ color: "#E95A0C" }}>Newsletter</h4>
-              <p className="text-sm text-muted-foreground">Receba atualizações e ofertas exclusivas diretamente no seu email.</p>
+              <h4 className="text-base font-bold uppercase tracking-widest" style={{ color: "#E95A0C" }}>Newsletter</h4>
+              <p className="text-base text-white/70">Receba atualizações e ofertas exclusivas diretamente no seu email.</p>
               <div className="flex gap-2">
                 <Input
                   type="email"
@@ -150,14 +153,14 @@ const Footer = () => {
         <div className="container py-5">
           {/* Row 1: Copyright + links */}
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-4">
-            <span className="text-xs text-muted-foreground text-center sm:text-left">
+             <span className="text-sm text-white/60 text-center sm:text-left">
               © {new Date().getFullYear()}{" "}
-              <span className="font-bold text-foreground">FireSkins</span>
+              <span className="font-bold text-white">FireSkins</span>
               . Todos os direitos reservados.
             </span>
             <div className="flex items-center gap-4">
-              <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Termos de Serviço</a>
-              <a href="#" className="text-xs text-muted-foreground hover:text-foreground transition-colors">Políticas de Privacidade</a>
+              <a href="#" className="text-sm text-white/60 hover:text-white transition-colors">Termos de Serviço</a>
+              <a href="#" className="text-sm text-white/60 hover:text-white transition-colors">Políticas de Privacidade</a>
             </div>
           </div>
 
@@ -193,7 +196,7 @@ const Footer = () => {
           </div>
 
           {/* Row 3: Tagline */}
-          <p className="text-[11px] text-muted-foreground text-center mt-1">
+          <p className="text-sm text-white/50 text-center mt-1">
             Melhor serviço de compra e venda de skins CS2 do Brasil.
           </p>
         </div>
