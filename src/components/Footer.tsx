@@ -67,7 +67,7 @@ const Footer = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
 
             {/* Col 1 — Identity */}
-            <div className="flex flex-col gap-2 lg:-mt-6">
+            <div className="flex flex-col gap-2 lg:-mt-12">
               <img src={logoFireskins} alt="FireSkins" className="h-40 lg:h-60 w-auto max-w-[600px] object-contain self-start -ml-16" loading="lazy" />
               <div className="space-y-1">
                 <a href="mailto:suporte@fireskins.gg" className="flex items-center gap-2 text-base text-white/70 hover:text-white transition-colors">
