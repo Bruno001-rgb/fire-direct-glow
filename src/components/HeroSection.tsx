@@ -87,36 +87,32 @@ const HeroSection = () => {
           <div className="relative flex items-center justify-center lg:justify-end">
             {/* Pulsating orange glow aura */}
             <div
-              className="absolute w-[min(75vw,300px)] sm:w-[380px] lg:w-[440px] aspect-square rounded-full animate-hero-glow"
+              className="absolute w-[min(85vw,360px)] sm:w-[460px] lg:w-[520px] aspect-square rounded-full animate-hero-glow"
               style={{
                 background: "radial-gradient(circle, hsl(var(--primary) / 0.25) 0%, hsl(var(--primary) / 0.08) 40%, transparent 70%)",
                 filter: "blur(40px)",
               }}
             />
 
-            {/* Secondary glow layer (offset timing) */}
             <div
-              className="absolute w-[min(60vw,240px)] sm:w-[300px] lg:w-[360px] aspect-square rounded-full animate-hero-glow-secondary"
+              className="absolute w-[min(70vw,300px)] sm:w-[380px] lg:w-[440px] aspect-square rounded-full animate-hero-glow-secondary"
               style={{
                 background: "radial-gradient(circle, hsl(var(--secondary) / 0.15) 0%, hsl(var(--primary) / 0.05) 50%, transparent 70%)",
                 filter: "blur(50px)",
               }}
             />
 
-            {/* Floating team photo */}
-            <div className="relative animate-hero-float">
+            <div className="relative">
               <img
                 src={teamPhoto}
                 alt="Equipe FireSkins"
-                className="relative z-[1] w-[min(80vw,320px)] sm:w-[400px] lg:w-[440px] rounded-2xl object-cover"
+                className="relative z-[1] w-[min(90vw,380px)] sm:w-[480px] lg:w-[540px] rounded-2xl object-cover"
                 style={{
                   filter: "drop-shadow(0 8px 40px hsl(var(--primary) / 0.3)) drop-shadow(0 0 60px hsl(var(--primary) / 0.1))",
                 }}
-                width={880}
-                height={880}
+                width={1080}
+                height={1080}
               />
-              {/* Subtle border glow */}
-              <div className="absolute inset-0 rounded-2xl border border-primary/15 z-[2] pointer-events-none" />
             </div>
           </div>
         </div>
