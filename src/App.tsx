@@ -9,6 +9,8 @@ import Admin from "./pages/Admin.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import Catalogo from "./pages/Catalogo.tsx";
 import Loadout from "./pages/Loadout.tsx";
+import TermosDeServico from "./pages/TermosDeServico.tsx";
+import PoliticaDePrivacidade from "./pages/PoliticaDePrivacidade.tsx";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
@@ -26,6 +28,8 @@ const App = () => (
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/catalogo" element={<Catalogo />} />
             <Route path="/loadout" element={<Loadout />} />
+            <Route path="/termos" element={<TermosDeServico />} />
+            <Route path="/privacidade" element={<PoliticaDePrivacidade />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

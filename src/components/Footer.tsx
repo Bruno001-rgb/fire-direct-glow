@@ -6,6 +6,7 @@ import logoFireskins from "@/assets/logo-fireskins-full.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -160,8 +161,8 @@ const Footer = () => {
               . Todos os direitos reservados.
             </span>
             <div className="flex items-center gap-4">
-              <a href="#" className="text-sm text-white/60 hover:text-white transition-colors">Termos de Serviço</a>
-              <a href="#" className="text-sm text-white/60 hover:text-white transition-colors">Políticas de Privacidade</a>
+              <Link to="/termos" className="text-sm text-white/60 hover:text-white transition-colors">Termos de Serviço</Link>
+              <Link to="/privacidade" className="text-sm text-white/60 hover:text-white transition-colors">Políticas de Privacidade</Link>
             </div>
           </div>
 
