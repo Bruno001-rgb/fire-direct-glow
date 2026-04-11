@@ -65,10 +65,10 @@ const TestimonialsSection = () => {
 
       {/* Mobile: single card carousel */}
       {isMobile ? (
-        <div className="relative z-10 flex justify-center px-4">
+        <div className="relative z-10 overflow-hidden flex justify-center px-4">
           <div
-            className="w-[85vw] max-w-[320px] rounded-xl overflow-hidden border border-primary/10 bg-card/40 backdrop-blur-sm shadow-lg transition-opacity duration-700"
-            key={testimonials[currentIndex].id}
+            className={`w-[85vw] max-w-[320px] rounded-xl overflow-hidden border border-primary/10 bg-card/40 backdrop-blur-sm shadow-lg ${slideDirection === 'left' ? 'animate-[slide-in-left_0.4s_ease-out]' : 'animate-[slide-in-right_0.4s_ease-out]'}`}
+            key={currentIndex}
           >
             <img
               src={testimonials[currentIndex].image_url}
@@ -84,16 +84,19 @@ const TestimonialsSection = () => {
               </div>
             )}
           </div>
-          {/* Dots */}
-          <div className="absolute -bottom-6 left-0 right-0 flex justify-center gap-1.5">
-            {testimonials.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrentIndex(i)}
-                className={`w-2 h-2 rounded-full transition-colors ${i === currentIndex ? "bg-primary" : "bg-muted-foreground/30"}`}
-              />
-            ))}
-          </div>
+        </div>
+        {/* Dots */}
+        <div className="flex justify-center gap-1.5 mt-4">
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                setSlideDirection(i > currentIndex ? 'left' : 'right');
+                setCurrentIndex(i);
+              }}
+              className={`w-2 h-2 rounded-full transition-colors ${i === currentIndex ? "bg-primary" : "bg-muted-foreground/30"}`}
+            />
+          ))}
         </div>
       ) : (
         /* Desktop: continuous scroll */
