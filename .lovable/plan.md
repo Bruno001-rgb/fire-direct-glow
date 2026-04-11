@@ -1,48 +1,20 @@
 
 
-# Redesign do Footer — Estilo Nivis Gear
+# Adicionar banner FireSkins no topo do Footer
 
-Recriar o footer seguindo o estilo da referência: layout limpo e escuro, com "Ir ao topo", tagline + descrição à esquerda, colunas de links, copyright, e o nome "FIRESKINS" gigante no fundo.
-
-## Layout proposto
-
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│  ↑ IR AO TOPO                                                  │
-│  ─────────────────────────────────────────────────────────────  │
-│                                                                 │
-│  Sua skin, seu                                                  │
-│  estilo.™           NOSSOS SERVIÇOS    SUPORTE     CONTATO      │
-│                     Comprar skins      FAQ         Fale conosco │
-│  FireSkins é o      Vender skins       Sobre nós   Instagram   │
-│  melhor marketplace  Programa de        Termos      YouTube     │
-│  de skins CS2...     fidelidade         Privacidade WhatsApp    │
-│                                                                 │
-├─────────────────────────────────────────────────────────────────┤
-│  © FIRESKINS 2026 — TODOS OS DIREITOS RESERVADOS.              │
-│                                                                 │
-│  ███████╗██╗██████╗ ███████╗███████╗██╗  ██╗██╗███╗   ██╗███████╗  │
-│  (texto gigante "FIRESKINS" cortado na base)                    │
-└─────────────────────────────────────────────────────────────────┘
-```
+Copiar a primeira imagem (banner com os dois caras e logo FireSkins) para o projeto e exibi-la como banner full-width no topo do footer, acima do "Ir ao topo".
 
 ## Alterações
 
-### Reescrever `src/components/Footer.tsx`
+### 1. Copiar imagem para `src/assets/footer-banner.jpg`
+Copiar `user-uploads://bddddf84-2e02-4f85-a5ad-61911b214515.jpg` para o projeto.
 
-- **"Ir ao topo"**: Link com seta ↑ no topo, scroll suave para o topo da página
-- **Seção principal**: Grid com 4 áreas
-  - **Esquerda (col-span maior)**: Tagline grande ("Sua skin, seu estilo.™"), parágrafo descritivo curto sobre a FireSkins
-  - **Col "Nossos Serviços"**: Comprar skins, Vender skins, Programa de fidelidade, Programa de indicação
-  - **Col "Suporte"**: FAQ, Sobre nós, Termos e Condições, Políticas de Privacidade
-  - **Col "Contato"**: Fale conosco, Instagram, YouTube, WhatsApp
-- **Barra de copyright**: Texto em caps "© FIRESKINS 2026 — TODOS OS DIREITOS RESERVADOS."
-- **Texto gigante**: "FIRESKINS" em fonte enorme (clamp ~8-15vw), branco, overflow hidden cortando na base — efeito visual de marca
-- Fundo escuro sólido (#0A0A0A ou similar), sem gradiente laranja
-- Manter `useWhatsAppUrl` para o link dinâmico do WhatsApp
-- Remover newsletter, badges de pagamento, ícones sociais como botões — links simples de texto como na referência
+### 2. Editar `src/components/Footer.tsx`
+- Importar a imagem: `import footerBanner from "@/assets/footer-banner.jpg"`
+- Adicionar um `<img>` full-width antes do botão "Ir ao topo", com `w-full object-cover` e altura limitada (ex: `max-h-[200px] sm:max-h-[280px]`)
 
 | Arquivo | Ação |
 |---------|------|
-| `src/components/Footer.tsx` | Reescrever completamente com novo layout |
+| `src/assets/footer-banner.jpg` | Copiar imagem |
+| `src/components/Footer.tsx` | Adicionar banner no topo |
 
