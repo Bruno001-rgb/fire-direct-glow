@@ -1,52 +1,46 @@
 
 
-# Redesign do Footer baseado na referência
+# Redesign do Footer — Estilo Nivis Gear
 
-Recriar o footer seguindo o layout da imagem de referência: estrutura em grid com 4 colunas, ícones sociais, colunas de links, seção de newsletter, barra de copyright com badges de pagamento.
+Recriar o footer seguindo o estilo da referência: layout limpo e escuro, com "Ir ao topo", tagline + descrição à esquerda, colunas de links, copyright, e o nome "FIRESKINS" gigante no fundo.
 
 ## Layout proposto
 
 ```text
 ┌─────────────────────────────────────────────────────────────────┐
-│  orange top bar                                                 │
+│  ↑ IR AO TOPO                                                  │
+│  ─────────────────────────────────────────────────────────────  │
+│                                                                 │
+│  Sua skin, seu                                                  │
+│  estilo.™           NOSSOS SERVIÇOS    SUPORTE     CONTATO      │
+│                     Comprar skins      FAQ         Fale conosco │
+│  FireSkins é o      Vender skins       Sobre nós   Instagram   │
+│  melhor marketplace  Programa de        Termos      YouTube     │
+│  de skins CS2...     fidelidade         Privacidade WhatsApp    │
+│                                                                 │
 ├─────────────────────────────────────────────────────────────────┤
-│  Logo FireSkins    │  Serviços        │ Produto       │ Newsletter     │
-│  email             │  Vender skins    │ Perguntas     │ "Receba..."    │
-│  Suporte tecnico   │  Pgm fidelidade  │ Sobre nós     │ [email] [btn]  │
-│                    │  Pgm indicação   │ Fale conosco  │                │
-│  🎮 📱 📷 🎥 📘   │                  │ Confiável?    │                │
-│  (social icons)    │                  │ O que é       │                │
-│                    │                  │ Proteção      │                │
-├─────────────────────────────────────────────────────────────────┤
-│  © FireSkins. Todos os direitos    Termos    Políticas          │
-│          VISA  MasterCard  PayPal  PIX  Outros                  │
-│  "Melhor serviço de compra e venda..."                          │
+│  © FIRESKINS 2026 — TODOS OS DIREITOS RESERVADOS.              │
+│                                                                 │
+│  ███████╗██╗██████╗ ███████╗███████╗██╗  ██╗██╗███╗   ██╗███████╗  │
+│  (texto gigante "FIRESKINS" cortado na base)                    │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ## Alterações
 
-### 1. Reescrever `src/components/Footer.tsx`
+### Reescrever `src/components/Footer.tsx`
 
-- **Seção principal**: Grid de 4 colunas (1fr 1fr 1fr 1fr no desktop, empilhado no mobile)
-  - **Col 1**: Logo FireSkins (menor), email `suporte@fireskins.gg`, "Suporte técnico", ícones sociais (Discord, WhatsApp, Instagram, YouTube, Facebook) como círculos/quadrados com ícones
-  - **Col 2 "Serviços"**: Links estáticos (Vender skins, Programa de fidelidade, Programa de indicação)
-  - **Col 3 "Produto"**: Links estáticos (Perguntas frequentes, Sobre nós, Fale conosco, A FireSkins é confiável?, O que é a FireSkins, Proteção contra golpes)
-  - **Col 4 "Newsletter"**: Título "Receba atualizações e ofertas", texto descritivo, input de email com botão "Enviar"
-
-- **Barra inferior**: Fundo mais escuro
-  - Linha 1: Copyright + Termos de Serviço + Políticas de Privacidade
-  - Linha 2: Badges de pagamento (VISA, MasterCard, PayPal, PIX, Outros) como chips com borda
-  - Linha 3: Tagline "Melhor serviço de compra e venda..."
-
-- Manter o `useWhatsAppUrl` hook para o ícone do WhatsApp
-- Links são placeholder `#` por enquanto (podem ser tornados dinâmicos depois)
-- Remover o layout atual (texto grande "Venda & Upgrade", logo gigante, círculos decorativos)
-- Manter referência ao BlackBot no copyright ou removê-la (seguindo a referência que não mostra)
-
-### 2. Ícones sociais
-
-Usar Lucide icons onde disponíveis + SVGs customizados para Discord e Facebook (Lucide não tem esses). WhatsApp usa o componente `WhatsAppIcon` existente.
+- **"Ir ao topo"**: Link com seta ↑ no topo, scroll suave para o topo da página
+- **Seção principal**: Grid com 4 áreas
+  - **Esquerda (col-span maior)**: Tagline grande ("Sua skin, seu estilo.™"), parágrafo descritivo curto sobre a FireSkins
+  - **Col "Nossos Serviços"**: Comprar skins, Vender skins, Programa de fidelidade, Programa de indicação
+  - **Col "Suporte"**: FAQ, Sobre nós, Termos e Condições, Políticas de Privacidade
+  - **Col "Contato"**: Fale conosco, Instagram, YouTube, WhatsApp
+- **Barra de copyright**: Texto em caps "© FIRESKINS 2026 — TODOS OS DIREITOS RESERVADOS."
+- **Texto gigante**: "FIRESKINS" em fonte enorme (clamp ~8-15vw), branco, overflow hidden cortando na base — efeito visual de marca
+- Fundo escuro sólido (#0A0A0A ou similar), sem gradiente laranja
+- Manter `useWhatsAppUrl` para o link dinâmico do WhatsApp
+- Remover newsletter, badges de pagamento, ícones sociais como botões — links simples de texto como na referência
 
 | Arquivo | Ação |
 |---------|------|
