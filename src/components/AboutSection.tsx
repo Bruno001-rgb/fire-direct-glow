@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { FileText, Calendar, ExternalLink, MessageCircle, Instagram, Youtube, Shield, type LucideIcon } from "lucide-react";
+import { FileText, Calendar, ExternalLink, MessageCircle, Instagram, Youtube, type LucideIcon } from "lucide-react";
+import logoFireskins from "@/assets/logo-fireskins.webp";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -83,16 +84,14 @@ const AboutSection = () => {
                       : "border-orange-500/20 bg-card/60 hover:border-orange-500/40"
                   }`}
                 >
-                  {isCommunity && (
-                    <span className="absolute top-3 right-3 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded-full border border-purple-500/30">
-                      <Shield className="w-3 h-3" />
-                      Admin
-                    </span>
-                  )}
                   <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
                     isCommunity ? "bg-purple-500/20" : "bg-orange-500/10"
                   }`}>
-                    <Icon className={`w-5 h-5 ${isCommunity ? "text-purple-400" : "text-orange-400"}`} />
+                    {isCommunity ? (
+                      <img src={logoFireskins} alt="FireSkins" className="w-8 h-8 object-contain" />
+                    ) : (
+                      <Icon className={`w-5 h-5 text-orange-400`} />
+                    )}
                   </div>
                   <h3 className="font-heading text-lg font-semibold text-foreground">
                     {item.title}
