@@ -1,28 +1,16 @@
 
 
-# Substituir faca pela foto da equipe com glow laranja pulsante
+# Ajustes na foto da equipe no Hero
 
-## O que muda
+## Alterações em `src/components/HeroSection.tsx`
 
-Trocar a imagem da faca na hero pela foto da equipe FireSkins, mantendo o efeito de glow laranja pulsante que já existe no componente `InteractiveKnife` — adaptado para uma foto de pessoas (sem rotação 3D, apenas flutuação suave e aura).
+1. **Aumentar tamanho da foto**: Mudar de `w-[min(80vw,320px)] sm:w-[400px] lg:w-[440px]` para `w-[min(90vw,380px)] sm:w-[480px] lg:w-[540px]` (e aumentar os glows proporcionalmente)
 
-## Alterações
+2. **Remover borda quadrada**: Deletar a div na linha 119 (`border border-primary/15`)
 
-### 1. Copiar a imagem para o projeto
-- Copiar `user-uploads://image-2.png` para `src/assets/team-photo.png`
-
-### 2. Atualizar `src/components/HeroSection.tsx`
-- Trocar o import de `heroKnife` pelo `team-photo.png`
-- Remover o componente `InteractiveKnife` e os anéis HUD/glow ao redor
-- Criar uma composição nova: a foto da equipe com recorte arredondado, e por trás um glow laranja pulsante usando CSS animation (keyframes de opacity e blur)
-- A foto terá flutuação idle suave (translateY com animation CSS) sem a interação 3D de mouse (não faz sentido para foto de pessoas)
-- Drop-shadow laranja sutil na foto
-
-### 3. Remover dependência do `InteractiveKnife`
-- O componente `InteractiveKnife` não será mais usado na hero (pode permanecer no projeto caso usado em outro lugar)
+3. **Remover animação de flutuação**: Trocar `animate-hero-float` por nenhuma classe de animação (remover do container da foto)
 
 | Arquivo | Ação |
 |---------|------|
-| `src/assets/team-photo.png` | Novo — imagem da equipe |
-| `src/components/HeroSection.tsx` | Substituir faca pela foto com glow pulsante |
+| `src/components/HeroSection.tsx` | Foto maior, sem borda, sem float |
 
