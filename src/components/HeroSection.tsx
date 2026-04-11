@@ -110,7 +110,7 @@ const HeroSection = () => {
             </div>
 
             {/* Stats de credibilidade */}
-            <div className="flex items-center gap-4 sm:gap-6 bg-black/40 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-2.5 sm:py-3 border border-white/5 mt-4">
+            <div className="flex items-center justify-center gap-4 sm:gap-6 w-full bg-black/40 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-2.5 sm:py-3 border border-white/5 mt-4">
               {[
                 { icon: Flame, value: "5.000+", label: "Skins vendidas" },
                 { icon: Users, value: "1.200+", label: "Clientes" },
