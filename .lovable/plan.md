@@ -1,21 +1,31 @@
 
 
-# Corrigir tamanho do card Comunidade
+# Adicionar seção de FAQ na página inicial
 
-## Problema
-A logo de 200x200px está expandindo o card Comunidade, deixando-o maior que os outros cards. O card precisa voltar ao tamanho original, com a logo grande mas contida via `overflow-hidden`.
+## Resumo
+Criar um componente `FAQSection` com perguntas frequentes sobre o marketplace de skins CS2, usando o componente Accordion já existente, e posicioná-lo entre Testimonials e FinalCTA.
 
-## Alteração
+## Alterações
 
 | Arquivo | Ação |
 |---------|------|
-| `src/components/AboutSection.tsx` | Limitar altura do container da logo e manter `overflow-hidden` no card |
+| `src/components/FAQSection.tsx` | **Criar** — seção FAQ com Accordion, tema dark/orange consistente |
+| `src/pages/Index.tsx` | Importar e adicionar `<FAQSection />` entre `<TestimonialsSection />` e `<FinalCTA />` |
 
-## Detalhe
+## Conteúdo sugerido (PT-BR)
 
-- O card já tem `overflow-hidden` (linha 83), então basta limitar a área da logo
-- Envolver a logo em um `div` com altura fixa (ex: `h-12`) e `overflow-visible` para que a logo "vaze" visualmente mas não empurre o layout do card
-- Alternativa mais limpa: usar `absolute` positioning na logo dentro do card para que ela não afete o flow do card, mantendo o tamanho dos outros cards
+Perguntas iniciais cobrindo:
+1. Como funciona a compra de skins?
+2. Quais métodos de pagamento são aceitos?
+3. As skins são seguras e verificadas?
+4. Quanto tempo leva para receber a skin?
+5. Posso devolver uma skin após a compra?
+6. Como entro em contato com o suporte?
 
-**Abordagem escolhida**: Posicionar a logo com margins negativas (`-mt-8 -mb-8`) para que ela ocupe visualmente 200px mas só "consuma" ~48px de espaço no layout, igualando ao ícone circular dos outros cards.
+## Design
+
+- Fundo com gradiente sutil como as demais seções
+- Título "Perguntas Frequentes" com `font-rajdhani`
+- Accordion com borda `rgba(233,90,12,0.2)` e fundo `rgba(233,90,12,0.04)` (mesmo padrão da página de Política de Privacidade)
+- Ícone de abertura animado (já incluso no componente Accordion)
 
