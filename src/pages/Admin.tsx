@@ -9,6 +9,7 @@ import TestimonialsManager from "@/components/admin/TestimonialsManager";
 import CatalogManager from "@/components/admin/CatalogManager";
 import CredentialsManager from "@/components/admin/CredentialsManager";
 import AdminsManager from "@/components/admin/AdminsManager";
+import LoginLogsViewer from "@/components/admin/LoginLogsViewer";
 import { toast } from "sonner";
 
 export default function Admin() {
@@ -76,6 +77,7 @@ export default function Admin() {
               <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
               <TabsTrigger value="sobre">Sobre</TabsTrigger>
               <TabsTrigger value="admins">Admins</TabsTrigger>
+              <TabsTrigger value="logs">Logs</TabsTrigger>
             </TabsList>
 
             <TabsContent value="vitrine">
@@ -109,6 +111,12 @@ export default function Admin() {
                 Gerencie os administradores do painel. O Super Admin pode adicionar, remover e transferir o cargo.
               </p>
               <AdminsManager />
+            </TabsContent>
+            <TabsContent value="logs">
+              <p className="text-sm text-muted-foreground mb-6">
+                Registro de tentativas de login no painel admin.
+              </p>
+              <LoginLogsViewer />
             </TabsContent>
           </Tabs>
         </main>

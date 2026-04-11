@@ -60,6 +60,17 @@ export default function AdminLogin() {
     persistState(newAttempts, until);
   }, []);
 
+  const logAttempt = async (attemptEmail: string, success: boolean, reason?: string) => {
+    try {
+      await supabase.from("admin_login_attempts").insert({
+        email: attemptEmail,
+        success,
+        failure_reason: reason || null,
+        user_agent: navigator.userAgent,
+      });
+    } catch { /* best-effort logging */ }
+  };
+
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (isLocked || loading) return;
@@ -77,6 +88,7 @@ export default function AdminLogin() {
       applyLockout(next);
       setError("Email ou senha inválidos.");
       setLoading(false);
+      logAttempt(email, false, "invalid_credentials");
       return;
     }
 
@@ -86,6 +98,7 @@ export default function AdminLogin() {
       applyLockout(next);
       setError("Erro ao verificar usuário.");
       setLoading(false);
+      logAttempt(email, false, "user_not_found");
       return;
     }
 
@@ -102,6 +115,7 @@ export default function AdminLogin() {
       setError("Você não tem permissão de administrador.");
       await supabase.auth.signOut();
       setLoading(false);
+      logAttempt(email, false, "not_admin");
       return;
     }
 
@@ -109,6 +123,7 @@ export default function AdminLogin() {
     setAttempts(0);
     setLockedUntil(0);
     sessionStorage.removeItem(STORAGE_KEY);
+    logAttempt(email, true);
     navigate("/admin", { replace: true });
   };
 
