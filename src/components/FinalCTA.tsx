@@ -1,108 +1,44 @@
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
-import { Trophy } from "lucide-react";
-import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
+import bannerRifas from "@/assets/banner-rifas.png";
+
+const WHATSAPP_URL = "https://wa.me/5511999999999?text=Ol%C3%A1%2C%20quero%20participar%20das%20rifas%20FireSkins!";
 
 const FinalCTA = () => {
-  const whatsappUrl = useWhatsAppUrl();
   return (
     <section className="relative overflow-hidden">
-      {/* Top line */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+      {/* Top fire line */}
+      <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, transparent 0%, #E95A0C 30%, #F5A006 50%, #E95A0C 70%, transparent 100%)" }} />
 
-      {/* Main content */}
+      {/* Background image area */}
       <div
-        className="relative py-16 sm:py-24 px-4"
+        className="relative aspect-[16/9] max-h-[500px] sm:max-h-[600px] lg:max-h-[700px]"
         style={{
-          background: "radial-gradient(ellipse at center, rgba(233,90,12,0.05) 0%, rgba(0,0,0,0.95) 70%, #000 100%)",
+          backgroundImage: `url(${bannerRifas})`,
+          backgroundSize: "contain",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          backgroundColor: "#000",
         }}
-      >
-        {/* Title */}
-        <h2
-          className="text-center text-3xl sm:text-4xl lg:text-5xl font-bold font-heading uppercase tracking-wider mb-12 sm:mb-16 text-primary"
+      />
+
+      {/* CTA below image */}
+      <div className="bg-black text-center pb-10 sm:pb-14 pt-6 sm:pt-8">
+        <Button
+          variant="fire"
+          size="lg"
+          className="text-sm sm:text-base px-12 sm:px-16 h-14 uppercase tracking-wider rounded-sm shadow-[0_0_40px_rgba(233,90,12,0.3)] hover:shadow-[0_0_60px_rgba(233,90,12,0.5)] transition-shadow duration-500"
+          asChild
         >
-          Participe das nossas rifas — skins para todo bolso!
-        </h2>
-
-        {/* Podium */}
-        <div className="flex items-end justify-center gap-3 sm:gap-5 mb-10 sm:mb-14 max-w-md mx-auto">
-          {/* 2nd place */}
-          <div className="flex flex-col items-center flex-1">
-            <Trophy className="w-6 h-6 sm:w-8 sm:h-8 text-gray-300 mb-2 animate-pulse" />
-            <div
-              className="w-full rounded-t-md flex items-center justify-center text-lg sm:text-xl font-bold text-white/90"
-              style={{
-                height: "100px",
-                background: "linear-gradient(180deg, rgba(180,180,180,0.2) 0%, rgba(120,120,120,0.1) 100%)",
-                border: "1px solid rgba(180,180,180,0.15)",
-                borderBottom: "none",
-              }}
-            >
-              2º
-            </div>
-          </div>
-
-          {/* 1st place */}
-          <div className="flex flex-col items-center flex-1">
-            <Trophy className="w-8 h-8 sm:w-10 sm:h-10 mb-2 text-primary" />
-            <div
-              className="w-full rounded-t-md flex items-center justify-center text-xl sm:text-2xl font-bold text-primary"
-              style={{
-                height: "140px",
-                background: "linear-gradient(180deg, rgba(233,90,12,0.25) 0%, rgba(233,90,12,0.1) 100%)",
-                border: "1px solid rgba(233,90,12,0.3)",
-                borderBottom: "none",
-              }}
-            >
-              1º
-            </div>
-          </div>
-
-          {/* 3rd place */}
-          <div className="flex flex-col items-center flex-1">
-            <Trophy className="w-5 h-5 sm:w-7 sm:h-7 text-amber-800 mb-2 animate-pulse" style={{ animationDelay: "0.5s" }} />
-            <div
-              className="w-full rounded-t-md flex items-center justify-center text-base sm:text-lg font-bold text-white/70"
-              style={{
-                height: "70px",
-                background: "linear-gradient(180deg, rgba(120,80,40,0.2) 0%, rgba(80,50,20,0.1) 100%)",
-                border: "1px solid rgba(120,80,40,0.15)",
-                borderBottom: "none",
-              }}
-            >
-              3º
-            </div>
-          </div>
-        </div>
-
-        {/* Base line */}
-        <div className="max-w-md mx-auto h-px mb-10 sm:mb-14 bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
-
-        <p className="text-base text-foreground/70 text-center mb-6">Rifas a partir de R$2 — qualquer um pode participar.</p>
-
-        {/* Impact phrase */}
-        <p className="text-center text-lg sm:text-xl lg:text-2xl font-bold text-white mb-8 sm:mb-10 tracking-wide">
-          Sua vaga está reservada, entre agora!
-        </p>
-
-        {/* CTA Button */}
-        <div className="text-center">
-          <Button
-            variant="fire"
-            size="lg"
-            className="text-sm sm:text-base px-12 sm:px-16 h-14 uppercase tracking-wider text-black"
-            asChild
-          >
-            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-              <WhatsAppIcon className="size-5 sm:size-6" />
-              Participar da Rifa
-            </a>
-          </Button>
-        </div>
+          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+            <WhatsAppIcon className="size-5 sm:size-6" />
+            Participar da Rifa
+          </a>
+        </Button>
       </div>
 
-      {/* Bottom line */}
-      <div className="h-px w-full bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
+      {/* Bottom fire line */}
+      <div className="h-1 w-full" style={{ background: "linear-gradient(90deg, transparent 0%, #E95A0C 30%, #F5A006 50%, #E95A0C 70%, transparent 100%)" }} />
     </section>
   );
 };

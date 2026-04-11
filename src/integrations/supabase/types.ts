@@ -14,42 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      catalog_skins: {
-        Row: {
-          created_at: string
-          id: string
-          skin_id: string
-          sort_order: number
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          skin_id: string
-          sort_order?: number
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          skin_id?: string
-          sort_order?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "catalog_skins_skin_id_fkey"
-            columns: ["skin_id"]
-            isOneToOne: true
-            referencedRelation: "admin_skin_index"
-            referencedColumns: ["source_skin_id"]
-          },
-          {
-            foreignKeyName: "catalog_skins_skin_id_fkey"
-            columns: ["skin_id"]
-            isOneToOne: true
-            referencedRelation: "imported_skins"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       imported_skins: {
         Row: {
           created_at: string
@@ -58,7 +22,6 @@ export type Database = {
           image: string | null
           name: string
           pattern_name: string | null
-          price: number | null
           rarity_color: string | null
           rarity_name: string | null
           weapon_name: string | null
@@ -70,7 +33,6 @@ export type Database = {
           image?: string | null
           name: string
           pattern_name?: string | null
-          price?: number | null
           rarity_color?: string | null
           rarity_name?: string | null
           weapon_name?: string | null
@@ -82,52 +44,9 @@ export type Database = {
           image?: string | null
           name?: string
           pattern_name?: string | null
-          price?: number | null
           rarity_color?: string | null
           rarity_name?: string | null
           weapon_name?: string | null
-        }
-        Relationships: []
-      }
-      leads: {
-        Row: {
-          created_at: string
-          id: string
-          skin_interest: string | null
-          source: string
-          whatsapp: string
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          skin_interest?: string | null
-          source?: string
-          whatsapp: string
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          skin_interest?: string | null
-          source?: string
-          whatsapp?: string
-        }
-        Relationships: []
-      }
-      newsletter_subscribers: {
-        Row: {
-          created_at: string
-          email: string
-          id: string
-        }
-        Insert: {
-          created_at?: string
-          email: string
-          id?: string
-        }
-        Update: {
-          created_at?: string
-          email?: string
-          id?: string
         }
         Relationships: []
       }
@@ -204,42 +123,6 @@ export type Database = {
           },
         ]
       }
-      site_credentials: {
-        Row: {
-          description: string
-          href: string | null
-          icon: string
-          id: string
-          key: string
-          sort_order: number
-          title: string
-          updated_at: string
-          value: string
-        }
-        Insert: {
-          description?: string
-          href?: string | null
-          icon?: string
-          id?: string
-          key: string
-          sort_order?: number
-          title: string
-          updated_at?: string
-          value: string
-        }
-        Update: {
-          description?: string
-          href?: string | null
-          icon?: string
-          id?: string
-          key?: string
-          sort_order?: number
-          title?: string
-          updated_at?: string
-          value?: string
-        }
-        Relationships: []
-      }
       testimonials: {
         Row: {
           created_at: string
@@ -270,27 +153,6 @@ export type Database = {
         }
         Relationships: []
       }
-      user_roles: {
-        Row: {
-          id: string
-          is_super: boolean
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Insert: {
-          id?: string
-          is_super?: boolean
-          role: Database["public"]["Enums"]["app_role"]
-          user_id: string
-        }
-        Update: {
-          id?: string
-          is_super?: boolean
-          role?: Database["public"]["Enums"]["app_role"]
-          user_id?: string
-        }
-        Relationships: []
-      }
     }
     Views: {
       admin_skin_index: {
@@ -307,20 +169,10 @@ export type Database = {
       }
     }
     Functions: {
-      has_role: {
-        Args: {
-          _role: Database["public"]["Enums"]["app_role"]
-          _user_id: string
-        }
-        Returns: boolean
-      }
-      transfer_super_admin: {
-        Args: { new_super_id: string }
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
-      app_role: "admin" | "user"
+      [_ in never]: never
     }
     CompositeTypes: {
       [_ in never]: never
@@ -447,8 +299,6 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {
-      app_role: ["admin", "user"],
-    },
+    Enums: {},
   },
 } as const

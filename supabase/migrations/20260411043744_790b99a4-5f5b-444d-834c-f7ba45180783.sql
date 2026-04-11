@@ -1,1 +1,0 @@
-UPDATE site_credentials SET icon = 'steam' WHERE key = 'steam';
