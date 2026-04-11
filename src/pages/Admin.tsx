@@ -8,7 +8,7 @@ import SlotManager from "@/components/admin/SlotManager";
 import TestimonialsManager from "@/components/admin/TestimonialsManager";
 import CatalogManager from "@/components/admin/CatalogManager";
 import CredentialsManager from "@/components/admin/CredentialsManager";
-// import AdminGuard from "@/components/admin/AdminGuard";
+import AdminsManager from "@/components/admin/AdminsManager";
 import { toast } from "sonner";
 
 export default function Admin() {
@@ -75,6 +75,7 @@ export default function Admin() {
               <TabsTrigger value="catalogo">Catálogo</TabsTrigger>
               <TabsTrigger value="depoimentos">Depoimentos</TabsTrigger>
               <TabsTrigger value="sobre">Sobre</TabsTrigger>
+              <TabsTrigger value="admins">Admins</TabsTrigger>
             </TabsList>
 
             <TabsContent value="vitrine">
@@ -102,6 +103,12 @@ export default function Admin() {
                 Edite as informações da seção "Conheça a FireSkins".
               </p>
               <CredentialsManager />
+            </TabsContent>
+            <TabsContent value="admins">
+              <p className="text-sm text-muted-foreground mb-6">
+                Gerencie os administradores do painel. O Super Admin pode adicionar, remover e transferir o cargo.
+              </p>
+              <AdminsManager />
             </TabsContent>
           </Tabs>
         </main>
