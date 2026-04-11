@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FileText, Calendar, ExternalLink, MessageCircle, Instagram, Youtube, type LucideIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -91,15 +92,23 @@ const AboutSection = () => {
               );
 
               if (item.href) {
+                const isExternal = item.href.startsWith("http");
+                if (isExternal) {
+                  return (
+                    <a
+                      key={item.id}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {content}
+                    </a>
+                  );
+                }
                 return (
-                  <a
-                    key={item.id}
-                    href={item.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
+                  <Link key={item.id} to={item.href}>
                     {content}
-                  </a>
+                  </Link>
                 );
               }
 
