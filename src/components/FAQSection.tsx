@@ -78,8 +78,8 @@ const FAQSection = () => {
         }}
       />
 
-      <div className="container relative z-10">
-        <div className="flex items-center gap-2.5 mb-3">
+      <div className="container relative z-10 flex flex-col items-center text-center">
+        <div className="flex items-center justify-center gap-2.5 mb-3">
           <HelpCircle className="size-5 text-primary" />
           <h2 className="section-heading font-heading">
             Perguntas{" "}
@@ -90,7 +90,7 @@ const FAQSection = () => {
           Tire suas dúvidas sobre nossos serviços e processos.
         </p>
 
-        <Accordion type="single" collapsible className="w-full max-w-3xl space-y-3">
+        <Accordion type="single" collapsible className="w-full max-w-3xl space-y-3 text-left">
           {faqItems.map((item, index) => (
             <AccordionItem
               key={index}
