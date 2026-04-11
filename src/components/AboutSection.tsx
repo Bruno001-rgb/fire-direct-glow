@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FileText, Calendar, ExternalLink, MessageCircle, Instagram, Youtube, type LucideIcon } from "lucide-react";
+import { FileText, Calendar, ExternalLink, MessageCircle, Instagram, Youtube, Shield, type LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -38,6 +38,7 @@ const iconMap: Record<string, any> = {
 
 interface Credential {
   id: string;
+  key: string;
   title: string;
   value: string;
   description: string;
@@ -71,18 +72,31 @@ const AboutSection = () => {
             ))
           : credentials.map((item) => {
               const Icon = iconMap[item.icon] || FileText;
+              const isCommunity = item.key === "comunidade";
               const content = (
                 <div
                   key={item.id}
-                  className="rounded-xl border border-orange-500/20 bg-card/60 backdrop-blur-sm p-6 sm:p-8 text-center flex flex-col items-center gap-3 transition-colors hover:border-orange-500/40"
+                  className={`rounded-xl border backdrop-blur-sm p-6 sm:p-8 text-center flex flex-col items-center gap-3 transition-all duration-300 ${
+                    isCommunity
+                      ? "border-purple-500/40 bg-gradient-to-b from-purple-500/10 to-card/60 hover:border-purple-400/60 hover:shadow-lg hover:shadow-purple-500/10 relative overflow-hidden"
+                      : "border-orange-500/20 bg-card/60 hover:border-orange-500/40"
+                  }`}
                 >
-                  <div className="w-12 h-12 rounded-full bg-orange-500/10 flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-orange-400" />
+                  {isCommunity && (
+                    <span className="absolute top-3 right-3 flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded-full border border-purple-500/30">
+                      <Shield className="w-3 h-3" />
+                      Admin
+                    </span>
+                  )}
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
+                    isCommunity ? "bg-purple-500/20" : "bg-orange-500/10"
+                  }`}>
+                    <Icon className={`w-5 h-5 ${isCommunity ? "text-purple-400" : "text-orange-400"}`} />
                   </div>
                   <h3 className="font-heading text-lg font-semibold text-foreground">
                     {item.title}
                   </h3>
-                  <span className="text-gradient-fire font-bold text-xl">
+                  <span className={`font-bold text-xl ${isCommunity ? "text-purple-400" : "text-gradient-fire"}`}>
                     {item.icon === "message-circle" ? "Fale conosco" : item.value}
                   </span>
                   <p className="text-muted-foreground text-sm">
