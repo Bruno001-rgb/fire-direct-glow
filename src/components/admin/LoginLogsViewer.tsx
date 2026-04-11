@@ -45,6 +45,10 @@ export default function LoginLogsViewer() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">Últimas 100 tentativas de login.</p>
+        <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <Info className="size-3.5 shrink-0" />
+          Registros com mais de 90 dias são apagados automaticamente.
+        </p>
         <Button variant="outline" size="sm" onClick={fetchLogs} disabled={loading}>
           {loading ? <Loader2 className="size-4 animate-spin" /> : <RefreshCw className="size-4" />}
         </Button>
