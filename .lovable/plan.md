@@ -1,17 +1,16 @@
 
 
-# Mover stats de credibilidade para baixo da foto
+# Alinhar stats com a foto no desktop
 
-## O que muda
+## Problema
 
-Tirar os stats de dentro do container `relative` da foto (onde estão posicionados com `absolute`) e colocá-los logo abaixo, como um elemento normal no fluxo do layout.
+No desktop, os stats estão mais estreitos que a foto — precisam ter a mesma largura para ficarem visualmente alinhados.
 
 ## Alteração em `src/components/HeroSection.tsx`
 
-1. Remover o bloco de stats overlay (absolute) de dentro do wrapper da foto
-2. Adicionar o mesmo bloco logo após o fechamento do wrapper da foto, como elemento separado com `mt-4`, centralizado, sem posicionamento absoluto
+Adicionar `w-full` ao container dos stats para que ocupe a mesma largura do wrapper da foto (ambos dentro do mesmo flex column).
 
 | Arquivo | Ação |
 |---------|------|
-| `src/components/HeroSection.tsx` | Mover stats de absolute para abaixo da foto |
+| `src/components/HeroSection.tsx` | Adicionar `w-full justify-center` ao div dos stats |
 
