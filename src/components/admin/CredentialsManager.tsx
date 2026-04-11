@@ -54,6 +54,7 @@ export default function CredentialsManager() {
         value: credential.value,
         description: credential.description,
         href: credential.href || null,
+        icon: credential.icon,
       })
       .eq("id", credential.id);
 
@@ -128,6 +129,14 @@ export default function CredentialsManager() {
                 value={cred.href || ""}
                 onChange={(e) => updateField(cred.id, "href", e.target.value)}
                 placeholder="https://..."
+              />
+            </div>
+            <div>
+              <Label className="text-xs">Ícone</Label>
+              <Input
+                value={cred.icon}
+                onChange={(e) => updateField(cred.id, "icon", e.target.value)}
+                placeholder="file-text, calendar, gamepad-2..."
               />
             </div>
           </div>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FileText, Calendar, ExternalLink, type LucideIcon } from "lucide-react";
+import { FileText, Calendar, ExternalLink, Gamepad2, MessageCircle, Instagram, Youtube, type LucideIcon } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -7,6 +7,10 @@ const iconMap: Record<string, LucideIcon> = {
   "file-text": FileText,
   "external-link": ExternalLink,
   calendar: Calendar,
+  "gamepad-2": Gamepad2,
+  "message-circle": MessageCircle,
+  instagram: Instagram,
+  youtube: Youtube,
 };
 
 interface Credential {
