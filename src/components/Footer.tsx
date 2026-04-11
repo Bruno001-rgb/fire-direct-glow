@@ -4,7 +4,7 @@ import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -18,6 +18,19 @@ const Footer = () => {
   const whatsAppUrl = useWhatsAppUrl();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [socialLinks, setSocialLinks] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    supabase
+      .from("site_credentials")
+      .select("key, href")
+      .in("key", ["discord", "facebook", "youtube", "instagram"])
+      .then(({ data }) => {
+        const map: Record<string, string> = {};
+        data?.forEach((d) => { if (d.href) map[d.key] = d.href; });
+        setSocialLinks(map);
+      });
+  }, []);
 
   const handleSubscribe = async () => {
     const trimmed = email.trim();
@@ -66,11 +79,11 @@ const Footer = () => {
               {/* Social icons */}
               <div className="flex items-center gap-2 pt-2">
                 {[
-                  { icon: <DiscordIcon className="size-4" />, href: "#", label: "Discord" },
+                  { icon: <DiscordIcon className="size-4" />, href: socialLinks.discord || "#", label: "Discord" },
                   { icon: <WhatsAppIcon className="size-4" />, href: whatsAppUrl, label: "WhatsApp" },
-                  { icon: <Instagram className="size-4" />, href: "https://instagram.com/fireskinscs2", label: "Instagram" },
-                  { icon: <Youtube className="size-4" />, href: "#", label: "YouTube" },
-                  { icon: <Facebook className="size-4" />, href: "#", label: "Facebook" },
+                  { icon: <Instagram className="size-4" />, href: socialLinks.instagram || "https://instagram.com/fireskinscs2", label: "Instagram" },
+                  { icon: <Youtube className="size-4" />, href: socialLinks.youtube || "#", label: "YouTube" },
+                  { icon: <Facebook className="size-4" />, href: socialLinks.facebook || "#", label: "Facebook" },
                 ].map((s) => (
                   <a
                     key={s.label}
