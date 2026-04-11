@@ -273,16 +273,19 @@ export type Database = {
       user_roles: {
         Row: {
           id: string
+          is_super: boolean
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Insert: {
           id?: string
+          is_super?: boolean
           role: Database["public"]["Enums"]["app_role"]
           user_id: string
         }
         Update: {
           id?: string
+          is_super?: boolean
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
         }
@@ -310,6 +313,10 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      transfer_super_admin: {
+        Args: { new_super_id: string }
+        Returns: undefined
       }
     }
     Enums: {
