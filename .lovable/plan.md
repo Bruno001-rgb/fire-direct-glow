@@ -1,52 +1,35 @@
 
 
-# Proteger tabelas admin com RLS baseado em role
+# Proteger tabela imported_skins com RLS admin-only
 
 ## Problema
-As tabelas `catalog_skins`, `showcase_slots`, `testimonials` e `site_credentials` permitem que qualquer usuário anônimo faça INSERT/UPDATE/DELETE. Apenas admins autenticados devem poder modificar dados.
+A tabela `imported_skins` permite que qualquer usuário (anon e authenticated) faça INSERT, UPDATE e DELETE sem restrição.
 
 ## Solução
 
 Uma migração SQL que:
 
-1. **Remove** todas as policies permissivas de escrita para `anon` e as policies genéricas `ALL` para `authenticated`
-2. **Cria** novas policies de escrita que usam `has_role(auth.uid(), 'admin')` para INSERT, UPDATE e DELETE
-3. **Mantém** as policies de SELECT públicas (anon + authenticated podem ler)
+1. **Remove** as policies permissivas de escrita para `anon` e `authenticated`
+2. **Cria** novas policies de escrita restritas a admins via `has_role(auth.uid(), 'admin')`
+3. **Mantém** a policy de SELECT pública e o acesso total do `service_role`
 
-Também aplica o mesmo padrão à tabela `showcase_categories`, que tem o mesmo problema.
+### Policies a remover
 
-### Policies resultantes por tabela
+| Policy | Tabela |
+|--------|--------|
+| Authenticated users can insert imported_skins | imported_skins |
+| Authenticated users can update imported_skins | imported_skins |
+| Anon can insert imported_skins | imported_skins |
+| Anon can update imported_skins | imported_skins |
+| Anon can delete imported_skins | imported_skins |
 
-| Tabela | SELECT | INSERT/UPDATE/DELETE |
-|--------|--------|---------------------|
-| catalog_skins | anon + authenticated | apenas admin (`has_role`) |
-| showcase_slots | anon + authenticated | apenas admin |
-| showcase_categories | anon + authenticated | apenas admin |
-| testimonials | anon + authenticated | apenas admin |
-| site_credentials | anon + authenticated | apenas admin |
+### Policies a criar
 
-### SQL resumido
+| Policy | Comando | Condição |
+|--------|---------|----------|
+| Admins can insert imported_skins | INSERT | `has_role(auth.uid(), 'admin')` |
+| Admins can update imported_skins | UPDATE | `has_role(auth.uid(), 'admin')` |
+| Admins can delete imported_skins | DELETE | `has_role(auth.uid(), 'admin')` |
 
-```sql
--- Para cada tabela: drop policies permissivas, criar novas restritas
--- Exemplo para catalog_skins:
-DROP POLICY "Anon can delete catalog_skins" ON catalog_skins;
-DROP POLICY "Anon can insert catalog_skins" ON catalog_skins;
-DROP POLICY "Auth can manage catalog_skins" ON catalog_skins;
-
-CREATE POLICY "Admins can insert catalog_skins" ON catalog_skins
-  FOR INSERT TO authenticated
-  WITH CHECK (has_role(auth.uid(), 'admin'::app_role));
-
-CREATE POLICY "Admins can update catalog_skins" ON catalog_skins
-  FOR UPDATE TO authenticated
-  USING (has_role(auth.uid(), 'admin'::app_role));
-
-CREATE POLICY "Admins can delete catalog_skins" ON catalog_skins
-  FOR DELETE TO authenticated
-  USING (has_role(auth.uid(), 'admin'::app_role));
--- Repete para as outras 4 tabelas
-```
-
-Nenhuma alteração de código frontend é necessária — o admin já está autenticado ao usar o painel.
+Nenhuma alteração frontend necessária — o `SkinSearchModal` já faz upsert como admin autenticado.
 
