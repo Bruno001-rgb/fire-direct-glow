@@ -1,29 +1,26 @@
 
 
-# Smoke/névoa na base da foto da equipe
+# Adicionar indicadores de credibilidade abaixo da foto
 
 ## O que muda
 
-Adicionar um efeito de fumaça/névoa na parte inferior da foto da equipe, fazendo o corte sumir organicamente no fundo escuro. Usando gradientes sobrepostos na base da imagem para simular névoa.
+Adicionar uma faixa de stats sobrepostos na base da foto (dentro da névoa), mostrando números de credibilidade como skins vendidas, clientes atendidos, etc. Os números ficam posicionados absolutamente na parte inferior da foto, integrados ao efeito de smoke.
 
 ## Alteração em `src/components/HeroSection.tsx`
 
-Envolver a `<img>` num container `relative` e adicionar uma div com gradiente sobreposto na parte inferior (~40% da altura), criando camadas de fade:
+Após as camadas de névoa (linha 109), adicionar uma div `absolute bottom-4` com 3 indicadores lado a lado:
 
-- Gradiente principal: `transparent → black` cobrindo o terço inferior
-- Camada de névoa: gradiente radial com leve tom laranja/cinza para dar textura de smoke (não apenas um corte reto)
-- Leve blur via `backdrop-blur-sm` numa faixa estreita para suavizar ainda mais
+| Indicador | Valor | Ícone |
+|-----------|-------|-------|
+| Skins vendidas | 5.000+ | Flame |
+| Clientes satisfeitos | 1.200+ | Users |
+| Anos no mercado | 3+ | ShieldCheck |
 
-```
-┌─────────────┐
-│   Foto      │
-│             │
-│  ░░░névoa░░ │  ← gradiente + blur suave
-│▓▓▓▓▓▓▓▓▓▓▓▓│  ← fade total para preto
-└─────────────┘
-```
+- Layout: `flex justify-center gap-6` com cada item tendo número grande em `text-primary font-bold` e label pequeno em `text-muted-foreground`
+- Fundo semi-transparente (`bg-black/40 backdrop-blur-sm rounded-xl`) para legibilidade sobre a névoa
+- Responsivo: gap e font-size menores no mobile
 
 | Arquivo | Ação |
 |---------|------|
-| `src/components/HeroSection.tsx` | Wrapper com overlay de névoa na base da foto |
+| `src/components/HeroSection.tsx` | Adicionar stats overlay na base da foto |
 
