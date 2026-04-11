@@ -1,23 +1,23 @@
 
 
-# Testimonials mobile — um card por vez a cada 8 segundos
+# Slide lateral nos depoimentos mobile
 
-No mobile (viewport < 640px), trocar o scroll contínuo CSS por um carrossel controlado via React state que mostra um card centralizado por vez, avançando automaticamente a cada 8 segundos com transição suave.
+Trocar a transição de fade (via `key` + `transition-opacity`) por um slide lateral usando `overflow-hidden` + `translateX` animado com `useState` para direção.
 
-## Alterações
+## Alterações em `src/components/TestimonialsSection.tsx`
 
-### 1. `src/components/TestimonialsSection.tsx`
-
-- Adicionar state `currentIndex` com `useState(0)` e `useEffect` com `setInterval` de 8s que avança o índice (cicla pelos testimonials originais, não os duplicados)
-- Usar o hook `useIsMobile` existente para alternar entre os dois modos
-- **Mobile**: renderizar apenas `testimonials[currentIndex]` centralizado no container, com `transition-opacity` ou `transition-transform` para fade/slide suave entre cards. Card ocupa ~85% da largura da tela. Sem duplicação de items.
-- **Desktop**: manter o comportamento atual (scroll contínuo CSS com `testimonials-track`)
-- Remover edge fades no mobile (desnecessários com card único)
-
-### 2. `src/index.css`
-- Nenhuma alteração necessária — o CSS existente continua para desktop
+1. **Adicionar state `slideDirection`** (`'left' | 'right'`) para controlar a direção do slide
+2. **No `useEffect` do interval**: setar `slideDirection = 'left'` antes de avançar o índice
+3. **No click dos dots**: setar direção baseado em `i > currentIndex ? 'left' : 'right'`
+4. **Container mobile**: adicionar `overflow-hidden` no wrapper
+5. **Card**: trocar `transition-opacity duration-700` por classes de animação CSS inline com `translateX`. Usar `key={currentIndex}` para re-montar com animação de entrada:
+   - Entrada: `animate-[slide-in-left_0.4s_ease-out]` ou `slide-in-right` dependendo da direção
+6. **Adicionar keyframes** em `tailwind.config.ts`:
+   - `slide-in-left`: `from { transform: translateX(-100%); opacity: 0 } to { transform: translateX(0); opacity: 1 }`
+   - `slide-in-right`: `from { transform: translateX(100%); opacity: 0 } to { transform: translateX(0); opacity: 1 }`
 
 | Arquivo | Ação |
 |---------|------|
-| `src/components/TestimonialsSection.tsx` | Carrossel mobile 1-por-1 com auto-advance 8s |
+| `src/components/TestimonialsSection.tsx` | Slide lateral com direção dinâmica |
+| `tailwind.config.ts` | Adicionar keyframes slide-in-left/right |
 
