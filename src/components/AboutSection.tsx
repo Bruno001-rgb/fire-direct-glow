@@ -84,15 +84,13 @@ const AboutSection = () => {
                       : "border-orange-500/20 bg-card/60 hover:border-orange-500/40"
                   }`}
                 >
-                  <div className={`w-12 h-12 rounded-full flex items-center justify-center ${
-                    isCommunity ? "bg-purple-500/20" : "bg-orange-500/10"
-                  }`}>
-                    {isCommunity ? (
-                      <img src={logoFireskins} alt="FireSkins" className="w-[160px] h-[160px] object-contain" />
-                    ) : (
-                      <Icon className={`w-5 h-5 text-orange-400`} />
-                    )}
-                  </div>
+                  {isCommunity ? (
+                    <img src={logoFireskins} alt="FireSkins" className="w-[200px] h-[200px] object-contain" />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-orange-500/10">
+                      <Icon className="w-5 h-5 text-orange-400" />
+                    </div>
+                  )}
                   <h3 className="font-heading text-lg font-semibold text-foreground">
                     {item.title}
                   </h3>
