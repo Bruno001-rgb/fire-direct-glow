@@ -1,23 +1,17 @@
 
 
-# Melhorar copy dos cards "Conheça a FireSkins"
+# Remover título e subtítulo da seção "Conheça a FireSkins"
 
-## Textos atuais vs. propostos
+## O que muda
 
-| Card | Título atual | Título novo | Value atual | Value novo | Descrição atual | Descrição nova |
-|------|-------------|-------------|-------------|------------|-----------------|----------------|
-| CNPJ | CNPJ Ativo | CNPJ Ativo | XX.XXX.XXX/0001-XX | *(manter)* | Empresa registrada e regularizada | Loja regularizada com CNPJ válido e ativo |
-| Steam | Perfil Steam | Perfil Steam | Ver perfil oficial | *(manter)* | Reputação verificada na plataforma | +1.000 negociações com reputação impecável |
-| No Mercado | No Mercado | No Mercado | +X anos | *(manter)* | Experiência e confiança comprovadas | Anos de experiência entregando skins com segurança |
-| WhatsApp | WhatsApp | Atendimento | *(manter)* | *(manter)* | Número ou link de grupo para contato | Suporte rápido e direto pelo WhatsApp |
-| Instagram | Instagram | Instagram | @fireskins | *(manter)* | Siga nosso perfil oficial | Novidades, promoções e drops em primeira mão |
-| YouTube | YouTube | YouTube | FireSkins | *(manter)* | Assista nosso canal oficial | Reviews, unboxings e conteúdo exclusivo de CS2 |
+Remover o bloco de título (`h2` + `p`) da `AboutSection` e ajustar o padding/margin para que os cards fiquem com espaçamento correto sem o cabeçalho.
 
-## Alteração
+## Alteração em `src/components/AboutSection.tsx`
 
-Uma única migration SQL atualizando `title` e `description` dos 6 registros na tabela `site_credentials`.
+1. **Remover** o `div` com `text-center mb-10 sm:mb-14` que contém o `h2` "CONHEÇA A FIRESKINS" e o `p` "Transparência e segurança..."
+2. **Ajustar** o padding da `section` de `py-16 sm:py-20` para `py-10 sm:py-14` para compensar o espaço vazio deixado pelo título removido
 
 | Arquivo | Ação |
 |---------|------|
-| `supabase/migrations/` | UPDATE title + description dos 6 cards |
+| `src/components/AboutSection.tsx` | Remover heading + subtitle, ajustar padding |
 
