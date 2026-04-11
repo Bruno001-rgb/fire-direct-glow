@@ -16,6 +16,29 @@ const DiscordIcon = ({ className = "size-4" }: { className?: string }) => (
 
 const Footer = () => {
   const whatsAppUrl = useWhatsAppUrl();
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async () => {
+    const trimmed = email.trim();
+    if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      toast.error("Digite um email válido.");
+      return;
+    }
+    setLoading(true);
+    const { error } = await supabase.from("newsletter_subscribers").insert({ email: trimmed });
+    setLoading(false);
+    if (error) {
+      if (error.code === "23505") {
+        toast.info("Este email já está cadastrado!");
+      } else {
+        toast.error("Erro ao cadastrar. Tente novamente.");
+      }
+      return;
+    }
+    toast.success("Inscrito com sucesso! 🎉");
+    setEmail("");
+  };
 
   return (
     <footer id="contato" className="relative overflow-hidden">
