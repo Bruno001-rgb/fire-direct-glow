@@ -84,7 +84,7 @@ const HeroSection = () => {
           </div>
 
           {/* ── Right: Team photo ── */}
-          <div className="flex items-center justify-center lg:justify-end">
+          <div className="flex flex-col items-center lg:items-end">
             <div className="relative w-[min(95vw,440px)] sm:w-[560px] lg:w-[640px]">
               <img
                 src={teamPhoto}
@@ -107,23 +107,23 @@ const HeroSection = () => {
                 }}
               />
               <div className="absolute bottom-0 left-0 right-0 h-[15%] rounded-b-2xl backdrop-blur-[2px] pointer-events-none" style={{ mask: "linear-gradient(to top, black, transparent)" }} />
+            </div>
 
-              {/* Stats de credibilidade */}
-              <div className="absolute bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 z-10 flex items-center gap-4 sm:gap-6 bg-black/40 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-2.5 sm:py-3 border border-white/5">
-                {[
-                  { icon: Flame, value: "5.000+", label: "Skins vendidas" },
-                  { icon: Users, value: "1.200+", label: "Clientes" },
-                  { icon: ShieldCheck, value: "3+", label: "Anos no mercado" },
-                ].map((stat) => (
-                  <div key={stat.label} className="flex flex-col items-center gap-0.5">
-                    <div className="flex items-center gap-1">
-                      <stat.icon className="size-3 sm:size-3.5 text-primary" />
-                      <span className="text-sm sm:text-base font-bold text-primary">{stat.value}</span>
-                    </div>
-                    <span className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider">{stat.label}</span>
+            {/* Stats de credibilidade */}
+            <div className="flex items-center gap-4 sm:gap-6 bg-black/40 backdrop-blur-sm rounded-xl px-4 sm:px-6 py-2.5 sm:py-3 border border-white/5 mt-4">
+              {[
+                { icon: Flame, value: "5.000+", label: "Skins vendidas" },
+                { icon: Users, value: "1.200+", label: "Clientes" },
+                { icon: ShieldCheck, value: "3+", label: "Anos no mercado" },
+              ].map((stat) => (
+                <div key={stat.label} className="flex flex-col items-center gap-0.5">
+                  <div className="flex items-center gap-1">
+                    <stat.icon className="size-3 sm:size-3.5 text-primary" />
+                    <span className="text-sm sm:text-base font-bold text-primary">{stat.value}</span>
                   </div>
-                ))}
-              </div>
+                  <span className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider">{stat.label}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
