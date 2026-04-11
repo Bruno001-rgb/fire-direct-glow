@@ -61,7 +61,7 @@ const AboutSection = () => {
   }, []);
 
   return (
-    <section className="py-10 sm:py-14 px-4 sm:px-6">
+    <section id="sobre" className="py-10 sm:py-14 px-4 sm:px-6">
 
       <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
         {loading

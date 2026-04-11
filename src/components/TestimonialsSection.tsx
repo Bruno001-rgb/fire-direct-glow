@@ -22,7 +22,7 @@ const TestimonialsSection = () => {
   const items = [...testimonials, ...testimonials];
 
   return (
-    <section className="relative overflow-hidden bg-black py-10 sm:py-14 lg:py-16">
+    <section id="depoimentos" className="relative overflow-hidden bg-black py-10 sm:py-14 lg:py-16">
       {/* Top separator */}
       <div
         className="absolute top-0 left-0 right-0 h-px"
