@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
 import { useLoadout, LOADOUT_SLOTS, type SlotKey } from "@/contexts/LoadoutContext";
 import { toast } from "sonner";
@@ -152,6 +153,7 @@ interface Props {
 
 export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinChange }: Props) {
   const { addToSlot } = useLoadout();
+  const whatsappUrl = useWhatsAppUrl();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
   const [origin, setOrigin] = useState({ x: "50%", y: "50%" });
@@ -396,7 +398,7 @@ export default function SkinDetailModal({ skin, onClose, allSkins = [], onSkinCh
             <div className="flex flex-col gap-3 pt-2">
               <Button variant="fire" className="w-full h-12 text-base" asChild>
                 <a
-                  href={`https://wa.me/5562996632201?text=${whatsappMsg}`}
+                  href={`${whatsappUrl}?text=${whatsappMsg}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -4,9 +4,8 @@ import { Menu, X } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import { useLoadout } from "@/contexts/LoadoutContext";
+import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
 import logoFireskins from "@/assets/logo-fireskins.webp";
-
-const WHATSAPP_URL = "https://wa.me/5562996632201";
 
 const NAV_LINKS = [
   { href: "/#catalogo", label: "Vitrine", type: "anchor" },
@@ -17,6 +16,7 @@ const NAV_LINKS = [
 ] as const;
 
 const Header = () => {
+  const whatsappUrl = useWhatsAppUrl();
   const { filledCount } = useLoadout();
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
@@ -84,7 +84,7 @@ const Header = () => {
 
         <div className="flex items-center gap-2">
           <Button variant="fire" size="sm" className="hidden md:inline-flex h-8 sm:h-9 text-xs uppercase tracking-wider" asChild>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon className="size-3.5" />
               Chamar no WhatsApp
             </a>
@@ -113,7 +113,7 @@ const Header = () => {
 
             <div className="pt-4">
               <Button variant="fire" className="w-full h-11 text-sm uppercase tracking-wider" asChild>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                   <WhatsAppIcon className="size-4" />
                   Chamar no WhatsApp
                 </a>
