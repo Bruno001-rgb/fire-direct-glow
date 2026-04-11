@@ -1,35 +1,84 @@
 
 
-# Proteger tabela imported_skins com RLS admin-only
+# Correções de Segurança — Resultados do Scan
 
-## Problema
-A tabela `imported_skins` permite que qualquer usuário (anon e authenticated) faça INSERT, UPDATE e DELETE sem restrição.
+## Problemas encontrados
 
-## Solução
+### Críticos (ERROR)
 
-Uma migração SQL que:
+| # | Problema | Tabela/Recurso | Risco |
+|---|----------|---------------|-------|
+| 1 | **Leads expostos** | `leads` | Qualquer usuário autenticado pode ler WhatsApp e interesses de clientes |
+| 2 | **Emails expostos** | `newsletter_subscribers` | Qualquer usuário autenticado pode ler emails de assinantes |
+| 3 | **Escalação de privilégios** | `user_roles` | INSERT policy pode ser explorada — admin management deve ser feito apenas via edge function |
+| 4 | **Storage público** | bucket `testimonials` | Anon pode fazer upload e deletar imagens |
 
-1. **Remove** as policies permissivas de escrita para `anon` e `authenticated`
-2. **Cria** novas policies de escrita restritas a admins via `has_role(auth.uid(), 'admin')`
-3. **Mantém** a policy de SELECT pública e o acesso total do `service_role`
+### Avisos (WARN)
 
-### Policies a remover
+| # | Problema | Detalhes |
+|---|----------|---------|
+| 5 | RLS Policy Always True (×2) | Policies de INSERT na `leads` e `newsletter_subscribers` com `WITH CHECK (true)` — esperado para formulários públicos |
+| 6 | Leaked password protection disabled | Proteção contra senhas vazadas desativada |
 
-| Policy | Tabela |
-|--------|--------|
-| Authenticated users can insert imported_skins | imported_skins |
-| Authenticated users can update imported_skins | imported_skins |
-| Anon can insert imported_skins | imported_skins |
-| Anon can update imported_skins | imported_skins |
-| Anon can delete imported_skins | imported_skins |
+## Plano de correção
 
-### Policies a criar
+### 1. Proteger tabela `leads` — SELECT admin-only
 
-| Policy | Comando | Condição |
-|--------|---------|----------|
-| Admins can insert imported_skins | INSERT | `has_role(auth.uid(), 'admin')` |
-| Admins can update imported_skins | UPDATE | `has_role(auth.uid(), 'admin')` |
-| Admins can delete imported_skins | DELETE | `has_role(auth.uid(), 'admin')` |
+```sql
+DROP POLICY "Authenticated users can read leads" ON leads;
+CREATE POLICY "Admins can read leads" ON leads
+  FOR SELECT TO authenticated
+  USING (has_role(auth.uid(), 'admin'::app_role));
+```
 
-Nenhuma alteração frontend necessária — o `SkinSearchModal` já faz upsert como admin autenticado.
+### 2. Proteger tabela `newsletter_subscribers` — SELECT admin-only
+
+```sql
+DROP POLICY "Only authenticated can read subscribers" ON newsletter_subscribers;
+CREATE POLICY "Admins can read subscribers" ON newsletter_subscribers
+  FOR SELECT TO authenticated
+  USING (has_role(auth.uid(), 'admin'::app_role));
+```
+
+### 3. Remover INSERT policy direta na `user_roles`
+
+O gerenciamento de admins já é feito pela edge function `manage-admins` que usa `service_role`. A policy de INSERT direto é desnecessária e perigosa.
+
+```sql
+DROP POLICY "Admins can insert roles" ON user_roles;
+```
+
+### 4. Proteger storage `testimonials` — admin-only upload/delete
+
+Migração para restringir as policies de storage:
+
+```sql
+DROP POLICY "Anon can upload testimonial images" ON storage.objects;
+DROP POLICY "Anon can delete testimonial images" ON storage.objects;
+
+CREATE POLICY "Admins can upload testimonial images" ON storage.objects
+  FOR INSERT TO authenticated
+  WITH CHECK (bucket_id = 'testimonials' AND has_role(auth.uid(), 'admin'::app_role));
+
+CREATE POLICY "Admins can delete testimonial images" ON storage.objects
+  FOR DELETE TO authenticated
+  USING (bucket_id = 'testimonials' AND has_role(auth.uid(), 'admin'::app_role));
+```
+
+### 5. INSERT policies com `true` — ignorar
+
+As policies de INSERT com `WITH CHECK (true)` nas tabelas `leads` e `newsletter_subscribers` são intencionais — formulários públicos precisam permitir inserção anônima.
+
+### 6. Leaked password protection
+
+Habilitar via configuração de auth (não requer migração SQL).
+
+## Resumo de alterações
+
+| Arquivo/Recurso | Ação |
+|-----------------|------|
+| Migração SQL | Corrigir policies de `leads`, `newsletter_subscribers`, `user_roles` e storage |
+| Auth config | Habilitar leaked password protection |
+
+Nenhuma alteração frontend necessária.
 
