@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { FileText, Calendar, ExternalLink, MessageCircle, Instagram, Youtube, Shield, type LucideIcon } from "lucide-react";
+import { FileText, Calendar, ExternalLink, MessageCircle, Instagram, Youtube, type LucideIcon } from "lucide-react";
+import logoFireskins from "@/assets/logo-fireskins.webp";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
