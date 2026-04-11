@@ -88,7 +88,7 @@ const HeroSection = () => {
             <img
               src={teamPhoto}
               alt="Equipe FireSkins"
-              className="w-[min(95vw,440px)] sm:w-[560px] lg:w-[640px] rounded-2xl object-cover shadow-[0_8px_40px_rgba(233,90,12,0.15)]"
+              className="w-[min(95vw,440px)] sm:w-[560px] lg:w-[640px] rounded-2xl object-cover"
               width={1080}
               height={1080}
             />
