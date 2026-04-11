@@ -4,6 +4,9 @@ import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const DiscordIcon = ({ className = "size-4" }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
