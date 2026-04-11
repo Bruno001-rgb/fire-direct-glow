@@ -38,6 +38,7 @@ const iconMap: Record<string, any> = {
 
 interface Credential {
   id: string;
+  key: string;
   title: string;
   value: string;
   description: string;
