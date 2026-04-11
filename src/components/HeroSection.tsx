@@ -85,13 +85,29 @@ const HeroSection = () => {
 
           {/* ── Right: Team photo ── */}
           <div className="flex items-center justify-center lg:justify-end">
-            <img
-              src={teamPhoto}
-              alt="Equipe FireSkins"
-              className="w-[min(95vw,440px)] sm:w-[560px] lg:w-[640px] rounded-2xl object-cover"
-              width={1080}
-              height={1080}
-            />
+            <div className="relative w-[min(95vw,440px)] sm:w-[560px] lg:w-[640px]">
+              <img
+                src={teamPhoto}
+                alt="Equipe FireSkins"
+                className="w-full rounded-2xl object-cover"
+                width={1080}
+                height={1080}
+              />
+              {/* Smoke/névoa na base */}
+              <div
+                className="absolute bottom-0 left-0 right-0 h-[45%] rounded-b-2xl pointer-events-none"
+                style={{
+                  background: "linear-gradient(to top, hsl(0 0% 0%) 0%, hsl(0 0% 0% / 0.85) 25%, hsl(0 0% 0% / 0.4) 60%, transparent 100%)",
+                }}
+              />
+              <div
+                className="absolute bottom-0 left-0 right-0 h-[30%] rounded-b-2xl pointer-events-none"
+                style={{
+                  background: "radial-gradient(ellipse at 50% 100%, hsl(22 91% 47% / 0.08) 0%, transparent 70%)",
+                }}
+              />
+              <div className="absolute bottom-0 left-0 right-0 h-[15%] rounded-b-2xl backdrop-blur-[2px] pointer-events-none" style={{ mask: "linear-gradient(to top, black, transparent)" }} />
+            </div>
           </div>
         </div>
       </div>
