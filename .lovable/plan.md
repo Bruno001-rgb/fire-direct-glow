@@ -1,12 +1,14 @@
 
 
-# Remover glow da foto no Hero
+# Aumentar tamanho da foto da equipe
 
-## Alteração em `src/components/HeroSection.tsx`
+## Alteração em `src/components/HeroSection.tsx` (linha 91)
 
-Deletar as duas divs de glow pulsante (linhas 89-103) e o drop-shadow da foto (linhas 110-112), mantendo apenas a foto limpa com `rounded-2xl`.
+Aumentar as larguras da foto:
 
-| Arquivo | Ação |
-|---------|------|
-| `src/components/HeroSection.tsx` | Remover glows e drop-shadow |
+| Breakpoint | Atual | Novo |
+|------------|-------|------|
+| Mobile | `min(90vw, 380px)` | `min(95vw, 440px)` |
+| sm | `480px` | `560px` |
+| lg | `540px` | `640px` |
 
