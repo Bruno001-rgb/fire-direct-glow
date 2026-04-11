@@ -65,39 +65,40 @@ const TestimonialsSection = () => {
 
       {/* Mobile: single card carousel */}
       {isMobile ? (
-        <div className="relative z-10 overflow-hidden flex justify-center px-4">
-          <div
-            className={`w-[85vw] max-w-[320px] rounded-xl overflow-hidden border border-primary/10 bg-card/40 backdrop-blur-sm shadow-lg ${slideDirection === 'left' ? 'animate-[slide-in-left_0.4s_ease-out]' : 'animate-[slide-in-right_0.4s_ease-out]'}`}
-            key={currentIndex}
-          >
-            <img
-              src={testimonials[currentIndex].image_url}
-              alt={testimonials[currentIndex].title || "Depoimento de cliente"}
-              loading="lazy"
-              className="w-full h-auto object-contain"
-            />
-            {testimonials[currentIndex].title && (
-              <div className="px-3 py-2 border-t border-primary/8">
-                <p className="text-sm text-muted-foreground font-medium truncate">
-                  {testimonials[currentIndex].title}
-                </p>
-              </div>
-            )}
+        <>
+          <div className="relative z-10 overflow-hidden flex justify-center px-4">
+            <div
+              className={`w-[85vw] max-w-[320px] rounded-xl overflow-hidden border border-primary/10 bg-card/40 backdrop-blur-sm shadow-lg ${slideDirection === 'left' ? 'animate-[slide-in-left_0.4s_ease-out]' : 'animate-[slide-in-right_0.4s_ease-out]'}`}
+              key={currentIndex}
+            >
+              <img
+                src={testimonials[currentIndex].image_url}
+                alt={testimonials[currentIndex].title || "Depoimento de cliente"}
+                loading="lazy"
+                className="w-full h-auto object-contain"
+              />
+              {testimonials[currentIndex].title && (
+                <div className="px-3 py-2 border-t border-primary/8">
+                  <p className="text-sm text-muted-foreground font-medium truncate">
+                    {testimonials[currentIndex].title}
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
-        {/* Dots */}
-        <div className="flex justify-center gap-1.5 mt-4">
-          {testimonials.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => {
-                setSlideDirection(i > currentIndex ? 'left' : 'right');
-                setCurrentIndex(i);
-              }}
-              className={`w-2 h-2 rounded-full transition-colors ${i === currentIndex ? "bg-primary" : "bg-muted-foreground/30"}`}
-            />
-          ))}
-        </div>
+          <div className="flex justify-center gap-1.5 mt-4">
+            {testimonials.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  setSlideDirection(i > currentIndex ? 'left' : 'right');
+                  setCurrentIndex(i);
+                }}
+                className={`w-2 h-2 rounded-full transition-colors ${i === currentIndex ? "bg-primary" : "bg-muted-foreground/30"}`}
+              />
+            ))}
+          </div>
+        </>
       ) : (
         /* Desktop: continuous scroll */
         <div className="relative z-10 overflow-hidden" style={{ touchAction: "pan-x" }}>
