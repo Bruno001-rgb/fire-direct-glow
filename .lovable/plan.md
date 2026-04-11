@@ -1,28 +1,16 @@
 
 
-# Auto-limpeza de Logs de Login (90 dias)
+# Informação de retenção na aba Logs
 
-## Abordagem
+## Alteração
 
-Usar `pg_cron` + `pg_net` para executar uma limpeza diária dos registros com mais de 90 dias diretamente no banco.
+| Arquivo | Ação |
+|---------|------|
+| `src/components/admin/LoginLogsViewer.tsx` | Adicionar texto informativo sobre a política de retenção de 90 dias |
 
-## Alterações
+## Detalhe
 
-### 1. Migração SQL
+Adicionar um pequeno aviso (ícone de info + texto) abaixo do texto existente "Últimas 100 tentativas de login", informando: "Registros com mais de 90 dias são apagados automaticamente."
 
-Habilitar extensão `pg_cron` (se não ativa) e agendar job diário:
-
-```sql
-CREATE EXTENSION IF NOT EXISTS pg_cron WITH SCHEMA pg_catalog;
-
-SELECT cron.schedule(
-  'cleanup-old-login-logs',
-  '0 3 * * *',  -- todo dia às 3h UTC
-  $$DELETE FROM public.admin_login_attempts WHERE created_at < now() - interval '90 days'$$
-);
-```
-
-### 2. Nenhuma alteração frontend
-
-O job roda automaticamente no banco. Nenhum código React precisa mudar.
+Usar o ícone `Info` do lucide-react com estilo `text-muted-foreground` para manter consistência visual.
 
