@@ -1,7 +1,7 @@
 import { Instagram, Youtube, Mail, Facebook } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
-import logoFireskins from "@/assets/logo-fireskins.webp";
+import logoFireskins from "@/assets/logo-fireskins-full.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
@@ -67,8 +67,8 @@ const Footer = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
 
             {/* Col 1 — Identity */}
-            <div className="flex flex-col gap-4">
-              <img src={logoFireskins} alt="FireSkins" className="h-24 w-auto max-w-[360px] object-contain self-start" loading="lazy" />
+            <div className="flex flex-col gap-2">
+              <img src={logoFireskins} alt="FireSkins" className="h-20 w-auto max-w-[400px] object-contain self-start" loading="lazy" />
               <div className="space-y-1">
                 <a href="mailto:suporte@fireskins.gg" className="flex items-center gap-2 text-base text-white/70 hover:text-white transition-colors">
                   <Mail className="size-4 shrink-0" style={{ color: "#E95A0C" }} />
