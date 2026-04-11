@@ -14,6 +14,29 @@ const HeroSection = () => {
   const whatsappUrl = useWhatsAppUrl();
   return (
     <section id="topo" className="relative min-h-[auto] sm:min-h-[85vh] lg:min-h-[90vh] flex items-start sm:items-center overflow-hidden bg-black">
+      {/* Background team photo */}
+      <img
+        src={teamPhoto}
+        alt=""
+        aria-hidden="true"
+        className="absolute inset-0 w-full h-full object-cover object-center opacity-40 sm:opacity-50 lg:object-right"
+        width={880}
+        height={880}
+      />
+
+      {/* Dark gradient overlay for text legibility */}
+      <div className="absolute inset-0 bg-gradient-to-r from-black via-black/85 to-black/20" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
+
+      {/* Atmospheric pulsating glow */}
+      <div
+        className="absolute top-1/2 right-[20%] -translate-y-1/2 w-[500px] lg:w-[600px] aspect-square rounded-full animate-hero-glow pointer-events-none"
+        style={{
+          background: "radial-gradient(circle, hsl(var(--primary) / 0.15) 0%, hsl(var(--primary) / 0.05) 40%, transparent 70%)",
+          filter: "blur(60px)",
+        }}
+      />
+
       {/* Vignette */}
       <div className="absolute inset-0" style={{ boxShadow: "inset 0 0 200px 80px rgba(0,0,0,0.7)" }} />
 
@@ -25,99 +48,55 @@ const HeroSection = () => {
       {/* Top glow line */}
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
-      {/* ── Content grid ── */}
+      {/* ── Content ── */}
       <div className="container relative z-10 py-6 sm:py-16 lg:py-0">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 lg:gap-6 items-center">
-
-          {/* ── Left: Text block ── */}
-          <div className="text-center lg:text-left max-w-xl mx-auto lg:mx-0">
-            {/* Label */}
-            <div className="inline-flex items-center gap-2.5 mb-3 sm:mb-8">
-              <div className="h-px w-6 sm:w-8 bg-primary" />
-              <span
-                className="text-xs font-bold uppercase tracking-[0.35em] px-2.5 sm:px-3 py-1.5 rounded-sm bg-primary/8 border border-primary/20 text-primary"
-              >
-                Skins CS2 • Pix • Cartão • Crypto
-              </span>
-              <div className="h-px w-8 hidden lg:block bg-primary" />
-            </div>
-
-            {/* Headline */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tight font-heading leading-[0.9] mb-3 sm:mb-6">
-              <span className="text-foreground block">Skins CS2 para</span>
-              <span className="text-primary block">Todo Jogador</span>
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-base sm:text-base text-muted-foreground max-w-md mx-auto lg:mx-0 leading-relaxed mb-4 sm:mb-8">
-              Do seu primeiro drop até aquela knife dos sonhos. Escolhe, paga no Pix e recebe na hora.
-            </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4 mb-4 sm:mb-8">
-              <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" asChild>
-                <a href="/catalogo">
-                  <ArrowRight className="size-4" />
-                  Ver skins disponíveis
-                </a>
-              </Button>
-
-              <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" asChild>
-                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                  <WhatsAppIcon className="size-4" />
-                  Falar com a gente
-                </a>
-              </Button>
-            </div>
-
-            {/* Trust items */}
-            <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-x-5 sm:gap-y-2">
-              {trustItems.map((item) => (
-                <div key={item.label} className="flex items-center gap-1.5">
-                  <item.icon className="size-3.5 text-primary" />
-                  <span className="text-xs sm:text-sm text-muted-foreground uppercase tracking-widest font-semibold">
-                    {item.label}
-                  </span>
-                </div>
-              ))}
-            </div>
+        <div className="max-w-xl">
+          {/* Label */}
+          <div className="inline-flex items-center gap-2.5 mb-3 sm:mb-8">
+            <div className="h-px w-6 sm:w-8 bg-primary" />
+            <span className="text-xs font-bold uppercase tracking-[0.35em] px-2.5 sm:px-3 py-1.5 rounded-sm bg-primary/8 border border-primary/20 text-primary">
+              Skins CS2 • Pix • Cartão • Crypto
+            </span>
           </div>
 
-          {/* ── Right: Team photo with pulsating glow ── */}
-          <div className="relative flex items-center justify-center lg:justify-end">
-            {/* Pulsating orange glow aura */}
-            <div
-              className="absolute w-[min(75vw,300px)] sm:w-[380px] lg:w-[440px] aspect-square rounded-full animate-hero-glow"
-              style={{
-                background: "radial-gradient(circle, hsl(var(--primary) / 0.25) 0%, hsl(var(--primary) / 0.08) 40%, transparent 70%)",
-                filter: "blur(40px)",
-              }}
-            />
+          {/* Headline */}
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tight font-heading leading-[0.9] mb-3 sm:mb-6">
+            <span className="text-foreground block">Skins CS2 para</span>
+            <span className="text-primary block">Todo Jogador</span>
+          </h1>
 
-            {/* Secondary glow layer (offset timing) */}
-            <div
-              className="absolute w-[min(60vw,240px)] sm:w-[300px] lg:w-[360px] aspect-square rounded-full animate-hero-glow-secondary"
-              style={{
-                background: "radial-gradient(circle, hsl(var(--secondary) / 0.15) 0%, hsl(var(--primary) / 0.05) 50%, transparent 70%)",
-                filter: "blur(50px)",
-              }}
-            />
+          {/* Subtitle */}
+          <p className="text-base text-muted-foreground max-w-md leading-relaxed mb-4 sm:mb-8">
+            Do seu primeiro drop até aquela knife dos sonhos. Escolhe, paga no Pix e recebe na hora.
+          </p>
 
-            {/* Floating team photo */}
-            <div className="relative animate-hero-float">
-              <img
-                src={teamPhoto}
-                alt="Equipe FireSkins"
-                className="relative z-[1] w-[min(80vw,320px)] sm:w-[400px] lg:w-[440px] rounded-2xl object-cover"
-                style={{
-                  filter: "drop-shadow(0 8px 40px hsl(var(--primary) / 0.3)) drop-shadow(0 0 60px hsl(var(--primary) / 0.1))",
-                }}
-                width={880}
-                height={880}
-              />
-              {/* Subtle border glow */}
-              <div className="absolute inset-0 rounded-2xl border border-primary/15 z-[2] pointer-events-none" />
-            </div>
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 mb-4 sm:mb-8">
+            <Button variant="fire" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" asChild>
+              <a href="/catalogo">
+                <ArrowRight className="size-4" />
+                Ver skins disponíveis
+              </a>
+            </Button>
+
+            <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" asChild>
+              <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                <WhatsAppIcon className="size-4" />
+                Falar com a gente
+              </a>
+            </Button>
+          </div>
+
+          {/* Trust items */}
+          <div className="flex flex-col sm:flex-row flex-wrap items-start gap-2 sm:gap-x-5 sm:gap-y-2">
+            {trustItems.map((item) => (
+              <div key={item.label} className="flex items-center gap-1.5">
+                <item.icon className="size-3.5 text-primary" />
+                <span className="text-xs sm:text-sm text-muted-foreground uppercase tracking-widest font-semibold">
+                  {item.label}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
