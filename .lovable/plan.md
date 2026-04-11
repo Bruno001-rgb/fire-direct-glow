@@ -1,19 +1,16 @@
 
 
-# Paginação na aba de Logs
+# Logo Comunidade: aumentar e remover círculo roxo
 
 ## Alteração
 
 | Arquivo | Ação |
 |---------|------|
-| `src/components/admin/LoginLogsViewer.tsx` | Adicionar paginação client-side com 20 registros por página |
+| `src/components/AboutSection.tsx` | Aumentar logo para 200px e remover o container circular roxo |
 
-## Lógica
+## Detalhe
 
-- Buscar até 500 registros do banco (em vez de 100)
-- Paginar client-side com 20 itens por página
-- Controles: botões Anterior/Próxima + indicador "Página X de Y"
-- Reset para página 1 ao clicar Refresh
-- Usar componentes `Button` existentes para os controles
-- Atualizar texto informativo para "Últimos 500 registros"
+- Remover o `div` com classes `w-12 h-12 rounded-full bg-purple-500/20` que cria o círculo roxo ao redor da logo
+- Aumentar a imagem de `w-[160px] h-[160px]` para `w-[200px] h-[200px]`
+- A logo ficará diretamente no card sem container circular
 
