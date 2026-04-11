@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LoadoutProvider } from "@/contexts/LoadoutContext";
 import Index from "./pages/Index.tsx";
+import AdminGuard from "./components/admin/AdminGuard";
 import Admin from "./pages/Admin.tsx";
 import AdminLogin from "./pages/AdminLogin.tsx";
 import Catalogo from "./pages/Catalogo.tsx";
@@ -24,7 +25,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route path="/admin" element={<AdminGuard><Admin /></AdminGuard>} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/catalogo" element={<Catalogo />} />
             <Route path="/loadout" element={<Loadout />} />
