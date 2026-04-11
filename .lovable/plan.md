@@ -1,48 +1,46 @@
 
 
-# Redesign do Footer — Estilo Nivis Gear
+# Redesign Footer — Estilo CSGO-Skins.com
 
-Recriar o footer seguindo o estilo da referência: layout limpo e escuro, com "Ir ao topo", tagline + descrição à esquerda, colunas de links, copyright, e o nome "FIRESKINS" gigante no fundo.
+Recriar o footer inspirado no csgo-skins.com: banner com a imagem enviada no topo, barra de estatísticas com números grandes, logo e copyright embaixo. Tudo em fundo escuro.
 
 ## Layout proposto
 
 ```text
 ┌─────────────────────────────────────────────────────────────────┐
-│  ↑ IR AO TOPO                                                  │
-│  ─────────────────────────────────────────────────────────────  │
+│  [IMAGEM BANNER FULL-WIDTH — imagem .avif enviada]             │
+├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
-│  Sua skin, seu                                                  │
-│  estilo.™           NOSSOS SERVIÇOS    SUPORTE     CONTATO      │
-│                     Comprar skins      FAQ         Fale conosco │
-│  FireSkins é o      Vender skins       Sobre nós   Instagram   │
-│  melhor marketplace  Programa de        Termos      YouTube     │
-│  de skins CS2...     fidelidade         Privacidade WhatsApp    │
+│  1.200+          24h           100%          desde 2024         │
+│  Negociações     Atendimento   Seguro        no mercado CS2     │
 │                                                                 │
 ├─────────────────────────────────────────────────────────────────┤
-│  © FIRESKINS 2026 — TODOS OS DIREITOS RESERVADOS.              │
+│  [LOGO FIRESKINS]                                               │
 │                                                                 │
-│  ███████╗██╗██████╗ ███████╗███████╗██╗  ██╗██╗███╗   ██╗███████╗  │
-│  (texto gigante "FIRESKINS" cortado na base)                    │
+│  Termos de Serviço  |  Política de Privacidade                 │
+│  © FIRESKINS 2026 — TODOS OS DIREITOS RESERVADOS.              │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
 ## Alterações
 
-### Reescrever `src/components/Footer.tsx`
+### 1. Copiar imagem para `src/assets/footer-banner.avif`
+Copiar `user-uploads://8681e1b9-0f35-46f6-bfd8-c756ffa5447d.avif` para o projeto.
 
-- **"Ir ao topo"**: Link com seta ↑ no topo, scroll suave para o topo da página
-- **Seção principal**: Grid com 4 áreas
-  - **Esquerda (col-span maior)**: Tagline grande ("Sua skin, seu estilo.™"), parágrafo descritivo curto sobre a FireSkins
-  - **Col "Nossos Serviços"**: Comprar skins, Vender skins, Programa de fidelidade, Programa de indicação
-  - **Col "Suporte"**: FAQ, Sobre nós, Termos e Condições, Políticas de Privacidade
-  - **Col "Contato"**: Fale conosco, Instagram, YouTube, WhatsApp
-- **Barra de copyright**: Texto em caps "© FIRESKINS 2026 — TODOS OS DIREITOS RESERVADOS."
-- **Texto gigante**: "FIRESKINS" em fonte enorme (clamp ~8-15vw), branco, overflow hidden cortando na base — efeito visual de marca
-- Fundo escuro sólido (#0A0A0A ou similar), sem gradiente laranja
-- Manter `useWhatsAppUrl` para o link dinâmico do WhatsApp
-- Remover newsletter, badges de pagamento, ícones sociais como botões — links simples de texto como na referência
+### 2. Reescrever `src/components/Footer.tsx`
+
+- **Banner**: Imagem full-width no topo com `object-cover`, altura limitada (~300px)
+- **Barra de stats**: 4 colunas com números grandes (bold, ~2xl-3xl) e labels menores embaixo, fundo `bg-card` ou similar escuro, separada por bordas sutis. Dados FireSkins:
+  - "1.200+" / "Negociações"
+  - "24h" / "Atendimento"
+  - "100%" / "Seguro"
+  - "desde 2024" / "no mercado CS2"
+- **Seção inferior**: Logo FireSkins centralizada, links para Termos e Privacidade, copyright
+- Remover: tagline lateral, colunas de links, "Ir ao topo", texto gigante decorativo
+- Manter `useWhatsAppUrl` se necessário para algum link
 
 | Arquivo | Ação |
 |---------|------|
-| `src/components/Footer.tsx` | Reescrever completamente com novo layout |
+| `src/assets/footer-banner.avif` | Copiar imagem enviada |
+| `src/components/Footer.tsx` | Reescrever completamente |
 
