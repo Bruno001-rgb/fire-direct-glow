@@ -47,16 +47,7 @@ const AboutSection = () => {
   }, []);
 
   return (
-    <section className="py-16 sm:py-20 px-4 sm:px-6">
-      <div className="max-w-5xl mx-auto text-center mb-10 sm:mb-14">
-        <h2 className="section-heading font-heading">
-          CONHEÇA A{" "}
-          <span className="text-gradient-fire">FIRESKINS</span>
-        </h2>
-        <p className="text-muted-foreground text-base sm:text-lg max-w-2xl mx-auto">
-          Transparência e segurança em cada negociação
-        </p>
-      </div>
+    <section className="py-10 sm:py-14 px-4 sm:px-6">
 
       <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
         {loading
