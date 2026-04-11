@@ -127,6 +127,18 @@ const AboutSection = () => {
                 );
               }
 
+              if (isCommunity) {
+                return (
+                  <div
+                    key={item.id}
+                    className="cursor-pointer"
+                    onClick={() => toast.info("Link da comunidade será definido em breve!")}
+                  >
+                    {content}
+                  </div>
+                );
+              }
+
               return content;
             })}
       </div>
