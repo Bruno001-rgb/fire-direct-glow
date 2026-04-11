@@ -68,7 +68,7 @@ const Footer = () => {
 
             {/* Col 1 — Identity */}
             <div className="flex flex-col gap-2 lg:-mt-6">
-              <img src={logoFireskins} alt="FireSkins" className="h-40 lg:h-60 w-auto max-w-[600px] object-contain self-start -ml-2" loading="lazy" />
+              <img src={logoFireskins} alt="FireSkins" className="h-40 lg:h-60 w-auto max-w-[600px] object-contain self-start -ml-6" loading="lazy" />
               <div className="space-y-1">
                 <a href="mailto:suporte@fireskins.gg" className="flex items-center gap-2 text-base text-white/70 hover:text-white transition-colors">
                   <Mail className="size-4 shrink-0" style={{ color: "#E95A0C" }} />
