@@ -1,16 +1,12 @@
 
 
-# Ajustes na foto da equipe no Hero
+# Remover glow da foto no Hero
 
-## Alterações em `src/components/HeroSection.tsx`
+## Alteração em `src/components/HeroSection.tsx`
 
-1. **Aumentar tamanho da foto**: Mudar de `w-[min(80vw,320px)] sm:w-[400px] lg:w-[440px]` para `w-[min(90vw,380px)] sm:w-[480px] lg:w-[540px]` (e aumentar os glows proporcionalmente)
-
-2. **Remover borda quadrada**: Deletar a div na linha 119 (`border border-primary/15`)
-
-3. **Remover animação de flutuação**: Trocar `animate-hero-float` por nenhuma classe de animação (remover do container da foto)
+Deletar as duas divs de glow pulsante (linhas 89-103) e o drop-shadow da foto (linhas 110-112), mantendo apenas a foto limpa com `rounded-2xl`.
 
 | Arquivo | Ação |
 |---------|------|
-| `src/components/HeroSection.tsx` | Foto maior, sem borda, sem float |
+| `src/components/HeroSection.tsx` | Remover glows e drop-shadow |
 
