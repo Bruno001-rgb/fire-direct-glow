@@ -1,8 +1,20 @@
+import { useState, useEffect } from "react";
 import { useTestimonials } from "@/hooks/useTestimonials";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { MessageCircle } from "lucide-react";
 
 const TestimonialsSection = () => {
   const { data: testimonials } = useTestimonials(true);
+  const isMobile = useIsMobile();
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (!isMobile || !testimonials || testimonials.length === 0) return;
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    }, 8000);
+    return () => clearInterval(interval);
+  }, [isMobile, testimonials]);
 
   if (!testimonials || testimonials.length === 0) return null;
 
@@ -49,35 +61,69 @@ const TestimonialsSection = () => {
         </p>
       </div>
 
-      {/* Carousel */}
-      <div className="relative z-10 overflow-hidden" style={{ touchAction: "pan-x" }}>
-        <div className="testimonials-track flex gap-3 sm:gap-5 px-4">
-          {items.map((t, i) => (
-            <div
-              key={`${t.id}-${i}`}
-              className="flex-shrink-0 w-[220px] sm:w-[280px] lg:w-[300px] rounded-xl overflow-hidden border border-primary/10 bg-card/40 backdrop-blur-sm shadow-lg hover:border-primary/30 transition-all duration-300"
-            >
-              <img
-                src={t.image_url}
-                alt={t.title || "Depoimento de cliente"}
-                loading="lazy"
-                className="w-full h-auto object-contain"
+      {/* Mobile: single card carousel */}
+      {isMobile ? (
+        <div className="relative z-10 flex justify-center px-4">
+          <div
+            className="w-[85vw] max-w-[320px] rounded-xl overflow-hidden border border-primary/10 bg-card/40 backdrop-blur-sm shadow-lg transition-opacity duration-700"
+            key={testimonials[currentIndex].id}
+          >
+            <img
+              src={testimonials[currentIndex].image_url}
+              alt={testimonials[currentIndex].title || "Depoimento de cliente"}
+              loading="lazy"
+              className="w-full h-auto object-contain"
+            />
+            {testimonials[currentIndex].title && (
+              <div className="px-3 py-2 border-t border-primary/8">
+                <p className="text-sm text-muted-foreground font-medium truncate">
+                  {testimonials[currentIndex].title}
+                </p>
+              </div>
+            )}
+          </div>
+          {/* Dots */}
+          <div className="absolute -bottom-6 left-0 right-0 flex justify-center gap-1.5">
+            {testimonials.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentIndex(i)}
+                className={`w-2 h-2 rounded-full transition-colors ${i === currentIndex ? "bg-primary" : "bg-muted-foreground/30"}`}
               />
-              {t.title && (
-                <div className="px-3 py-2 border-t border-primary/8">
-                  <p className="text-xs sm:text-sm text-muted-foreground font-medium truncate">
-                    {t.title}
-                  </p>
-                </div>
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+      ) : (
+        /* Desktop: continuous scroll */
+        <div className="relative z-10 overflow-hidden" style={{ touchAction: "pan-x" }}>
+          <div className="testimonials-track flex gap-3 sm:gap-5 px-4">
+            {items.map((t, i) => (
+              <div
+                key={`${t.id}-${i}`}
+                className="flex-shrink-0 w-[220px] sm:w-[280px] lg:w-[300px] rounded-xl overflow-hidden border border-primary/10 bg-card/40 backdrop-blur-sm shadow-lg hover:border-primary/30 transition-all duration-300"
+              >
+                <img
+                  src={t.image_url}
+                  alt={t.title || "Depoimento de cliente"}
+                  loading="lazy"
+                  className="w-full h-auto object-contain"
+                />
+                {t.title && (
+                  <div className="px-3 py-2 border-t border-primary/8">
+                    <p className="text-sm text-muted-foreground font-medium truncate">
+                      {t.title}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
 
-        {/* Edge fades */}
-        <div className="absolute inset-y-0 left-0 w-12 sm:w-20 lg:w-24 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
-        <div className="absolute inset-y-0 right-0 w-12 sm:w-20 lg:w-24 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
-      </div>
+          {/* Edge fades */}
+          <div className="absolute inset-y-0 left-0 w-12 sm:w-20 lg:w-24 bg-gradient-to-r from-black to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-12 sm:w-20 lg:w-24 bg-gradient-to-l from-black to-transparent z-10 pointer-events-none" />
+        </div>
+      )}
 
       {/* Bottom separator */}
       <div
