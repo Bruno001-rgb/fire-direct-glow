@@ -186,6 +186,42 @@ export type Database = {
           },
         ]
       }
+      site_credentials: {
+        Row: {
+          description: string
+          href: string | null
+          icon: string
+          id: string
+          key: string
+          sort_order: number
+          title: string
+          updated_at: string
+          value: string
+        }
+        Insert: {
+          description?: string
+          href?: string | null
+          icon?: string
+          id?: string
+          key: string
+          sort_order?: number
+          title: string
+          updated_at?: string
+          value: string
+        }
+        Update: {
+          description?: string
+          href?: string | null
+          icon?: string
+          id?: string
+          key?: string
+          sort_order?: number
+          title?: string
+          updated_at?: string
+          value?: string
+        }
+        Relationships: []
+      }
       testimonials: {
         Row: {
           created_at: string
