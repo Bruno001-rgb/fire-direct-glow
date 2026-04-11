@@ -25,6 +25,7 @@ const Index = () => {
           <VideoShowcase />
           <AboutSection />
           <TestimonialsSection />
+          <FAQSection />
           <FinalCTA />
           <Footer />
         </main>
