@@ -1,54 +1,28 @@
 
 
-# Redesign do Footer baseado na referência
+# Substituir faca pela foto da equipe com glow laranja pulsante
 
-Recriar o footer seguindo o layout da imagem de referência: estrutura em grid com 4 colunas, ícones sociais, colunas de links, seção de newsletter, barra de copyright com badges de pagamento.
+## O que muda
 
-## Layout proposto
-
-```text
-┌─────────────────────────────────────────────────────────────────┐
-│  orange top bar                                                 │
-├─────────────────────────────────────────────────────────────────┤
-│  Logo FireSkins    │  Serviços        │ Produto       │ Newsletter     │
-│  email             │  Vender skins    │ Perguntas     │ "Receba..."    │
-│  Suporte tecnico   │  Pgm fidelidade  │ Sobre nós     │ [email] [btn]  │
-│                    │  Pgm indicação   │ Fale conosco  │                │
-│  🎮 📱 📷 🎥 📘   │                  │ Confiável?    │                │
-│  (social icons)    │                  │ O que é       │                │
-│                    │                  │ Proteção      │                │
-├─────────────────────────────────────────────────────────────────┤
-│  © FireSkins. Todos os direitos    Termos    Políticas          │
-│          VISA  MasterCard  PayPal  PIX  Outros                  │
-│  "Melhor serviço de compra e venda..."                          │
-└─────────────────────────────────────────────────────────────────┘
-```
+Trocar a imagem da faca na hero pela foto da equipe FireSkins, mantendo o efeito de glow laranja pulsante que já existe no componente `InteractiveKnife` — adaptado para uma foto de pessoas (sem rotação 3D, apenas flutuação suave e aura).
 
 ## Alterações
 
-### 1. Reescrever `src/components/Footer.tsx`
+### 1. Copiar a imagem para o projeto
+- Copiar `user-uploads://image-2.png` para `src/assets/team-photo.png`
 
-- **Seção principal**: Grid de 4 colunas (1fr 1fr 1fr 1fr no desktop, empilhado no mobile)
-  - **Col 1**: Logo FireSkins (menor), email `suporte@fireskins.gg`, "Suporte técnico", ícones sociais (Discord, WhatsApp, Instagram, YouTube, Facebook) como círculos/quadrados com ícones
-  - **Col 2 "Serviços"**: Links estáticos (Vender skins, Programa de fidelidade, Programa de indicação)
-  - **Col 3 "Produto"**: Links estáticos (Perguntas frequentes, Sobre nós, Fale conosco, A FireSkins é confiável?, O que é a FireSkins, Proteção contra golpes)
-  - **Col 4 "Newsletter"**: Título "Receba atualizações e ofertas", texto descritivo, input de email com botão "Enviar"
+### 2. Atualizar `src/components/HeroSection.tsx`
+- Trocar o import de `heroKnife` pelo `team-photo.png`
+- Remover o componente `InteractiveKnife` e os anéis HUD/glow ao redor
+- Criar uma composição nova: a foto da equipe com recorte arredondado, e por trás um glow laranja pulsante usando CSS animation (keyframes de opacity e blur)
+- A foto terá flutuação idle suave (translateY com animation CSS) sem a interação 3D de mouse (não faz sentido para foto de pessoas)
+- Drop-shadow laranja sutil na foto
 
-- **Barra inferior**: Fundo mais escuro
-  - Linha 1: Copyright + Termos de Serviço + Políticas de Privacidade
-  - Linha 2: Badges de pagamento (VISA, MasterCard, PayPal, PIX, Outros) como chips com borda
-  - Linha 3: Tagline "Melhor serviço de compra e venda..."
-
-- Manter o `useWhatsAppUrl` hook para o ícone do WhatsApp
-- Links são placeholder `#` por enquanto (podem ser tornados dinâmicos depois)
-- Remover o layout atual (texto grande "Venda & Upgrade", logo gigante, círculos decorativos)
-- Manter referência ao BlackBot no copyright ou removê-la (seguindo a referência que não mostra)
-
-### 2. Ícones sociais
-
-Usar Lucide icons onde disponíveis + SVGs customizados para Discord e Facebook (Lucide não tem esses). WhatsApp usa o componente `WhatsAppIcon` existente.
+### 3. Remover dependência do `InteractiveKnife`
+- O componente `InteractiveKnife` não será mais usado na hero (pode permanecer no projeto caso usado em outro lugar)
 
 | Arquivo | Ação |
 |---------|------|
-| `src/components/Footer.tsx` | Reescrever completamente com novo layout |
+| `src/assets/team-photo.png` | Novo — imagem da equipe |
+| `src/components/HeroSection.tsx` | Substituir faca pela foto com glow pulsante |
 
