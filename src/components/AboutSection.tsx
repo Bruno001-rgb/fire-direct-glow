@@ -78,26 +78,26 @@ const AboutSection = () => {
               const content = (
                 <div
                   key={item.id}
-                  className={`rounded-xl border backdrop-blur-sm p-6 sm:p-8 text-center flex flex-col items-center gap-3 transition-all duration-300 ${
+                  className={`rounded-xl border backdrop-blur-sm p-6 sm:p-8 text-center flex flex-col items-center justify-center gap-3 transition-all duration-300 h-[200px] overflow-hidden ${
                     isCommunity
-                      ? "border-purple-500/40 bg-gradient-to-b from-purple-500/10 to-card/60 hover:border-purple-400/60 hover:shadow-lg hover:shadow-purple-500/10 relative overflow-hidden"
+                      ? "border-purple-500/40 bg-gradient-to-b from-purple-500/10 to-card/60 hover:border-purple-400/60 hover:shadow-lg hover:shadow-purple-500/10 relative"
                       : "border-orange-500/20 bg-card/60 hover:border-orange-500/40"
                   }`}
                 >
                   {isCommunity ? (
                     <img src={logoFireskins} alt="FireSkins" className="w-[200px] h-[200px] -my-[76px] object-contain" />
                   ) : (
-                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-orange-500/10">
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-orange-500/10 shrink-0">
                       <Icon className="w-5 h-5 text-orange-400" />
                     </div>
                   )}
-                  <h3 className="font-heading text-lg font-semibold text-foreground">
+                  <h3 className="font-heading text-lg font-semibold text-foreground line-clamp-1">
                     {item.title}
                   </h3>
-                  <span className={`font-bold text-xl ${isCommunity ? "text-purple-400" : "text-gradient-fire"}`}>
+                  <span className={`font-bold text-xl line-clamp-1 ${isCommunity ? "text-purple-400" : "text-gradient-fire"}`}>
                     {item.icon === "message-circle" ? "Fale conosco" : item.value}
                   </span>
-                  <p className="text-muted-foreground text-sm">
+                  <p className="text-muted-foreground text-sm line-clamp-2">
                     {item.description}
                   </p>
                 </div>
