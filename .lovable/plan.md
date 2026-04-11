@@ -1,35 +1,41 @@
 
 
-# Adicionar Discord e Facebook na seção Admin (Sobre)
+# Melhorar rodapé: acessibilidade, links e logo
 
-## O que será feito
+## Alterações em `src/components/Footer.tsx`
 
-Inserir dois novos registros na tabela `site_credentials` para **Discord** e **Facebook**, permitindo que os links sejam editados pelo admin na aba "Sobre". Depois, atualizar o `Footer.tsx` para consumir esses links do banco em vez de `"#"` hardcoded.
+### 1. Aumentar visibilidade do texto (acessibilidade)
+- Links de Serviços e Produto: de `text-sm text-muted-foreground` para `text-base text-white/80 hover:text-white`
+- Email e suporte: de `text-sm text-muted-foreground` para `text-base text-white/70`
+- "Suporte técnico": de `text-xs` para `text-sm`
+- Títulos das colunas (h4): de `text-sm` para `text-base`
+- Newsletter descrição: de `text-sm` para `text-base text-white/70`
+- Bottom bar copyright: de `text-xs` para `text-sm`
+- Bottom bar links legais: de `text-xs` para `text-sm`
+- Tagline: de `text-[11px]` para `text-sm`
 
-## Alterações
+### 2. Logo 100% maior
+- De `h-12 max-w-[180px]` para `h-24 max-w-[360px]`
 
-### 1. Migration — inserir Discord e Facebook em `site_credentials`
+### 3. Links direcionados para seções reais da página
 
-```sql
-INSERT INTO site_credentials (key, title, value, description, href, icon, sort_order)
-VALUES
-  ('discord', 'Discord', 'FireSkins', 'Servidor oficial da comunidade FireSkins', 'https://discord.gg/PLACEHOLDER', 'discord', 6),
-  ('facebook', 'Facebook', 'FireSkins', 'Página oficial no Facebook', 'https://facebook.com/PLACEHOLDER', 'facebook', 7);
-```
+| Link | Destino |
+|------|---------|
+| **Serviços** | |
+| Vender skins | WhatsApp (já tem `whatsAppUrl`) |
+| Catálogo de skins | `/catalogo` |
+| Monte seu loadout | `/loadout` |
+| **Produto** | |
+| Perguntas frequentes | `/#contato` (seção contato) |
+| Sobre nós | `/#sobre` (AboutSection) |
+| Fale conosco | WhatsApp |
+| A FireSkins é confiável? | `/#depoimentos` (TestimonialsSection) |
+| Proteção contra golpes | `/#sobre` |
 
-### 2. `src/components/Footer.tsx` — buscar links do banco
-
-- Adicionar um `useEffect` que carrega os credentials com keys `discord`, `facebook`, `youtube`, `instagram` da tabela `site_credentials`
-- Substituir os `href: "#"` hardcoded do Discord, Facebook e YouTube pelos valores `href` do banco
-- Instagram já está hardcoded para `fireskinscs2` — também puxar do banco para consistência
-
-### 3. `src/components/AboutSection.tsx` — adicionar Discord e Facebook ao iconMap
-
-- Adicionar `"discord"` e `"facebook"` ao `iconMap` para que os novos cards apareçam corretamente na seção Conheça a FireSkins (se já não estiverem mapeados)
+- Remover "Programa de fidelidade", "Programa de indicação", "O que é a FireSkins" (não existem no site)
+- Substituir por links que fazem sentido: Catálogo e Loadout
 
 | Arquivo | Ação |
 |---------|------|
-| `supabase/migrations/` | INSERT Discord + Facebook |
-| `src/components/Footer.tsx` | Buscar hrefs do banco para redes sociais |
-| `src/components/AboutSection.tsx` | Garantir iconMap cobre discord/facebook |
+| `src/components/Footer.tsx` | Texto maior, logo 2x, links reais |
 
