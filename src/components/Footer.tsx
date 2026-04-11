@@ -11,6 +11,13 @@ const Footer = () => {
 
   return (
     <footer id="contato" className="relative bg-[#0A0A0A] text-foreground overflow-hidden">
+      {/* Banner */}
+      <img
+        src={footerBanner}
+        alt="FireSkins Banner"
+        className="w-full object-cover max-h-[200px] sm:max-h-[280px]"
+      />
+
       {/* Ir ao topo */}
       <div className="container">
         <button
