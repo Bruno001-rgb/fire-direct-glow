@@ -1,16 +1,19 @@
 
 
-# Informação de retenção na aba Logs
+# Paginação na aba de Logs
 
 ## Alteração
 
 | Arquivo | Ação |
 |---------|------|
-| `src/components/admin/LoginLogsViewer.tsx` | Adicionar texto informativo sobre a política de retenção de 90 dias |
+| `src/components/admin/LoginLogsViewer.tsx` | Adicionar paginação client-side com 20 registros por página |
 
-## Detalhe
+## Lógica
 
-Adicionar um pequeno aviso (ícone de info + texto) abaixo do texto existente "Últimas 100 tentativas de login", informando: "Registros com mais de 90 dias são apagados automaticamente."
-
-Usar o ícone `Info` do lucide-react com estilo `text-muted-foreground` para manter consistência visual.
+- Buscar até 500 registros do banco (em vez de 100)
+- Paginar client-side com 20 itens por página
+- Controles: botões Anterior/Próxima + indicador "Página X de Y"
+- Reset para página 1 ao clicar Refresh
+- Usar componentes `Button` existentes para os controles
+- Atualizar texto informativo para "Últimos 500 registros"
 
