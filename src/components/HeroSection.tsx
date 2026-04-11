@@ -1,4 +1,4 @@
-import { ArrowRight, Shield, Zap, Tag } from "lucide-react";
+import { ArrowRight, Shield, Zap, Tag, Flame, Users, ShieldCheck } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
