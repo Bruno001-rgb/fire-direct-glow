@@ -1,23 +1,18 @@
 
 
-# Card Comunidade — usar link do banco, não `/admin`
+# Card Comunidade sempre clicável
 
-## Problema
-O card "Comunidade" está com `href: "/admin"` fixo no banco. O usuário quer que ele redirecione para o link configurado no painel admin (ex: um grupo Discord, WhatsApp, etc.), não para a página de admin.
+## O que será feito
+
+Adicionar um fallback no `AboutSection.tsx`: quando o card "Comunidade" não tiver `href` definido, ele redireciona para uma página padrão (`/comunidade` ou exibe um toast informando "Link em breve").
+
+A melhor abordagem: se `item.key === "comunidade"` e `item.href` estiver vazio, o card ainda será clicável mas mostrará um toast "Link da comunidade será definido em breve pelo admin" — assim não quebra nada e dá feedback ao usuário.
 
 ## Alteração
 
-1. **Migração SQL** — Atualizar o `href` do registro `comunidade` para um valor placeholder mais adequado (ex: `https://discord.gg/fireskins` ou deixar vazio para o admin preencher). Ou simplesmente limpar para `null` e o admin define o link correto.
-
-2. **Nenhuma mudança no `AboutSection.tsx`** — O componente já lê `item.href` do banco e renderiza corretamente links internos e externos. Basta o admin atualizar o link no painel.
-
-Na verdade, o componente já funciona corretamente — ele usa o `href` que vier do banco. O problema é apenas o valor atual no banco ser `/admin`.
-
-**Ação**: Atualizar o `href` da credencial "comunidade" via migração para `null` (sem link até o admin definir) ou para a URL real da comunidade, se o usuário souber qual é.
-
 | Arquivo | Ação |
 |---------|------|
-| Migração SQL | `UPDATE site_credentials SET href = NULL WHERE key = 'comunidade'` |
+| `src/components/AboutSection.tsx` | No bloco de retorno (linhas 108-129), adicionar lógica: se `!item.href` e `isCommunity`, renderizar o card dentro de um `<div onClick>` com cursor pointer que dispara um `toast.info("Em breve!")`. Cards normais sem href continuam sem link. |
 
-Assim o admin pode definir qualquer link (Discord, WhatsApp, etc.) pelo painel na aba "Sobre".
+Resultado: o card Comunidade sempre terá aparência clicável. Quando o admin definir o link, ele redireciona normalmente. Sem link, mostra feedback amigável.
 
