@@ -7,12 +7,11 @@ const TestimonialsSection = () => {
   const { data: testimonials } = useTestimonials(true);
   const isMobile = useIsMobile();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('left');
+  
 
   useEffect(() => {
     if (!isMobile || !testimonials || testimonials.length === 0) return;
     const interval = setInterval(() => {
-      setSlideDirection('left');
       setCurrentIndex((prev) => (prev + 1) % testimonials.length);
     }, 8000);
     return () => clearInterval(interval);
@@ -64,12 +63,11 @@ const TestimonialsSection = () => {
       </div>
 
       {/* Mobile: single card carousel */}
-      {isMobile ? (
+{isMobile ? (
         <>
           <div className="relative z-10 overflow-hidden flex justify-center px-4">
             <div
-              className={`w-[85vw] max-w-[320px] rounded-xl overflow-hidden border border-primary/10 bg-card/40 backdrop-blur-sm shadow-lg ${slideDirection === 'left' ? 'animate-[slide-in-left_0.4s_ease-out]' : 'animate-[slide-in-right_0.4s_ease-out]'}`}
-              key={currentIndex}
+              className="w-[85vw] max-w-[320px] rounded-xl overflow-hidden border border-primary/10 bg-card/40 backdrop-blur-sm shadow-lg transition-opacity duration-300"
             >
               <img
                 src={testimonials[currentIndex].image_url}
@@ -90,10 +88,7 @@ const TestimonialsSection = () => {
             {testimonials.map((_, i) => (
               <button
                 key={i}
-                onClick={() => {
-                  setSlideDirection(i > currentIndex ? 'left' : 'right');
-                  setCurrentIndex(i);
-                }}
+                onClick={() => setCurrentIndex(i)}
                 className={`w-2 h-2 rounded-full transition-colors ${i === currentIndex ? "bg-primary" : "bg-muted-foreground/30"}`}
               />
             ))}
