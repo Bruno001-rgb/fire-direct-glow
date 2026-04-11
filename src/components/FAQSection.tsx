@@ -10,12 +10,12 @@ const faqItems = [
   {
     question: "Como funciona a compra de skins?",
     answer:
-      "Você escolhe a skin desejada no nosso catálogo, entra em contato pelo WhatsApp e combinamos os detalhes da negociação. Após a confirmação do pagamento, a skin é enviada diretamente para sua conta Steam via proposta de troca.",
+      "Você escolhe a skin desejada no nosso catálogo online, entra em contato pelo WhatsApp e combinamos os detalhes da negociação. Após a confirmação do pagamento, a skin é enviada diretamente para sua conta Steam via proposta de troca.",
   },
   {
     question: "Quais métodos de pagamento são aceitos?",
     answer:
-      "Aceitamos Pix, transferência bancária e outras formas de pagamento digital. O Pix é o método mais utilizado por ser instantâneo e sem taxas adicionais.",
+      "Aceitamos Pix, transferência bancária e outras formas de pagamento digital. O Pix é o método mais utilizado por ser instantâneo e sem taxas adicionais. Para compras de alto valor, entre em contato para discutir condições especiais de parcelamento.",
   },
   {
     question: "As skins são seguras e verificadas?",
@@ -35,7 +35,27 @@ const faqItems = [
   {
     question: "Como entro em contato com o suporte?",
     answer:
-      "Nosso atendimento é feito exclusivamente pelo WhatsApp. Clique no botão de WhatsApp disponível no site para falar diretamente com nossa equipe. Respondemos rapidamente!",
+      "Nosso atendimento é feito exclusivamente pelo WhatsApp, geralmente das 9h às 22h. Clique no botão de WhatsApp disponível no site para falar diretamente com nossa equipe. Respondemos rapidamente!",
+  },
+  {
+    question: "Vocês compram skins também?",
+    answer:
+      "Sim! Compramos skins de qualquer valor. Entre em contato pelo WhatsApp com os detalhes do item que deseja vender para receber uma avaliação e proposta.",
+  },
+  {
+    question: "Preciso ter o Steam Guard ativo?",
+    answer:
+      "Sim, é necessário ter o Steam Guard Mobile ativo há pelo menos 15 dias para realizar trocas sem retenção da Steam. Isso é uma exigência da própria plataforma para garantir a segurança das transações.",
+  },
+  {
+    question: "Os preços são negociáveis?",
+    answer:
+      "Trabalhamos com preços justos e competitivos baseados no mercado. Para compras de alto valor ou múltiplos itens, entre em contato pelo WhatsApp para condições especiais.",
+  },
+  {
+    question: "Como sei que o vendedor é confiável?",
+    answer:
+      "Temos anos de experiência no mercado de skins CS2, centenas de clientes satisfeitos e avaliações positivas. Confira os depoimentos na nossa página para ver o feedback da comunidade.",
   },
 ];
 
