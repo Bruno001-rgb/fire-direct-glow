@@ -1,7 +1,7 @@
 import { Instagram, Youtube, Mail, Facebook } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
-import logoFireskins from "@/assets/logo-fireskins.webp";
+import logoFireskins from "@/assets/logo-fireskins-full.png";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
