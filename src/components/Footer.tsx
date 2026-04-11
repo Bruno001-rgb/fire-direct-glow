@@ -4,6 +4,9 @@ import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
 import logoFireskins from "@/assets/logo-fireskins.webp";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const DiscordIcon = ({ className = "size-4" }: { className?: string }) => (
   <svg viewBox="0 0 24 24" fill="currentColor" className={className}>
@@ -13,6 +16,29 @@ const DiscordIcon = ({ className = "size-4" }: { className?: string }) => (
 
 const Footer = () => {
   const whatsAppUrl = useWhatsAppUrl();
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async () => {
+    const trimmed = email.trim();
+    if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
+      toast.error("Digite um email válido.");
+      return;
+    }
+    setLoading(true);
+    const { error } = await supabase.from("newsletter_subscribers").insert({ email: trimmed });
+    setLoading(false);
+    if (error) {
+      if (error.code === "23505") {
+        toast.info("Este email já está cadastrado!");
+      } else {
+        toast.error("Erro ao cadastrar. Tente novamente.");
+      }
+      return;
+    }
+    toast.success("Inscrito com sucesso! 🎉");
+    setEmail("");
+  };
 
   return (
     <footer id="contato" className="relative overflow-hidden">
@@ -92,10 +118,13 @@ const Footer = () => {
                 <Input
                   type="email"
                   placeholder="Seu email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}
                   className="h-9 text-sm border-[#E95A0C]/20 bg-black/40 focus-visible:ring-[#E95A0C]/30"
                 />
-                <Button variant="fire" size="sm" className="shrink-0 h-9 px-4 rounded-lg">
-                  Enviar
+                <Button variant="fire" size="sm" className="shrink-0 h-9 px-4 rounded-lg" onClick={handleSubscribe} disabled={loading}>
+                  {loading ? "..." : "Enviar"}
                 </Button>
               </div>
             </div>
