@@ -133,7 +133,7 @@ html {
   }
 
   .sidebar-scroll-content {
-    animation: sidebar-scroll 90s linear infinite;
+    animation: sidebar-scroll 130s linear infinite;
   }
 
   .sidebar-scroll-track:hover .sidebar-scroll-content {
