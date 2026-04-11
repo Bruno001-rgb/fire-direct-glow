@@ -200,6 +200,20 @@ const Footer = () => {
           <p className="text-sm text-white/50 text-center mt-1">
             Melhor serviço de compra e venda de skins CS2 do Brasil.
           </p>
+
+          {/* BlackBot credit */}
+          <div className="flex items-center justify-center gap-2 mt-4 pt-3 border-t" style={{ borderColor: "rgba(233,90,12,0.1)" }}>
+            <span className="text-xs text-white/40">Feito por</span>
+            <a
+              href="https://blackbotdigital.com.br/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 text-xs text-white/60 hover:text-white transition-colors"
+            >
+              <img src={blackbotLogo} alt="BlackBot" className="h-5 w-5 object-contain" />
+              <span className="font-semibold">BlackBot</span>
+            </a>
+          </div>
         </div>
       </div>
     </footer>
