@@ -1,26 +1,19 @@
 
 
-# Adicionar card "Comunidade" na seção Sobre
-
-## Contexto
-Os cards da seção "Sobre" vêm da tabela `site_credentials` no banco de dados. Atualmente há 8 cards (3+3+2). Adicionar um 9º card "Comunidade" completa a última linha (3+3+3).
+# Páginas de Termos de Serviço e Políticas de Privacidade
 
 ## O que será feito
 
-1. **Inserir novo registro na tabela `site_credentials`** via migração:
-   - `title`: "Comunidade"
-   - `value`: "Acesse"
-   - `description`: "Área administrativa FireSkins"
-   - `icon`: "external-link"
-   - `href`: "/admin"
-   - `sort_order`: 9
-
-2. **Ajustar link interno no `AboutSection.tsx`**: O card "Comunidade" usa um link interno (`/admin`), não externo. Preciso ajustar o componente para que links sem `http` usem `<Link>` do React Router em vez de `<a target="_blank">`.
+Criar duas páginas dedicadas com conteúdo padrão para um marketplace de skins CS2, e atualizar os links no rodapé.
 
 ## Alterações
 
 | Arquivo | Ação |
 |---------|------|
-| Migração SQL | Inserir registro "Comunidade" na `site_credentials` |
-| `src/components/AboutSection.tsx` | Usar `<Link>` para hrefs internos (sem http) |
+| `src/pages/TermosDeServico.tsx` | Criar página com termos de serviço genéricos para marketplace de skins |
+| `src/pages/PoliticaDePrivacidade.tsx` | Criar página com política de privacidade genérica |
+| `src/App.tsx` | Adicionar rotas `/termos` e `/privacidade` |
+| `src/components/Footer.tsx` | Atualizar links de `#` para `/termos` e `/privacidade`, usar `<Link>` do React Router |
+
+Ambas as páginas seguirão o visual do site (fundo escuro, tipografia existente, header/footer incluídos) com seções expansíveis (accordion) para facilitar a leitura. O conteúdo será em PT-BR e contextualizado para a FireSkins.
 
