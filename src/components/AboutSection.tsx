@@ -85,7 +85,7 @@ const AboutSection = () => {
                   }`}
                 >
                   {isCommunity ? (
-                    <img src={logoFireskins} alt="FireSkins" className="w-[200px] h-[200px] object-contain" />
+                    <img src={logoFireskins} alt="FireSkins" className="w-[200px] h-[200px] -my-[76px] object-contain" />
                   ) : (
                     <div className="w-12 h-12 rounded-full flex items-center justify-center bg-orange-500/10">
                       <Icon className="w-5 h-5 text-orange-400" />
