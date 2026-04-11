@@ -1,14 +1,22 @@
 
 
-# Substituir logo do rodapé pela nova imagem (grande, sem aumentar rodapé)
+# Esconder número do WhatsApp no card de Atendimento
 
 ## O que será feito
 
-1. **Copiar a imagem enviada** para `src/assets/logo-fireskins-full.png`
-2. **Atualizar `src/components/Footer.tsx`** — importar a nova logo e usá-la no lugar da atual, com tamanho grande (`h-20` com `max-w-[400px]`) mas sem aumentar o padding/espaçamento do rodapé. A coluna 1 (Identity) terá `gap` reduzido para compensar o tamanho da logo.
+No `AboutSection.tsx`, quando o card for do tipo WhatsApp (icon `message-circle`), substituir a exibição do número (`item.value`) por um texto alternativo como **"Clique para falar"** ou **"Fale conosco"**.
+
+## Alteração em `src/components/AboutSection.tsx`
+
+Na linha 84-86, onde exibe `{item.value}`, adicionar uma condição: se `item.icon === "message-circle"`, mostrar `"Fale conosco"` em vez do valor real (o número de telefone).
+
+```tsx
+<span className="text-gradient-fire font-bold text-xl">
+  {item.icon === "message-circle" ? "Fale conosco" : item.value}
+</span>
+```
 
 | Arquivo | Ação |
 |---------|------|
-| `src/assets/logo-fireskins-full.png` | Nova logo (cópia do upload) |
-| `src/components/Footer.tsx` | Trocar import da logo e ajustar tamanho sem alterar rodapé |
+| `src/components/AboutSection.tsx` | Ocultar número no card WhatsApp, mostrar "Fale conosco" |
 
