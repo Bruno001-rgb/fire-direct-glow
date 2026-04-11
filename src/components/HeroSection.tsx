@@ -2,9 +2,8 @@ import { ArrowRight, Shield, Zap, Tag } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import InteractiveKnife from "@/components/InteractiveKnife";
+import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
 import heroKnife from "@/assets/knife-massacre.webp";
-
-const WHATSAPP_URL = "https://wa.me/5562996632201";
 
 const trustItems = [
   { icon: Zap, label: "Entrega imediata" },
@@ -13,6 +12,7 @@ const trustItems = [
 ];
 
 const HeroSection = () => {
+  const whatsappUrl = useWhatsAppUrl();
   return (
     <section id="topo" className="relative min-h-[auto] sm:min-h-[85vh] lg:min-h-[90vh] flex items-start sm:items-center overflow-hidden bg-black">
       {/* Vignette */}
@@ -64,7 +64,7 @@ const HeroSection = () => {
               </Button>
 
               <Button variant="fire-outline" size="lg" className="uppercase tracking-wider text-sm w-full sm:w-auto" asChild>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
                   <WhatsAppIcon className="size-4" />
                   Falar com a gente
                 </a>

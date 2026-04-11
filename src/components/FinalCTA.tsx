@@ -1,10 +1,10 @@
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
 import { Trophy } from "lucide-react";
-
-const WHATSAPP_URL = "https://wa.me/5562996632201";
+import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
 
 const FinalCTA = () => {
+  const whatsappUrl = useWhatsAppUrl();
   return (
     <section className="relative overflow-hidden">
       {/* Top line */}
@@ -93,7 +93,7 @@ const FinalCTA = () => {
             className="text-sm sm:text-base px-12 sm:px-16 h-14 uppercase tracking-wider text-black"
             asChild
           >
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon className="size-5 sm:size-6" />
               Participar da Rifa
             </a>

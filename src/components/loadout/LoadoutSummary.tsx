@@ -1,9 +1,11 @@
 import { useLoadout, LOADOUT_SLOTS } from "@/contexts/LoadoutContext";
 import { Button } from "@/components/ui/button";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
 
 export default function LoadoutSummary() {
   const { loadout, filledCount, clearAll } = useLoadout();
+  const whatsappUrl = useWhatsAppUrl();
 
   if (filledCount === 0) return null;
 
@@ -27,7 +29,7 @@ export default function LoadoutSummary() {
             Limpar
           </Button>
           <Button variant="fire" size="sm" className="flex-1 sm:flex-none" asChild>
-            <a href={`https://wa.me/5562996632201?text=${message}`} target="_blank" rel="noopener noreferrer">
+            <a href={`${whatsappUrl}?text=${message}`} target="_blank" rel="noopener noreferrer">
               <WhatsAppIcon className="size-4" />
               Enviar loadout no WhatsApp
             </a>

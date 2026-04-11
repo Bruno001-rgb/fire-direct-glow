@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { X, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
+import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
 import type { ByMykelSkin } from "@/hooks/useByMykelSkins";
 
 interface Props {
@@ -183,6 +184,7 @@ export function canTryInGame(skin: ByMykelSkin): boolean {
 }
 
 export default function TryInGameModal({ skin, floatValue, onClose }: Props) {
+  const whatsappUrl = useWhatsAppUrl();
   const weaponId = resolveDefindex(skin) ?? 0;
   const paintIndex = skin.paint_index ?? "0";
   const serverCmd = "connect dust2.epidemic.gg";
@@ -243,7 +245,7 @@ export default function TryInGameModal({ skin, floatValue, onClose }: Props) {
         <div className="mt-8">
           <Button variant="fire" className="w-full h-12 text-base" asChild>
             <a
-              href={`https://wa.me/5562996632201?text=${whatsappMsg}`}
+              href={`${whatsappUrl}?text=${whatsappMsg}`}
               target="_blank"
               rel="noopener noreferrer"
             >
