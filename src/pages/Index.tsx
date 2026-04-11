@@ -5,6 +5,7 @@ import CategoriesSection from "@/components/CategoriesSection";
 import VideoShowcase from "@/components/VideoShowcase";
 import AboutSection from "@/components/AboutSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
+import FAQSection from "@/components/FAQSection";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
 import SkinsSidebar from "@/components/SkinsSidebar";
