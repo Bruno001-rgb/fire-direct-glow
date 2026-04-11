@@ -83,37 +83,15 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* ── Right: Team photo with pulsating glow ── */}
-          <div className="relative flex items-center justify-center lg:justify-end">
-            {/* Pulsating orange glow aura */}
-            <div
-              className="absolute w-[min(85vw,360px)] sm:w-[460px] lg:w-[520px] aspect-square rounded-full animate-hero-glow"
-              style={{
-                background: "radial-gradient(circle, hsl(var(--primary) / 0.25) 0%, hsl(var(--primary) / 0.08) 40%, transparent 70%)",
-                filter: "blur(40px)",
-              }}
+          {/* ── Right: Team photo ── */}
+          <div className="flex items-center justify-center lg:justify-end">
+            <img
+              src={teamPhoto}
+              alt="Equipe FireSkins"
+              className="w-[min(90vw,380px)] sm:w-[480px] lg:w-[540px] rounded-2xl object-cover"
+              width={1080}
+              height={1080}
             />
-
-            <div
-              className="absolute w-[min(70vw,300px)] sm:w-[380px] lg:w-[440px] aspect-square rounded-full animate-hero-glow-secondary"
-              style={{
-                background: "radial-gradient(circle, hsl(var(--secondary) / 0.15) 0%, hsl(var(--primary) / 0.05) 50%, transparent 70%)",
-                filter: "blur(50px)",
-              }}
-            />
-
-            <div className="relative">
-              <img
-                src={teamPhoto}
-                alt="Equipe FireSkins"
-                className="relative z-[1] w-[min(90vw,380px)] sm:w-[480px] lg:w-[540px] rounded-2xl object-cover"
-                style={{
-                  filter: "drop-shadow(0 8px 40px hsl(var(--primary) / 0.3)) drop-shadow(0 0 60px hsl(var(--primary) / 0.1))",
-                }}
-                width={1080}
-                height={1080}
-              />
-            </div>
           </div>
         </div>
       </div>
