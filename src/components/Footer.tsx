@@ -118,10 +118,13 @@ const Footer = () => {
                 <Input
                   type="email"
                   placeholder="Seu email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}
                   className="h-9 text-sm border-[#E95A0C]/20 bg-black/40 focus-visible:ring-[#E95A0C]/30"
                 />
-                <Button variant="fire" size="sm" className="shrink-0 h-9 px-4 rounded-lg">
-                  Enviar
+                <Button variant="fire" size="sm" className="shrink-0 h-9 px-4 rounded-lg" onClick={handleSubscribe} disabled={loading}>
+                  {loading ? "..." : "Enviar"}
                 </Button>
               </div>
             </div>
