@@ -95,7 +95,7 @@ const CategoriesSection = () => {
         {/* Header */}
         <div className="mb-6 sm:mb-8">
           <h2 className="section-heading font-heading">
-            Skins pra <span className="text-gradient-fire">Todo Estilo</span>
+            SKINS DE TODOS OS <span className="text-gradient-fire">PREÇOS</span>
           </h2>
           <p className="mt-1 text-sm text-muted-foreground">De pistolas a facas, sempre tem algo no seu estilo</p>
         </div>
