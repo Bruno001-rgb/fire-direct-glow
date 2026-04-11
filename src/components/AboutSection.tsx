@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FileText, Calendar, ExternalLink, MessageCircle, Instagram, Youtube, Shield, type LucideIcon } from "lucide-react";
+import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
