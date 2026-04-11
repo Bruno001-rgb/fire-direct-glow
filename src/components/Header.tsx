@@ -12,6 +12,7 @@ const NAV_LINKS = [
   { href: "/catalogo", label: "Catálogo", type: "link" },
   { href: "/loadout", label: "Meu Loadout", type: "link", showBadge: true },
   { href: "/#como-funciona", label: "Como funciona", type: "anchor" },
+  { href: "/#faq", label: "FAQ", type: "anchor" },
   { href: "/#contato", label: "Contato", type: "anchor" },
 ] as const;
 
