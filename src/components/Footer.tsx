@@ -150,15 +150,33 @@ const Footer = () => {
 
           {/* Row 2: Payment badges */}
           <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
-            {["VISA", "MasterCard", "PayPal", "PIX", "Outros"].map((method) => (
-              <span
-                key={method}
-                className="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded border text-white/60"
-                style={{ borderColor: "rgba(233,90,12,0.3)", background: "rgba(233,90,12,0.06)" }}
-              >
-                {method}
-              </span>
-            ))}
+            {/* Visa */}
+            <span className="flex items-center justify-center px-3 py-1.5 rounded border" style={{ borderColor: "rgba(233,90,12,0.3)", background: "rgba(233,90,12,0.06)" }}>
+              <svg viewBox="0 0 48 16" className="h-5 w-auto" aria-label="Visa">
+                <path d="M19.4 1.2L15.8 14.8H12.4L16 1.2H19.4ZM33.6 9.8L35.4 4.6L36.4 9.8H33.6ZM37.4 14.8H40.4L37.8 1.2H35C34.2 1.2 33.4 1.6 33.2 2.4L27.8 14.8H31.4L32.2 12.6H36.6L37.4 14.8ZM28.2 10.2C28.2 6.4 22.8 6.2 22.8 4.4C22.8 3.8 23.4 3.2 24.6 3C25.2 3 27 2.8 28.8 3.8L29.6 1.6C28.6 1.2 27.4 0.8 25.8 0.8C22.4 0.8 20 2.6 20 5.2C20 7.2 21.8 8.2 23.2 8.8C24.6 9.4 25 9.8 25 10.4C25 11.2 24 11.6 23.2 11.6C21.4 11.6 20.4 11.2 19.6 10.8L18.8 13C19.6 13.4 21.2 13.8 22.8 13.8C26.4 13.8 28.2 12 28.2 10.2ZM11.2 1.2L6 14.8H2.4L0 3.4C0 2.8 0 2.6 -0.4 2.2C-1 1.6 -2 1.2 -3 0.8L-2.8 0.4H2.4C3.2 0.4 4 1 4.2 1.8L5.2 8L8.8 1.2H11.2Z" fill="#1A1F71" transform="translate(5,0)"/>
+              </svg>
+            </span>
+            {/* Mastercard */}
+            <span className="flex items-center justify-center px-3 py-1.5 rounded border" style={{ borderColor: "rgba(233,90,12,0.3)", background: "rgba(233,90,12,0.06)" }}>
+              <svg viewBox="0 0 32 20" className="h-5 w-auto" aria-label="Mastercard">
+                <circle cx="11" cy="10" r="8" fill="#EB001B"/>
+                <circle cx="21" cy="10" r="8" fill="#F79E1B"/>
+                <path d="M16 3.8a8 8 0 010 12.4 8 8 0 000-12.4z" fill="#FF5F00"/>
+              </svg>
+            </span>
+            {/* PayPal */}
+            <span className="flex items-center justify-center px-3 py-1.5 rounded border" style={{ borderColor: "rgba(233,90,12,0.3)", background: "rgba(233,90,12,0.06)" }}>
+              <svg viewBox="0 0 40 16" className="h-5 w-auto" aria-label="PayPal">
+                <path d="M13.5 2H9.2c-.3 0-.6.2-.7.5L6.8 13c0 .2.1.4.3.4h2.1c.3 0 .6-.2.7-.5l.5-2.8c0-.3.3-.5.7-.5h1.5c3.1 0 4.9-1.5 5.4-4.5.2-1.3 0-2.3-.6-3C16.8 1.4 15.3 2 13.5 2z" fill="#003087"/>
+                <path d="M24.5 2h-4.3c-.3 0-.6.2-.7.5L17.8 13c0 .2.1.4.3.4h2.2c.2 0 .4-.1.5-.3l.5-3c0-.3.3-.5.7-.5h1.5c3.1 0 4.9-1.5 5.4-4.5.2-1.3 0-2.3-.6-3C27.8 1.4 26.3 2 24.5 2z" fill="#0070E0"/>
+              </svg>
+            </span>
+            {/* PIX */}
+            <span className="flex items-center justify-center px-3 py-1.5 rounded border" style={{ borderColor: "rgba(233,90,12,0.3)", background: "rgba(233,90,12,0.06)" }}>
+              <svg viewBox="0 0 20 20" className="h-5 w-auto" aria-label="PIX">
+                <path d="M14.5 15.5l-3.8-3.8a1 1 0 00-1.4 0L5.5 15.5a1 1 0 01-1.4 0L2 13.4a1 1 0 010-1.4l3.8-3.8a1 1 0 000-1.4L2 3a1 1 0 010-1.4L4.1.5a1 1 0 011.4 0l3.8 3.8a1 1 0 001.4 0L14.5.5a1 1 0 011.4 0L18 2.6a1 1 0 010 1.4l-3.8 3.8a1 1 0 000 1.4L18 13a1 1 0 010 1.4l-2.1 2.1a1 1 0 01-1.4 0z" fill="#32BCAD"/>
+              </svg>
+            </span>
           </div>
 
           {/* Row 3: Tagline */}
