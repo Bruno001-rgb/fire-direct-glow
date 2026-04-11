@@ -7,10 +7,12 @@ const TestimonialsSection = () => {
   const { data: testimonials } = useTestimonials(true);
   const isMobile = useIsMobile();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState<'left' | 'right'>('left');
 
   useEffect(() => {
     if (!isMobile || !testimonials || testimonials.length === 0) return;
     const interval = setInterval(() => {
+      setSlideDirection('left');
       setCurrentIndex((prev) => (prev + 1) % testimonials.length);
     }, 8000);
     return () => clearInterval(interval);
