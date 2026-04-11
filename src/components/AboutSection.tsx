@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FileText, Calendar, ExternalLink, MessageCircle, Instagram, Youtube, Shield, type LucideIcon } from "lucide-react";
+import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -123,6 +124,18 @@ const AboutSection = () => {
                   <Link key={item.id} to={item.href}>
                     {content}
                   </Link>
+                );
+              }
+
+              if (isCommunity) {
+                return (
+                  <div
+                    key={item.id}
+                    className="cursor-pointer"
+                    onClick={() => toast.info("Link da comunidade será definido em breve!")}
+                  >
+                    {content}
+                  </div>
                 );
               }
 
