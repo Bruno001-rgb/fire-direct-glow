@@ -1,9 +1,8 @@
 import { ArrowRight, Shield, Zap, Tag } from "lucide-react";
 import WhatsAppIcon from "@/components/WhatsAppIcon";
 import { Button } from "@/components/ui/button";
-import InteractiveKnife from "@/components/InteractiveKnife";
 import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
-import heroKnife from "@/assets/knife-massacre.webp";
+import teamPhoto from "@/assets/team-photo.png";
 
 const trustItems = [
   { icon: Zap, label: "Entrega imediata" },
@@ -84,33 +83,41 @@ const HeroSection = () => {
             </div>
           </div>
 
-          {/* ── Right: Knife composition ── */}
+          {/* ── Right: Team photo with pulsating glow ── */}
           <div className="relative flex items-center justify-center lg:justify-end">
-            {/* Outer glow ring */}
+            {/* Pulsating orange glow aura */}
             <div
-              className="absolute w-[min(70vw,280px)] h-[min(70vw,280px)] sm:w-[380px] sm:h-[380px] lg:w-[460px] lg:h-[460px] rounded-full"
+              className="absolute w-[min(75vw,300px)] sm:w-[380px] lg:w-[440px] aspect-square rounded-full animate-hero-glow"
               style={{
-                background: "radial-gradient(circle, hsla(22, 91%, 47%, 0.04) 0%, transparent 70%)",
-              }}
-            />
-            {/* Inner glow ring */}
-            <div
-              className="absolute w-[min(50vw,180px)] h-[min(50vw,180px)] sm:w-[260px] sm:h-[260px] lg:w-[320px] lg:h-[320px] rounded-full"
-              style={{
-                background: "radial-gradient(circle, hsla(22, 91%, 47%, 0.06) 0%, transparent 70%)",
+                background: "radial-gradient(circle, hsl(var(--primary) / 0.25) 0%, hsl(var(--primary) / 0.08) 40%, transparent 70%)",
+                filter: "blur(40px)",
               }}
             />
 
-            {/* HUD circle border */}
+            {/* Secondary glow layer (offset timing) */}
             <div
-              className="absolute w-[min(65vw,250px)] h-[min(65vw,250px)] sm:w-[350px] sm:h-[350px] lg:w-[420px] lg:h-[420px] rounded-full"
+              className="absolute w-[min(60vw,240px)] sm:w-[300px] lg:w-[360px] aspect-square rounded-full animate-hero-glow-secondary"
               style={{
-                border: "1px solid rgba(233, 90, 12, 0.06)",
+                background: "radial-gradient(circle, hsl(var(--secondary) / 0.15) 0%, hsl(var(--primary) / 0.05) 50%, transparent 70%)",
+                filter: "blur(50px)",
               }}
             />
 
-            {/* Interactive 3D Knife */}
-            <InteractiveKnife src={heroKnife} />
+            {/* Floating team photo */}
+            <div className="relative animate-hero-float">
+              <img
+                src={teamPhoto}
+                alt="Equipe FireSkins"
+                className="relative z-[1] w-[min(80vw,320px)] sm:w-[400px] lg:w-[440px] rounded-2xl object-cover"
+                style={{
+                  filter: "drop-shadow(0 8px 40px hsl(var(--primary) / 0.3)) drop-shadow(0 0 60px hsl(var(--primary) / 0.1))",
+                }}
+                width={880}
+                height={880}
+              />
+              {/* Subtle border glow */}
+              <div className="absolute inset-0 rounded-2xl border border-primary/15 z-[2] pointer-events-none" />
+            </div>
           </div>
         </div>
       </div>
