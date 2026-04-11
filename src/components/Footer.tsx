@@ -117,11 +117,11 @@ const Footer = () => {
             <div className="flex flex-col gap-3">
               <h4 className="text-base font-bold uppercase tracking-widest" style={{ color: "#E95A0C" }}>Produto</h4>
               {[
-                { label: "Sobre nós", href: "/#sobre" },
-                { label: "A FireSkins é confiável?", href: "/#depoimentos" },
-                { label: "Perguntas frequentes", href: "/#contato" },
+                { label: "Sobre nós", href: "#sobre" },
+                { label: "A FireSkins é confiável?", href: "#depoimentos" },
+                { label: "Perguntas frequentes", href: "#contato" },
                 { label: "Fale conosco", href: whatsAppUrl, external: true },
-                { label: "Proteção contra golpes", href: "/#sobre" },
+                { label: "Proteção contra golpes", href: "#sobre" },
               ].map((item) => (
                 <a key={item.label} href={item.href} target={(item as any).external ? "_blank" : undefined} rel={(item as any).external ? "noopener noreferrer" : undefined} className="text-base text-white/80 hover:text-white transition-all duration-200 hover:translate-x-1">{item.label}</a>
               ))}
