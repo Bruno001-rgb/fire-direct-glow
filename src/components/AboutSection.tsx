@@ -88,7 +88,7 @@ const AboutSection = () => {
                     isCommunity ? "bg-purple-500/20" : "bg-orange-500/10"
                   }`}>
                     {isCommunity ? (
-                      <img src={logoFireskins} alt="FireSkins" className="w-8 h-8 object-contain" />
+                      <img src={logoFireskins} alt="FireSkins" className="w-[120px] h-[120px] object-contain" />
                     ) : (
                       <Icon className={`w-5 h-5 text-orange-400`} />
                     )}
