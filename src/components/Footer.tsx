@@ -1,5 +1,6 @@
 import { ArrowUp } from "lucide-react";
 import { useWhatsAppUrl } from "@/hooks/useWhatsAppUrl";
+import footerBanner from "@/assets/footer-banner.jpg";
 
 const Footer = () => {
   const whatsAppUrl = useWhatsAppUrl();
