@@ -3,6 +3,7 @@ import StatsBar from "@/components/StatsBar";
 import HeroSection from "@/components/HeroSection";
 import CategoriesSection from "@/components/CategoriesSection";
 import VideoShowcase from "@/components/VideoShowcase";
+import AboutSection from "@/components/AboutSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import FinalCTA from "@/components/FinalCTA";
 import Footer from "@/components/Footer";
