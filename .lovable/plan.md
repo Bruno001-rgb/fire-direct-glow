@@ -1,17 +1,36 @@
 
 
-# Remover título e subtítulo da seção "Conheça a FireSkins"
+# Melhorar o rodapé (Footer)
 
-## O que muda
+## Problemas identificados na imagem
 
-Remover o bloco de título (`h2` + `p`) da `AboutSection` e ajustar o padding/margin para que os cards fiquem com espaçamento correto sem o cabeçalho.
+1. **Logo aparece muito pequena/quebrada** — provavelmente o arquivo webp não carrega bem ou está com tamanho insuficiente
+2. **Espaçamento entre as seções** poderia ser mais generoso e consistente
+3. **Bottom bar** — layout dos badges de pagamento e copyright pode ficar mais limpo
+4. **Falta separação visual** entre a área principal e o bottom bar
 
-## Alteração em `src/components/AboutSection.tsx`
+## Alterações em `src/components/Footer.tsx`
 
-1. **Remover** o `div` com `text-center mb-10 sm:mb-14` que contém o `h2` "CONHEÇA A FIRESKINS" e o `p` "Transparência e segurança..."
-2. **Ajustar** o padding da `section` de `py-16 sm:py-20` para `py-10 sm:py-14` para compensar o espaço vazio deixado pelo título removido
+### 1. Logo maior e com fallback
+- Aumentar altura da logo de `h-10` para `h-12` com `max-w-[180px]`
+- Adicionar margem inferior para separar do email
+
+### 2. Melhorar espaçamento geral
+- Grid gap de `gap-10 lg:gap-8` para `gap-10 lg:gap-12`
+- Padding principal de `py-10 sm:py-14` para `py-12 sm:py-16`
+
+### 3. Links com melhor hover
+- Adicionar `hover:translate-x-1` nos links das colunas Serviços e Produto para feedback visual sutil
+
+### 4. Bottom bar mais organizada
+- Separar copyright e links legais em extremos opostos com alinhamento mais claro
+- Badges de pagamento com espaçamento mais uniforme
+- Tagline com margem top ajustada
+
+### 5. Newsletter — input mais polido
+- Dar mais destaque ao campo de email com placeholder mais convidativo
 
 | Arquivo | Ação |
 |---------|------|
-| `src/components/AboutSection.tsx` | Remover heading + subtitle, ajustar padding |
+| `src/components/Footer.tsx` | Ajustes de layout, espaçamento, logo e hover states |
 
