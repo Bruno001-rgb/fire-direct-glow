@@ -50,12 +50,12 @@ const Footer = () => {
         className="relative"
         style={{ background: "linear-gradient(180deg, #1A1008 0%, #140C05 100%)" }}
       >
-        <div className="container py-10 sm:py-14">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
+        <div className="container py-12 sm:py-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
 
             {/* Col 1 — Identity */}
             <div className="flex flex-col gap-4">
-              <img src={logoFireskins} alt="FireSkins" className="h-10 w-auto object-contain self-start" loading="lazy" />
+              <img src={logoFireskins} alt="FireSkins" className="h-12 w-auto max-w-[180px] object-contain self-start" loading="lazy" />
               <div className="space-y-1">
                 <a href="mailto:suporte@fireskins.gg" className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
                   <Mail className="size-4 shrink-0" style={{ color: "#E95A0C" }} />
@@ -91,7 +91,7 @@ const Footer = () => {
             <div className="flex flex-col gap-3">
               <h4 className="text-sm font-bold uppercase tracking-widest" style={{ color: "#E95A0C" }}>Serviços</h4>
               {["Vender skins", "Programa de fidelidade", "Programa de indicação"].map((item) => (
-                <a key={item} href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{item}</a>
+                <a key={item} href="#" className="text-sm text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1">{item}</a>
               ))}
             </div>
 
@@ -106,7 +106,7 @@ const Footer = () => {
                 "O que é a FireSkins",
                 "Proteção contra golpes",
               ].map((item) => (
-                <a key={item} href="#" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{item}</a>
+                <a key={item} href="#" className="text-sm text-muted-foreground hover:text-foreground transition-all duration-200 hover:translate-x-1">{item}</a>
               ))}
             </div>
 
@@ -117,7 +117,7 @@ const Footer = () => {
               <div className="flex gap-2">
                 <Input
                   type="email"
-                  placeholder="Seu email"
+                  placeholder="Digite seu melhor email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}
@@ -149,7 +149,7 @@ const Footer = () => {
           </div>
 
           {/* Row 2: Payment badges */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
             {["VISA", "MasterCard", "PayPal", "PIX", "Outros"].map((method) => (
               <span
                 key={method}
@@ -162,7 +162,7 @@ const Footer = () => {
           </div>
 
           {/* Row 3: Tagline */}
-          <p className="text-[11px] text-muted-foreground text-center">
+          <p className="text-[11px] text-muted-foreground text-center mt-1">
             Melhor serviço de compra e venda de skins CS2 do Brasil.
           </p>
         </div>
