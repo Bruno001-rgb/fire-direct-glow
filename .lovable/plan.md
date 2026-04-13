@@ -1,26 +1,33 @@
 
 
-# Clicar na skin da vitrine → abrir catálogo com a skin
+# Fix: busca da vitrine não encontra skin no catálogo
 
 ## Problema
-Atualmente, clicar em qualquer skin na vitrine (seção "SKINS DE TODOS OS PREÇOS") navega para `/catalogo` sem filtro. O usuário precisa procurar a skin manualmente.
+A vitrine monta a busca como `"Hand Wraps Desert Shamagh"` ou `"M4A4 Neo-Noir"`, mas os nomes reais no catálogo são `"★ Hand Wraps | Desert Shamagh (Factory New)"` e `"M4A4 | Neo-Noir (Factory New)"`. O filtro faz substring match simples, então falha porque as palavras não são contíguas no nome real.
 
 ## Solução
-Alterar o link do `SkinCard` em `CategoriesSection.tsx` para incluir o nome da skin como parâmetro de busca: `/catalogo?search=Nome+da+Skin`.
-
-O catálogo já lê `searchParams.get("search")` e inicializa o filtro — então basta passar o nome correto.
+Mudar o `filterSkins` para fazer match por **todas as palavras** individualmente em vez de substring exata. Assim `"hand wraps desert shamagh"` encontra `"★ hand wraps | desert shamagh (factory new)"` porque cada palavra existe no nome.
 
 ## Mudança
 
-**`src/components/CategoriesSection.tsx`** — No componente `SkinCard`, mudar o `href` de `/catalogo` para incluir o nome completo (weapon + pattern):
+**`src/hooks/useByMykelSkins.ts`** — na função `filterSkins`, trocar o bloco de search (linhas 87-90):
 
 ```tsx
 // De:
-href="/catalogo"
+if (search) {
+  const q = search.toLowerCase();
+  filtered = filtered.filter((s) => s.name.toLowerCase().includes(q));
+}
 
 // Para:
-href={`/catalogo?search=${encodeURIComponent(item.name + (item.skin ? " " + item.skin : ""))}`}
+if (search) {
+  const words = search.toLowerCase().split(/\s+/).filter(Boolean);
+  filtered = filtered.filter((s) => {
+    const name = s.name.toLowerCase();
+    return words.every((w) => name.includes(w));
+  });
+}
 ```
 
-Isso garante que ao clicar em "Hand Wraps Desert Shamagh" ou "M4A4 Neo-Noir", o catálogo abre já filtrado para essa skin específica.
+Cada palavra da busca precisa existir no nome da skin, em qualquer ordem. Isso resolve tanto `"Hand Wraps Desert Shamagh"` quanto `"M4A4 Neo-Noir"` e mantém a busca normal do catálogo funcionando.
 
