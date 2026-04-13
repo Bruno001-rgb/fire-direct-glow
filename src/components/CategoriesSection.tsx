@@ -34,7 +34,7 @@ const rarityText: Record<string, string> = {
 
 const SkinCard = ({ item }: { item: ShowcaseSkin }) => (
   <a
-    href="/catalogo"
+    href={`/catalogo?search=${encodeURIComponent(item.name + (item.skin ? " " + item.skin : ""))}`}
     className="group relative flex flex-col overflow-hidden rounded-xl border border-primary/10 bg-card/60 hover:border-primary/30 transition-all duration-300 hover:shadow-md"
   >
 
