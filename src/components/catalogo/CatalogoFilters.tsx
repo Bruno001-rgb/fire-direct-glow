@@ -138,9 +138,18 @@ function WeaponCategoryBar({
     const c: Record<string, number> = { all: allSkins.length };
     const img: Record<string, string> = {};
 
+    // Specific weapons that get their own filter buttons
+    const INDIVIDUAL_WEAPONS = ["AK-47", "M4A4", "AWP"];
+
     allSkins.forEach((s) => {
       const catName = s.category?.name;
-      if (catName === "Knives") {
+      const wName = s.weapon?.name || "";
+
+      // Check individual weapon match first
+      if (INDIVIDUAL_WEAPONS.includes(wName)) {
+        c[wName] = (c[wName] || 0) + 1;
+        if (!img[wName] && s.image) img[wName] = s.image;
+      } else if (catName === "Knives") {
         c["knife"] = (c["knife"] || 0) + 1;
         if (!img["knife"] && s.image) img["knife"] = s.image;
       } else if (catName === "Gloves") {
@@ -161,9 +170,9 @@ function WeaponCategoryBar({
       } else if (catName === "Machine Guns") {
         c["machineguns"] = (c["machineguns"] || 0) + 1;
         if (!img["machineguns"] && s.image) img["machineguns"] = s.image;
-      } else if (s.weapon?.name) {
-        c[s.weapon.name] = (c[s.weapon.name] || 0) + 1;
-        if (!img[s.weapon.name] && s.image) img[s.weapon.name] = s.image;
+      } else if (wName) {
+        c[wName] = (c[wName] || 0) + 1;
+        if (!img[wName] && s.image) img[wName] = s.image;
       }
     });
 
