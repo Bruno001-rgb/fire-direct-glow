@@ -85,8 +85,11 @@ export function filterSkins(
   let filtered = skins;
 
   if (search) {
-    const q = search.toLowerCase();
-    filtered = filtered.filter((s) => s.name.toLowerCase().includes(q));
+    const words = search.toLowerCase().split(/\s+/).filter(Boolean);
+    filtered = filtered.filter((s) => {
+      const name = s.name.toLowerCase();
+      return words.every((w) => name.includes(w));
+    });
   }
 
   if (weapon !== "all") {
