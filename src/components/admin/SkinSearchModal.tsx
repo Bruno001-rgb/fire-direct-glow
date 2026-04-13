@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { useByMykelSkins } from "@/hooks/useByMykelSkins";
+import { useImportedSkins } from "@/hooks/useImportedSkins";
 import { supabase } from "@/integrations/supabase/client";
 import { Search, Loader2 } from "lucide-react";
 
@@ -33,50 +33,33 @@ interface SkinSearchModalProps {
 
 export default function SkinSearchModal({ open, onClose, onSelect, categoryKey }: SkinSearchModalProps) {
   const [search, setSearch] = useState("");
-  const { data: allSkins, isLoading } = useByMykelSkins();
+  const { data: allSkins, isLoading } = useImportedSkins(search);
 
   const weaponFilter = categoryKey ? CATEGORY_WEAPON_MAP[categoryKey] : null;
 
   const skins = useMemo(() => {
     if (!allSkins) return [];
-    let filtered = allSkins;
+    let filtered = allSkins as any[];
 
     // Filter by category weapon type
     if (weaponFilter) {
-      filtered = filtered.filter((s) => s.weapon?.name && weaponFilter(s.weapon.name));
+      filtered = filtered.filter((s: any) => s.weapon_name && weaponFilter(s.weapon_name));
     }
 
-    if (!search.trim()) return filtered.slice(0, 100);
-    const q = search.toLowerCase();
-    return filtered
-      .filter((s) => s.name.toLowerCase().includes(q))
-      .slice(0, 100);
-  }, [allSkins, search, weaponFilter]);
+    return filtered.slice(0, 100);
+  }, [allSkins, weaponFilter]);
 
   const categoryLabel = categoryKey
     ? categoryKey.charAt(0).toUpperCase() + categoryKey.slice(1)
     : "Skin";
 
-  const handleSelect = async (skin: (typeof skins)[0]) => {
-    const patternName = skin.name.includes(" | ") ? skin.name.split(" | ")[1] : null;
-
-    // Upsert into imported_skins so the FK on showcase_slots works
-    await supabase.from("imported_skins").upsert({
-      id: skin.id,
+  const handleSelect = async (skin: any) => {
+    onSelect(skin.source_skin_id, {
       name: skin.name,
-      weapon_name: skin.weapon?.name || null,
-      pattern_name: patternName,
-      rarity_name: skin.rarity?.name || null,
-      rarity_color: skin.rarity?.color || null,
+      weapon_name: skin.weapon_name || null,
+      pattern_name: skin.pattern_name || null,
       image: skin.image || null,
-    }, { onConflict: "id" });
-
-    onSelect(skin.id, {
-      name: skin.name,
-      weapon_name: skin.weapon?.name || null,
-      pattern_name: patternName,
-      image: skin.image || null,
-      rarity_name: skin.rarity?.name || null,
+      rarity_name: skin.rarity_name || null,
       price: null,
     });
     onClose();
@@ -111,31 +94,28 @@ export default function SkinSearchModal({ open, onClose, onSelect, categoryKey }
             </p>
           ) : (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-              {skins.map((skin) => {
-                const patternName = skin.name.includes(" | ") ? skin.name.split(" | ")[1] : null;
-                return (
-                  <button
-                    key={skin.id}
-                    onClick={() => handleSelect(skin)}
-                    className="flex flex-col items-center gap-1 p-2 rounded-lg border border-border hover:border-primary/50 hover:bg-accent/50 transition-colors text-left min-h-[44px]"
-                  >
-                    {skin.image && (
-                      <img
-                        src={skin.image}
-                        alt={skin.name}
-                        className="w-full aspect-square object-contain rounded bg-muted/30"
-                        loading="lazy"
-                      />
-                    )}
-                    <span className="text-[11px] sm:text-xs font-medium truncate w-full text-center">
-                      {skin.weapon?.name || ""}
-                    </span>
-                    <span className="text-[10px] text-muted-foreground truncate w-full text-center">
-                      {patternName || skin.name}
-                    </span>
-                  </button>
-                );
-              })}
+              {skins.map((skin: any) => (
+                <button
+                  key={skin.source_skin_id}
+                  onClick={() => handleSelect(skin)}
+                  className="flex flex-col items-center gap-1 p-2 rounded-lg border border-border hover:border-primary/50 hover:bg-accent/50 transition-colors text-left min-h-[44px]"
+                >
+                  {skin.image && (
+                    <img
+                      src={skin.image}
+                      alt={skin.name}
+                      className="w-full aspect-square object-contain rounded bg-muted/30"
+                      loading="lazy"
+                    />
+                  )}
+                  <span className="text-[11px] sm:text-xs font-medium truncate w-full text-center">
+                    {skin.weapon_name || ""}
+                  </span>
+                  <span className="text-[10px] text-muted-foreground truncate w-full text-center">
+                    {skin.pattern_name || skin.name}
+                  </span>
+                </button>
+              ))}
             </div>
           )}
         </div>
