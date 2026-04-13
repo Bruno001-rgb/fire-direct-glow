@@ -86,36 +86,54 @@ export type Database = {
           description: string | null
           id: string
           image: string | null
+          max_float: number | null
+          min_float: number | null
           name: string
+          paint_index: string | null
           pattern_name: string | null
           price: number | null
           rarity_color: string | null
           rarity_name: string | null
+          stattrak: boolean | null
+          weapon_defindex: number | null
           weapon_name: string | null
+          wear_name: string | null
         }
         Insert: {
           created_at?: string
           description?: string | null
           id: string
           image?: string | null
+          max_float?: number | null
+          min_float?: number | null
           name: string
+          paint_index?: string | null
           pattern_name?: string | null
           price?: number | null
           rarity_color?: string | null
           rarity_name?: string | null
+          stattrak?: boolean | null
+          weapon_defindex?: number | null
           weapon_name?: string | null
+          wear_name?: string | null
         }
         Update: {
           created_at?: string
           description?: string | null
           id?: string
           image?: string | null
+          max_float?: number | null
+          min_float?: number | null
           name?: string
+          paint_index?: string | null
           pattern_name?: string | null
           price?: number | null
           rarity_color?: string | null
           rarity_name?: string | null
+          stattrak?: boolean | null
+          weapon_defindex?: number | null
           weapon_name?: string | null
+          wear_name?: string | null
         }
         Relationships: []
       }
@@ -326,12 +344,42 @@ export type Database = {
       admin_skin_index: {
         Row: {
           image: string | null
+          max_float: number | null
+          min_float: number | null
           name: string | null
+          paint_index: string | null
           pattern_name: string | null
           rarity_color: string | null
           rarity_name: string | null
           source_skin_id: string | null
+          weapon_defindex: number | null
           weapon_name: string | null
+        }
+        Insert: {
+          image?: string | null
+          max_float?: number | null
+          min_float?: number | null
+          name?: string | null
+          paint_index?: string | null
+          pattern_name?: string | null
+          rarity_color?: string | null
+          rarity_name?: string | null
+          source_skin_id?: string | null
+          weapon_defindex?: number | null
+          weapon_name?: string | null
+        }
+        Update: {
+          image?: string | null
+          max_float?: number | null
+          min_float?: number | null
+          name?: string | null
+          paint_index?: string | null
+          pattern_name?: string | null
+          rarity_color?: string | null
+          rarity_name?: string | null
+          source_skin_id?: string | null
+          weapon_defindex?: number | null
+          weapon_name?: string | null
         }
         Relationships: []
       }
