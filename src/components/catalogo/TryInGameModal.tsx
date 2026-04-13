@@ -61,177 +61,22 @@ const STEPS = (serverCmd: string, skinCmd: string) => [
   },
 ];
 
-const defindexMap: Record<string, number> = {
-  // PISTOLAS
-  "weapon_deagle": 1,
-  "weapon_elite": 2,
-  "weapon_fiveseven": 3,
-  "weapon_glock": 4,
-  "weapon_hkp2000": 32,
-  "weapon_p250": 36,
-  "weapon_usp_silencer": 61,
-  "weapon_cz75a": 63,
-  "weapon_revolver": 64,
-  "weapon_tec9": 30,
-  // RIFLES
-  "weapon_ak47": 7,
-  "weapon_aug": 8,
-  "weapon_awp": 9,
-  "weapon_famas": 10,
-  "weapon_g3sg1": 11,
-  "weapon_galilar": 13,
-  "weapon_m4a4": 16,
-  "weapon_m4a1_silencer": 60,
-  "weapon_sg556": 39,
-  "weapon_ssg08": 40,
-  "weapon_scar20": 38,
-  // SMGs
-  "weapon_mac10": 17,
-  "weapon_p90": 19,
-  "weapon_mp5sd": 23,
-  "weapon_ump45": 24,
-  "weapon_bizon": 26,
-  "weapon_mp7": 33,
-  "weapon_mp9": 34,
-  // PESADAS
-  "weapon_m249": 14,
-  "weapon_xm1014": 25,
-  "weapon_mag7": 27,
-  "weapon_negev": 28,
-  "weapon_sawedoff": 29,
-  "weapon_nova": 35,
-  // FACAS
-  "weapon_bayonet": 500,
-  "weapon_knife_css": 503,
-  "weapon_knife_flip": 505,
-  "weapon_knife_gut": 506,
-  "weapon_knife_karambit": 507,
-  "weapon_knife_m9_bayonet": 508,
-  "weapon_knife_tactical": 509,
-  "weapon_knife_falchion": 512,
-  "weapon_knife_bowie": 514,
-  "weapon_knife_butterfly": 515,
-  "weapon_knife_push": 516,
-  "weapon_knife_cord": 517,
-  "weapon_knife_canis": 518,
-  "weapon_knife_survival_bowie": 518,
-  "weapon_knife_ursus": 519,
-  "weapon_knife_gypsy_jackknife": 520,
-  "weapon_knife_navaja": 520,
-  "weapon_knife_nomad": 521,
-  "weapon_knife_stiletto": 522,
-  "weapon_knife_talon": 523,
-  "weapon_knife_skeleton": 525,
-  "weapon_knife_kukri": 526,
-  "weapon_knife_widowmaker": 527,
-  // LUVAS
-  "weapon_bloodhound_gloves": 5027,
-  "weapon_gloves_sporty": 5030,
-  "weapon_gloves_slick": 5031,
-  "weapon_gloves_handwrap_leathery": 5032,
-  "weapon_gloves_motorcycle": 5033,
-  "weapon_gloves_specialist": 5034,
-  "weapon_gloves_hydra": 5035,
-  "weapon_gloves_broken_fang": 4725,
-};
-
-const nameAliasMap: Record<string, string> = {
-  // Existing
-  "M4A1-S": "weapon_m4a1_silencer",
-  "USP-S": "weapon_usp_silencer",
-  "CZ75-Auto": "weapon_cz75a",
-  "PP-Bizon": "weapon_bizon",
-  "Dual Berettas": "weapon_elite",
-  "R8 Revolver": "weapon_revolver",
-  "SCAR-20": "weapon_scar20",
-  "G3SG1": "weapon_g3sg1",
-  "SSG 08": "weapon_ssg08",
-  "SG 553": "weapon_sg556",
-  "MP5-SD": "weapon_mp5sd",
-  // Pistolas
-  "AK-47": "weapon_ak47",
-  "Desert Eagle": "weapon_deagle",
-  "Five-SeveN": "weapon_fiveseven",
-  "Glock-18": "weapon_glock",
-  "P2000": "weapon_hkp2000",
-  "Tec-9": "weapon_tec9",
-  // SMGs
-  "MAC-10": "weapon_mac10",
-  "UMP-45": "weapon_ump45",
-  // Pesadas
-  "MAG-7": "weapon_mag7",
-  "Sawed-Off": "weapon_sawedoff",
-  "Galil AR": "weapon_galilar",
-  // Facas
-  "Bowie Knife": "weapon_knife_bowie",
-  "Butterfly Knife": "weapon_knife_butterfly",
-  "Classic Knife": "weapon_knife_css",
-  "Falchion Knife": "weapon_knife_falchion",
-  "Flip Knife": "weapon_knife_flip",
-  "Gut Knife": "weapon_knife_gut",
-  "Huntsman Knife": "weapon_knife_tactical",
-  "Karambit": "weapon_knife_karambit",
-  "Kukri Knife": "weapon_knife_kukri",
-  "M9 Bayonet": "weapon_knife_m9_bayonet",
-  "Navaja Knife": "weapon_knife_gypsy_jackknife",
-  "Nomad Knife": "weapon_knife_nomad",
-  "Paracord Knife": "weapon_knife_cord",
-  "Shadow Daggers": "weapon_knife_push",
-  "Skeleton Knife": "weapon_knife_skeleton",
-  "Stiletto Knife": "weapon_knife_stiletto",
-  "Survival Knife": "weapon_knife_survival_bowie",
-  "Talon Knife": "weapon_knife_talon",
-  "Ursus Knife": "weapon_knife_ursus",
-  // Luvas
-  "Broken Fang Gloves": "weapon_gloves_broken_fang",
-  "Driver Gloves": "weapon_gloves_slick",
-  "Hand Wraps": "weapon_gloves_handwrap_leathery",
-  "Hydra Gloves": "weapon_gloves_hydra",
-  "Moto Gloves": "weapon_gloves_motorcycle",
-  "Specialist Gloves": "weapon_gloves_specialist",
-  "Sport Gloves": "weapon_gloves_sporty",
-};
-
-function toWeaponKey(name: string): string {
-  return "weapon_" + name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/_+$/, "");
-}
-
-export function resolveDefindex(skin: ByMykelSkin): number | null {
-  // 1. Try skin.weapon_id directly
-  if (skin.weapon_id != null) {
-    const key = typeof skin.weapon_id === "string" ? skin.weapon_id : null;
-    if (key && defindexMap[key]) return defindexMap[key];
-    // If weapon_id is already a number in defindexMap values, use it
-    if (typeof skin.weapon_id === "number" && skin.weapon_id > 0) {
-      const exists = Object.values(defindexMap).includes(skin.weapon_id);
-      if (exists) return skin.weapon_id;
-    }
-  }
-
-  // 2. Fallback: weapon.name → alias or snake_case
-  const weaponName = skin.weapon?.name;
-  if (weaponName) {
-    const alias = nameAliasMap[weaponName];
-    if (alias && defindexMap[alias]) return defindexMap[alias];
-    const key = toWeaponKey(weaponName);
-    if (defindexMap[key]) return defindexMap[key];
-  }
-
-  return null;
-}
-
+/**
+ * Checks if a skin has the required metadata to generate a valid in-game command.
+ * weapon_id comes from DB field weapon_defindex, paint_index from DB field paint_index.
+ */
 export function canTryInGame(skin: ByMykelSkin): boolean {
-  const defindex = resolveDefindex(skin);
+  const weaponId = skin.weapon_id;
   const paintIndex = Number(skin.paint_index);
-  return defindex != null && paintIndex > 0;
+  return weaponId != null && weaponId > 0 && paintIndex > 0;
 }
 
 export default function TryInGameModal({ skin, floatValue, onClose }: Props) {
   const whatsappUrl = useWhatsAppUrl();
-  const weaponId = resolveDefindex(skin) ?? 0;
+  const weaponId = skin.weapon_id ?? 0;
   const paintIndex = skin.paint_index ?? "0";
   const serverCmd = "connect dust2.epidemic.gg";
-  const skinCmd = `!g ${weaponId} ${paintIndex} 0 ${floatValue.toFixed(2)}`;
+  const skinCmd = `!gen ${weaponId} ${paintIndex} 0 ${floatValue.toFixed(2)}`;
 
   const steps = STEPS(serverCmd, skinCmd);
 

@@ -12,10 +12,15 @@ interface ApiSkin {
   id: string;
   name: string;
   description: string;
-  weapon?: { name: string };
+  weapon?: { name: string; weapon_id?: number };
   pattern?: { name: string };
   rarity?: { name: string; color: string };
   image: string;
+  min_float?: number | null;
+  max_float?: number | null;
+  paint_index?: string | null;
+  stattrak?: boolean;
+  wear?: { name: string };
 }
 
 Deno.serve(async (req) => {
@@ -50,6 +55,12 @@ Deno.serve(async (req) => {
         rarity_name: s.rarity?.name || null,
         rarity_color: s.rarity?.color || null,
         image: s.image || null,
+        paint_index: s.paint_index ?? null,
+        weapon_defindex: s.weapon?.weapon_id ?? null,
+        min_float: s.min_float ?? null,
+        max_float: s.max_float ?? null,
+        wear_name: s.wear?.name ?? null,
+        stattrak: s.stattrak ?? false,
       }));
 
       const { error } = await supabase

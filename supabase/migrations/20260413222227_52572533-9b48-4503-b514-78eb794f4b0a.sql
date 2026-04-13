@@ -1,0 +1,1 @@
+ALTER VIEW public.admin_skin_index SET (security_invoker = on);
